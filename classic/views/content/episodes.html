@@ -1,0 +1,14 @@
+{$pagination}
+{$kvs = $kvs|json_decode}
+{foreach from=$kvs item=data}
+<div class="col-md-12 top10">
+    <div class="col-md-4">{$data->play_btn}<img src="{$data->poster}" alt="{$data->title|utf8_decode}" /></div>
+    <div class="col-md-8">
+        <h3>{$data->title}</h3>
+        <div>{$data->story|utf8_decode}</div>
+    </div>
+</div>    
+{/foreach}
+<script>
+	$('a.allplay').html('');
+</script>

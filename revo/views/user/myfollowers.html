@@ -1,0 +1,96 @@
+{literal}
+<style>
+    .product-remove{padding-left: 10px!important; padding-right: 10px!important;}
+    #itemdetails{width: 25% !important;}
+    table{border: 1px solid #e9e4e4 !important;}
+    th{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    td{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    .product-name{padding-top: 17px !important; padding-bottom: 17px !important;padding-left: 10px!important; padding-right: 10px!important;}
+    .btn-secondary{
+        color: #fff;
+        background-color: #78909c !important;
+    }
+</style>
+{/literal}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2> {$this->Language['my_followers']} ({$item_count}) </h2>
+            <form action="{$this->base_url}/user/myfollowers" name="searchForm" id="search_content" method="get">
+                <div class="row">
+                
+                <div class="col-sm-4">
+                    <div class="form-group  input-group">
+                        <h4>{$this->Language['search_by']} : </h4>
+                        <div class="fg-line">
+                            <input type="text" class="filter_input form-control fg-input" name="search_text" value="{$search_data['search_text']}"  id="search_content_text" onkeypress="handle(event);" placeholder="Search by name or email"/>
+                        </div>
+                        <span class="input-group-addon" style="padding-top: 40px;border: 0;background: none;"><i class="icon-magnifier"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <h4>{$this->Language['sort_by']} : </h4>
+                        <div class="fg-line">
+                            <div class="select">
+                                <select class="form-control" name="sort" id="sort" onchange="submitSearchForm();">
+                                    <option value="desc" {if ($search_data['sort']=='desc')} selected {/if}>{$this->Language['recent']}</option>
+                                    <option value="asc" {if ($search_data['sort']=='asc')} selected {/if}>{$this->Language['oldest']}</option>
+                                    <option value="a-z" {if ($search_data['sort']=='a-z')} selected {/if}>{$this->Language['sort_alpha_a_z']}</option>
+                                    <option value="z-a" {if ($search_data['sort']=='z-a')} selected {/if}>{$this->Language['sort_alpha_z_a']}</option>
+                                     <option value="most_viewed" {if ($search_data['sort']=='most_viewed')} selected {/if}>{$this->Language['most_viewed']}</option>
+                                    <option value="less_viewed" {if ($search_data['sort']=='less_viewed')} selected {/if}>{$this->Language['less_viewed']}</option>
+                                </select>	
+                            </div>					
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="table-responsive">
+                <table cellspacing="0" class="shop_table top20 table" style='width:100%;'>
+                    <thead>
+                        <tr>
+                            <th class="product-name" style="width: 35%;"> {$this->Language["follower_name"]}</th>
+                            <th class="product-name">{$this->Language["email"]}</th>
+                            <th class="product-name">{$this->Language["followed_on"]}</th>
+                            <th class="product-name">{$this->Language["total_views"]}</th>
+                        </tr>
+                    </thead>                   
+                    {assign var="user_id" value=Yii::app()->user->id}
+                    {assign var="total_subscriber" value=$subscribers|@count}
+                    {if ($total_subscriber > 0)}
+                    {foreach from=$subscribers item=subscriber}
+                    {assign var="subscribe_date" value=date('d-m-Y',strtotime($subscriber['created']))|lower}<!--36460-->
+                    <tr class="cart_item">
+                        <td class="product-remove">{$subscriber['display_name']}</td>
+                        <td class="product-thumbnail">{$subscriber['email']}</td>
+                        <td class="product-remove">{$subscribe_date}</td>
+                        <td class="product-remove">{if ($subscriber['total'])}{$subscriber['total']}{else}0{/if}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr>
+                        <td colspan="4">{$this->Language["no_record_found"]}</td>
+                    </tr>
+                    {/if}
+                </table>              
+            </div>
+            <div class="row" style="margin-right:0px !important;">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                            {$pagination}
+                        </nav>                        
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+</div>
+<script>
+    function submitSearchForm(){
+        $('#search_content').submit();
+    }
+</script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>

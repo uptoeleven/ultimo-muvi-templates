@@ -1,0 +1,112 @@
+<div class="single-product-area">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <!--45922 starts-->
+            {if $all_plans != 1}
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['activate']}</h3>
+                <h4 class=""></h4>
+            </div>
+            {/if}
+            <!--45922 ends-->                
+        </div>
+    </div>
+    <div class="container muvi_content-area">
+        <div class="row muvi_top200">
+            <div class="col-md-12">
+                <form id="membership_form" name="membership_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                    <!--43819 starts-->
+                    {if $select_plan == 1}
+                    <input type="hidden" name="data[select_plan]" value="1" />
+                    {/if}
+                    <!--43819 ends-->
+
+                    <!--45922 starts-->
+                    {if $change_plan_id != ''}
+                    <input type="hidden" id="change_plan_id" name="data[change_plan_id]"  value="{$change_plan_id}" />
+                    {/if}
+                    <!--45922 ends-->
+
+                    <div id="loading" class="loader"></div>
+                    <div id="errors" class="error center"></div>                                   
+                    <div class="top20"></div>            
+                    <div class='row'>
+                        {if $plans|@count == 1 && $singlePlanCoupon['singlePlanCoupon'] == 1}
+                        {include file='../layouts/singleplan_coupon.html'}
+                        {else}
+                        {include file='../layouts/listplans.html'}           
+                        {/if}           
+                    </div>
+                    <div class="clearfix"></div>  
+
+                    <!--45922 starts-->
+                    {assign var="user_id" value=Yii::app()->user->id}
+                    {if $all_plans == 1}
+                    {if $user_id == ''}
+                    <button id="btn_continue" class="btn btn-primary pull-right" onclick="$('#loginModal').modal('show')">{$this->Language["continue"]}</button>
+                    {/if}
+                    <div id="change_plan_payment_div" style="display: {($default_plan_id == $change_plan_id || $user_id == '')? 'none' : 'block'};">
+                    {/if}
+                    <!--45922 ends-->
+                    
+                    <!--26361 starts here-->
+                    {if $isVoucherExists}
+                    {include file='../layouts/payment_section.html'} 
+                     {/if}
+                     <!--26361 ends here-->  
+                    {if $gateways[0]->short_code == "ippayment"}
+                    {$activate_btn_form}
+                    {else}
+                    {if $is_hosted neq 1}
+                    <div>
+                        {$payment_form}
+                    </div>
+                   {/if}
+                    <!--26361 starts here-->
+                    {if $isVoucherExists}
+                    {include file='../layouts/voucher_subscription.html'}
+                    {/if}
+                    <!--26361 ends here--> 
+                   {$activate_btn_form}  
+                   {/if}
+                    <!--45922 starts-->
+                    {if $all_plans == 1}
+                    </div>
+                    {/if}
+                    <!--45922 ends-->
+                    <span class="error" id="plan_error"></span>     
+                </form> 
+            </div>           
+        </div>
+    </div>
+</div>
+<div id="successPopup" class="modal fade" style="width: 660px;margin:auto;margin-top: 10px;">
+    <div class="modal-dialog" style="width: 660px;margin:auto;margin-top: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['account_activate_after_card_submit']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+                <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var action = 'activate';
+    var btn = 'Activate';
+</script>
+<!--@Mantis: 19607 start-->
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<!--@Mantis: 19607 end-->

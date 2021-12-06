@@ -1,0 +1,74 @@
+{$viewlist = $viewlist|json_decode}
+{$kvs = $kvs|json_decode}
+{assign var=num value=0}
+{assign var=val value=0}
+{assign var=cnn value=0}
+{$user_id=Yii::app()->user->id}
+<ul class="item-list row">
+{foreach from=$kvs item=data}
+{$episode_image=$data->poster}
+{$casts = $data->casts}
+
+{if $data->content_types_id == 6}
+{$audio_duration_full = $data->video_duration}
+{$audio_duration = ":"|explode:$audio_duration_full}
+<li class="clearfix">
+    <a class="track-cover audioEpisode" data-index="{$num++}" onclick="playAllAudio(this)" id="{$data->movie_id}" style="background-image:url({$episode_image});">
+        <span>{$num}</span>
+        <i class="fa fa-play"></i>
+    </a>
+    <div class="row">
+        <div class="col-sm-4 col-xs-12">
+            <h4>{$data->content_title|utf8_decode}</h4>
+        </div>
+        <div class="col-sm-6 col-xs-8">
+            <p>{foreach from=$casts key=counter item=cast}{$cast_count=$cast|@count}{$j=0}{foreach from=$cast key=counter item=castitem}{$castitem->celeb_name}{$j = $j+1}{if $j != $cast_count}, {/if}{/foreach}{/foreach}</p>
+        </div>
+        <div class="col-sm-2 col-xs-4 text-center">
+            <span class="track-duration">
+                {if $audio_duration_full != ''}
+                    {if $audio_duration[0]|intval > 0}
+                        {$audio_duration_full}
+                    {else}
+                        {$audio_duration[1]}:{$audio_duration[2]} 
+                    {/if}
+                {else}
+                00.00
+                {/if}
+            </span>
+        </div>
+    </div>
+    {if $this->add_to_playlist != 0 || $this->add_to_queue != 0}
+    <span class="track-opts">
+        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+        <ul>
+            {if $this->add_to_playlist != 0}<li><a href="javascript:void(0);" class="c-white addPlay" data-content_id="{$data->movie_stream_id}" data-user_id="{$user_id}" data-is_episode="{$data->is_episode}">{$this->Language['add_to_playlist']}</a></li>{/if}
+            {if $this->add_to_queue != 0}<li><a href="javascript:void(0);" class="c-white addToQue" data-id="{$data->movie_stream_id}"  data-is_episode="{$data->is_episode}">{$this->Language['add_to_queue']}</a></li>{/if}
+        </ul>
+    </span>
+    {/if}
+</li>
+{else}
+{assign var=ccc value=$ccc+1}
+{foreach from=$viewlist item=view}
+{if $data->movie_stream_id == $view->video_id}
+<li class="col-md-3">
+    <div class="item-wrap">
+        <div class="item-cover">
+            <img class="_cover" src="{$episode_image}" />
+            <div class="cover-overlay">{$data->play_btn}</div>
+        </div>
+        <div class="item-info">
+            <h4>{$data->title|utf8_decode}</h4>
+        </div>
+        <div class="item-info">
+            {if $data->story|utf8_decode|count_characters > 55}{$data->story|utf8_decode|truncate:70}<a href="javascript:void();" class="multipart_child more" data-id="more-{$ccc}" data-toggle="modal"  data-target=".bs-example-modal-lg3">{$this->Language['more']}</a>{else}{$data->story}{/if}
+        </div>
+        <div class="spacer_10"></div>
+    </div>
+</li>
+{/if}
+{/foreach}
+{/if}
+{/foreach}
+</ul>

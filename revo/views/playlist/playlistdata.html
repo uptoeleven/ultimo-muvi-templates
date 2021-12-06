@@ -1,0 +1,115 @@
+{$kvs = $kvs|json_decode}
+{assign var=num value=0}
+{assign var=val value=0}
+{assign var=cnn value=0}
+{$user_id=Yii::app()->user->id}
+<ul class="item-list row" id="episodes"> <!--#ER 58924-->
+{foreach from=$kvs item=data}
+{$episode_image=$data->poster}
+{$casts = $data->casts}
+{if $data->content_types_id == 6 || $data->content_types_id == 5}   <!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+{$audio_duration_full = $data->video_duration}
+{$audio_duration = ":"|explode:$audio_duration_full}
+<li class="clearfix">
+    <!--ER-58986 || Author: Chandan-->
+    <a class="track-cover audioEpisode audioPlay" data-free_login_required="{$free_login_required}" data-index="{$num++}" data-playlist_id="{$playlist_id}" data-user_id="{$user_id}" data-id="{if $data->is_episode == 0}{$data->movie_id}{else}{$data->movie_stream_id}{/if}" style="background-image:url({$episode_image});"><span>{$num}</span>
+        <i class="fa fa-play"></i>
+    </a>
+    <!--ER-58986 end-->
+    <div class="row">
+        <div class="col-sm-4 col-xs-12">
+            <h4>{$data->content_title|utf8_decode}</h4>
+        </div>
+        <div class="col-sm-6 col-xs-8">
+            <p>{foreach from=$casts key=counter item=cast}{$cast_count=$cast|@count}{$j=0}{foreach from=$cast key=counter item=castitem}{$castitem->celeb_name}{$j = $j+1}{if $j != $cast_count}, {/if}{/foreach}{/foreach}</p>
+        </div>
+        <div class="col-sm-2 col-xs-4 text-center">
+            <span class="track-duration">
+                {if $audio_duration_full != ''}
+                    {if $audio_duration[0]|intval > 0}
+                        {$audio_duration_full}
+                    {else}
+                        {$audio_duration[1]}:{$audio_duration[2]} 
+                    {/if}
+                {else}
+                00.00
+                {/if}
+            </span>
+        </div>
+    </div>
+    {if $this->add_to_playlist != 0 || $this->add_to_queue != 0}
+    <span class="track-opts">
+        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+        <ul>
+            {if $this->add_to_playlist != 0}<li><a href="javascript:void(0);" class="c-white addPlay" data-content_id="{$data->movie_stream_id}" data-user_id="{$user_id}" data-is_episode="{$data->is_episode}">{$this->Language['add_to_playlist']}</a></li>{/if}
+            {if $this->add_to_queue != 0}<li><a href="javascript:void(0);" class="c-white addToQue" data-id="{$data->movie_stream_id}"  data-is_episode="{$data->is_episode}">{$this->Language['add_to_queue']}</a></li>{/if}
+        </ul>
+    </span>
+    {/if}
+</li>
+{/if}
+<!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+{if $data->content_types_id == 1 || $data->content_types_id == 3}
+{assign var=ccc value=$ccc+1}
+<li class="col-md-3">
+    <div class="item-wrap">
+        <div class="item-cover">
+            <img class="_cover" src="{$episode_image}" />
+            <div class="cover-overlay">
+                   <!-- ER-58986 || Author: Chandan || Desc : Added the condition to check use is logged in or not. -->
+               {if $free_login_required == 1} 
+                <a href="javascript:void(0);" class="playbtn allplay" data-toggle="modal" data-target="#loginModal" data-user-id="{$user_id}"
+                     data-movie_id="{$data->movie_uniq_id}" data-index="{$num++}" data-movie_stream_uniq_id="{$data->movie_stream_uniq_id}" data-content-permalink="{$data->c_permalink}" data-free_login_required="{$free_login_required}" data-stream_id="{$data->movie_stream_uniq_id}" data-ctype="{$data->content_types_id}" data-playlist_id="{$playlist_id}" data-playlist_permalink="{$playlist_permalink}" onclick="playlistContentVideoPlay(this);">{$this->Language['play_now']}</a>
+               {/if}
+             {if $free_login_required == 0} 
+                    <a href="javascript:void(0);" class="playbtn allplay"  data-user-id="{$user_id}"
+                    data-movie_id="{$data->movie_uniq_id}" data-index="{$num++}" data-movie_stream_uniq_id="{$data->movie_stream_uniq_id}" data-content-permalink="{$data->c_permalink}" data-free_login_required="{$free_login_required}" data-stream_id="{$data->movie_stream_uniq_id}" data-ctype="{$data->content_types_id}" data-playlist_id="{$playlist_id}" data-playlist_permalink="{$playlist_permalink}" onclick="playlistContentVideoPlay(this);">{$this->Language['play_now']}</a>
+                  {/if}
+             <!-- ER-58986 end -->
+        </div>
+        </div>
+       <div class="item-info item_title">
+           <h4>{$data->title|utf8_decode}</h4>
+        </div>
+       <div class="item-info item_story">
+            {if $data->story|utf8_decode|count_characters > 55}{$data->story|utf8_decode|truncate:70}<a href="javascript:void();" class="multipart_child more" data-id="more-{$ccc}" data-toggle="modal"  data-target=".bs-example-modal-lg3">{$this->Language['more']}</a>{else}{$data->story|utf8_decode}{/if}
+             <p class="full-desc hide">{$data->story|utf8_decode}</p>
+        </div>
+       {if $this->add_to_video_playlist != 0}
+       <div class="item-info item_playlist">
+        <a href="javascript:void(0);" class="btn btn-primary addPlay" data-type="2" data-content_id="{$data->movie_stream_id}" data-user_id="{$user_id}" data-is_episode="{$data->is_episode}">{$this->Language['add_to_playlist']}</a>
+       </div>
+       {/if} 
+        <div class="spacer_10"></div>
+    </div>
+</li>
+{/if}
+<!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+{/foreach}
+</ul>
+<!--#58924: Generic | Genius Academy, Inc | The "More" button of the video playlist is not clickable.-->
+<div class="modal fade bs-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> 
+                <h4 class="modal-title c-font-uppercase c-font-bold" id="multipart_child_title"></h4> 
+            </div>
+            <div class="modal-body" id="multipart_child_story"> 
+
+            </div>
+        </div>
+    </div>
+</div>
+{literal}
+<script type="text/javascript">
+$(document).ready(function() {
+$("#episodes").on("click", ".multipart_child", function() {
+        var title = $(this).parent().siblings('.item-info').find('h4').html();
+        var story = $(this).siblings('.full-desc').html();
+        $('#multipart_child_title').html($.trim(title));
+        $('#multipart_child_story').html($.trim(story));
+    });
+});
+</script>
+{/literal}
+<!--#58924 End-->

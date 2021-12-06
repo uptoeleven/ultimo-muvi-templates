@@ -1,0 +1,5 @@
+{foreach from=$data->custom key=k item=custom}
+{if $custom->field_value != ''}
+<strong>{$custom->field_display_name} :</strong> {$custom->field_value}<br />
+{/if}
+{/foreach}

@@ -1,0 +1,20 @@
+{assign var="cropDimesion" value=Yii::app()->common->getPgDimension()}
+<div class="c-layout-page">
+    <!-- BEGIN: PAGE CONTENT -->
+    {include file='../layouts/banner.html'}
+    <div class="container muvi_content-area">
+   {include file='../layouts/featuredsections.html'}     
+    </div>    
+</div>
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+{literal}
+<script>
+    $(document).ready(function() {
+       siteIndex();
+    });
+</script>
+{/literal}
+
+<!--<script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js?v={$smarty.const.RELEASE}"></script>-->

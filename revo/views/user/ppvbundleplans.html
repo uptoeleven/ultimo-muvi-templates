@@ -1,0 +1,81 @@
+<div class="content">
+    <div class="container">
+        <form id="membership_form" name="membership_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+            <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+            <div id="loading" class="loader"></div>
+            <div id="errors" class="error center"></div>         
+            {include file='../layouts/privatebundle.html'}
+            {assign var="user_id" value=Yii::app()->user->id}
+            {if $all_plans == 1}
+            {if $user_id == ''}
+            <button id="btn_continue" class="btn btn-primary pull-right" onclick="$('#loginModal').modal('show')">{$this->Language["continue"]}</button>
+            {/if}
+            <div id="change_plan_payment_div" style="display: {($default_plan_id == $change_plan_id || $user_id == '')? 'none' : 'block'};">
+            {/if}
+
+            {if $isVoucherExists}
+            {include file='../layouts/payment_section.html'} 
+            {/if}
+
+            {if $gateways[0]->short_code == "ippayment" || $gateways[0]->short_code == "cybersource"}
+            {$activate_btn_form}
+            {else}
+            {if $is_hosted neq 1}
+            <div>
+                {$payment_form}
+            </div>
+            {/if}
+
+            {if $isVoucherExists}
+            {include file='../layouts/voucherppv.html'}
+            {/if}
+
+            {$activate_btn_form}
+            {/if}
+
+            {if $all_plans == 1}
+            </div>
+            {/if}
+
+            <span class="error" id="plan_error"></span>     
+        </form>
+    </div>
+</div>
+<div id="successPopup" class="modal fade" style="width: 660px;margin:auto;margin-top: 10px;">
+    <div class="modal-dialog" style="width: 660px;margin:auto;margin-top: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['account_activate_after_card_submit']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var action = 'ppvpayment';
+    var btn = "{ $this->Language['btn_paynow']}";
+    $('input:radio[name="payment_type"]').change(function () {
+        if ($(this).is(':checked') && $(this).val() == '1') {
+            $("#register_membership").hide().attr('disabled', true);
+            $(".linkcol_link").hide();
+        } else {
+            $("#register_membership").show().attr('disabled', false);
+            $(".linkcol_link").show();
+        }
+    });
+</script>
+
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js?v=1"></script>
+
+
+

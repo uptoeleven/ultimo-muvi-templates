@@ -1,0 +1,656 @@
+<script src="{$this->siteurl}/js/jquery.matchHeight.js"></script>
+<script>
+    var muviWaterMarkTrailer = "{$waterMarkOnPlayer}"; 
+</script>
+<style>
+   .contentLikes{
+    color: #444c53 !important;
+} 
+</style>
+{$content = $item|json_decode}
+<input type="hidden" value="{$content->movie_id}" id="p_movieid">
+{$casts = $content->casts}
+{$directors = $casts->directors}
+{$isConverted=$content->is_converted}
+{$release_date = $content->release_date}
+{$censor_rating = $content->censor_rating|replace:'&nbsp;':''}
+{$actors = $casts->actors}
+{$all_series = $allseries|json_decode}
+{$content_banner=$content->content_banner}
+{$trailer_is_converted=$content->trailer_is_converted}
+{$pageUrl = $this->ogUrl}
+{$full_release_date = $content->full_release_date}
+{$user_id=Yii::app()->user->id}
+<script type="text/javascript">    
+var content_id = {$content->movie_id}; 
+var movie_stream_id = {$content->movie_stream_id}; 
+</script>
+ <!--ER42158 start-->
+     {if $chat_enable_status == 1 && $chat_authkey != "" && $user_id != ""}
+            <script src="//cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
+
+            <script type="text/javascript" src="https://asset.muvi.com/js/groupchat_muvi5{$chat_server_info}.js?v={time()}"></script>
+            <!--font awesome css-->
+            <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.9.0/css/all.css" integrity="sha384-vlOMx0hKjUCl4WzuhIhSNZSm2yQCaf0mOU1hEDK/iztH3gU4v5NMmJln9273A6Jz" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="https://asset.muvi.com/css/groupchat_muvi5.css?v={time()}">
+       {/if}
+ <!--ER42158 end-->
+<input class="muvi_playlist_user_id" value="{$user_id}" type="hidden">
+    
+<div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+    <div class="container">
+        <div class="muvi_c-page-title muvi_c-pull-left">
+            <h3 class="muvi_c-font-sbold c-font-uppercase">{$content->title|utf8_decode}</h3>
+        </div>
+    </div>
+</div>
+<div class=" muvi_c-size-sm muvi_c-overflow-hide content-details" ng-app="relatedContent" ng-controller="relatedContentMovie"> 
+    {if $content_banner !=''}
+    <img src="{$content_banner}" alt="{$content->title|utf8_decode}" title="{$content->title|utf8_decode}" class="img-responsive responsive-image"/>
+    {/if} 
+    <div class="container" ng-app="relatedContent" ng-controller="relatedContentMovie">
+        <div class="muvi_c-shop-product-details-2 muvi_content-area">
+            <div class="row muvi_bottom25">
+
+                <div class="col-md-6">
+                    <div class="muvi_c-product-gallery">
+                        <div class="c-zoom1">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-8 ">
+                                    <div class="muvi_artwork-wrapper ">
+                                        <img src="{$content->poster}" alt="{$content->title|utf8_decode}" class="img-responsive">
+                                        <!--@Mantis: 19243::Resume watch last seen [Start]-->
+                                        {$content->resume_play_btn}
+                                        <!--@Mantis: 19243::Resume watch last seen [end]-->
+                                        <div class="muvi_artwork__meta hide">
+                                            <div class="muvi_media__block--1">
+                                                <a href="browse__music" class="media__block"> <div><i class="fa fa-music"></i>
+                                                        <h4>{$this->Language['browse_music']}</h4></div></a>
+                                            </div>
+                                            <div class="muvi_media__block--2">
+                                                <a href="shop__products" class="media__block"> <div>
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                        <h4>{$this->Language['shop_products']}</h4></div>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        {if $this->add_to_favourite}
+                                        <a href="javascript:void(0);" onclick="addFav(this)" name="addfav" class="favAdd" data-fav_status="{$user_status['fav_status']}" data-login_status="{$user_status['login_status']}" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}"> 
+                                            <div class="muvi_ellipse__shape muvi_favourite "> 
+                                                <i class="fa fa-heart-o {if $user_status['fav_status'] ==0} hidden {/if}"></i>
+                                                <i class="fa fa-heart {if $user_status['fav_status'] !=0} hidden {/if}"></i>
+                                                <div class="muvi_favourite_text">
+                                                    <span class="muvi_favorate__this {if $user_status['fav_status'] ==0} hidden {/if}">{$this->Language['add_to_fav']}</span>
+                                                    <span class="favorited__already {if $user_status['fav_status'] !=0} hidden {/if}">{$this->Language['added_to_fav']}</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {/if}
+                                        <div class="muvi_ellipse__shape share">
+                                            <i class="fa fa-share"></i>
+
+                                            <div class="muvi_share_text">
+                                                <span class="muvi_share__this">
+                                                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$pageUrl}" data-title="{$this->Language['share_in_facebook']}"><i class="fa fa-facebook-square" aria-hidden="true" alt="{$this->Language['share_in_facebook']}" title="{$this->Language['share_in_facebook']}"></i></a>
+                                                    <a target="_blank" href="https://twitter.com/intent/tweet?text={$pageUrl}" data-title="{$this->Language['share_in_twitter']}">  <i class="fa fa-twitter-square" aria-hidden="true" alt="{$this->Language['share_in_twitter']}" title="{$this->Language['share_in_twitter']}"></i></a>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    {if $show_likes == 1}
+                                    <br/>
+                                    <div> 
+                                        {if $this->user_id > 0}
+<!--                                        <a href="javascript:void(0);" id="likes_chk" class="contentLikes" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="{$content_likes[0]['likes']}" data-user="{$user_id}">       
+                                            <span class="glyphicon glyphicon-thumbs-up fa-lg"><span class="like">Like</span></span> 
+                                        </a>  -->
+                                        <!--Upasana start ER 27448-->
+                                             {if !empty($like_colour)}
+                                        <a href="javascript:void(0);" id="likes_chk" class="contentLikes" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="{$content_likes[0]['likes']}" data-user="{$user_id}">       
+                                                <span style="color:#32c5d2;" class="fa fa-thumbs-up fa-lg"><span class="like" style="color:#32c5d2;">Like</span></span> 
+                                        </a>  
+                                        {else}
+                                           <a href="javascript:void(0);" id="likes_chk" class="contentLikes" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="{$content_likes[0]['likes']}" data-user="{$user_id}">  
+                                                <span style="color:#444c53;"  class="fa fa-thumbs-up fa-lg"><span style="color:#444c53;" class="like" >Like</span></span> 
+                                            </a>  
+                                        {/if}
+                                           <!--Upasana end ER 27448-->
+
+                                        {else}
+                                         <a href="javascript:void(0);" id="likes_chk" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="" data-user="">  
+                                            <span class="fa fa-thumbs-up fa-lg"  ><span class="like">Like</span></span> 
+                                        </a>
+<!--                                            <a href="javascript:void(0);" ng-click="clicklike()" >
+                                                <span class="glyphicon glyphicon-thumbs-up fa-lg"><span class="like"> Like </span></span>  
+                                            </a>  -->
+                                        {/if}
+                                </div>
+                                    {/if}                                     
+                                    <!--ER-28400 starts here-->
+                                    {if $donation_btn}                 
+                                    <div class="donation-details-page" style="margin-top: 25px;">{$donation_btn}</div>         
+                                    {/if} 
+                                    <!--ER-28400 ends here--> 
+                            </div>
+                        </div>
+                    </div>
+                </div>	 
+                </div>	 
+                <div class="loader" id="muvi_loader_fav"></div>
+                <div class="col-md-6">
+                    <div class="muvi_c-product-meta">
+                        <div class="muvi_c-content-title-1" style="float:none;">
+                            <h3 class="c-font-uppercase c-font-bold" style="word-wrap: break-word;"> {$content->title|utf8_decode} {if $censor_rating !="" }<span class="label label-red label-green">{$censor_rating} </span> </h3>{/if}
+                            <div class="muvi_c-line-left"></div>
+                        </div>
+                        {if $rating_status == 1}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="rating">
+                                    {$review_summary}
+                                    <span>{$this->Language['viewall']}<a href="#reviews_section" class='muvi_review_link'> {$this->Language['reviews']}</a> </span>
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+                        
+                        {if $content->show_booking_button}
+                            {if $content->start_time !="0000-00-00 00:00:00" }
+                                <p>
+                                    <button  name="addtocal" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" data-start_time="{$content->start_time}" data-booking_time="{$content->booking_time}" data-book_type="1" data-booking_with_cal="1" class="btn btn-lg btn-primary addtocal cbook c-btn-square" type="button"><i class="fa fa-clock-o" aria-hidden="true"></i>{if $content->booking_status}{$this->Language['booked']}{else}{$this->Language['book']}{/if}</button>
+                                </p>
+                            {else}
+                                <p>
+                                   <button  name="addtocal" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" class="btn btn-lg btn-primary addtocal c-btn-square" data-booking_time="{$content->booking_time}" data-book_type="2" data-booking_with_cal="1" type="button"><i class="fa fa-clock-o" aria-hidden="true"></i>{if $content->booking_status}{$this->Language['added_to_calender']}{else}{$this->Language['add_to_calender']}{/if}</button>
+                                </p>
+                            {/if}
+                        {/if}                        
+                        <div class="row muvi_meta__info">
+                            {if $content->genres|@count > 0}
+                            <div class="col-sm-12 ">
+                                <p><span class="c-font-bold c-font-uppercase">{$this->Language['genre']} </span>
+                                    <span class="muvi_c-font-none">{$genre_count = $content->genres|count}
+                                        {$j=0}
+                                        {foreach from=$content->genres item=genre}{$genre}{$j = $j+1}
+                                        {if $j != $genre_count}
+                                        ,
+                                        {/if}
+                                        {/foreach} </span></p>
+                            </div>
+                            {/if}
+                            {if $content->video_duration != '' && $isConverted==1 }<!--ER ::23672 -->
+                            <div class="col-sm-12 ">
+                                <p><span class="c-font-bold c-font-uppercase">{$this->Language['duration']} : </span>
+                                    <span class="muvi_c-font-none">{$content->video_duration} </span></p>
+                            </div>
+                            {/if}
+                            {if $content->content_types_id == 4} <!-- ER ::44117 -->
+                                {if $content->start_time != '' && $content->start_time != '0000-00-00 00:00:00'}
+                                <div class="col-sm-12 ">
+                                    <p><span class="c-font-bold c-font-uppercase">{$this->Language['stream_date_time']} : </span>
+                                        <span class="muvi_c-font-none">{$content->start_time|date_format:"%d-%b-%Y, %H:%M (UTC)"}</span></p>
+                                </div>
+                                {/if}
+                                {if $content->livestream_duration != '' && $content->livestream_duration|date_format:"%H:%M" !='00:00'} <!-- ER ::44117 -->
+                                <div class="col-sm-12 ">
+                                    <p><span class="c-font-bold c-font-uppercase">{$this->Language['livestream_duration']} : </span>
+                                        <span class="muvi_c-font-none">{$content->livestream_duration|date_format:"%H:%M"} </span></p>
+                                </div>
+                                {/if}
+                            {/if}
+                            {if $full_release_date != ''}
+                            <div class="col-sm-12 ">
+                                <p><span class="c-font-bold c-font-uppercase">{$this->Language['sort_release_date']} : </span>
+                                    <span class="muvi_c-font-none">{$full_release_date}</span></p>
+                            </div>
+                            {/if}
+                        </div>
+                        {assign var=subprice value=$subscribed_price|substr:1}
+                        {assign var=unsubprice value=$unsubscribed_price|substr:1}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="ppv_price">
+                                     {if $is_subscribed} 
+                                    <h1>{$subscribed_price|truncate:1:"":true}{$subprice}</h1>
+                                    <h4> <b style="color: #e73946;text-decoration: line-through;">{$unsubscribed_price|truncate:1:"":true}</span>{$unsubprice}</b></h4>
+                                    {else}
+                                    <h1>{$unsubscribed_price|truncate:1:"":true}{$unsubprice}</h1>
+                                    <h4><b style="color: #e73946;text-decoration: line-through;">{$subscribed_price|truncate:1:"":true}{$subprice}</b></h4>
+
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="muvi_action__sec">
+
+                            {if $trailer_is_converted !=''} <!-- Mantis 14357 Start --> <a href="javascript:void(0);" class="btn btn-default c-btn btn-lg c-font-bold  c-btn-square c-font-uppercase" onClick="frontEndTrailer({$content->movie_id},'digital')">{$this->Language['view_trailer']}</a><!-- Mantis 14357 End --> {/if}
+                            <span style="display:none;">{$content->play_btn}</span>
+                        </div>
+
+                        <div class="row muvi_content__navtab">
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs">
+                                    {if $content->story !='' } 
+                                    <li class="active">
+                                        <a href="#tab1default" data-toggle="tab">
+                                            <span class="c-font-bold c-font-uppercase">{$this->Language['story']} </span>
+                                        </a>
+                                    </li>
+                                    {/if}
+                                    {foreach from=$casts key=counter item=cast}
+                                    {if $cast|count>0} 
+                                    {assign var=val value=$val+1}
+                                    {/if}
+                                    {/foreach}                                
+                                    {assign var=counte value=0}                                
+                                    {if $val > 0 && $cast|is_array}
+                                    <li class="{if $content->story == ''} active {/if}  ">
+                                        <a href="#tab2default" data-toggle="tab">
+                                            <span class="c-font-bold c-font-uppercase">{$this->Language['cast']} </span>
+                                        </a>
+                                    </li>
+                                    {/if}
+
+                                </ul>
+                                <div class="tab-content">
+                                    {if $content->story !='' } <div class="tab-pane fade in active" id="tab1default">
+                                        <p>{if $content->story|utf8_decode|count_characters > 75}{$content->story|utf8_decode|truncate:190}&nbsp;&nbsp;
+                                            <a href="javascript:void();" class="more"
+                                               data-toggle="modal" data-target=".bs-example-modal-lg2"><b>{$this->Language['more']}</b></a>{else}{$content->story|utf8_decode}{/if}
+                                        </p>
+                                    </div>{/if}
+                                    {foreach from=$casts key=counter item=cast}
+                                    {if $cast|count>0} 
+                                    {assign var=val value=$val+1}
+                                    {/if}
+                                    {/foreach}                                
+                                    {if $val > 0 && $cast|is_array}
+                                    <div class="tab-pane fade {if $content->story == '' } in active {/if}" id="tab2default">
+                                        <div class="row">
+                                            {foreach from=$casts key=role item=cast}                                    
+                                            {foreach from=$cast key=counter item=cast_role}
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="cast clearfix">
+                                                    <a href="{$cast_role->full_permalink}">
+                                                        <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}"
+                                                             class="recent-thumb" width="50" height="50"></a>
+                                                    <p class="light-grey"><a href="{$cast_role->full_permalink}">{$cast_role->celeb_name}</a>
+                                                        <br />{$cast_role->cast_type_name}</p>
+                                                </div>
+                                            </div>
+                                            {/foreach}
+                                            {/foreach}
+                                        </div>
+                                    </div>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row muvi_bottom25 hide">
+				{if Yii::app()->general->getStoreLink()}
+                {if !empty($contentproduct)}
+                <div class="container" id="shop__products">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="muvi_c-shop-product-details-2 muvi_content-area ">
+                                {include file='../shop/list.html'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				{/if}
+				{/if}
+			</div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                {if $episode|@count>0}    <div class="muvi_c-content-title-1" style="float:none;">
+                    <h3 class="c-font-uppercase c-font-bold" style="word-wrap: break-word;">                                    
+                        {$this->Language['episodes']}                                  
+                    </h3>
+                    <div class="muvi_c-line-left"></div>
+                </div>{/if}
+            </div>
+
+            <div class="col-sm-6">
+                {if $all_series|@count > 1}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="c-font-uppercase c-font-bold text-right text-left-xs season-dropdown_title">                                    
+                            {$this->Language['season']}                                
+                        </h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <select id="series" name="series" class="form-control form-control-border" onchange="loadepisode();"> <!-- ER:34213 - Season Landing page - Load episode for all templates-->
+                            {foreach from=$all_series item=series}
+                            <option value="{$series->series_number}" {if $default_series == $series->series_number}selected="selected"{/if}>{$this->Language['season']} {$series->series_number}</option>
+                            {/foreach}
+                        </select>
+
+                    </div>
+                </div>{/if}
+            </div>
+
+        </div> 
+        {if $episode|@count>0} 
+
+        <div class="row relative">
+            <!--To list episodes-->
+            <input type="hidden" name="content_id" id="content_id" value="{$content->movie_id}" />
+            <input type="hidden" name="default_series" id="default_series" value="{$default_series}" />
+            {$pagination}
+            <div id="episodes" class="cust-row"></div>
+            <div class="loader" id="loader_episode" style="display: none;"><div class="muvi_dot1"></div><div class="muvi_dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+
+        </div>
+        {/if} 
+    </div>
+<!--Mantis : 10334 start    -->
+    {literal} 
+        <div  id="muvi_relatedContent_section" style="position:relative;" ng-cloak>
+            <div ng-if="audio">
+                <div  class="container-fluid muvi_content-area muvi_has__gray--bg">
+                    <div class="wrapper"> 
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="muvi_c-content-title-1">
+                              <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['music']}{literal} </h3>
+                              <div class="muvi_c-line-left"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="slider responsive">
+                            <ng-container  ng-repeat="content in audio">
+                              <div   class="col-md-3 col-sm-6 c-margin-t-30 muvi_c-margin-b-20">
+                                <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                  <div class="muvi_c-content-overlay">
+                                    <div class="muvi_c-overlay-wrapper">
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id == 5" ng-bind-html="content.play_btn | html"></div>
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id != 5">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                      </div>
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id == 1">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                      </div>
+                                    </div>
+                                    <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                      <img src="{{content.poster}}" alt="" title="{{content.title | utfdecode}}" class="muvi_list-poster">
+                                    </div>
+                                  </div>
+                                  <div class="muvi_c-info">
+                                    <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                      <a href="{{content.permalink}}" >{{content.title | utfdecode}}</a>
+                                    </p>
+                                    <p class="caption_genre c-font-16" style="">
+                                      <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <span>{{thumbnailAutoheight(section.id)}}</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="video">
+                <div class="container-fluid muvi_content-area">
+                    <div class="wrapper">
+                        <div class="row">
+                          <div class="col-xs-12">                         
+                                <div class="muvi_c-content-title-1">
+                                  <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['video']}{literal} </h3>
+                                  <div class="muvi_c-line-left"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="slider responsive">
+                            <ng-container  ng-repeat="content in video ">
+                              <div   class="col-md-3 col-sm-6 c-margin-t-30 muvi_c-margin-b-20">
+                                <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                  <div class="muvi_c-content-overlay">
+                                    <div class="muvi_c-overlay-wrapper">
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id == 1 || content.content_types_id == 2" ng-bind-html="content.play_btn | html"></div>
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id != 1 || content.content_types_id != 2">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                      </div>
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id == 1 || content.content_types_id == 2">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                      </div>
+                                    </div>
+                                    <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                      <img src="{{content.poster}}" alt="" title="{{content.title | utfdecode}}" class="muvi_list-poster">
+                                    </div>
+                                  </div>
+                                  <div class="muvi_c-info">
+                                    <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                      <a href="{{content.permalink}}" >{{content.title | utfdecode}}</a>
+                                    </p>
+                                    <p class="caption_genre c-font-16" style="">
+                                      <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <span>{{thumbnailAutoheight(section.id)}}</span>                                       
+                    </div>
+                </div>
+            </div>
+            <div ng-if="physical">
+                <div class="container-fluid muvi_content-area muvi_has__gray--bg">
+                    <div class="wrapper">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="muvi_c-content-title-1">
+                                    <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['product']}{literal}</h3>
+                                    <div class="muvi_c-line-left"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="slider responsive">
+                            <ng-container  ng-repeat="content in physical">
+                              <div  class="col-md-3 col-sm-6 c-margin-t-30 muvi_c-margin-b-20">
+                                <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                  <div class="muvi_c-content-overlay">
+                                    <div class="muvi_c-overlay-wrapper">
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id != 7" ng-bind-html="content.play_btn | html"></div>
+                                      <div class="muvi_c-overlay-content" ng-if="content.content_types_id == 7">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                      </div>
+                                      <div class="muvi_c-overlay-content">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                      </div>
+                                    </div>
+                                    <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                      <img src="{{content.poster}}" alt="" title="{{content.name | utfdecode}}" class="muvi_list-poster">
+                                    </div>
+                                  </div>
+                                  <div class="muvi_c-info">
+                                    <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim" ng-if="content.content_types_id != 7">
+                                      <a href="{{content.permalink}}" >{{content.name | utfdecode}}</a>
+                                    </p>
+                                    <p class="muvi_caption_genre muvi_c-title muvi_c-font-16 muvi_c-font-slim" ng-if="content.content_types_id == 7">
+                                      <a href="{{content.permalink}}" data-pjax="#main" tabindex="0">{{content.name | html}}</a>
+                                    </p>
+                                    <p class="muvi_caption_genre muvi_c-font-16" ng-if="content.content_types_id == 7" ng-bind="content.price"></p>
+                                    <p class="muvi_caption_genre muvi_c-font-16" ng-if="content.content_types_id != 7"></p>
+                                    <p class="caption_genre c-font-16" style="">
+                                      <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                                    </p>
+                                  </div>
+                                  <div role="group" class="btn-group btn-group-justified" ng-if="content.content_types_id == 7">
+                                    <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 1">
+                                      <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(content.id,1)" tabindex="0">{/literal}{$this->Language['add-to-cart']}{literal}</a>
+                                    </div>
+                                    <div role="group" class="btn-group c-border-left muvi_c-border-top" ng-if="content.status == 1">
+                                      <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(content.id,2)" tabindex="0">{/literal}{$this->Language['pre_order']}{literal} </a>
+                                    </div>
+                                    <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 2">
+                                      <div class="muvi_stockout">{/literal}{$this->Language['inactive']}{literal}</div>
+                                    </div>
+                                    <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 3">
+                                      <div class="muvi_stockout">{/literal}{$this->Language['stock_out']}{literal}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <span>{{thumbnailAutoheight(section.id)}}</span>
+                    </div>
+                </div>
+            </div>                 
+        </div>
+    {/literal}
+<!--Mantis : 10334 end    -->  
+          <div class="container">
+         <div class="row muvi_bottom25" id='reviews_section'>
+            <div class="col-md-12">
+                <div class="loader" id="loader_review"></div>
+                <div class="form-group muvi_review_form  muvi_c-content-title-1">
+                    {$review_form}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+    
+    {if $this->studio->comment_activated == 1}
+    <div class="">  <!--20401: Playlist and Queue Feature for REVO and Modern Template- R1 End-->
+        {include file='../media/comment_form.html'}
+        {include file='../media/comment_list.html'}            
+    </div>
+    {/if}
+</div>      
+
+<div id="myTrailer"> 
+    <div class="wrapper">
+        <div class="videocontent"></div> 
+    </div>
+</div>
+
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
+
+<script type="text/javascript">
+var trailerUrl = '{$item->trailer_url}';
+var trailerIsConverted = '{$item->trailer_is_converted}';
+var v_logo = '{$item->v_logo}';
+var is_mobile = 0;
+var multipleVideoResolution = {$multipleVideo|json_encode};
+var defaultResolution = '{$defaultResolution}';
+$(document).ready(function() {
+    $('.videocontent').hide();
+});
+</script>
+
+	 {literal}
+    <script type="text/javascript">
+        $(document).ready(function () {
+	  showParentInMovie();
+	});
+    </script>
+    {/literal}
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Ã—</span></button> 
+                <h4 class="modal-title" id="mySmallModalLabel">{$this->Language['cast']}</h4> 
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <!--Star/Cast lists-->
+                    {assign var=val value=0}
+                    {foreach from=$casts key=counter item=cast}
+                    {if $cast|count>0} 
+                    {assign var=val value=$val+1}
+                    {/if}
+                    {/foreach}                                
+                    {assign var=counte value=0}
+                    {if $val > 0}
+                    <div class="row">                                
+                    {foreach from=$casts key=role item=cast}                                    
+                        {foreach from=$cast key=counter item=cast_role}
+                        <div class="col-md-6 col-sm-6">
+                            <div class="cast clearfix">
+                                <a href="{$cast_role->full_permalink}">  <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50"></a>
+                                <p class="light-grey"><a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />{$cast_role->cast_type_name}</p>
+                            </div>
+                        </div>                        
+                        {/foreach}                                
+                    {/foreach}
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> 
+                <h4 class="modal-title c-font-uppercase c-font-bold" id="mySmallModalLabel">{$this->Language['story']}</h4> 
+            </div>
+            <div class="modal-body"> 
+                {$content->story|utf8_decode}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> 
+                <h4 class="modal-title c-font-uppercase c-font-bold" id="muvi_multipart_child_title"></h4> 
+            </div>
+            <!-- 22902: Generic|WE-Stream : story doesn't show in modal popup when click "more" (Jitendra K Sahoo) start -->
+            <div class="modal-body" id="muvi_multipart_child_story"> 
+            <!-- 22902: Generic|WE-Stream : story doesn't show in modal popup when click "more" (Jitendra K Sahoo) end -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--Mantis : 10334 start    -->   
+    {literal}
+    <script>
+        getValsInShowpage({/literal}{$content->movie_id}{literal},{/literal}{$content->movie_stream_id}{literal});
+</script>
+{/literal}
+<!--Mantis : 10334  end    -->	
+
+ <!--ER42158 start-->
+{if $chat_enable_status == 1 && $chat_authkey != "" && $user_id != ""}
+{literal}
+<script type="text/javascript">
+$(document).ready(function () {
+            $('body').chatApp({
+                'authKey': "{/literal}{$chat_authkey}{literal}",
+                'userId': '{/literal}{$user_id}{literal}',
+                'uniqueKey':'{/literal}{$content->movie_stream_id}{literal}',
+                'userFullName':'{/literal}{Yii::app()->user->display_name}{literal}',
+                'profileImageUrl':'{/literal}{$profile_image}{literal}'
+            });
+        });
+</script>
+{/literal}
+{/if}
+ <!--ER42158 end-->

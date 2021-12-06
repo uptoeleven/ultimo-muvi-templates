@@ -1,0 +1,38 @@
+{assign var="user_id" value=Yii::app()->user->id}
+{assign var="total_credit" value=$user_all_credits|@count}
+{if $user_id > 0}
+    {if ($total_credit > 0)}
+        {foreach from=$user_all_credits item=credit}
+            <tr class="cart_item">
+                <td class="muvi_product-remove">{Date('M d, Y', strtotime($credit['created_date']))}</td>
+                <td class="muvi_product-remove">{$credit['action_type']}</td>
+                {if $credit['movie_id']}
+                    <td class="muvi_product-remove">{$video_listdata[$credit['movie_id']]}</td>
+                {else}
+                    <td class="muvi_product-remove">{(($credit['rule_action_type']==3) ? ($credit['credit_value']|cat:" Credit Point(s)") : $plan_listdata[$credit['plan_id']])}</td>
+                {/if}
+                <td class="muvi_product-remove">{$credit['credit_value']}</td>
+                {if $credit['debit_value']}
+                <td class="muvi_product-remove">{$credit['debit_value']}</td>
+                {else}
+                <!--<td class="muvi_product-remove">{$credit['credit_value'] - $credit['outstanding_credit_value']}</td>-->
+                <td class="muvi_product-remove">N/A</td>
+                {/if}
+                <td class="muvi_product-remove">
+                    {if Date('Y-m-d', strtotime($credit['expiry_date'])) >= Date('Y-m-d')}
+                        {Date('M d, Y', strtotime($credit['expiry_date']))}
+                    {else if (Date('Y-m-d', strtotime($credit['expiry_date'])) == '0000-00-00' || $credit['expiry_date']==NULL)}
+                        N/A
+                    {else}
+                    {$this->Language["expired"]}
+                </td>
+                {/if}
+            </tr>
+        {/foreach}
+    {else}
+        <tr>
+            <td colspan="6" class="muvi_product-remove">{$this->Language["no_record_found"]}</td>
+        </tr>
+    {/if}
+{/if}
+<input type="hidden" id="total_credit" value="{$total_credit}" />

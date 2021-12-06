@@ -1,0 +1,46 @@
+<div class="single-product-area">
+    <div class="container">
+        <div class="row top0">
+           <div class="ac-setting-icon heading_2">{$this->Language['contact_us']}</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <form name="ContactForm" id="contactus_form" method="post" action="{$this->base_url}/site/contactus">
+                        <h4 class="caps">{$this->Language['fill_form_below']}</h4>
+                        <div class="form-group ">
+                            <label class="control-label required" for="name">{$this->Language['text_name']}</label>
+                            <div class="controls">
+                                <input type="text" required name="ContactForm[name]" id="contact_name" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_name_placeholder']}" autocomplete="off" class="form-control" value=""   autofocus />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label required" for="name">{$this->Language['email']}</label>
+                            <div class="controls">
+                                <input type="email"  name="ContactForm[email]" id="email" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" value=""  required />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label required" for="password">{$this->Language['text_message']}</label>
+                            <div class="controls">
+                                <textarea rows="4" name="ContactForm[message]" id="message" title="{$this->Language['fill_out_this_field']}" class="form-control" placeholder="{$this->Language['text_message_placeholder']}" required ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="controls text-right">
+                                <input type="text" id="ccheck" name="ccheck" placeholder="" autocomplete="off" style="display: none;" />
+                                <input type="hidden" name="submit-btn" id="submit-btn"/>
+                                <button type="submit" class="btn btn-primary btn-green-small" name="contactus" id="contact_us">{$this->Language['btn_send']}</button>
+                            </div>
+                        </div>
+                        <div id="login-errors" class="error center"></div>
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                    </form>  
+                </div> 
+            </div>
+            <script type="text/javascript">
+                $('#contact_us').on('click', function () {
+                    $('#submit-btn').val('contact');
+                })
+            </script>            
+        </div>
+    </div>
+</div>

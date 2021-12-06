@@ -1,0 +1,37 @@
+<div id="coUser_sections" style="background-color: #fff;">
+    <div class="container">
+        <div class="slider-setting-bottom border-bottom mt-6 mb-4 pb-1 pl-0 pr-0 pt-0">
+            <h3 class="sectionTitle" >{$this->Language['co_user']}</h3>
+            <div class="btn btn-default-with-bg" data-toggle="modal" data-target="#coUserModal"><i class="fa fa-plus"></i>{$this->Language['add_new_couser']}</div>
+        </div>
+        {if isset($cousers) && !empty($cousers)}
+        <ul class="usersList">
+            
+                {foreach from=$cousers key=counter item=couser}
+                <li class="items" id="li_{$couser['id']}">
+                    <div class="d-flex flex-column align-center">
+                        <figure class="profile-pic">
+                            <img src="{$couser['profile_image_file_name']}" alt="{$couser['profile_image_file_name']}">
+                        </figure>
+                        <h5 class="name mb-0">{$couser['user_name']}</h5>
+                        <p class="control-label">{$couser['enduser_subgroup']}</p>
+                        <div class="btn-group">
+<!--                            <a class="btn btn-sm btn-light" href="#" role="button" data-couserid="{$couser['id']}" onclick="removeCouser(this);"><i
+                                    class="fa fa-trash"></i></a>-->
+<a class="btn btn-sm btn-light" href="javascript:void(0)" role="button" data-couserid="{$couser['id']}" onclick="removeCouser(this);"><i
+                                    class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
+                </li>
+                {/foreach}
+            
+        </ul>
+        {else}
+        <table class="table">
+            <tr>
+                <td class="text-center">{$this->Language['no_data_found']}</td>
+            </tr>
+        </table>
+        {/if}
+    </div>
+</div>

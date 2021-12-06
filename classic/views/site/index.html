@@ -1,0 +1,45 @@
+{include file='../layouts/banner.html'} 
+<div class="container site_sdkIndex " id="page" style="position:relative; margin-top: 30px;">          
+{include file='../layouts/featuredsections.html'} 
+        </div>
+{literal}
+
+<div id="addtocarterror" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12">
+						<p style="line-height: initial;">{$this->Language['addtocarterror']}</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>
+<script type="text/javascript">
+    function showcart(id, flag){
+        $('.loader_cart').show();
+        var url = '{/literal}{$this->siteurl}{literal}/shop/addtocart';
+        $.post(url, {'quantity':1, 'id':id}, function(res){
+            if (flag == 2){
+                window.location.href = '{/literal}{$this->base_url}{literal}/shop/cart';
+            } else{
+				if(res=='currencyerror'){
+					$('.loader_cart').hide();
+					$("#addtocarterror").modal("show");
+				}else{
+					$('.loader_cart').hide();
+					$('html,body').animate({scrollTop:0}, 500);
+					$('#round-cart').html(eval($('#round-cart').html()) + 1);
+					$('#cartpopup').html(res);
+				}
+            }
+        })
+    }
+</script>
+{/literal}

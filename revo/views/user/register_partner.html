@@ -1,0 +1,101 @@
+<div class="">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['register_as_partner']}</h2>
+        <div class="row">
+            <div class="col-md-12">
+            <h3>{$this->Language['create_account_now']}</h3> 
+            <p>{$this->Language['cancel_ac_anytime']}</p>
+            <p class="gray">{$this->Language['no_commit_no_extrafee']}</p>
+            <h3 class="txt-camel">{$this->Language['account_detail']}</h3>
+            <form id="membership_form" name="membership_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+               <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                <div id="errors" class="error center"></div>  
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">{$this->Language['text_name']}</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="{$this->Language['text_name']}" id="name" name="data[name]" required />
+                    </div>
+
+                    <label for="email" class="col-sm-2 control-label">{$this->Language['email']}</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control" autocomplete="off" placeholder="{$this->Language['email']}" id="email_address" name="data[email]" required />
+                    </div>                    
+                </div>   
+                <div class="loader" id="membership_loading" style="display:none;" ></div>
+                <div class="form-group">
+                    <label for="join_password" class="col-sm-2 control-label">{$this->Language['text_password_placeholder']}</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['text_password_placeholder']}" id="join_password" name="data[password]" required />
+                    </div>
+
+                    <label for="confirm_password" class="col-sm-2 control-label">{$this->Language['confirm_password']}</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['confirm_password']}" id="confirm_password" name="data[confirm_password]" required />
+                    </div>                    
+                </div>                          
+                <div class="clearfix"></div>
+                <div class="top20"></div>
+
+                    <div class="row">
+                    {include file='../layouts/partner_listplans.html'} 
+                                                  </div>
+                    <div class="clearfix"></div> 
+                    <!--26361 starts here-->
+                   {if $isVoucherExists}
+                    {include file='../layouts/payment_section.html'} 
+                    {/if}
+                     <!--26361 ends here-->  
+                <div class="loader" id="membership_loading" style="display: none;"></div>
+                    {if $is_hosted neq 1}  
+                    {$payment_form}
+                    {/if}
+                    <!--26361 starts here-->
+                    {if $isVoucherExists}
+                    {include file='../layouts/voucher_subscription.html'}
+                    {/if}
+                    <!--26361 ends here-->  
+                   {$payment_register_btn}                
+
+                    <span class="error" id="plan_error"></span>                   
+
+                <span class="error" id="plan_error"></span>     
+                <input type="hidden" name="is_parter" value="1" id="is_partner">
+            </form> 
+                    </div>
+                </div>            
+    </div>
+</div>
+
+<div id="successPopup" class="modal fade" style="width: 660px;margin:auto;margin-top: 10px;">
+    <div class="modal-dialog" style="width: 660px;margin:auto;margin-top: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['account_activate_after_card_submit']}</div>
+                        </div>
+                    </div>
+                </div>                   
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+               <!-- <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div> -->
+            </div>
+        </div> 
+    </div>
+</div>
+<script type="text/javascript">
+    var action = 'savepartner';
+    var btn = 'Register';
+</script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>
+<script type="text/javascript" >
+ $(document).ready(function(){
+    if('{$this->custom_register_page_urlid}' !== ""){ /*40392*/
+        $('#name_of_cinema').val('{$this->custom_register_page_urlid}');
+        $('#name_of_cinema').attr('readonly', true);
+    } /*40392*/
+});
+</script>

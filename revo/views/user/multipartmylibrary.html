@@ -1,0 +1,418 @@
+<style>
+    h3 {
+       font-size: 18px;
+       margin: 10px 0;
+    }
+    .c-font-bold {
+       font-weight: 600 !important;
+    }
+    .row {
+        margin-right: -8px;
+        margin-left: -8px;
+    }
+    .head-text{
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .btn-show-embed-pop{
+        text-align: center;
+    }
+    .pad-div{
+        margin-top: 1em;
+    }
+    .cust-text{
+        width: 8.2em;
+        padding-left: 0px !important;
+    }
+    .container{
+        padding-top: 1.5em;
+    }
+    .validation-error-msg{
+        color: red;
+    }
+    .animate-div {
+        background: #eee none repeat scroll 0 0;
+        border: 1px solid #ccc;
+        color: #ff8b19;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 2px 5px;
+        position: absolute;
+        width: 65px;
+    }
+    .embed-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: inline-block;
+        cursor: pointer;
+        z-index: 2;
+        font-size: 20px;
+        outline: 0;
+        color: #fff;
+        text-shadow: 1px 3px 3px #2727278c;
+    }
+    .embed-btn a:link {
+        color: #ffffff;
+        outline: 0;
+    }
+    .embed-btn a {
+        color: #ffffff;
+        outline: 0;
+    }
+    .embed-btn a:hover, .embed-btn a.active {
+        color: #ff1800;
+        outline: 0;
+    }
+    
+    .embed-btn .button{
+      display: inline-block;
+      height: 34px;
+      width: 34px;
+      float: left;
+      margin: 0 5px;
+      overflow: hidden;
+      background:rgba(0,0,0,0.4);
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease-out;
+    }
+    .embed-btn .button:hover{
+      width: auto;
+      padding: 0px 12px 0px 12px;
+    /*  border-radius: 6px;*/
+    }
+    .embed-btn .button .icon{
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      text-align: center;
+      border-radius: 50px;
+      box-sizing: border-box;
+      transition: all 0.3s ease-out;
+    }
+    .embed-btn .button:nth-child(1):hover .icon{
+      background:none;
+    }
+    
+    .embed-btn .button .icon i{
+      font-size: 14px;
+      transition: all 0.3s ease-out;
+    }
+    .embed-btn .button:hover .icon i{
+      color: #dedede;
+    }
+    .embed-btn .button span{
+      font-size: 13px;
+      font-weight: 500;
+      margin-left: 0px;
+      transition: all 0.3s ease-out;
+    }
+    .embed-btn .button:nth-child(1) span{
+      color: #fff;
+    }
+    .success-msg{
+        color: green;
+    }
+    .failure-msg{
+        color: red;
+    }
+    .cust-title{
+        padding-left: 1.1em;
+    }
+    </style>
+    <div class="content">
+        <div class="container">
+            <div class="item-list row">
+                <div class="col-sm-10  c-font-uppercase c-font-bold">
+                     {$this->Language['episodes']} 
+                </div>
+                <div class="col-sm-2">
+                    <a href="{$this->base_url}/userLibrary/mylibrary"> <i class="fa fa-arrow-left"></i>&nbsp; Back</a>	
+                </div>
+            </div>
+            <div class="row pad-div">
+                <div class="col-sm-3 cust-text">
+                    <h3 class="c-font-uppercase c-font-bold text-right text-left-xs season-dropdown_title">                                    
+                        {$this->Language['mylibrary_select_season']}
+                    </h3>
+                </div>
+                <div class="col-sm-4" id="seasons"></div>
+            </div>
+            <div class="row  pad-div">
+                <!--To list episodes-->
+                <input type="hidden" name="content_id" id="content_id"/>
+                <input type="hidden" name="permalink" id="permalink"/>
+                <input type="hidden" name="default_series" id="default_series"/>
+                <input type="hidden" name="userid" id="userid" value="{Yii::app()->user->id}" />
+                <div id="episodes" class="cust-row"></div>
+                <div class="loader" id="loader_episode" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+    
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="embedbox" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document" >
+            <div class="modal-content">
+                <input type="hidden" id="hid_movie_id" name="hid_movie_id">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title cust-title">{$this->Language['mylibrary_embed_text']}</h4>
+                </div>
+                <div class="modal-body"> 
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <div class="fg-line">
+                              <input type="text" class="form-control input-sm" id="iframeEmbed" placeholder="Embed Code..." value=''>                                          
+                            </div>                                        
+                        </div>
+                       
+                        <span class="input-group-btn">
+                            <div  class="animate-div " style="display:none;z-index:10;" id="embed">Copied!</div>
+                            <button class="btn btn-default btn-blue copyToClipboard" id="iframeEmbedButton" data-clipboard-text="" type="button" onclick="CopytoClipeboard();">Copy!</button>
+                        </span>                    
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <p class="head-text">{$this->Language['mylibrary_map_domain_text']}</p>
+                            <p class="desc-text">{$this->Language['mylibrary_map_domain_desc']}</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon p-l-0"><i class="fa fa-link"></i></span>
+                                <div class="fg-line">
+                                    <input id="txt_restricted_domain" name="txt_restricted_domain" autocomplete="off"  class="form-control input-sm" type="text" required="required" placeholder="muvi.com">
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="col-md-3">	
+                            <button id="sub-btn" class="btn btn-primary btn-sm" name="submit"  onclick="return validate_restricted_domain();">Save</button>
+                        </div>
+                        <div class="col-md-12">
+                            <p class="validation-error-msg">{$this->Language['mylibrary_domain_restriction_msg']}</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <p class="success-msg" id="msg_success"></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p class="failure-msg" id="msg_failure"></p>
+                            </div>
+                        </div>
+                        <div class="row m-t-20">
+                            <div class="col-sm-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><span>Sl.No</span></th>
+                                            <th><span>Website Url</span></th>
+                                            <th><span>Action</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="restriction_details_tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">                    
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                </div>  
+            </div>
+        </div>
+    </div> 
+    {literal}
+    <script>
+        
+        $(function() {
+            showSeason({/literal}{$movie_id}{literal},'{/literal}{$title}{literal}','{/literal}{$permalink}{literal}');
+            $('.success-msg').css({"display": "none"});
+            $('.failure-msg').css({"display": "none"});
+            $('.validation-error-msg').css({"display": "none"});
+        });
+        function showEmbedLink(movie_id,title) {
+            $('.validation-error-msg').css({"display": "none"});
+            $('#txt_restricted_domain').val("");
+            $('#hid_movie_id').val(movie_id);
+            loadEmbedRestrictionDetails();
+            $('#embedbox').modal('show');
+        }
+        
+        function CopytoClipeboard(id) {
+            let embedVal = $('#iframeEmbed').val();
+            $(".copyToClipboard").attr("data-clipboard-text",embedVal);
+            new ClipboardJS('.btn', {
+                container: document.getElementById('embedbox')
+            });
+            $('#embed').css('display', 'block');
+            $('#embed').animate({
+                opacity: 0,
+                top: '-=75',
+            }, {
+                easing: 'swing',
+                duration: 500,
+                complete: function () {
+                    $('#embed').css({'display': 'none', 'opacity': 1, top: '+=75'});
+                }
+            });
+        }
+        function validate_restricted_domain(){
+            let restrictedDomainVal = $('#txt_restricted_domain').val();
+            if(CheckIsValidDomain(restrictedDomainVal)){
+                console.log(restrictedDomainVal,'restrictedDomainVal');
+                let xhr= $.ajax({
+                    method: "POST",
+                    url: HTTP_ROOT + "/rest/saveUserEmbedRestrictionDetails?authToken=" + STORE_AUTH_TOKEN,
+                    dataType: "json",
+                    data: {'end_user_id': {/literal}{Yii::app()->user->id}{literal},'movie_id':$('#content_id').val(),'restricted_domain':$('#txt_restricted_domain').val(),'stream_id':$('#hid_movie_id').val()}
+                }).done(function(res) {
+                    if(res.status == 200){
+                        $('.validation-error-msg').css({"display": "none"});
+                        $('#txt_restricted_domain').val("");
+                        showSuccessMsg(res.msg);
+                        loadEmbedRestrictionDetails();
+                    }else{
+                        $('.validation-error-msg').css({"display": "none"});
+                        $('#txt_restricted_domain').val("");
+                        showFailureMsg(res.msg);
+                    }
+                });
+            }else{
+                //$('#txt_restricted_domain').val("");
+                $('.validation-error-msg').css({"display": "block"});
+            }
+            
+        }
+        function CheckIsValidDomain(domain) { 
+            var re = new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/); 
+            return domain.match(re);
+        } 
+        function showSuccessMsg(message){
+            $('#msg_success').html("");
+            $('#msg_success').html(message);
+            $('.success-msg').css({"display": "block"});
+            setTimeout(function(){ 
+                       $('.success-msg').css({"display": "none"});
+            }, 2000);
+        }
+        function showFailureMsg(message){
+            $('#msg_failure').html("");
+            $('#msg_failure').html(message);
+            $('.success-msg').css({"display": "none"});
+            $('.failure-msg').css({"display": "block"});
+            setTimeout(function(){ 
+                   $('.failure-msg').css({"display": "none"});
+            }, 2000);
+        }
+        
+        function generateEmbedLink(movieId,contentId){
+            let xhr= $.ajax({
+                method: "POST",
+                url: HTTP_ROOT + "/rest/generateEndUserEmbedLink?authToken=" + STORE_AUTH_TOKEN,
+                dataType: "json",
+                data: {'stream_id': movieId,'content_id': contentId,'end_user_id': {/literal}{Yii::app()->user->id}{literal}}
+            }).done(function(res) {
+                if(res.status == 200){
+                    loadEmbedText(res.data);
+                }
+            });
+        }
+        
+        function loadEmbedRestrictionDetails(){
+            $('#restriction_details_tbody').html("");
+            let stream_id = $('#hid_movie_id').val();
+            let contentId = $('#content_id').val();
+            let xhr= $.ajax({
+                method: "POST",
+                url: HTTP_ROOT + "/rest/getUserEmbedRestrictionDetails?authToken=" + STORE_AUTH_TOKEN,
+                dataType: "json",
+                data: {'end_user_id': {/literal}{Yii::app()->user->id}{literal},'movie_id':contentId,'stream_id':stream_id}
+            }).done(function(response) {
+               //console.log(response,'embed details response');
+                   if(response.data.embed_data.length > 0){
+                       loadEmbedText(response.data.embed_data[0].embed_url);
+                   }else{
+                       generateEmbedLink(movieId,contentId);
+                   }
+                   let row = "";
+                   let index = 0;
+                   if(response.data.embed_restriction_data.length > 0){
+                       for(let i=0;i<response.data.embed_restriction_data.length;i++){
+                        index++;
+                        row += '<tr>'+
+                          '<td>'+index+'</td>'+
+                          '<td>'+response.data.embed_restriction_data[i].website_url+'</td>'+
+                          '<td> <a href="javascript:void(0);" onclick="deleteEmbedRestrictionDetails('+response.data.embed_restriction_data[i].id+');" > <i class="fa fa-trash"></i>&nbsp; Remove</a> </td>'+
+                          '</tr>';  
+                    }
+                   }else{
+                       row += '<tr><td colspam=3>No records found</td></tr>';
+                   }
+                
+                $('#restriction_details_tbody').append(row);
+            });
+        }
+        
+        function loadEmbedText(embedUrl){
+            let height = 315;
+            let embedTag = '<iframe width = "100%" height = "'+height+'" style="background-color:#000" id = "myIframe" src = "'+embedUrl+'" frameborder = "0" allowfullscreen allow="encrypted-media"> </iframe>';
+            embedTag += '<script>';
+            embedTag += "var viewPortTag=document.createElement('meta');viewPortTag.name='viewport';viewPortTag.content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;';window.parent.document.getElementsByTagName('head')[0].appendChild(viewPortTag);";
+            embedTag += '/<script>'; 
+            $('#iframeEmbed').val(embedTag);
+        }
+        function deleteEmbedRestrictionDetails(record_id){
+            let xhr= $.ajax({
+                method: "POST",
+                url: HTTP_ROOT + "/rest/deleteEmbedRestrictionDetails?authToken=" + STORE_AUTH_TOKEN,
+                dataType: "json",
+                data: {'end_user_id': {/literal}{Yii::app()->user->id}{literal},'id':record_id}
+            }).done(function(res) {
+                if(res.status == 200){
+                    showSuccessMsg(res.msg);
+                       loadEmbedRestrictionDetails();
+                   }else{
+                       showFailureMsg(res.msg);
+                   }
+            });
+            
+        }
+        
+        function showSeason(movie_id,title,permalink){
+                $('#headertitel').html(title);
+                $('#permalink').val(permalink);
+                $('#content_id').val(movie_id);
+                var url = HTTP_ROOT + "/rest/fetchSeasons?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}"+"&movie_id="+movie_id;
+                $.post(url, function (res) {
+                    var htmlval="";
+                    htmlval +='<select id="season" name="season" onchange="showeposide(this.value)" class="form-control form-control-border">';
+                    for(var j = 0; j < res.seasons.length; j++){
+                         htmlval +='<option value="'+res.seasons[j].series_number+'">Season '+res.seasons[j].series_number+'</option>';               
+                    } 
+                    htmlval +='</select>';
+                    $('#seasons').html(htmlval);
+                    showeposide(res.seasons[0].series_number)
+                });
+            }
+        
+        function showeposide(series){
+            var permalink= $('#permalink').val();
+            var url = HTTP_ROOT + "/rest/episodeDetails?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}"+"&lang_code=en&only_purchased=1&permalink="+permalink+"&user_embed_check=1";
+            $.post(url, function (data) {   
+                var limit = 100;
+                var findEpisodesURL = HTTP_ROOT + "/content/FetchLibraryepisodes";
+                xhr=$.ajax({
+                    method: "POST",
+                    url: findEpisodesURL,
+                    dataType: "json",
+                    data: {'movie_id': $('#content_id').val(), 'series': series, 'limit': limit,'userid':$('#userid').val(), 'viewlist': data.episode}
+                }).done(function(res) {
+                       $("#episodes").html(res.msg);
+                });
+            });
+        }
+    </script>
+    {/literal}
+    

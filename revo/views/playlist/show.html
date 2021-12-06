@@ -1,0 +1,150 @@
+<!-- ER 24063 [Abhinandan] Start -->
+{$playlist_autoplay}
+<!-- ER 24063 [Abhinandan] End -->
+{$kvs = $kvs|json_decode}
+{$content = $playlist_data|json_decode}
+{$total_playlist = $count_list}
+{if $content->type == 2}
+   {$total_playlist = $count_video_list} 
+{/if}    
+<input type="hidden" value="{$content->id}" id="p_id">
+<input type="hidden" value="{$total_playlist}"  id="total">
+
+{$pageUrl = Yii::app()->request->url}
+{$user_id=Yii::app()->user->id}
+<input class="playlist_user_id" value="{$user_id}" type="hidden">    
+<div class="content _no-gap-top">
+    <div class="item-detail-title">
+        <div class="container">
+            <h2 class="_item-detail">{$content->title|utf8_decode}</h2>
+        </div>
+    </div>        
+    <div class="spacer _50"></div>
+    <div class="container">
+        <div class="row product-meta-data">
+            <div class="col-md-3">    
+                <img src="{$playlist_poster}" alt="{$content->title|html_entity_decode}" title="{$content->title|html_entity_decode}" class="img-responsive item-thumb" />
+            </div>
+            <div class="col-md-9 product-meta-data">
+                <div class="item-detail-info">
+                    <h3>
+                        <div class="pull-right">
+                            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$pageUrl}" data-title="{$this->Language['share_in_facebook']}" class="social-share-popup"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp;
+                            <a target="_blank" href="https://twitter.com/intent/tweet?text={$pageUrl}" data-title="{$this->Language['share_in_twitter']}" class="social-share-popup"><i class="fa fa-twitter"></i></a>&nbsp;&nbsp;
+                        </div> 
+                        {$content->playlist_name|html_entity_decode}
+                    </h3>
+                </div>
+                <div class="item-detail-info">
+                    {if $this->add_to_favourite}
+                    <button onclick="addFav(this)"  name="addfav" data-fav_status="{$user_status['fav_status']}" data-login_status="{$user_status['login_status']}" data-content_id="{$content->id}" data-content_type="4" class="btn btn-primary favAdd" >
+                        {if $user_status['fav_status'] ==0}
+                        <i class="fa fa-heart"></i>
+                        <span id="favtext">
+                            {$this->Language['added_to_fav']}
+                        </span>
+                        {else} 
+                        <i class="fa fa-heart-o"></i>
+                        <span id="favtext">
+                            {$this->Language['add_to_fav']}
+                        </span> 
+                        {/if}
+                    </button>
+                    {/if}
+                </div>
+                <div class="item-detail-info">
+                    {if $total_playlist > 0 && $content->type == 1}
+                    <!--ER-58986 || Author: Chandan-->
+                    <a 
+                        class="playPlaylist btn btn-primary" 
+                        data-playlist_id="{$content->id}"
+                        data-playlist_name="{$content->playlist_name}" 
+                        data-user_id="{$user_id}"   
+                        data-free_login_required="{$free_login_required}"
+                        data-index="0"
+                        >
+                        {$this->Language['play_all']} 
+                    </a>
+                    <!--ER-58986 end-->
+                    {/if}
+                    {if $total_playlist > 0 && $content->type == 2}
+                        {foreach from=$kvs key=i item=data}
+                        {if $i == 0}
+                        <!-- ER-58986 || Author: Chandan || Desc : Added the condition to check use is logged in or not. -->
+                        {if $free_login_required == 1}
+                            <a href="javascript:void(0);" class="btn btn-primary c-btn-square c-font-uppercase" data-toggle="modal" data-target="#loginModal" data-user-id="{$user_id}"
+                             data-movie_id="{$data->movie_uniq_id}" data-free_login_required="{$free_login_required}" data-movie_stream_uniq_id="{$data->movie_stream_uniq_id}" data-content-permalink="{$data->c_permalink}" data-stream_id="{$data->movie_stream_uniq_id}" data-ctype="{$data->content_types_id}" data-index="0" data-playlist_id="{$content->id}" data-playlist_permalink="{$content->playlist_permalink}" onclick="playlistContentVideoPlay(this);">
+                            {$this->Language['play_all']}
+                            </a>&nbsp;&nbsp;
+                        {/if}
+                             {if $free_login_required == 0}
+                            <a href="javascript:void(0);" class="btn btn-primary c-btn-square c-font-uppercase"  data-user-id="{$user_id}"
+                            data-movie_id="{$data->movie_uniq_id}" data-free_login_required="{$free_login_required}" data-movie_stream_uniq_id="{$data->movie_stream_uniq_id}" data-content-permalink="{$data->c_permalink}" data-stream_id="{$data->movie_stream_uniq_id}" data-ctype="{$data->content_types_id}" data-index="0" data-playlist_id="{$content->id}" data-playlist_permalink="{$content->playlist_permalink}" onclick="playlistContentVideoPlay(this);">
+                            {$this->Language['play_all']}
+                            </a>&nbsp;&nbsp;
+                            {/if}
+                            <!-- ER-58986 end -->
+                        {/if}
+                        {/foreach}
+                    {/if}
+                </div>
+            </div>
+            <!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+            {if $total_playlist > 0 && $content->type == 1}
+            <div class="tracklist-episode-wrap col-md-12">
+                <h2>{$this->Language['tracklist']}</h2>
+                <input type="hidden" name="playlist_id" id="playlist_id" value="{$content->id}" />
+                <input type="hidden" id ="playlist_name" value="{$content->playlist_name}">
+                <div id="playlist" class="tracklist-episode tracklist record-tracklist"></div>
+                <div class="loader loader_episode" style="display: none;"></div>
+            </div>
+            {/if}
+            {if $total_playlist > 0 && $content->type == 2}
+            <div class="spacer _30"></div>
+            <div class="col-sm-12">
+                <h2>{$this->Language['videoplaylist']}</h2>
+                <input type="hidden" name="playlist_id" id="playlist_id" value="{$content->id}" />
+                <input type="hidden" id ="playlist_name" value="{$content->playlist_name}">
+                <div id="playlist" class="tracklist-episode tracklist record-tracklist"></div>
+                <div class="loader loader_episode" style="display: none;"></div>
+            </div>
+            {/if}
+            <!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+</div>
+    </div>
+</div>
+  
+<script type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
+<link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js"></script>
+<script type="text/javascript">
+	var trailerUrl = '{$content->trailer_url}';
+	var trailerIsConverted = '{$content->trailer_is_converted}';
+	var v_logo = '{$v_logo}';
+	var is_mobile = 0;
+	var multipleVideoResolution = {$multipleVideo|json_encode};
+	var defaultResolution = '{$defaultResolution}';
+	var createSignedUrl = "{$this->siteurl}/user/getNewSignedUrlForTrailer";
+	var added_fav = "{$this->Language['added_to_fav']}";
+	var add_fav = "{$this->Language['add_to_fav']}";
+	$(document).ready(function () {
+		$('.videocontent').hide();
+	});
+</script>
+{literal}
+<style type="text/css">
+    .RDVideoHelper{display: none;}
+    .videocontent{display: block;}
+    video::-webkit-media-controls {display:none !important;}
+    .playbtn{background:none !important;}
+</style>  
+<script type="text/javascript">
+$(document).ready(function () {
+    var user_id = $('.playlist_user_id').val();
+    var total = $('#total').val();
+    if (total > 0) {allPlaylistData();}
+});
+</script>
+{/literal}
+
+

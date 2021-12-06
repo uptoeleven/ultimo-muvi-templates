@@ -1,0 +1,60 @@
+<!-- BEGIN: PAGE CONTAINER -->
+{$content = $item|json_decode}
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['blog']}</h2>
+           <!-- breadcrumb start 51609 & 56305 -->
+           <nav class="nav navs">
+            <label for="drop" class="toggle">{$this->Language['filter']} <i class="fa fa-caret-down"></i></label>
+            <input type="checkbox" id="drop" />
+                <ul class="menu">
+                    <li><a href="{$this->base_url}/blog">{$this->Language['category_all']}</a></li>
+                       {foreach from=$category_subcategory_list item=cat}
+                        <li><a href="{$this->base_url}/blog/category/{$cat['category_permalink']}">{$cat['category_name']} {if $cat['sub_category']}  <i class="fa fa-caret-down">{/if}</i></a>
+                                {if $cat['sub_category']}
+                                    <ul>
+                                        {foreach from=$cat['sub_category'] item=subcat}
+                                                <li><a href="{$this->base_url}/blog/category/{$subcat['sub_category_permalink']}">{$subcat['sub_category_name']}</a></li>
+                                        {/foreach}        
+                                    </ul> 
+                                {/if}
+        
+                            </li>
+                        {/foreach}
+                </ul>
+            </nav>
+        
+        <!-- breadcrumb end -->
+        <div class="">
+            {foreach from=$data|json_decode item=content}
+            <div class="blog-item clearfix">
+                <h3>{$content->post_title|utf8_decode} {if $content->read_time} |<span class="read_time">  {$content->read_time}  {$this->Language['min_read']}  </span>{/if}</h3>
+                <h4>
+                    {$this->Language['by']} <b>{$content->author}</b>, {$this->Language['published_on']} <b>{$content->date}</b>
+                </h4>
+                <p>
+                   {$content->thumb}
+                   {$content->short_desc|utf8_decode}&nbsp;<a href="{$content->permalink}">{$this->Language['view_more']}</a>
+                </p>
+               
+            </div>
+            {/foreach}
+            <div class="text-center blogs">
+
+                {if $noblogs!='blog'}
+                    <img src="{Yii::app()->getBaseUrl(true)}/images/BLOGS.png" alt="{$this->Language['no_blog_found']}" title="{$this->Language['no_blog_found']}" class="img-fluid text-center">
+                    <p>{$this->Language['no_blog_found']}</p>  
+                {/if}
+               
+            </div>
+
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

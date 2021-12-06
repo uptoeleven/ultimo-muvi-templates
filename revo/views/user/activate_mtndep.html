@@ -1,0 +1,94 @@
+<div class="content">
+    <div class="container">
+        <!--45922 starts-->
+        {if $all_plans != 1}
+        <h2 class="txt-camel">{$this->Language['activate']}</h2>
+        {/if}
+        <!--45922 ends-->
+        <form id="membership_form" name="membership_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+            <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+            <!--43819 starts-->
+            {if $select_plan == 1}
+            <input type="hidden" name="data[select_plan]" value="1" />
+            {/if}
+            <!--43819 ends-->
+
+            <!--45922 starts-->
+            {if $change_plan_id != ''}
+            <input type="hidden" id="change_plan_id" name="data[change_plan_id]"  value="{$change_plan_id}" />
+            {/if}
+            <!--45922 ends-->
+
+            <div id="loading" class="loader"></div>
+            <div id="errors" class="error center"></div>         
+            
+            {include file='../layouts/listplans.html'}  
+
+            <!--45922 starts-->
+            {assign var="user_id" value=Yii::app()->user->id}
+            {if $all_plans == 1}
+            {if $user_id == ''}
+            <button id="btn_continue" class="btn btn-primary pull-right" onclick="$('#loginModal').modal('show')">{$this->Language["continue"]}</button>
+            {/if}
+            <div id="change_plan_payment_div" style="display: {($default_plan_id == $change_plan_id || $user_id == '')? 'none' : 'block'};">
+            {/if}
+            <!--45922 ends-->
+
+            <!--26361 starts here-->
+             {if $isVoucherExists}
+             {include file='../layouts/payment_section.html'} 
+             {/if}
+            <!--26361 ends here--> 
+            {if $gateways[0]->short_code == "ippayment" || $gateways[0]->short_code == "cybersource"}
+            {$activate_btn_form}
+            {else}
+            {if $is_hosted neq 1}
+            <div>
+                {$payment_form}
+            </div>
+            {/if}
+             <!--26361 starts here-->
+              {if $isVoucherExists}
+              {include file='../layouts/voucher_subscription.html'}
+               {/if}
+             <!--26361 ends here--> 
+            {$activate_btn_form}
+            {/if}
+            <!--45922 starts-->
+            {if $all_plans == 1 && $user_id == ''}
+            </div>
+            {/if}
+            <!--45922 ends-->
+            <span class="error" id="plan_error"></span>     
+        </form> 
+    </div>
+</div>
+<div id="successPopup" class="modal fade" style="width: 660px;margin:auto;margin-top: 10px;">
+    <div class="modal-dialog" style="width: 660px;margin:auto;margin-top: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['account_activate_after_card_submit']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+               <!-- <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var action = 'activate';
+    var btn = 'Activate';
+</script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js?v=1"></script>
+
+
+

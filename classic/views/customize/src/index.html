@@ -1,0 +1,221 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 top10">
+            <!-- Load the Angular Material stylesheet -->
+            <link href="https://unpkg.com/@angular/material/prebuilt-themes/deeppurple-amber.css" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <link href="{$this->siteurl}{$Yii->theme->baseUrl}/views/customize/src/styles.79a4c036f249ea30dd90.bundle.css" rel="stylesheet"/>
+            
+            <app-root>Loading...</app-root>
+            <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/views/customize/src/inline.22619a1a4b443a460e6a.bundle.js"></script>
+            <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/views/customize/src/polyfills.477545a8be21bde7f43e.bundle.js"></script>
+            <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/views/customize/src/vendor.5430d866aec631b590d2.bundle.js"></script>
+            <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/views/customize/src/main.b5185e710aecfd8a89ea.bundle.js"></script> 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+            <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+            <script type="text/javascript">
+                (function ($) {
+                    $.fn.rotationDegrees = function () {
+                        var matrix = this.css("-webkit-transform") ||
+                        this.css("-moz-transform")    ||
+                        this.css("-ms-transform")     ||
+                        this.css("-o-transform")      ||
+                        this.css("transform");
+                        if(typeof matrix === 'string' && matrix !== 'none') {
+                            var values = matrix.split('(')[1].split(')')[0].split(',');
+                            var a = values[0];
+                            var b = values[1];
+                            var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+                        } else { var angle = 0; }
+                        return angle;
+                    };
+                }(jQuery));
+                
+                function makeDataClone(){
+                    $("#demo-content").html("");
+                    $("#demo-content").show();
+                    $("#imageholder").clone().appendTo( "#demo-content" );
+                    var htmlData = $("#demo-content > #imageholder");
+                    $(htmlData).find('.text-fields li').each(function(){
+                        var rotVal = $(this).rotationDegrees();
+                        $(this).css('transform','rotate(0deg)');
+                        $(this).find('span').css('transform','rotate('+rotVal+'deg)');  
+                    })
+                    return htmlData;
+                }
+                
+                window.takeScreenShot = function () {
+                    var htmlData = makeDataClone();
+                    html2canvas(htmlData, {
+                      //allowTaint: true,
+                      //taintTest: false,
+                       proxy: website_url + '/protected/components/html2canvasproxy.php',
+                       "logging": true,
+                        onrendered: function (canvas) {
+                            $("#demo-content").html("");
+                            $("#demo-content").hide();
+//                            console.log(canvas);
+                            var img = new Image();
+                            img.src = canvas.toDataURL("image/jpg", 1.0);
+//                            console.log("Image Src"+img.src);
+                            document.getElementById("testingit").appendChild(img);
+                            $.ajax({
+                                url: website_url + '/rest/save?authToken=' + STORE_AUTH_TOKEN,
+                                type: 'POST',
+                                data: {
+                                    data: img.src
+                                },
+                                 success: function(response) {
+                                   if(response.msg == "Log updated"){
+                                       document.getElementById("thisone").disabled = false;
+                                   }
+                                   else{
+                                       document.getElementById("thisone").disabled = true;
+                                   }
+                                },
+                                error: function(response) {
+//                                console.log(response);
+                               },
+                            });
+                        }
+                    });
+                }
+                window.removeScreenShot = function () {
+                    //console.log("i am the remove one");
+                    document.getElementById("testingit").innerHTML = "";
+                }
+          
+                window.takeScreenShotx = function () {
+                    var htmlData = makeDataClone();
+                    
+                    html2canvas(htmlData, {
+                      //allowTaint: true,
+                      //taintTest: false,
+                       proxy: website_url +'/protected/components/html2canvasproxy.php',
+                       "logging": true,
+                        onrendered: function (canvas) {
+                            $("#demo-content").html("");
+                            $("#demo-content").hide();
+//                            console.log(canvas);
+                            var img = new Image();
+                            img.src = canvas.toDataURL("image/jpg", 1.0);
+                            document.getElementById("testingitx").appendChild(img);
+                        }
+                    });
+                }
+                window.removeScreenShotx = function () {
+                    //console.log("i am the remove one");
+                    document.getElementById("testingitx").innerHTML = "";
+                }
+            </script>        
+        </div>
+    </div>
+</div>
+<div id="demo-content" style="position:fixed; left: 0; top: 0; opacity: 0; z-index: 0; display:none;"></div>
+<div class="container">
+    <div style="height:10px"></div>
+  <!-- Trigger the modal with a button -->
+  <button type="button"  style="float: right;margin-right:11px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="takeScreenShot()" data-backdrop="static" 
+   data-keyboard="false">Add to Cart</button>
+  
+  <button type="button"  style="float: right;margin-right: 5px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalOne" onclick="takeScreenShotx()" data-backdrop="static" 
+   data-keyboard="false">Preview</button>
+  
+    <!-- Modal2 -->
+  <div class="modal fade" id="myModalOne" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" onclick="removeScreenShotx()">&times;</button>
+          <h4 class="modal-title">Preview</h4>
+        </div>
+        <div class="modal-body">
+            <div class="loader" style="min-height:200px; position:static; display:block;">
+          <div id="testingitx" style="position:relative; text-align: center;"></div></div>
+        </div>
+        <div class="modal-footer">
+<!--          <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="removeScreenShot()">Close</button>-->
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!-- Modal1 -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" onclick="removeScreenShot()">&times;</button>
+          <h4 class="modal-title">Confirm Order</h4>
+        </div>
+        <div class="modal-body">
+            <div class="loader" style="min-height:200px; position:static; display:block;">
+          <div id="testingit" style="position:relative;"></div></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="thisone" onclick="addPersonalization('{$smarty.cookies.cust_product_id}','{$smarty.cookies.cust_log_id}')" class="btn btn-info btn-lg">Add</button>
+<!--          <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="removeScreenShot()">Close</button>-->
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+{literal}
+<script type="text/javascript">
+//    sessionStorage.clear();
+ document.getElementById("thisone").disabled = true;
+    var custo_id = '{/literal}{$smarty.cookies.cust_log_id}{literal}';
+    var prodo_id = '{/literal}{$smarty.cookies.cust_product_id}{literal}';
+    sessionStorage.setItem('USER_PROD_ID',prodo_id);
+    sessionStorage.setItem('USER_LOG_ID',custo_id);
+//    sessionStorage.setItem('HTTP_ROOT', HTTP_ROOT);
+//    sessionStorage.setItem('AUTH_TOKEN',STORE_AUTH_TOKEN);
+    console.log('Hi Product,Log ID');
+    console.log(prodo_id,custo_id);
+    function showcart(id, flag){        
+        var url = '{/literal}{$this->siteurl}{literal}/shop/addtocart';
+        //var qnt = eval($('#product_qnt').val());
+        var qnt = 1;
+        if(qnt>0){
+            $('.loader_cart').show();
+            $.post(url, {'quantity':qnt, 'id':id}, function(res){
+            if (flag == 2){
+                window.location.href = '{/literal}{$this->base_url}{literal}/shop/cart';
+            } else{
+				if(res=='currencyerror'){
+					$('.loader_cart').hide();
+					$("#addtocarterror").modal("show");
+				}else{
+						$('.loader_cart').hide();
+						$('html,body').animate({scrollTop:0}, 500);
+						$('#round-cart').html(eval($('#round-cart').html()) + qnt);
+						$('#cartpopup').html(res);
+					}
+                }
+            })
+        }else{
+            alert('Enter Quantity');
+        }        
+    }
+    function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 49 || charCode > 57))
+            return false;
+        return true;
+    }
+    function addPersonalization(id,personalization_id){   
+        var url = '{/literal}{$this->siteurl}{literal}/shop/AddPersonalization';
+        var qnt = 1;
+        $('.loader_cart').show();
+        $.post(url, {'quantity':qnt, 'id':id, 'personalization_id':personalization_id}, function(res){
+           window.location.href = '{/literal}{$this->siteurl}{literal}/shop/cart';
+        })                  
+    }      
+</script>
+{/literal}

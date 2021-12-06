@@ -1,0 +1,122 @@
+<link rel="stylesheet" href="{$this->siteurl}/css/cropper.min.css" type="text/css" />
+<link rel="stylesheet" href="{$this->siteurl}/css/crop-avatar.css" type="text/css" />
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['profile_details']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container profile_details">
+    <div class="wrapper muvi_bottom-padding50">
+        <div class="row">
+            <div id="crop-avatar">
+                <div id="muvi_myflashwrapper" style="display: none"></div>
+                <div class="row-fluid">
+                    <div class="col-md-12 muvi_top50">
+                        <div class="alert-msg in  fade alert-success loader_cart" id="success_message"></div>
+                        <div class="alert-success-msg in  fade alert-success loader_cart" id="password_changes_message"></div><!--18076: Update UX for Password change in Web- For all Template-->
+                        <div class="muvi_form-signin">
+                            <form id="user-account-form" method="POST" class="position-relative">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                                <div class="muvi_title1 muvi_font-17">{$this->Language['account_info']}</div>
+                                <div id="profile-errors" class="error center"></div>
+                                <div id="profile-loading" class="loader"></div> 
+                                <div class="col-md-6 muvi_bottom20 muvi_top20">
+                                    <div class="form-group">
+                                        <div class="muvi_icon-addon muvi_addon-lg">
+                                            <input required type="text" class="form-control" value="{$user->display_name}" placeholder="{$this->Language['text_name_placeholder']}" name="name" id="name" />
+                                            <label for="exampleInputEmail2"><i class="fa fa-user"></i></label>
+                                        </div>
+                                    </div>    
+                                </div>
+                                <div class="col-md-6 muvi_bottom20 muvi_top20">
+                                    <div class="form-group">
+                                        <div class="muvi_icon-addon muvi_addon-lg">
+                                            <input readonly type="text" class="form-control" value="{$user->email}" placeholder="{$this->Language['text_email_placeholder']}" name="email" id="email" />
+                                            <label for="exampleInputEmail2"><i class="fa fa-envelope-o"></i></label>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-12 muvi_bottom20 muvi_top10">
+                                    <div class="form-group">
+                                        <div class="muvi_icon-addon muvi_addon-lg muvi_userprofile_field">
+                                            {if (count($chkAnnoucement) > 0)}
+                                            <label><input name="subscribe_newsletter"  value="1" type="checkbox" checked="checked" /> &nbsp;{$this->Language['subscribe_to_announcement']}</label>  
+                                            {else}
+                                            <label><input name="subscribe_newsletter"  value="1" type="checkbox"  /> &nbsp;{$this->Language['subscribe_to_announcement']}</label>  
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 muvi_bottom20 muvi_top10">
+                                    <div class="form-group">
+                                        <div class="controls pull-right">
+                                            <button id="update-btn" class="btn btn-primary btn-green-small" type="submit"> <i class="fa fa-pencil-square-o muvi_padding-right-10"></i>{$this->Language['btn_update_profile']}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
+                            <!--18076: Update UX for Password change in Web- For all Template-->
+                            <form id="change-password-form" method="POST" action="javascript:void(0);" class="position-relative">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> 
+                                <div class="muvi_title1 muvi_font-17 text-uppercase">{$this->Language['change_password']}</div>
+                                <div id="password-errors" class="error center"></div>
+                                <div id="reset-loading" class="loader" style="min-height: 260px;"></div> 
+                                <input type="hidden" name="email" value="{$user->email}">
+                                <div class="col-md-6 muvi_bottom20 muvi_top10">
+                                    <div class="form-group">
+                                        <div class="muvi_icon-addon muvi_addon-lg">
+                                            <input type="password" class="form-control" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['current_password']}" name="current_password" id="current_password" />
+                                            <label for="exampleInputPassword2"><i class="fa fa-lock"></i></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 muvi_bottom20 muvi_top10">
+                                    <div class="form-group">
+                                        <div class="muvi_icon-addon muvi_addon-lg">
+                                            <input type="password" class="form-control" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['new_password']}" name="new_password" id="new_password" />
+                                            <label for="exampleInputPassword2"><i class="fa fa-lock"></i></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 muvi_bottom20 muvi_top10">
+                                    <div class="form-group">
+                                        <div class="muvi_icon-addon muvi_addon-lg">
+                                            <input type="password" class="form-control" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['confirm_password']}" name="confirm_password" id="confirm_password" />
+                                            <label for="exampleInputPassword2"><i class="fa fa-lock"></i></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 muvi_bottom20 muvi_top10">
+                                    <div class="form-group">
+                                        <div class="controls pull-right">
+                                            <button id="password-btn" class="btn btn-primary btn-green-small" type="submit"> <i class="fa fa-pencil-square-o muvi_padding-right-10"></i>{$this->Language['change_password']}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--18076: Update UX for Password change in Web- For all Template-->
+                        </div>
+                    </div>               
+                </div>
+
+                <div class="clear"></div>
+                <!-- Cropping modal -->
+                <!-- /.modal -->
+            </div>            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="single-product-area login-form">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['login']}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container muvi_content-area">
+        <div class="row">
+            <div class="col-md-6 muvi_top200">
+                <h2  class="c-font-uppercase c-font-bold">{$this->Language['already_registered']}</h2>
+                {if $this->sms_otp_enabled}<p class="grey">Have an account? Enter Phone Number and password to access your account.</p>{else}
+                <p class="grey">{$this->Language['have_an_account']}</p>{/if}
+                <form name="login_form" id="login_form" method="post" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                    {if $this->studio->social_logins}
+                    {if isset($smarty.session.social) } 
+                    {assign var=socialAuth value=$smarty.session.social}
+                    {else}
+                    {assign var=socialAuth value=$this->getSocialUrls()}
+                    {/if}
+                    {/if}
+                    <!--18511:SAML 2.0 Integration in Muvi Platform -->
+                    {if ($socialAuth && $this->studio->social_logins) || $this->thirdy_party_login_with}
+                    <div class="form-group">
+                        <ul class="new_social">
+     <!--      20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start-->
+                            {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                            <li class="muvi_social_login_new"> <a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login="0" class="facebook_login _customfb _facebook"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/fb_icon.png"><span>{$this->Language['continue_with_facebook']}</span></a></li>
+                            {/if}
+                            {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                            <li class="muvi_social_login_new"><a href="{$socialAuth['gplus_url']}"  class="_customgplus _googleplus"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/google_icon.png"><span>{$this->Language['continue_with_google']}</span></a></li>
+                            {/if} 
+<!--      20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar End--> 
+                            <!--18511:SAML 2.0 Integration in Muvi Platform -->
+                            {if (count($this->thirdy_party_login_with) > 0)}
+                            <li><a href="{$this->base_url}/user/login?sso" class="_custom _comcast"><img src="{$this->thirdy_party_login_with['img']}"><span>{$this->Language['sign_in_with_sso']} {$this->thirdy_party_login_with['name']}</span></a></li>
+                            {/if}
+                            <!--End-->
+                        </ul>
+
+                    </div>
+                    {/if}
+                    <div id="login_errors" class="error center"></div>
+                    <div id="login_loading" class="loader" style="display: none;"></div>
+                    <div class="form-group">
+                        <!--//28147:-->
+                        {if $this->sms_otp_enabled} 
+                        <label class="control-label"  for="username">{$this->Language['phone_number']}</label>
+                        <div class="controls">
+                            <input type="text" name="LoginForm[mobile_number]" id="phone" placeholder="{$this->Language['phone_number']}" autocomplete="off"  class="form-control c-square c-theme" onblur="loginOtpToUser(this.value)"/>
+                            <input type="hidden" id="username" name="LoginForm[email]">
+                        </div>
+                        {else}
+                        <!--//28147:-->
+                        <label class="control-label"  for="username">{$this->Language['text_email']}</label>
+                        <div class="controls">
+                            <input type="email" required name="LoginForm[email]" id="username" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off"  class="form-control c-square c-theme" value="{$useremail}" /><!--31863-->
+                        </div>
+                        {/if}
+                    </div>
+
+                    <div class="form-group ">
+
+                        <label class="control-label" for="password">{$this->Language['text_password']}</label>
+                        <div class="controls">
+                            <input type="password" required name="LoginForm[password]" id="password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value="{$userpassword}"/><!--14116-->
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <div class="controls">
+                            <div class="c-checkbox">
+                                {if isset($userpassword) && isset($useremail) && $useremail !="" && $userpassword !=""}<!--14116-->
+                                <input name="LoginForm[rememberMe]" id="LoginForm_rememberMe" value="1" type="checkbox" checked class="c-check" value="1">
+                                {else}
+                                <input name="LoginForm[rememberMe]" id="LoginForm_rememberMe" value="1" type="checkbox" class="c-check" value="1">
+                                {/if}<!--14116-->
+<label for="LoginForm_rememberMe" class="muvi_c-font-16">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>{$this->Language['rememberme']}</label>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-group ">
+                        <div class="form-group" role="group">
+                            <button type="submit" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" name="login_submit" id="login-btn">{$this->Language['btn_login']}</button>
+							{if $this->openid_connect_enabled}<a href="javascript:void(0);" onclick="openid_connect_login(this);" data-login="0">{$this->Language['login_with_stuff']}</a>{/if}
+                            <div style="float: right; margin-top: 10px;"><a class="link txt-right" href="{$this->base_url}/user/forgot">{$this->Language['forgot_password']}</a></div>
+                        </div>
+                    </div>                    
+                </form>                 
+            </div>        
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$('#main').addClass('c-layout-page');
+</script>

@@ -1,0 +1,97 @@
+<style>
+    .tick-iconpop{
+        background:rgba(0, 0, 0, 0) url("{Yii::app()->theme->baseUrl}/images/black-green/tick-icon.png") no-repeat;
+        height: 40px;
+        left:0;
+        position: absolute;
+        top: -5%;
+        width: 40px;
+        margin-right: 18px;
+    }
+    .c-margin-b-20{
+        margin-bottom:20px;
+    }
+    .c-margin-b-10{
+        margin-bottom:10px;
+    }
+    .free_cart{
+        background: transparent none repeat scroll 0 0 !important;
+        border: 1px solid #d7d7d7;
+        width: auto;
+        border-radius: 0;
+        font-weight: bold;
+        color: #a0a59c;
+    }
+    .free_cart:hover {
+        background-color: #4da30c !important;
+        border-color: #4da30c !important;
+        color: #fff;
+    }
+    div#fomsg {
+        margin-bottom: 20px;
+    }
+    .btn-primary:focus {
+        background-color: #4da30c;
+        border-color: #4da30c;
+        color: #fff;
+    }
+</style>
+<div class="modal-body">
+    <div id="fomsg" class="alert alert-success" role="alert" style="display:none"></div>
+    <div id="msg" class="alert alert-danger alert-dismissable fade in" style="display:none; margin-bottom:20px; text-align:left;">Please select a product&nbsp;&nbsp;&nbsp;</div>
+    <div class="c-layout-sidebar-content ">            
+        <div class="row">
+            {assign var="cropDimesion" value=Yii::app()->common->getPgDimension()}
+            {assign var="producturl" value=$this->base_url}
+            {foreach from=$freeproducts key=k item=value}
+            <div class="col-md-3 col-sm-6 c-margin-b-20">
+                <div id="fo{$value['id']}" class="tick-iconpop" style="display:none;"></div>
+                <div class="c-content-product-2 c-bg-white">
+                    <div class="c-content-overlay">
+                        {assign var="img_path" value=PGProduct::getpgImage($value['id'],'thumb')}
+                        <div title="{$value['name']}" onclick="showselectmsg('{$value['name']}',this,{$value['id']});" class="c-margin-b-10">
+                            <img src="{$img_path}" alt="{$value['name']}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                   <div class="col-md-8">
+                 <div style="min-height:35px;">
+                  <a title="{$value['name']}" href="{$producturl}/{$value['permalink']}">
+                      <h3 class="itemname text-left">
+                         {if $value['name']|count_characters > 15}
+                            {$value['name']|substr:0:15}
+                            ...
+                            {else}
+                            {$value['name']}
+                            {/if}</h3>
+                  </a>
+                 </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <h3 class="itemname" style="color:#4da30c;">
+                        {$this->Language['free']} {*Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'])*}
+                    </h3>
+                </div>
+               </div>
+                    <div class="row">
+                   <div class="col-md-12 text-center">
+                       <input type="button" class="AddToCart btn free_cart btn-block" href="javascript:void(0);" onclick="showselectmsg('{$value['name']}',this,{$value['id']});" value="{$this->Language['select_free_offer']}">  
+                   </div>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+    </div>
+    <div class="modal-footer">                                  
+        <input type="hidden" name="freeoptions" id="freeoptions">
+        {$is_physical=$this->IS_PCI_COMPLIANCE[$gateway_code]}
+        {if $is_physical == 1}
+            <button type="button" id="continue" onclick="saveFreeOffer(1)" class="btn btn-primary">{$this->Language['continue']}</button>
+            <button type="button" class="btn c-btn btn-lg c-btn-square c-font-grey-3 c-font-white c-font-bold c-font-uppercase btn-default" data-dismiss="modal" onclick="saveorder(1)">{$this->Language['skip_payment_btn']}</button>
+        {else}
+            <button type="button" id="continue" onclick="saveFreeOffer(0)" class="btn btn-primary">{$this->Language['continue']}</button>
+            <button type="button" class="btn c-btn btn-lg c-btn-square c-font-grey-3 c-font-white c-font-bold c-font-uppercase btn-default" data-dismiss="modal" onclick="saveorder()">{$this->Language['skip_payment_btn']}</button>
+        {/if}        
+    </div>
+</div>

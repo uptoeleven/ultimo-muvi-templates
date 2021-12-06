@@ -1,0 +1,43 @@
+<style>
+    section.cus_radio {
+        /*text-align: center;*/
+        margin: 10px;
+    }
+
+    section.cus_radio label {
+        display: inline-grid;
+        text-align: center;
+        padding: 15px;
+        width: 160px;
+        background: #F3F4F7;
+        margin-right: 20px;
+        border-radius: 4px;
+        border: 2px solid transparent;
+        cursor: pointer;
+    }
+    .input-hidden {
+        position: absolute;
+        left: -9999px;
+    }
+
+    input[type=radio]:checked + label {
+        border: 2px solid #0799C9;
+        background: transparent;
+    }
+
+    input[type=radio] + label>img {
+        width: 60px;
+        height: 60px;
+        transition: 500ms all;
+        margin: 0 auto;
+    }
+
+</style>
+
+<div class="clearfix"></div>  
+<section class="cus_radio">
+    <input type="radio" name="payment_type" id="credit" class="input-hidden" value="2" onclick="showPaymentDiv('other_payment_options');" checked="checked"/>
+    <label for="credit"><img src="{$this->siteurl}/img/credit-card.png" alt="Payment Options" />Payment Options</label>
+    <input type="radio" name="payment_type" id="gift" class="input-hidden" value="1" onclick="showPaymentDiv('voucher');"/>
+    <label for="gift"><img src="{$this->siteurl}/img/gift-card.png" alt="Voucher"/>Voucher</label>
+</section>

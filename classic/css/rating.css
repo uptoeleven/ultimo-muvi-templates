@@ -1,0 +1,163 @@
+/* 
+    Created on : Jul 25, 2018, 12:09:46 PM
+    Author     : Pritam
+    Purpose    : Rating-Reviews-Likes
+*/
+
+.like {
+    color: #5e9cd1;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 15px;
+    font-weight: 300;   
+    padding-right: 5px;
+    position: relative;
+    top: -4px;
+}
+#likes_chk {
+    color: white;   
+}
+
+/*#listingicons li {
+    list-style-type: none;
+    position: relative;
+    right: 33px;
+    float: left;
+}*/
+#listingicons{
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+}
+#listingicons li {
+    list-style-type: none;
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    vertical-align: top;
+}
+#listingicons li a{
+    font-size: 11px;
+    line-height: 1.2;
+}
+.rating-hover:hover > div.dropdown-menu {
+     display: block;   
+     /*margin-left: 80px;*/ 
+     margin-bottom: 150px;
+
+}
+.rating-hover .dropdown-menu {
+     top: 99%;   
+     left: auto; 
+     /*right: 0px;*/
+}    
+.dropdown-menu::before, .dropdown-menu-visible-xs::before{
+    left: 42%;
+}
+.rating-stars{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+.rating-stars, .rating-stars li{
+    list-style-type: none;
+}
+.glystar,.ratingfont, .showreviewfont {
+    font-size: 10px;
+}
+.dropdown-width {
+    width:200px;
+}
+.hover-icon {
+    width:35px; 
+    line-height:1;
+}
+.hover-rating {
+    height:9px; 
+    margin:5px 0; 
+    font-size:11px;
+}
+.hover-progress {
+    height:9px; 
+    margin:8px 0;
+}
+.listicons{
+    font-size: 12px;
+}  
+.ratingcolorred {
+    color: #DC143C;
+}
+.rating-drop-down{
+    color: black;
+}
+.rating-progress-bar{
+    width: 85px;
+}
+.percentage {
+    margin-left:10px;
+    font-size: 12px;
+    margin-top: 4px;
+    color: grey;
+}
+.showreviewcaret {
+    font-size: 11px;
+    position: absolute;
+    margin-top: 7px;
+}
+.allicons {
+    color: #f2f2f2;   
+}
+.avg-rating {
+    margin-top: -10px;
+    font-size: 12px;
+}
+.featureicons {
+    font-size: 12px;
+}
+.featurecounts {
+    font-size: 11px;
+    color: #f2f2f2;
+}
+/*#featureblock li {
+    list-style-type: none;
+    float: left;
+    position: relative;
+    right: 33px;    
+}*/
+#featureblock{
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+}
+#featureblock li {
+    list-style-type: none;
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    vertical-align: top;
+}
+#featureblock li a{
+    font-size: 11px;
+    line-height: 1.2;
+}
+.featurereviewcaret {
+    font-size: 11px;
+    position: absolute;
+    margin-top: 5px;
+}
+.dropup {
+    position: relative;
+    display: inline-block;
+}
+
+.dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #FBFBFB;
+    min-width: 160px;
+    bottom: 20px;
+    z-index: 1;
+}
+
+.dropup:hover .dropup-content {
+    display: block;
+}

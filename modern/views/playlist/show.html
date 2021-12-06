@@ -1,0 +1,171 @@
+<!-- ER 24063 [Abhinandan] Start -->
+{$playlist_autoplay}
+<!-- ER 24063 [Abhinandan] End -->
+{$kvs = $kvs|json_decode}
+{$content = $playlist_data|json_decode}
+{$total_playlist = $count_list}
+{if $content->type == 2}
+   {$total_playlist = $count_video_list} 
+{/if}    
+<input type="hidden" value="{$content->id}" id="p_id">
+<input type="hidden" value="{$total_playlist}"  id="total">
+
+{$pageUrl = Yii::app()->request->url}
+{$user_id=Yii::app()->user->id}
+<input class="muvi_playlist_user_id" value="{$user_id}" type="hidden">    
+<div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+    <div class="container">
+        <div class="muvi_c-page-title muvi_c-pull-left">
+            <h3 class="muvi_c-font-sbold c-font-uppercase">{$content->playlist_name|html_entity_decode}</h3>
+        </div>
+    </div>
+</div>
+<div class=" muvi_c-size-sm muvi_c-overflow-hide"> 
+    <div class="container">
+        <div class="muvi_c-shop-product-details-2 muvi_content-area">
+            <div class="row muvi_bottom25">
+                <div class="col-md-6">
+                    <div class="muvi_c-product-gallery">
+                        <div class="c-zoom1">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-8 ">
+                                    <div class="muvi_artwork-wrapper ">
+                                        <img src="{$playlist_poster}" alt="{$content->title|utf8_decode}" title="{$content->title|html_entity_decode}" class="img-responsive" />
+
+                                        {if $this->add_to_favourite}
+                                        <a href="javascript:void(0);" onclick="addFav(this)"  name="addfav" class="favAdd" data-fav_status="{$user_status['fav_status']}" data-login_status="{$user_status['login_status']}" data-content_id="{$content->id}" data-content_type="4"> 
+                                            <div class="muvi_ellipse__shape muvi_favourite "> 
+                                                {if $user_status['fav_status'] ==0}<i class="fa fa-heart"></i>{else}<i class="fa fa-heart-o"></i>{/if}
+                                                <div class="muvi_favourite_text">
+                                                    <span class="muvi_favorate__this {if $user_status['fav_status'] ==0} hidden {/if}">{$this->Language['add_to_fav']}</span>
+                                                    <span class="favorited__already {if $user_status['fav_status'] !=0} hidden {/if}">{$this->Language['added_to_fav']}</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {/if}
+                                        <div class="muvi_ellipse__shape share">
+                                            <i class="fa fa-share"></i>
+
+                                            <div class="muvi_share_text">
+                                                <span class="muvi_share__this">
+                                                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$this->base_url}{$pageUrl}" data-title="Facebook Share"><i class="fa fa-facebook-square" aria-hidden="true" title="{$this->Language['share_in_facebook']}"></i></a>
+                                                    <a target="_blank" href="https://twitter.com/intent/tweet?text={$this->base_url}{$pageUrl}" data-title="Share on Twitter">  <i class="fa fa-twitter-square" aria-hidden="true" title="{$this->Language['share_in_twitter']}"></i></a>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>	 
+                <div class="loader" id="muvi_loader_fav"></div>
+                <div class="col-md-6">
+                    <div class="muvi_c-product-meta">
+                        <div class="muvi_c-content-title-1" style="float:none;">
+                            <h3 class="c-font-uppercase c-font-bold" style="word-wrap: break-word;"> {$content->playlist_name|html_entity_decode} </h3>
+                            <div class="muvi_c-line-left"></div>
+                        </div>
+                        <div class="muvi_action__sec">
+                            {if $total_playlist > 0 && $content->type == 1}
+                            <!--ER-58986 || Author: Chandan-->
+                            <div class="playPlaylist btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase" data-playlist_id="{$content->id}" data-playlist_name="{$content->playlist_name}" data-free_login_required="{$free_login_required}" data-user_id="{$user_id}" data-index="0">{$this->Language['play_all']} </div>
+                                <!--ER-58986 end-->
+                            {/if}
+                            {if $total_playlist > 0 && $content->type == 2}
+                                {foreach from=$kvs key=i item=data}
+                                {if $i == 0}
+                                <!-- ER-58986 || Author: Chandan || Desc : Added the condition to check use is logged in or not. -->
+                        {if $free_login_required == 1}
+                                        <a href="javascript:void(0);" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase" data-toggle="modal" data-target="#loginModal" data-user-id="{$user_id}"
+                                    data-movie_id="{$data->movie_uniq_id}" data-movie_stream_uniq_id="{$data->movie_stream_uniq_id}" data-free_login_required="{$free_login_required}" data-content-permalink="{$data->c_permalink}" data-stream_id="{$data->movie_stream_uniq_id}" data-ctype="{$data->content_types_id}" data-playlist_id="{$content->id}" data-playlist_permalink="{$content->playlist_permalink}" onclick="playlistContentVideoPlay(this);">
+                                    {$this->Language['play_all']}
+                                    </a>&nbsp;&nbsp;
+                                {/if}
+                                    {if $free_login_required == 0}
+                                    <a href="javascript:void(0);" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase"  data-user-id="{$user_id}"
+                                    data-movie_id="{$data->movie_uniq_id}" data-movie_stream_uniq_id="{$data->movie_stream_uniq_id}" data-free_login_required="{$free_login_required}" data-content-permalink="{$data->c_permalink}" data-stream_id="{$data->movie_stream_uniq_id}" data-ctype="{$data->content_types_id}" data-playlist_id="{$content->id}" data-playlist_permalink="{$content->playlist_permalink}" onclick="playlistContentVideoPlay(this);">
+                                    {$this->Language['play_all']}
+                                    </a>&nbsp;&nbsp;
+                                    {/if}
+                            <!-- ER-58986 end -->
+                                {/if}
+                                {/foreach}
+                            {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+        <div class="row muvi_bottom25">
+            <div class="col-md-12">
+                {if $total_playlist > 0 && $content->type == 1}
+                <div class="track__header">
+                    <div id="muvi_player-blur"><img src="{$content->poster}"></div>
+                    <span class="c-font-white">{$this->Language['tracklist']}</span> </div>
+                <div class="muvi_bottom30 hidden-xs"></div>
+                <div class="muvi_bottom30 hidden-xs hidden-sm"></div>
+                <input type="hidden" name="playlist_id" id="playlist_id" value="{$content->id}" />
+                <input type="hidden" id ="playlist_name" value="{$content->playlist_name}">
+                <div class="track-content">
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <ol class="tracklist muvi_record-tracklist" id="playlist"></ol>
+                        </div>
+                        <div class="loader loader_episode" style="display: none;"></div>
+                    </div>
+                </div>
+                {/if}
+                {if $total_playlist > 0 && $content->type == 2}
+                <div class="track__header">
+                    <div id="muvi_player-blur"><img src="{$content->poster}"></div>
+                    <span class="c-font-white">{$this->Language['videoplaylist']}</span> </div>
+                <div class="muvi_bottom30 hidden-xs"></div>
+                <div class="muvi_bottom30 hidden-xs hidden-sm"></div>
+                <input type="hidden" name="playlist_id" id="playlist_id" value="{$content->id}" />
+                <input type="hidden" id ="playlist_name" value="{$content->playlist_name}">
+                <div class="track-content">
+                    <div class="row">
+                        <div class="col-md-12" id="episodes"> <!--#ER 58924-->
+                            <ol class="tracklist" id="playlist"></ol>
+    </div>
+                        <div class="loader loader_episode" style="display: none;"></div>
+</div>
+                </div>
+                {/if}
+            </div>
+        </div>
+        <!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+    </div>
+</div>
+
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
+
+<script type="text/javascript">
+	var trailerUrl = '{$content->trailer_url}';
+	var trailerIsConverted = '{$content->trailer_is_converted}';
+	var v_logo = '{$v_logo}';
+	var is_mobile = 0;
+	var multipleVideoResolution = {$multipleVideo|json_encode};
+	var defaultResolution = '{$defaultResolution}';
+</script>
+{literal}
+<style type="text/css">
+    .RDVideoHelper{display: none;}
+    .videocontent{display: block;}
+    video::-webkit-media-controls {display:none !important;}
+    // remove css <!--#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)-->
+</style>  
+<script type="text/javascript">
+$(document).ready(function () {
+    playlistShow();
+});
+</script>
+{/literal}
+
+

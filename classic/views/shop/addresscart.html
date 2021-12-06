@@ -1,0 +1,93 @@
+  {literal}
+        <script>
+            $(document).ready(function () {
+                $('.plan-box').each(function(i) {
+                        $(this).find(".tick-icon").css("display","none");
+               });
+            });
+	</script>
+         {/literal}
+{if !empty($saveaddress)}
+<div class="col-md-6 top10" id="savedaddress">
+    <div class="row-fluid row">
+        
+            {foreach from=$saveaddress key=k item=value}
+            {assign var="vid" value=$value['id']}
+            <div class="col-md-12">
+                    <div class="cart_border">
+                        <a href="javascript:void(0);" onclick="deliveraddress('{$vid}',this)" title="{$this->Language['deliver_here']}" class="plan-box">
+                            <div class="cart_addr_text">
+                                <div class="tick-icon" style="display:none;"></div>
+                                <h2>{$value['address_name']}</h2>
+                                <p>{$value['address']}, {$value['city']}, {$value['country']}, {$value['zip']}</p>
+                                <p>{$this->Language['phone']} : {$value['phone_number']}</p> 
+                            </div>
+                        </a>
+                        <div>
+                            <input type="button" value="{$this->Language['edit_btn']}" onclick="editaddress('{$vid}')" class="btn btn-primary cart_edit_btn" />
+                            <input type="button" value="{$this->Language['delete_btn']}" onclick="deleteaddress('{$vid}')" class="btn btn-danger cart_del_btn" />
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
+              
+    </div>    
+</div>
+ {/if} 
+<div id="address_div" class="col-md-6 top10">
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="control-label">{$this->Language['address_name']}</label>
+            <input type="text" placeholder="" title="{$this->Language['fill_out_this_field']}" name="ship[address_name]" class="form-control c-square c-theme" value="{$req['address_name']}" required>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="control-label">{$this->Language['address']}</label>
+            <textarea name="ship[address]" class="form-control c-square c-theme" required maxlength="255" placeholder="" title="{$this->Language['fill_out_this_field']}">{$req['address']}</textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="control-label">{$this->Language['city']}</label>
+            <input type="text" placeholder="" title="{$this->Language['fill_out_this_field']}" name="ship[city]" class="form-control c-square c-theme" value="{$req['city']}" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label">{$this->Language['country']}</label>
+            <select title="{$this->Language['select_an_item']}" name="ship[country]" class="form-control c-square c-theme" required>
+                <option value="">-{$this->Language['select']}-</option>
+                {foreach from=$countries key=k item=coun}
+                    <option value="{$coun['code']}" {if ($req['country']==$coun['country'])} selected="selected" {/if} >{$coun['country']}</option>
+                {/foreach}
+            </select>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="control-label">{$this->Language['postcode']}</label>
+            <input type="text" placeholder="" title="{$this->Language['fill_out_this_field']}" name="ship[zip]" class="form-control c-square c-theme" value="{$req['zip']}" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label">{$this->Language['phone_number']}</label>
+            <input type="text" placeholder="{$this->Language['phone_number']}" name="ship[phone_number]" class="form-control c-square c-theme" value="{$req['phone_number']}">
+        </div>
+    </div>
+    <div class="row">
+        {if empty($req)}
+        <div class="form-group col-md-7">
+            <div class="c-checkbox">
+                <input type="checkbox" id="checkbox1-11" class="c-check" value="1" name="ship[saveaddr]" checked="checked">
+                <label for="checkbox1-11">
+                    <span class="inc"></span>
+                    <span class="check"></span>
+                    <span class="box"></span> {$this->Language['save_address']} </label>
+            </div>
+        </div>
+        {/if}
+        <div class="col-md-5">
+            <div {if (empty($req))} class="pull-right" {/if}>
+                <a href="javascript:void(0);" class="btn btn-primary" onclick="validateshiping('{if !empty($req)}{$req['id']}{else}insert{/if}')">{if (!empty($req))}{$this->Language['save_continue']}{else}{$this->Language['continue']}{/if}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['transaction'}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="single-product-area">
+    <div class="container">
+        <div class="wrapper  muvi_bottom-padding50">
+            <div class="row muvi_top50"> 
+                <div class="col-md-12">
+                    <table cellspacing="0" class="muvi_shop_table cart">
+                        <thead>
+                            <tr>
+                                <th class="muvi_product-name">{$this->Language['date']}</th>
+                                <th class="muvi_product-name">{$this->Language['order']}#</th>
+                                <th class="muvi_product-price">{$this->Language['amount']}</th>
+                                <th class="muvi_product-quantity">Paid For</th>
+                                <th class="product-invoice">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$transactions|json_decode item=transaction}
+                            <tr class="cart_item">
+                                <td class="muvi_product-remove">
+                                    {$transaction->transaction_date}
+                                </td>
+
+                                <td class="muvi_product-thumbnail">
+                                    {$transaction->order_number}
+                                </td>
+
+                                <td class="muvi_product-name">
+                                    {$transaction->amount}
+                                </td>
+
+                                <td class="muvi_product-price">
+                                    {$transaction->plan->plan_name}
+                                </td>
+
+                                <td class="muvi_product-quantity">
+                                    <a href="{$transaction->permalink}">{$this->Language['btn_download_invoice']}</a>
+                                </td>
+                            </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>            
+                    <div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {$pagination}
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>

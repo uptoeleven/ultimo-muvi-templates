@@ -1,0 +1,107 @@
+    {if !empty($saveaddress)}
+     <div class="col-md-6" id="savedaddress">
+    <div class="row-fluid row">
+     
+            {foreach from=$saveaddress key=k item=value}
+            {assign var="vid" value=$value['id']}
+            <div class="col-md-6">
+                    <div class="c-content-bar-1 c-align-left muvi_c-bordered c-theme-border c-shadow">
+                        <a href="javascript:void(0);" onclick="deliveraddress('{$vid}',this)" title="{$this->Language['deliver_here']}" class="plan-box muvi_address_box">
+                            <div class="muvi_billed-box muvi_planbox plan-box  {if $selected_id == $vid} choosen {else}  {/if}" >
+                                <div class="tick-icon" {if $selected_id == $vid} style="display: block;" {else} style="display:none;" {/if}></div>
+                                <h2>{$value['address_name']}</h2>
+                                <p>{$value['address']}, {$value['city']}, {$value['country']}, {$value['zip']}</p>
+                                <p>{$this->Language['phone_number']} : {$value['phone_number']}</p> 
+                             <a href="javascript:void(0);" class="btn edit c-btn c-theme-btn c-btn-square c-font-white btn-default btn-grey" onclick="editaddress('{$vid}')"><i class="fa fa-pencil-square-o muvi_padding-right-10" aria-hidden="true"></i>{$this->Language['edit_btn']}</a>
+                             <a href="javascript:void(0);" class="btn delete c-btn c-theme-btn c-btn-square c-font-white pull-right btn-default btn-grey" onclick="deleteaddress('{$vid}')"><i class="fa fa-trash-o muvi_padding-right-10" aria-hidden="true"></i>{$this->Language['delete_btn']}</a>
+
+                            
+
+                            </div>
+                        </a>
+                     
+                    </div>
+                </div>
+            {/foreach}
+              
+    </div>    
+</div>
+{/if}  
+<div id="address_div" class="col-md-6 muvi_top10">
+    <div class="row">
+        <div class="form-group col-md-12">
+            <div class="muvi_icon-addon muvi_addon-lg">
+            <input type="text" placeholder="{$this->Language['address_name']}" title="{$this->Language['fill_out_this_field']}" name="ship[address_name]" class="form-control c-square c-theme" value="{$req['address_name']}" required>
+            <label class="control-label"><i class="fa fa-user"></i></label>
+                                    </div>
+        </div>
+    </div>
+   <div class="row">
+        <div class="form-group col-md-12">
+            <div class="muvi_icon-addon muvi_addon-lg">
+                <input type="text" placeholder="{$this->Language['street_address']}" title="{$this->Language['fill_out_this_field']}" name="ship[address]" class="form-control c-square c-theme" value="{$req['address']}" required>
+                <i class="fa fa-map-marker"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <div class="muvi_icon-addon muvi_addon-lg">
+                <input type="text" placeholder="{$this->Language['apartment_suite']}" name="ship[address2]" class="form-control c-square c-theme" value="{$req['address2']}">
+                <i class="fa fa-map" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <div class="muvi_icon-addon muvi_addon-lg">
+            <input type="text" placeholder="{$this->Language['city']}" title="{$this->Language['fill_out_this_field']}" name="ship[city]" class="form-control c-square c-theme" value="{$req['city']}" required>
+            <label class="control-label"><i class="fa fa-home"></i></label>
+                                    </div>
+        </div>
+        <div class="form-group col-md-6">
+            <div class="muvi_icon-addon muvi_addon-lg">
+ <select title="{$this->Language['select_an_item']}" name="ship[country]" class="form-control c-square c-theme" required>
+                <option value="">-{$this->Language['select']}-</option>
+                {foreach from=$countries key=k item=coun}
+                    <option value="{$coun['code']}" {if ($req['country']==$coun['country'])} selected="selected" {/if} >{$coun['country']}</option>
+                {/foreach}
+            </select>         
+                <label class="control-label"><i class="fa fa-globe"></i></label>
+                                    </div>
+           
+        </div>        
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <div class="muvi_icon-addon muvi_addon-lg">
+            <input type="text" placeholder="{$this->Language['postcode']}" title="{$this->Language['fill_out_this_field']}" name="ship[zip]" class="form-control c-square c-theme" value="{$req['zip']}" required>
+            <label class="control-label"><i class="fa fa-map-pin"></i></label>
+                                    </div>
+        </div>
+        <div class="form-group col-md-6">
+            <div class="muvi_icon-addon muvi_addon-lg">
+            <input type="text" placeholder="{$this->Language['phone_number']}" name="ship[phone_number]" class="form-control c-square c-theme" value="{$req['phone_number']}">
+            <label class="control-label"><i class="fa fa-phone"></i></label>
+                                    </div>
+        </div>
+    </div>
+    <div class="row muvi_bottom20">
+        {if empty($req)}
+        <div class="form-group col-md-7">
+            <div class="c-checkbox">
+                <input type="checkbox" id="checkbox1-11" class="c-check" value="1" name="ship[saveaddr]" checked="checked">
+                <label for="checkbox1-11">
+                    <span class="inc"></span>
+                    <span class="check"></span>
+                    <span class="box"></span> {$this->Language['save_address']} </label>
+            </div>
+        </div>
+        {/if}
+        <div class="col-md-5 pull-right muvi_bottom50">
+            <div {if (empty($req))} class="pull-right" {/if}>
+                <a href="javascript:void(0);" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r btn-default btn-grey" onclick="validateshiping('{if !empty($req)}{$req['id']}{else}insert{/if}')"><i class="fa fa-shopping-cart muvi_padding-right-10" aria-hidden="true"></i>{if (!empty($req))}{$this->Language['save_continue']}{else}{$this->Language['continue']}{/if}</a>
+            </div>
+        </div>
+    </div>
+</div>

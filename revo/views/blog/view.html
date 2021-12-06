@@ -1,0 +1,143 @@
+{$post = $post|json_decode}
+<div class="content">
+<div class="msg"></div> <!-- ER::57086 --> 
+    <div class="container">
+        <div class="blog-item clearfix">
+            <h3>{$post->post_title|utf8_decode} {if $post->read_time} |<span class="read_time">  {$post->read_time}  {$this->Language['min_read']}  </span>{/if}</h3>
+            <h4>
+                {$this->Language['by']} <b>{$post->author}</b>, {$this->Language['published_on']} <b>{$post->date}</b>
+            </h4>
+             
+             <div class="view-like-share-section">
+                {if $this->store_configs->enable_blog_views } <div class="vls-view"><i class="fa fa-eye" aria-hidden="true"></i> {$no_of_views} </div>{/if}
+                {if $this->store_configs->enable_blog_likes } <div class="vls-like blog-like" data-id="{$post->post_id}" data-userid="{Yii::app()->user->id}"><i class="fa fa-thumbs-up" aria-hidden="true" ></i> <span class="no_of_likes"> {$no_of_likes}</span> </div>{/if}
+                <div class="vls-share">
+                    <div class="btn-group">
+                        <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-share-alt" aria-hidden="true"></i> {$this->Language['btn_share']}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a target="_blank" href="http://twitter.com/share?text=Visit the link &url={$this->base_url}/blog/{$post->permalink}"><i class="fa fa-twitter" aria-hidden="true"></i> {$this->Language['link_twitter']}</a></li>
+                            <li><a target="_blank" href="http://www.facebook.com/sharer.php?u={$this->base_url}/blog/{$post->permalink}"><i class="fa fa-facebook-square" aria-hidden="true"></i> {$this->Language['facebook']}</a></li>
+                            <li><a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url={$this->base_url}/blog/{$post->permalink}" ><i class="fa fa-linkedin-square" aria-hidden="true"></i> {$this->Language['linkedin']}</a></li>
+                            <li><a href="javascript:void(0)" class="copyToClipboard" data-url="{$this->base_url}/blog/{$post->permalink}"><i class="fa fa-link" aria-hidden="true"></i> {$this->Language['copy_link']}</a></li>
+                        </ul>
+                     
+                    </div>
+                </div>
+            </div>
+            
+            <p>
+                {$post->thumb}
+                {$post->full_desc|utf8_decode}
+            </p>
+                    
+        <div class="view-like-share-section bottomVLS">
+            {if $this->store_configs->enable_blog_views } <div class="vls-view"><i class="fa fa-eye" aria-hidden="true"></i> {$no_of_views} </div>{/if}
+            {if $this->store_configs->enable_blog_likes } <div class="vls-like blog-like" data-id="{$post->post_id}" data-userid="{Yii::app()->user->id}"><i class="fa fa-thumbs-up" aria-hidden="true" ></i> <span class="no_of_likes">{$no_of_likes}</span></div>{/if}
+            <div class="vls-share">
+                <div class="btn-group">
+                    <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-share-alt" aria-hidden="true"></i> {$this->Language['btn_share']}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a target="_blank" href="http://twitter.com/share?text=Visit the link &url={$this->base_url}/blog/{$post->permalink}"><i class="fa fa-twitter" aria-hidden="true"></i> {$this->Language['link_twitter']}</a></li>
+                        <li><a target="_blank" href="http://www.facebook.com/sharer.php?u={$this->base_url}/blog/{$post->permalink}"><i class="fa fa-facebook-square" aria-hidden="true"></i> {$this->Language['facebook']}</a></li>
+                        <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={$this->base_url}/blog/{$post->permalink}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i> {$this->Language['linkedin']}</a></li>
+                        <li><a href="javascript:void(0)" class="copyToClipboard" data-url="{$this->base_url}/blog/{$post->permalink}"><i class="fa fa-link" aria-hidden="true"></i> {$this->Language['copy_link']}</a></li>
+                    </ul>
+                   
+        </div>
+            </div>
+        </div>
+        <div id="snackbar"> {$this->Language['blog_copy']} </div>
+               
+        </div>
+
+
+       
+        
+        {foreach from=$comments item=comment}
+        <p>
+            {$this->Language['by']} : {$comment->fullname}<br />
+            {$comment->comment}
+        </p>
+        <hr />
+        {/foreach}
+        <br/>
+        <div id="comment_form"></div> 
+        
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+
+                //  like feature ER::57086 Start
+                if ($(window).width() > 1025) {
+                    $(window).scroll(function() {
+                        var scroll = $(window).scrollTop();    
+                        if (scroll >= 200) {
+                            $(".view-like-share-section").addClass("sticky");
+                        }else{
+                            $(".view-like-share-section").removeClass("sticky");
+                        }
+                    });
+                }else{
+                    $(".view-like-share-section").removeClass("sticky");
+                }
+        
+                $('.blog-like').click(function(){
+                    let id = $(this).attr('data-id');
+                    let userid = $(this).attr('data-userid');
+                    var url = HTTP_ROOT + "/blog/LikeBlogs";
+        
+                    if(userid>0){
+                        $.ajax({
+                            url: url,
+                            data: { post_id : id, user_id : userid },
+                            type:'POST',
+                            success: function(result) {
+                                const responce = JSON.parse(result);
+                                if (responce.err) {
+                                    $("#loginModal").modal('show');
+                                }else if(responce.err==false){
+                                    $('.no_of_likes').html(responce.count);
+                                    setTimeout(function(){
+                                        $('.msg').empty(); 
+                                      }, 5000);
+        
+                                }
+                                
+                            }
+                        });
+        
+                    }else{
+                        $("#loginModal").modal('show');
+                    }
+                    });
+                                                
+                    $('.copyToClipboard').click(function(){
+                        let url = $(this).attr('data-url');
+                        var $temp = $("<input>");
+                        $(".msg").append($temp);
+                        $temp.val(url).select();
+                        document.execCommand("copy");
+                        $temp.remove();
+
+                        var x = document.getElementById("snackbar");
+                        x.className = "show";
+                        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                        
+                      });
+                   
+        blogViewVideo(".blog-item"); //12046
+        $.ajax({
+            url: "/blog/LoadCommentForm",
+            data: "post_id="+{$post->post_id},
+            type:'POST',
+            success: function (data) {
+                $('#comment_form').html(data);
+            }
+        });
+    });
+</script>

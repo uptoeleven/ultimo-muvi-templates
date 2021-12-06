@@ -1,0 +1,174 @@
+<div class="single-product-area">
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['purchase_history']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    <div class="container">
+        <div class="wrapper">
+        <div class="row top20">
+             {assign var="total_purchase" value=$purchasehistory|@count}
+             {if ($total_purchase > 0)} 
+             <div class="col-md-12">
+                <table cellspacing="0" class="muvi_shop_table top20 muvi_purchase_history_table" style='width:100%;'>
+                    <thead>
+                        <tr>
+                            <th class="muvi_product-name">{$this->Language["date"]}</th>
+                            <th class="muvi_product-name">{$this->Language["order"]}</th>
+                            <th class="muvi_product-name">{$this->Language["order_type"]}</th>
+                            <th class="muvi_product-name" id="itemdetails">{$this->Language["item_details"]}</th>
+                            <th class="muvi_product-name">{$this->Language["status"]}</th>
+                            <th class="muvi_product-name">{$this->Language["invoice"]}</th>
+                        </tr>
+                    </thead>                   
+                    {assign var="user_id" value=Yii::app()->user->id}
+                    {if $user_id > 0}
+                    {if ($total_purchase > 0)}
+                    {foreach from=$purchasehistory item=purchase}
+                  
+                    <tr class="cart_item">
+                <td class="muvi_product-remove">{$purchase['transaction_date']}</td>
+                        <td class="muvi_product-thumbnail muvi_product-remove">
+                            {if $purchase['transaction_type']==4}
+                            {assign var="orderurl" value="`$this->base_url`/user/orderDetails"}
+                            <a href="{$orderurl}/{$purchase['id']}"># {$purchase['order_number']}</a>
+                            {else if $purchase['transaction_type']==6}
+                            {assign var="orderurl" value="`$this->base_url`/user/transaction"}
+                            <a href="{$orderurl}/v/{$purchase['id']}"># {$purchase['order_number']}</a>
+                            {else}
+                            {assign var="orderurl" value="`$this->base_url`/user/transaction"}
+                            <a href="{$orderurl}/{$purchase['id']}"># {$purchase['order_number']}</a>
+                            {/if}
+                        </td>
+             <td class="muvi_product-remove">{$purchase['order_type']}</td>
+        
+                        <td>
+                            {if !empty($purchase['details'])}
+                            {foreach from=$purchase['details'] item=value}
+                            <div class="itemdiv">
+                                {$this->Language["text_name"]}:{if $purchase['baseurl']!='' }<a href="{$purchase['baseurl']}/{$value['permalink']}">{/if}{$value['name']}{if $purchase['baseurl']!='' }</a>{/if}<br>
+                                {$this->Language["quantity"]}:{$value['quantity']}<br>
+                                 {$this->Language["price"]}:{Yii::app()->common->formatPrice($value['price'], $value['currency_id'])}
+                            </div>
+                            <div style="clear: both;padding-top: 10px;"></div>
+                            {/foreach}
+                            {else}
+                            {if $purchase['baseurl']!='' }<a href="{$purchase['baseurl']}">{/if}
+                            {$purchase['transaction_for']}{if $purchase['baseurl']!='' }</a>{/if}
+                            {/if}
+                            {if isset($purchase['ppv_bundles_movie_name']) && !empty($purchase['ppv_bundles_movie_name'])}
+                            {foreach from=$purchase['ppv_bundles_movie_name'] item=valuebundles}
+                            <div class="itemdiv">
+                               <a href="{$valuebundles['permalink']}">{$valuebundles['movie_name']}</a>
+                            </div>
+                            {/foreach}
+                            {/if}
+                        </td>
+                        <td>
+                            {foreach from=$purchase['details'] item=value}
+                            <div class="itemdiv">
+                                {$status[$value['item_status']]}<br>
+                                {if $value['item_status']|in_array:[1,2]}
+                                  <a href='javascript:void(0);' onclick="cancelitem({$purchase['order_item_id']},'{$purchase['order_number']}')" title="Cancel Item">{$this->Language["cancel_item"]}</a>
+                                {/if}
+                            </div>
+                            <div style="clear: both;padding-top: 10px;"></div>
+                            {/foreach}
+                            {if $purchase['transaction_type'] == 5}
+                            {$statusbundles}<br> {$purchase['expiry_date']} 
+                            {/if}
+                             {if $purchase['transaction_type'] == 2}
+                            {$purchase['statusppv']}<br> {$purchase['expiry_dateppv']}<br> {$purchase['watch_period']}
+                            {/if}
+                             {if $purchase['transaction_type'] == 3}
+                            N/A
+                            {/if}
+                            {if $purchase['transaction_type'] == 1}
+                            {$purchase['statusppv']}
+                            {/if}
+                             {if $purchase['transaction_type'] == 6}
+                             {$statusvoucher}<br>{$purchase['expiry_date']} <br> {$purchase['watch_period']}
+                             {/if}  
+                             {if $purchase['transaction_type'] == 8}
+                            {$statuscredit}<br>{$purchase['expiry_date']} 
+                            {/if}               
+                             {$subscriptionbundles=''}
+                             {if $purchase['transaction_type'] == 7}
+                            {$statussubscriptionbundles}<br> {$purchase['expiry_date']} 
+                            {$subscriptionbundles=$purchase['subscriptionbundles_id']}
+                            {/if}
+                        </td>
+                        <td>
+                            {if $purchase['transaction_type'] == 4}
+                            <a href="{Yii::app()->controller->base_url}/user/viewInvoicePDF?transaction_id={$purchase['id']}" target="_blank">{$this->Language["view_invoice"]}</a> 
+                            <!-- 43958 starts @sandip.sethy@muvi.com -->
+                            {else if $purchase['transaction_type'] == 3 && isset($purchase['is_voucher']) && $purchase['is_voucher'] == 1 }
+                             <a href="{Yii::app()->controller->base_url}/user/GetVoucherInvoicePDF?vouchersubscriptio_id={$purchase['ppv_subscription_id']}" target="_blank">{$this->Language["view_invoice"]}</a>
+                             <!-- 43958 ends -->
+                            {else if $purchase['transaction_type'] == 6 }
+                            <a href="{Yii::app()->controller->base_url}/user/GetVoucherInvoicePDF?vouchersubscriptio_id={$purchase['ppv_subscription_id']}" target="_blank">{$this->Language["view_invoice"]}</a>
+                            {else}
+                          <a href="{Yii::app()->controller->base_url}/user/getInvoicePDF?transaction_id={$purchase['id']}{if $purchase['transaction_type'] == 7}&subscriptionbundles_id={$subscriptionbundles}{/if}" target="_blank">{$this->Language["view_invoice"]}</a>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr>
+                        <td colspan="5">{$this->Language["no_record_found"]}</td>
+                    </tr>
+                    {/if}
+                    {/if}
+                </table>  
+                 
+                   <div class="row" style="margin-right:0px !important;">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>        
+                 
+                 
+                                    </div>
+             {/if}
+              
+      
+        </div>
+    </div>
+            
+           
+        </div>
+<div id="successPopup" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">Your cancel request processed successfully.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="successPopupn" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">Your request can not processed.</div>
+            </div>
+        </div>
+    </div>
+</div>

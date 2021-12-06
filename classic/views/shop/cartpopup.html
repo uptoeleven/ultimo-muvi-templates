@@ -1,0 +1,71 @@
+<div class="c-cart-menu" {if $smarty.session.totalqnt!=0} style="border: 1px solid #f3f3f3;" {/if}>
+ {if $smarty.session.totalqnt!=0}
+    <div class="c-cart-menu-title">
+        <p class="c-cart-menu-float-l c-font-sbold">
+            {$smarty.session.totalqnt} item(s)
+        </p>
+        <p class="c-cart-menu-float-r c-theme-font c-font-sbold">{$smarty.session.item_total}</p>
+    </div>
+    <ul class="c-cart-menu-items" style="max-height: 400px;overflow: auto;">
+        {assign var="producturl" value=$this->base_url}
+        {assign var="cart_item" value=$smarty.session.cart_item}
+        {foreach from=$cart_item item=item}
+            {assign var="img_path" value=PGProduct::getpgImage($item['id'],'thumb')}
+            {assign var="itemid" value=$item['id']}
+            <li id='cart_tr{$itemid}'>
+                <div class="c-cart-menu-close">
+                    <a onclick="removecart('{$itemid}', 'cart_tr{$itemid}');" href="javascript:void(0);" class="c-theme-link">×</a>
+                </div>
+                <img src="{$img_path}" />
+                <div class="c-cart-menu-content">
+                    <p>{$item["quantity"]} x
+                        <span class="c-item-price c-theme-font">{Yii::app()->common->formatPrice($item['price'],$item['currency_id'], 0, null, 0, 1)}</span>
+                    </p>
+                    <a href="{$producturl}/{$item['permalink']}" class="c-item-name c-font-sbold">
+                        {if $item['name']|count_characters > 30}
+                        {$item['name']|substr:0:30}
+                        {else}
+                        {$item['name']}
+                        {/if}
+                    </a>
+                </div>
+            </li>
+        {/foreach}
+    </ul>
+    <div class="c-cart-menu-footer">
+        <a href="{$this->base_url}/shop/cart" class="btn btn-md c-btn c-btn-square c-theme-btn c-font-white c-font-bold c-center c-font-uppercase">{$this->Language['view_cart']}</a>
+    </div>
+ {/if}
+</div>
+
+
+<div id="addtocarterror" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12">
+						<p style="line-height: initial;">{$this->Language['addtocarterror']}</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>
+{literal}
+<script type="text/javascript">
+    function removecart(id, cartid) {
+        $('.loader_cart').show();
+        var url = '{/literal}{$this->siteurl}{literal}/shop/RemoveCart';
+        $.post(url, {'id': id,'cartpopup':1}, function (res) {
+            $('.loader_cart').hide();
+            $('#round-cart').html(eval($('#round-cart').html()) - 1);
+            $('#cartpopup').html(res);
+        })
+    }
+</script>
+{/literal}

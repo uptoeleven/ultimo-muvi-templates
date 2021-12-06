@@ -1,0 +1,21 @@
+            
+{foreach from=$contents|json_decode item=content}
+                <div class="col-md-5ths col-xs-6">
+                    <div  class="thumbnail wrapper">
+                    <a href="{$content->permalink}">
+                  <div class="muvi_play-box"> <img src="{$content->poster}" alt="{$content->title}">
+                    <div class="muvi_thumb-bg"></div>
+                    {if $content->play_btn != ''}<div class="play-btn">{$content->play_btn}</div>{/if}
+                    <div class="muvi_thumb-time-line"><span class="muvi_font-200 muvi_f-10">{$content->release_date}</span><span class="pull-right muvi_font-200 muvi_f-10 m-t-5">{$content->video_duration}</span></div>
+                  </div>
+                  <div class="caption">
+                      <h3><a href="{$content->permalink}">{if $content->title|count_characters > 18}{$content->title|truncate:28|utf8_decode}{else}{$content->title|utf8_decode}{/if}</a></h3>
+                     {$genre_count = $content->genres|count}
+                        {$j=0}
+                        <p class="muvi_caption_genre">{foreach from=$content->genres item=genre}{$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}</p>
+                  </div>
+                  </a>
+                  </div>
+                </div>
+              {/foreach}
+           

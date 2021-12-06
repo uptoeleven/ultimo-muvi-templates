@@ -1,0 +1,109 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['manage_device']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<div class="wrapper  muvi_bottom-padding50">    
+   <div class="row top20  muvi_bottom100">
+<div class="col-sm-12 order-right top20" id="print">
+                <div class="row">
+                    <div class="col-md-10 col-sm-10 col-sm-12 infobox">  
+                        <table cellspacing="0" class="muvi_shop_table top20 table-responsive" >
+                            <thead>
+                                <tr>
+                                    <th class="muvi_product-name" style="width: 2%;">{$this->Language['sl_no']}#</th>
+                                    <th class="muvi_product-name" >{$this->Language['device_name']}</th>
+                                    <th class="muvi_product-name" style="width: 5%;">{$this->Language['action']}</th>
+                                 </tr>
+                            </thead>
+                            <tbody >
+                                {if $devicedata|count > 0}
+                                {foreach from=$devicedata item=device_item}
+                                {assign var=ccc value=$ccc+1}
+                                <tr class="cart_item">
+                                    <td class="muvi_product-thumbnail" style="padding: 10px;">{$ccc}</td>
+
+                                    <td class="muvi_product-thumbnail">{$device_item['device_info']}</td>
+
+                                    <td class="muvi_product-thumbnail" >
+                                        {if ($device_item['flag'] == 0)} 
+                                          <a href="javascript:void(0);"   class="delete_btn" data-id="{$device_item['id']}" onclick="openDeleteDevicePopup(this);">
+                                             &nbsp;&nbsp;{$this->Language['delete_btn']}
+                                          </a>
+                                        {else}
+                                          <a href="javascript:void(0);" class="delete_btn muvi_not-active">
+                                             &nbsp;&nbsp;{$this->Language['delete_btn']}
+                                          </a>
+                                        {/if}
+                                    </td>
+                                </tr>
+                                {/foreach}
+                                {else}
+                                <tr><td colspan="3" class="text-center">{$this->Language['no_device']}</td></tr>
+                                {/if}
+                            </tbody>
+                        </table> 
+                        <div id="muvi_device-loading" class="loader"></div>
+
+         </div>
+    </div>
+</div>
+</div>
+</div>    
+</div>
+<div class="modal fade container" id="muvi_DeviceModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headermodal"></span></h4>
+                <h4 class="modal-title">{$this->Language['are_you_sure_delete_device']} ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="muvi_devicebtn" class="btn btn-default">{$this->Language['yes']}</a>
+                <button class="btn btn-default" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="modal fade" id="SuccessModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headermodal"></span></h4>
+                <h4 class="modal-title">Success</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <span id="bodymodal"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['yes']}</button>
+            </div>
+
+        </div>
+    </div>
+</div>-->
+{literal}
+<script type="text/javascript">
+   userDeviceAddRemove();   
+</script>
+{/literal}

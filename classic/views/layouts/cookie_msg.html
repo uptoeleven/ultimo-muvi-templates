@@ -1,0 +1,66 @@
+{if ($this->showMessageForCookie == '1')}
+{literal}
+<!--ER-36352: Change position of cookie message in Frontend website-->
+<style>
+    .cookies_agree{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        background: rgba(8,8,8,.8);
+        z-index: 99999999;
+        color: #bababa;
+        padding: .8rem!important;
+    }
+    .accept_cookie{
+        border: 0;
+        background: #4da30c;
+        font-size: 14px;
+        color: #fff;
+        margin-left: 30px;
+        padding: 5px 30px;
+        border-radius: 20px;        
+        outline:none;
+    }
+    .cookies_agree a {
+        color: #4da30c;
+        text-decoration: none;
+        background-color: transparent;
+    }
+    .cookies_agree i {
+        float:right;
+        margin: 5px;
+        font-size: 12px;
+        color: #ddd; cursor: pointer;
+    }
+</style>
+<!--ER-36352: Change position of cookie message in Frontend website ends-->
+<script>
+    var setCookieUrl = HTTP_ROOT+"/site/setCookieMsg/";
+    $(document).ready(function() {
+        var isshow = localStorage.getItem('isshow');
+        if (isshow == null) {
+            $("#cookieModal").show(); //ER-36352: Change position of cookie message in Frontend website
+        }
+        $(".accept_cookie").on("click", function(){
+            $.post(setCookieUrl, {"cookieName": "showMessageForCookies", "cookieValue": 1}, function(res) {
+                console.log("Cookie set successfully");
+                localStorage.setItem('isshow', 1);
+                $("#cookieModal").hide(); //ER-36352: Change position of cookie message in Frontend website
+            });
+        });
+        //ER-36352: Change position of cookie message in Frontend website
+        $(".close_cookie").on("click", function(){
+            $("#cookieModal").hide();
+        });
+        //ER-36352: Change position of cookie message in Frontend website
+    });
+</script>
+{/literal}
+<!--ER-36352: Change position of cookie message in Frontend website -->
+<div id="cookieModal" class="cookies_agree"> <i class="fa fa-close close_cookie"></i>
+    <span>{$this->cookie_msg_new}</span><button class="accept_cookie">Agree &amp; Proceed</button>
+</div>
+<!--ER-36352: Change position of cookie message in Frontend website end-->
+{/if}

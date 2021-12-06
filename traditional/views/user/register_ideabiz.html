@@ -1,0 +1,179 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h2 class="center white">{$this->Language['create_account_now']}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="single-product-area ">
+    <div class="container register-form">
+        <div class="wrapper muvi_bottom-padding50">
+            <div class="row top20">
+             <div class="col-md-12 muvi_bottom20">
+                <div class="muvi_title1">{$this->Language['register_with_details']}</div>
+                </div>                <form id="membership_form" name="membership_form" method="POST" class="form-horizontal">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                        {if $this->studio->social_logins}
+                    <div class="col-md-12 muvi_bottom50">
+                     
+                        {if isset($smarty.session.social) } 
+                        {assign var=socialAuth value=$smarty.session.social}
+                        {else}
+                        {assign var=socialAuth value=$this->getSocialUrls()}
+                        {/if}
+                        {if $socialAuth}
+                        <ul class="social-image">
+                        {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                        <li><a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login ="0" class="facebook_login facebook muvi_social_login"><img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/fb-signup.png" class="muvi_social_image"></a></li>
+                        {/if}
+                        {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                        <li><a href="{$socialAuth['gplus_url']}"  data-movieId=""  class="facebook_login"><img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/google-signup.png" class="muvi_social_image"></a></li>
+                        {/if} 
+                        </ul>
+                        {/if}
+                        <div id="login_errors" class="error"></div>
+                    </div>
+                   {/if}
+
+                    <div id="errors" class="error center"></div>  
+
+                    <div class="form-group">
+                        <div class="col-md-6 muvi_bottom20">
+                            <div class="muvi_icon-addon muvi_addon-lg">
+                                <input type="text" class="form-control" autocomplete="off" placeholder="{$this->Language['text_name_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="name" name="data[name]" required />
+                                <label for="exampleInputEmail2"><i class="fa fa-user"></i></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 muvi_bottom20 ">
+                            <div class="muvi_icon-addon muvi_addon-lg">
+                                <input type="email" class="form-control" autocomplete="off" placeholder="{$this->Language['text_email_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="email_address" name="data[email]" required />
+
+                                <label for="exampleInputEmail2"><i class="fa fa-envelope-o"></i></label>
+                            </div>
+                        </div>                   
+                    </div>   
+                    <div class="loader" id="membership_loading"></div>
+
+                    <div class="form-group">
+                        <div class="col-md-6 muvi_bottom20 top20">
+                            <div class="muvi_icon-addon muvi_addon-lg">
+                                <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['text_password_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="join_password" name="data[password]" required />
+                                <label for="exampleInputPassword2"><i class="fa fa-lock"></i></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 muvi_bottom20 top20">
+                            <div class="muvi_icon-addon muvi_addon-lg">
+                                <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['confirm_password']}" title="{$this->Language['fill_out_this_field']}" id="confirm_password" name="data[confirm_password]" required />
+                                <label title="Confirm Password" rel="tooltip" for="exampleInputPassword2"><i class="fa fa-lock"></i></label>
+                            </div>
+                        </div>                   
+                    </div>                          
+
+                    <div class="top20"></div>
+
+                    <div class="row">
+                    <div class="col-md-6">
+                        {include file='../layouts/listplans.html'}            
+                    </div>
+                    <div class="col-md-6 payment_form">
+                   {include file='../layouts/general_coupon.html'}
+                    {if $gateways[0]->short_code == "ippayment"}
+                    <div class="col-md-12 muvi_bottom20 muvi_top10 text-left">
+                        <label> 
+                            <input name="data[subscribe_newsletter]"  value="1" checked="checked" type="checkbox"> &nbsp;{$this->Language['subscribe_to_announcement']}
+                        </label>  
+                    </div>                    
+                    {$payment_register_btn}
+                    {else}
+                    {if $is_hosted neq 1} 
+                    {$payment_form}
+                    {/if}
+                    <div class="col-md-12 muvi_bottom20 muvi_top10 text-left">
+                        <label> 
+                            <input name="data[subscribe_newsletter]"  value="1" checked="checked" type="checkbox"> &nbsp;{$this->Language['subscribe_to_announcement']} 
+                        </label>  
+                    </div>                       
+                    {$payment_register_btn}      
+                            {/if}     
+                    <div class="clear"></div><br>
+                    <span class="error" id="plan_error"></span>     
+                        </div>
+                    </div>
+                </form>            
+            </div>
+        </div>
+    </div>
+</div>    
+<div id="successPopup" class="modal fade" style="width: 660px;">
+    <div class="modal-dialog" style="width: 660px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['thanks_carrier_auth_sucess']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="otpPopup" class="modal fade" style="width: 660px;margin:auto;margin-top: 10px;">
+    <div class="modal-dialog" style="width: 100%;margin:auto;margin-top: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <div class="modal-title success-popup-payment">{$this->Language['enter_otp']}</div>
+            </div>
+            <div class="modal-body clearfix">
+                <div>{$this->Language['verify_otp_message']}</div>
+                <br/>
+                <div class="form-group">          
+                    
+                    <label class="col-sm-2 otp-label">{$this->Language['otp']}</label>
+                    <div class="col-sm-4 otp-field">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Enter otp here" id="otp_field" required />
+                        
+                        <input type="hidden" class="form-control" id="server_ref" value="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label id="otp_error_msg" class="error col-sm-12 otp-label"  style="display:none;">{$this->Language['incorrect_otp']}</label>
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label class="col-sm-12 otp-label">{$this->Language['otp_not_received']}<a href="javascript:void(0)" onclick="resend_carrier_otp();">{$this->Language['resend_otp']}</a></label>
+                </div>
+                <div class="form-group col-md-12 otp-field">
+                    <div class="controls">
+                        <div class="pull-left">
+                            <button id="otp_insert_btn" class="btn btn-primary" onclick="validateOtp();">{$this->Language['verify']}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>      
+            </div>
+        </div>
+    </div>
+</div>
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_carrier']}</div>
+                <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var action = 'saveuser';
+    var btn = 'Register';
+</script>

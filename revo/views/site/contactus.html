@@ -1,0 +1,40 @@
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['contact_us']}</h2>
+        <form name="ContactForm" id="contactus_form" method="post" action="{$this->base_url}/site/contactus" class="form-cust-1">
+            <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+            <h4>{$this->Language['fill_form_below']}</h4>
+            <div class="form-group ">
+                <label class="control-label" for="name">{$this->Language['text_name']}</label>
+                <div class="controls">
+                    <input type="text" required name="ContactForm[name]" id="contact_name" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_name_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value=""   autofocus />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="name">{$this->Language['email']}</label>
+                <div class="controls">
+                    <input type="email"  name="ContactForm[email]" id="email" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value=""  required />
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="password">{$this->Language['text_message']}</label>
+                <div class="controls">
+                    <textarea rows="4" name="ContactForm[message]" id="message" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_message_placeholder']}" class="form-control c-square c-theme" required ></textarea>
+                </div>
+            </div>
+            <div class="form-group ">
+                <div class="controls text-right">
+                    <input type="text" id="ccheck" name="ccheck" placeholder="" autocomplete="off" style="display: none;" />
+                    <input type="hidden" name="submit-btn" id="submit-btn"/>
+                    <button type="submit" class="btn btn-lg butn-cust-1" name="contactus" id="contact_us">{$this->Language['btn_send']}</button>
+                </div>
+            </div>
+            <div id="login-errors" class="error center"></div>
+        </form>  
+    </div>
+</div>
+<script type="text/javascript">
+    $('#contact_us').on('click', function () {
+        $('#submit-btn').val('contact');
+    })
+</script>        

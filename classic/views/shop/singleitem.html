@@ -1,0 +1,76 @@
+{if $content->is_free_offer !=1}
+<div class="thumbnail listpos physical kart_product productlist">
+{assign var="img_path" value=PGProduct::getpgImage($content->id,'standard')}
+    <div class="">
+        <a href="{$content->permalink}" style="color:#000">                 
+            <img alt="{$content->name|utf8_decode}" src="{$img_path}">
+        </a>
+    </div>
+    <div class="overtext popup_content">
+        <div class="arrow"></div>
+        <div class="ptitle caps"><a href="{$content->permalink}">{$content->name|utf8_decode}</a></div>
+        <div class="stripe col-md-12">
+            <div class="col-md-4">
+                {if $content->is_preorder == 0}
+					{if $content->sale_price != 0.00}
+                {Yii::app()->common->formatPrice($content->sale_price , $content->currency_id)}
+					{else}{/if}	
+                {else}
+                &nbsp;
+                {/if}
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="ptext" style="border-bottom:none;">
+            {if $content->description|count_characters > 100}
+            {$content->description|utf8_decode|substr:0:100}
+            {else}
+            {$content->description|utf8_decode}
+            {/if}
+        </div>
+    </div>
+<div class="col-md-12">
+        <div class="col-md-8 col-sm-7 col-xs-7">
+            <div class="title">
+                <a title="{$content->name|utf8_decode}" href="{$content->permalink}">
+                    <h3 class="itemname text-left">
+                        {if $content->name|utf8_decode|count_characters > 20}
+                        {$content->name|utf8_decode|substr:0:20}
+                        {else}
+                        {$content->name|utf8_decode}
+                        {/if}</h3>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-5 col-xs-5 text-right">
+            <h3 class="itemname">
+                {if $content->is_preorder == 0}
+					{if $content->sale_price != 0.00}
+                {Yii::app()->common->formatPrice($content->sale_price , $content->currency_id)}
+					{else}{/if}	
+                {else}
+                &nbsp;
+                {/if}
+            </h3>
+        </div>
+    </div>
+    {if $content->status == 1}
+    {if $content->is_preorder == 0}
+			{if $content->sale_price != 0.00}
+    <input type="button" class="AddToCart btn cart" name="" value="{$this->Language['add-to-cart']}" onclick="addtocart({$content->id}, 1);">
+    <input type="button" class="AddToCart btn order-now" name="" value="{$this->Language['ordernow']}" onclick="addtocart({$content->id}, 2);">
+    {else}
+				<span class="stockout text-white">{$this->Language['currently_unavailable']}</span>
+			{/if}
+		{else}
+    <input type="button" class="AddToCart btn order-now" name="" value="{$this->Language['pre_order']}" onclick="window.location='{$content->permalink}'">
+    {/if}
+    {elseif $content->status == 3}
+    <div class="btn-group btn-group-justified" role="group">
+        <div class="btn-group c-border-top" role="group">
+            <div class="stockout text-white">{$this->Language['stock_out']}</div>
+        </div>
+    </div>
+    {/if}                    
+</div>
+{/if}

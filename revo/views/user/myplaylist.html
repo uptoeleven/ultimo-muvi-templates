@@ -1,0 +1,89 @@
+{$user_id = Yii::app()->user->id}
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['my_playlist']}</h2>
+        <!-- #20401: Playlist and Queue Feature for REVO and Modern Template- R1 -->
+        <div class="row">
+            <div class="form-group bottom10p col-md-3 col-lg-3 pull-right">
+                <select class="form-control" id="playlist_type">
+                    {if $this->add_to_playlist > 0}
+                    <option value="1">Audio</option>
+                    {/if}
+                    {if $this->add_to_video_playlist > 0}
+                    <option value="2">Video</option>
+                    {/if}
+                </select>
+            </div>
+        </div>
+        <!-- #20401: Playlist and Queue Feature for REVO and Modern Template- R1 -->
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <form id="playlist-form" name="playlist-form" method="POST">
+                    <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+
+                    <div id="loading" class="loader" style="display:none;"></div>
+                    <div id="errors" class="error center"></div>
+                    <section class="m-b-30">
+                        <div class="bottom20p hidden-xs"></div>
+                        <div class="row" id="play_list">
+                            <div class="col-md-7 col-lg-6">
+                                <div class="form-group bottom10p">
+                                    <input type="hidden" id="user_id" value="{$user_id}">
+                                    <input type="text" class="form-control" id="new_playlist" name="newplaylist" placeholder="{$this->Language['create_playlist']}">
+                                </div>
+
+                                <div class="loader" id="playlist_loading"></div>
+
+                            </div>
+                            <div class="col-md-5 col-lg-6"><button type="submit" class="btn as-btn-accent as-btn-md top10p save_playlist" id='save_playlist'>{$this->Language['save_playlist']}</button>
+                            </div>	
+                        </div>
+                    </section>
+                </form>
+                <section class="p-t-0 payment_form">
+                    <h4 class="bottom45p">
+                    </h4>
+                    <!-- #20401: Playlist and Queue Feature for REVO and Modern Template- R1 -->
+                    <div class="">
+                        <div class="playList">
+                        <!-- #20401: Playlist and Queue Feature for REVO and Modern Template- R1 -->
+                        </div>
+                        <div class='row'>
+                            <div class='col-md-12'>
+                                <div class="loader loader_more" ></div>
+                            </div>
+                        </div>
+
+                        <div class="loader loader_list" ></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="row as-btn-more hide">
+
+            <div class="col-md-12">
+                <button type="submit" class="btn as-btn-accent as-btn-md" id="show_more">Show more</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="offset_value" value="0">
+<input type="hidden" id="total_value"  value="{$playlist_count}">
+
+{literal}
+<script type="text/javascript">
+    $('.wrapper').addClass('has-not-sidebar');
+    $(document).ready(function() {
+        var type = $('#playlist_type').val();
+        myPlayLists(type);
+       /* #20401: Playlist and Queue Feature for REVO and Modern Template- R1 */
+       $("#playlist_type").change(function () {
+           var type = $(this).val();
+           myPlayLists(type);
+    });
+       /* #20401: Playlist and Queue Feature for REVO and Modern Template- R1 */
+    });
+</script>
+
+{/literal}
+    

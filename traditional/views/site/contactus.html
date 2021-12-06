@@ -1,0 +1,106 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['contact_us']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="wrapper  muvi_bottom-padding50">
+
+        <div class="row top20  muvi_bottom100">
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8 top20">
+                        <div class="muvi_title1">{$this->Language['send_message']}</div>
+                    </div>
+                    <div class="col-md-4 top20"> <div class="muvi_title1">{$this->Language['contact_info']}</div></div>
+
+                </div>
+            </div>
+
+            <div class="col-md-8 border-right top20">
+                <div class="row">
+                    <form name="ContactForm" id="contactus_form" method="post" action="{$this->base_url}/site/contactus">
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                        <div class="col-md-6 muvi_bottom20">
+                            <div class="form-group "> 
+                                <div class="muvi_icon-addon muvi_addon-lg">
+                                    <input type="text" required name="ContactForm[name]" id="contact_name" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_name_placeholder']}" autocomplete="off" class="form-control" value=""   autofocus />
+                                    <label for="email" rel="tooltip"  data-original-title="name"><i class="fa fa-user"></i></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 muvi_bottom20">
+                            <div class="form-group">
+                                <div class="muvi_icon-addon muvi_addon-lg">
+                                    <input type="email"  name="ContactForm[email]" id="email" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" value="" required />
+                                    <label for="name" rel="tooltip"  data-original-title="name"><i class="fa fa-envelope-o"></i></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 muvi_bottom20 top20">
+                            <div class="form-group ">
+                                <div class="muvi_icon-addon muvi_addon-lg">
+                                    <textarea rows="4"  name="ContactForm[message]" id="message" class="form-control" required title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_message_placeholder']}" ></textarea>
+                                    <label for="text" rel="tooltip" title="" data-original-title="email"><i class="fa fa-pencil-square-o"></i></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 muvi_bottom20 muvi_top50 top20 text-right">
+                            <div class="form-group ">
+                                <div class="controls text-right">
+                                    <input type="text" id="ccheck" name="ccheck" placeholder="" autocomplete="off" style="display: none;" />
+                                    <input type="hidden" name="submit-btn" id="submit-btn"/>
+                                    <button type="submit" class="btn btn-primary btn-green-small" name="contactus" id="contact_us"><i class="fa fa-rocket muvi_padding-right-10"></i>{$this->Language['btn_send']}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="login-errors" class="error center"></div>
+                    </form>  
+                </div>
+            </div>
+
+            <div class="col-md-4 top20">
+
+                <br/>
+
+                <div class="muvi_contact-box">
+                    <div class="row">
+                        <div class="col-xs-1"><img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/map-pin.png"></div>
+                        <div class="col-xs-10 muvi_top5">103 Patron Dr, Guilderland, NY 12084, USA </div>      
+                    </div>
+                    <div class="row muvi_top50">
+                        <div class="col-xs-1"><img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/mobile.png"></div>
+                        <div class="col-xs-10 muvi_top5">Phone: +1 (860)677-8883</div>      
+                    </div>
+                    <div class="row muvi_top50">
+                        <div class="col-xs-1"><img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/contact.png"></div>
+                        <div class="col-xs-10 muvi_top5">Contact@muvi.com </div>      
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $('#contact_us').on('click', function () {
+                    $('#submit-btn').val('contact');
+                })
+            </script>            
+        </div>
+    </div>
+</div>

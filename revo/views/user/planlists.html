@@ -1,0 +1,93 @@
+{literal}
+<style>
+    .product-remove{padding-left: 10px!important; padding-right: 10px!important;}
+    #itemdetails{width: 25% !important;}
+    table{border: 1px solid #e9e4e4 !important;}
+    th{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    td{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    .product-name{padding-top: 17px !important; padding-bottom: 17px !important;padding-left: 10px!important; padding-right: 10px!important;}
+    /*45922 starts*/
+    .btn-secondary{
+        color: #fff;
+        background-color: #78909c !important;
+    }
+    /*45922 ends*/
+</style>
+{/literal}
+<div class="container">
+    <div class="row">
+         <div class="col-md-12">
+          <h2> {$this->Language['my_plan']} </h2>
+          <div class="table-responsive">
+            <table cellspacing="0" class="shop_table top20 table" style='width:100%;'>
+                <thead>
+                    <tr>
+                        <th class="product-name" style="width: 35%;"> {$this->Language["plan_name"]}</th>
+                        <th class="product-name">{$this->Language["renews_on_valid_till"]}</th>
+                        <th class="product-name"></th>
+                    </tr>
+                </thead>                   
+                {assign var="user_id" value=Yii::app()->user->id}
+                {if $bundlesplans_cancelled|@count > 0 || $bundlesplans|@count > 0 }
+                {foreach from=$bundlesplans_cancelled item=cancelplan}
+                {assign var="month" value=date('M',strtotime($cancelplan['start_date']))|lower}<!--36460-->
+                <tr class="cart_item">
+                    <td class="product-remove"> {$cancelplan['name']}</td>
+                    <td class="product-thumbnail">{$this->Language[$month]}{date(' d, Y',strtotime($cancelplan['start_date']))}<!--36460-->
+                    </td>
+                    <td class="product-remove">
+                    {if $cancelplan['is_subscribed_user']==1 }  <div class="form-group top10"  align="center">
+                                Cancelled
+                    </div> {/if}
+                    </td>
+                </tr>
+                {/foreach}
+                {foreach from=$bundlesplans item=plan}
+                {assign var="month" value=date('M',strtotime($plan['start_date']))|lower}<!--36460-->
+                <tr class="cart_item">
+                    <td class="product-remove"> {$plan['name']}</td>
+                    <td class="product-thumbnail">{$this->Language[$month]}{date(' d, Y',strtotime($plan['start_date']))}<!--36460-->
+                    </td>
+                        <td class="product-remove">
+                            <!--45922 starts-->
+                            <div class="form-inline top10">
+                                <div class="form-group">
+                                    <a href="javascript:void(0)" id="cancel_subscriptions_bundles_{$plan['id']}" class="btn btn-primary"  onclick="cancelsubscription({$plan['id']});">{$cancel_btn_form}</a>
+                                </div>
+                                {if $plan['is_changeable'] == 1}
+                                <div class="form-group">
+                                    <a href="javascript:void(0)" id="change_subscription_plan_{$plan['id']}" class="btn btn-secondary" onclick="changePlan({$plan['id']});">{($this->Language["change_plan"]=='')?'Upgrade Plan':$this->Language["change_plan"]}</a>
+                                </div>
+                                {/if}
+                                </div>
+                            <!--45922 ends-->
+                        </td>
+                </tr>
+                {/foreach}
+                {else}
+                    <tr>
+                        <!--43819 starts-->
+                        {if $is_free_user == 0}
+                        <td colspan="2">{$this->Language["no_record_found"]}</td>
+                        <td class="text-center"><a href="{$this->siteurl}/user/allplans" id="select_my_plan" class="btn btn-primary">{($this->Language["select_plan"]=='')?'Select Plan':$this->Language["select_plan"]}</a></td>
+                        {else}
+                        <td colspan="3">{$this->Language["no_record_found"]}</td>
+                        {/if}
+                        <!--43819 ends-->
+                    </tr>
+                     {/if}
+            </table>  
+          </div>
+               <div class="row" style="margin-right:0px !important;">
+                    <div class="col-md-12">
+                        <div class="product-pagination text-center">
+                            <nav>
+                                {$pagination}
+                            </nav>                        
+                        </div>
+                    </div>
+               </div>        
+          </div>
+    </div>
+</div>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>

@@ -1,0 +1,15 @@
+{$content = $content|json_decode}
+<div class="c-layout-page">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$content->title|utf8_decode}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="single-product-area content">
+        <div class="container muvi_content-area">
+            <div>{$content->content|utf8_decode}</div>
+        </div>
+    </div>
+</div>

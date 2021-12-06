@@ -1,0 +1,36 @@
+<div class="col-md-5ths col-xs-6">
+    <div class="thumbnail">
+        
+        <div class="muvi_play-box">
+            <a href="{$content->permalink}"><img src="{$content->poster}" alt="{$content->title|utf8_decode}" title="{$content->title|utf8_decode}" /></a>
+            <div class="muvi_popup-data muvi_thumb-bg">
+                <div class="ptext">{$content->short_story|utf8_decode}</div><br />
+                <div class="price"><strong>{$content->price}</strong></div>
+                {if $content->status == 1}
+                {if $content->is_preorder == 0}
+                <p class="text-center">
+                    <input type="button" class="muvi_AddToCart btn no-border muvi_cart2 btn-primary btn-green-small" value="{$this->Language['add-to-cart']}" onclick="showcart({$content->movie_id}, 1);" />
+                </p>
+                <p class="text-center">
+                    <input type="button" style="margin-left:0px;" class="muvi_AddToCart btn no-border order-now2 btn-primary btn-green-small" value="{$this->Language['ordernow']}" onclick="showcart({$content->movie_id}, 2);" />
+                </p>
+                {else}
+                <p class="text-center">
+                    <input type="button" style="margin-left:0px;" class="muvi_AddToCart btn no-border order-now2 btn-primary btn-green-small" value="{$this->Language['preorder_now']}" onclick="window.location='{$producturl}/{$value['permalink']}'" />
+                </p>
+                {/if}
+                {elseif $content->status == 3}
+                <div class="btn-group btn-group-justified" role="group">
+                    <div class="btn-group muvi_c-border-top" role="group">
+                        <div class="muvi_stockout text-black">{$this->Language['stock_out']}</div>
+                    </div>
+                </div>
+                {/if} 
+            </div>
+        </div>
+
+        <div class="caption">
+            <h3 class="muvi_caption_title"><a href="{$content->permalink}">{if $content->title|count_characters > 18}{$content->title|truncate:28|utf8_decode}{else}{$content->title}{/if}</a></h3>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,131 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h2 class="center white">{$this->Language['create_account_now']}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="single-product-area ">
+    <div class="container">
+        <div class="wrapper muvi_bottom-padding50">
+            <div class="row top20 ">
+               <div class="col-md-12 muvi_bottom20">
+                <div class="muvi_title1">{$this->Language['register_with_details']}</div>
+                </div>
+                <form id="membership_form" name="membership_form" method="POST" class="form-horizontal register_step">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                        {if $this->studio->social_logins}
+                    <div class="col-md-12 muvi_bottom50">
+                         
+                        {if isset($smarty.session.social) } 
+                        {assign var=socialAuth value=$smarty.session.social}
+                        {else}
+                        {assign var=socialAuth value=$this->getSocialUrls()}
+                        {/if}
+                        {if $socialAuth}
+                        <ul class="social-image new_social">
+   <!--  20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start-->
+                        {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                        <li><a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login="0" class="facebook_login facebook muvi_social_login _customfb _facebook"><img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/fb_icon.png" class="muvi_social_image"><span>{$this->Language['continue_with_facebook']}</span></a></li>
+                        {/if}
+                        {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                        <li><a href="{$socialAuth['gplus_url']}" class="_customgplus _googleplus"><img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/google_icon.png" class="muvi_social_image"><span>{$this->Language['continue_with_google']}</span></a></li>
+                        {/if}
+<!-- 20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar End-->
+
+                        </ul>
+                        {/if}
+                        <div id="login_errors" class="error"></div>
+                    </div>
+                       {/if}
+
+                    <div id="membership_loading" class="loader"></div>
+                    <div id="errors" class="error center"></div>  
+                    {if (!$this->chkStudioForCustomProfile)}
+                    <div class="col-md-6 muvi_bottom20">
+                        <div class="muvi_icon-addon muvi_addon-lg">
+                            <input type="text" class="form-control" autocomplete="off" placeholder="{$this->Language['text_name_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="name" name="data[name]" required />
+                            <label for="exampleInputEmail2"><i class="fa fa-user"></i></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 muvi_bottom20 ">
+                        <div class="muvi_icon-addon muvi_addon-lg">
+                            <input type="email" class="form-control" autocomplete="off" placeholder="{$this->Language['text_email_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="email_address" name="data[email]" required />
+
+                            <label for="exampleInputEmail2"><i class="fa fa-envelope-o"></i></label>
+                        </div>
+                    </div>
+                    <div class="loader" id="register-loading"></div>
+                    <div class="col-md-6 muvi_bottom20 top20">
+                        <div class="muvi_icon-addon muvi_addon-lg">
+                            <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['text_password_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="join_password" name="data[password]" required />
+                            <label for="exampleInputPassword2"><i class="fa fa-lock"></i></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 muvi_bottom20 top20">
+                        <div class="muvi_icon-addon muvi_addon-lg">
+                            <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['confirm_password']}" title="{$this->Language['fill_out_this_field']}" id="confirm_password" name="data[confirm_password]" required />
+                            <label title="{$this->Language['confirm_password']}" rel="tooltip" for="exampleInputPassword2"><i class="fa fa-lock"></i></label>
+                        </div>
+                    </div>
+                    {$counter = 0} 
+                        {if (count($custom_fields) > 0)}
+                {foreach from=$custom_fields item=fields}
+                    <label for="" class="col-sm-2 muvi_bottom20 control-label">{$fields['label']}</label>
+                    <div class="col-sm-4 muvi_bottom20">
+                   {$fields['field']}
+                    </div>
+                 {$counter = $counter+1}   
+                {/foreach}
+                        {/if}
+                {else}
+                {$counter = 0} 
+                    {if (count($custom_fields) > 0)}
+                {foreach from=$custom_fields item=fields}
+                   <label for="" class="col-sm-2 muvi_bottom20 control-label">{$fields['label']}</label>
+                    <div class="col-sm-4 muvi_bottom20">
+                   {$fields['field']}
+                    </div>
+                 {$counter = $counter+1}   
+                {/foreach}
+                
+                {/if}
+                {/if}
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 muvi_bottom20 muvi_top10 text-left">
+                        <label> 
+                            <input name="data[subscribe_newsletter]"  value="1" checked="checked" type="checkbox"> &nbsp;{$this->Language['subscribe_to_announcement']} 
+                        </label>  
+                    </div>                       
+                    <div class="col-md-6 muvi_bottom20 muvi_top10 text-left">
+                        <label>
+                            {$this->Language['chk_over_18']} <span class="muvi_light-green-color"><a href="{$this->base_url}/page/terms-privacy-policy">{$this->Language['terms']}</a></span>
+                        </label>
+                    </div>
+
+                    <div class="col-md-6 muvi_bottom20 muvi_top50 text-right">
+                        <button id="register_membership" class="btn btn-primary" onclick="validateSignupStep1Form();"><i class="fa fa-rocket muvi_padding-right-10" aria-hidden="true"></i>{$this->Language['btn_register']}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    var action = 'saveuser';
+    var btn = 'Register';
+</script>

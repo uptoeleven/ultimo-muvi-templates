@@ -1,0 +1,354 @@
+{literal}
+<style>
+    /* css :It's Re defined' */
+.ui-widget-content{
+    z-index: 1050 !important;
+    height: 200px !important;
+    overflow-y: scroll !important;
+}
+.ui-widget-content li:hover{
+    background-color: #0081c2;
+    background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+    background-repeat: repeat-x;
+    color:white;
+    text-decoration: none;
+}
+.featured_cont .ui-sortable-handle{
+	height: 100%;
+}
+.ui-menu .ui-menu-item{
+    padding: 5px;
+}
+.drag-cursor {
+    list-style: outside none none;
+}
+.Collapse-Content ul.featured_contents{
+    padding-left: 0;
+}
+ul.featured_contents h5{
+    min-height: 35px;
+}
+ul.featured_contents li{
+    float: left;
+}
+.err_msg{
+    color:red;
+}
+
+.item-cover {height: 190px;} /* 55270 */
+.ui-state-default { background: none; border: 1px dotted #fff;  cursor: move;}
+@media (min-width: 1560px) {
+   ul.featured_contents li{
+        width: 18%;
+    } 
+}
+</style>
+{/literal}
+{$totalContent = 0}
+{$home_layout  = Yii::app()->template->HomePageLayout()}
+{$has_physical = Yii::app()->physical->getStoreLink()}
+{$config_value = 0}
+{$k = 0}
+{$content_type = 0}
+<div class="container">
+<div class="Block">
+    <div class="Block-Body">
+        <div class="row m-b-40">       
+            <div class="col-xs-12">
+                <div class="slider-setting-bottom border-bottom mt-6 pb-1 pl-0 pr-0 pt-0">
+                    <h3 class="sectionTitle">{$this->Language["profile_featured_sections"]}</h3>
+                    <a href="javascript:void(0);" class="btn btn-default-with-bg" onclick="addHomepageSection(); return false;"><i class="fa fa-plus"></i> {$this->Language["add_new"]}</a>
+                </div>
+             </div> 
+        </div>
+    </div>
+    <form class="form-horizontal" method="post">
+        <input type="hidden" name="sec_id" id="sec_id" />
+    <div id="sort_section">
+    {foreach from=$sections key=k item=details}
+    
+    <div class="Block-Body"  id="sort_{$details['id']}">
+        <div class="row m-b-40">       
+            <div class="col-xs-12">
+                <div class="parent_sec_87383 featured-sec-wrap border-bottom">
+                    {if $details['section_type'] == 1} 
+                    <div class="slider-setting-bottom pl-0 pr-0">
+                      <div class="d-flex align-center">
+                        <h4 class="caps m-0">{$details['title']}</h4>
+                        <a href="javascript:void(0);" class="btn btn-default-with-bg ml-2" onclick="addPopularMovie('{$details['id']}', 0); return false;"><i class="fa fa-plus"></i> {$this->Language["new_content"]}</a>
+                      </div>
+                      <a href="javascript:void(0);" class="btn btn-danger removesection_btn" ata-toggle="modal" data-target="#deleteFeaturesectionModal" data-backdrop="static"  data-id="{$details['id']}">{$this->Language["remove_section"]}</a>
+                    </div>
+                    {else}
+                    <div class="slider-setting-bottom pl-0 pr-0">
+                      <div class="d-flex align-center">
+                            <h4 class="caps m-0">{$details['title']}</h4>
+                      </div>
+                      <div class="button-group">  
+                      <a href="javascript:void(0);" class="btn btn-danger removesection_btn" ata-toggle="modal" data-target="#deleteFeaturesectionModal" data-backdrop="static"  data-id="{$details['id']}">{$this->Language["remove_section"]}</a>
+                        <a href="javascript:void(0);" class="btn btn-default-with-bg ml-2" onclick="editSection('{$details['id']}'); return false;"> {$this->Language["edit_section"]}</a>
+                    </div>
+                    </div>
+                    <div class="col-sm-12 pl-0 pr-0">Auto Generated Featured Section&nbsp;&nbsp;&nbsp; 
+                        <span><b>Criteria</b>: {$details['section_criteria']}</span>&nbsp;&nbsp;&nbsp; <span><b>Category</b>: {$details['section_category']}</span>&nbsp;&nbsp;&nbsp; <span><b>Content Types</b>: {$details['content_types']}</span>&nbsp;&nbsp;&nbsp;<span><b>Content Limit</b>: {$details['content_limit']}</span></div>
+                    {/if}
+                    <ul class="item-list row slider slick-initialized slick-slider">
+<!--                      <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button"
+                        aria-disabled="false" style="display: block;">Previous</button>-->
+                      <div aria-live="polite" class="slick-list draggable">
+                        
+                          
+                          <div class="slick-track" role="listbox" style="opacity: 1; width: 1758px; left: 0px;">
+                        {if ($featureds[$k])}
+                        {$counter=0}<!--55270-->
+                         {foreach from=$featureds[$k] key=k_featured item=featured}
+                        {if $counter>3 && $counter%4==0}
+                            </div>
+                            <div class="slick-track" role="listbox" style="opacity: 1; width: 1758px; left: 0px;">
+                        {/if}<!--55270-->
+                          <li class="col-sm-6 col-xs-12 col-md-3 slick-slide slick-active" style="width: 293px;">
+                            <div class="item-wrap" style="height: 225px;">
+                              <div class="item-cover">
+                                <img class="_cover" src="{$poster[$k][$k_featured]}">
+                                <div class="cover-overlay">
+                                  <a href="javascript:void(0);" class="btn btn-danger removecontent_btn" data-target="#deleteFeaturecontentModal" data-backdrop="static"  data-id="{$featured['id']}"><i class="fa fa-trash"></i></a>
+                                </div>
+                              </div>
+                              <div class="item-info _sline" style="color: rgb(92, 104, 115); font-size: 17px;">
+                                <a href="#">{(strlen($cont_name[$k][$k_featured]) > 50) ? strip_tags(substr($cont_name[$k][$k_featured], 0, 50)) : $cont_name[$k][$k_featured]}</a>
+                              </div>
+                            </div>
+                          </li>
+                          {$counter=$counter+1}<!--55270-->
+                          {/foreach}
+                          {/if}
+                        </div>
+                          
+                          
+                      </div>
+<!--                      <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button"
+                        aria-disabled="false" style="display: block;">Next</button>-->
+                    </ul>
+                  </div>
+             </div> 
+        </div>
+    </div>
+    {/foreach}
+</div>
+    </form>
+</div>
+</div>
+<div id="addHomepageSection" class="modal fade">
+    <div class="modal-dialog">
+        <form action="{$this->base_url}/user/addHomepageSection" class="form-horizontal" method="post" id="add_homepage_section">
+                <input type="hidden" name="section_id" id="sectionId" value="0" />
+                <input type="hidden" name="config_value" id="config_value" value="{$config_value}" />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">{$this->Language["add_featured_section"]}</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="err_msg"></div>
+                    <div class="form-group">
+                            <label class="control-label col-sm-3">{$this->Language["section_type"]}:</label> 
+                            <div class="col-sm-9">
+                                <div class="fg-line">
+                                    <div class="select">
+                                        <select name="section_type" id="section_type" class="form-control" onchange="formchange(this,{$config_value})">
+                                            <option value="1">Manually Generated</option>
+                                            <option value="2">Auto Generated</option>
+                                        </select>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="form-group contentType">
+                                <label class="col-sm-3 control-label">{$this->Language["content_type"]}</label>
+                                <div class="col-sm-4">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select name="content_type" id="content_type" class="form-control" onchange="selectCriteria(this)">
+                                                <option value="0">Video</option>
+                                            </select>                        
+                                        </div>
+                                    </div>
+                                </div>                                    
+                            </div> 
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">{$this->Language["section_name"]}:</label> 
+                            <div class="col-sm-9">
+                                <div class="fg-line">
+                                     <input required type="text" id="section_name" class="form-control input-sm" name="section_name" placeholder="Enter Section Name" value="" />
+                                </div>
+                            </div>
+                    </div>                        
+                        <div id="auto_generated">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">{$this->Language["section_criteria"]}:</label> 
+                                <div class="col-sm-9">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select name="section_criteria" id="section_criteria" class="form-control">
+                                                <option value="0">None</option>
+<!--                                                <option value="1">Most Viewed</option>-->
+                                                <option value="2">Top Rated</option>
+                                                <option value="3">Latest Uploads</option>
+                                                <option value="4">Content Category</option>
+                                                <!--<option value="5">Latest Movies, TV Series</option>-->
+                                                <option value="6">My Library</option>
+                                                <option value="7">My Favorites</option>
+                                                <option value="8">Recently Seen</option>
+<!--                                                <option value="11">Free Content</option>-->
+                                                <option value="10">Release Date</option>
+                                            </select>                        
+                                        </div>
+                                        <!--//0017715: Featured Sections: Hide options not applicable for Recommended Content start-->
+                                         <input type="hidden" id="section_criteria_hidden">
+                                         <input type="hidden" id="section_current_language_id" value="{$language_id}">
+                                         <input type="hidden" id="section_language_id" value="{$language_id}">
+                                         <!--//0017715: Featured Sections: Hide options not applicable for Recommended Content end-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group sectionCategory" id="scategory">
+                                <label class="control-label col-sm-3">{$this->Language["section_category"]}:</label>
+                                <div class="col-sm-9">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select name="section_category[]" id="section_category" class="form-control" multiple onchange="viewMore(this)">
+                                                <option value="0">All</option>
+                                                   {foreach from=$category key=k item=value}
+                                                    <option value="{$k}">{$value}</option>
+                                                    {/foreach}
+                                            </select>                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group isViewmore">
+                                <label class="control-label col-sm-3"></label>
+                                <div class="col-sm-9">
+                                    <div class="fg-line">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input name="is_viewmore" id="is_viewmore" value="1" type="checkbox"><i class="input-helper"></i>Show a view more button
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group contentTypes" id="scategory">
+                                <label class="control-label col-sm-3">{$this->Language["content_type"]}:</label>
+                                <div class="col-sm-9">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select name="content_types[]" id="content_types" class="form-control">
+                                                <option value="0">All</option>
+                                                <option value="1">Single Part</option>
+                                            </select>                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group contentLimit">
+                                <label class="control-label col-sm-3">{$this->Language["content_limit"]}:</label> 
+                                <div class="col-sm-9">
+                                    <div class="fg-line">
+                                        <input type="number" min="0" max="400" id="content_limit" class="form-control input-sm" name="content_limit" placeholder="0-400" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">{$this->Language["btn_save"]}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{$this->Language["btn_cancel"]}</button>
+                </div>
+            </div>
+        </form>	
+    </div>
+</div>
+<div id="addPopularcontnet" class="modal fade">
+    <div class="modal-dialog">
+        <form  method="post" id="add_content" class="form-horizontal">
+            <input type="hidden" id="featured_section" name="featured_section" />
+            <input type="hidden" id="fs_content_type" name="fs_content_type" />            
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{$this->Language["add_popular_content"]}</h4>
+                </div>
+                <div class="modal-body">                        
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">{$this->Language["name"]}:</label>
+                        <div class="col-sm-9">
+                            <div class="fg-line">
+                                <input type="text" id="title" class="form-control input-sm" name="title" placeholder="Start Typing content name..." required>
+                            </div>
+                            <div id="pcontent_poster relative">
+<!--                                <div id="pcontent_poster_loader" class="preloader pls-blue text-center">
+                                    <svg class="pl-circular" viewBox="25 25 50 50">
+                                    <circle class="plc-path" cx="50" cy="50" r="20"></circle>
+                                    </svg>                                   
+                                </div>-->
+                                <span class="help-block" id="preview_poster"></span>
+                            </div>
+                        </div>
+                            
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="fcontent_save" class="btn btn-primary">{$this->Language["btn_save"]}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{$this->Language["btn_cancel"]}</button>
+                </div>
+            </div>
+           <input type="hidden" value="" id="featuresection_movie_id" name="movie_id" />
+            <input type="hidden" value="" id="is_episode" name="is_episode" />
+        </form>	
+    </div>
+</div>
+<div class="modal fade" id="deleteFeaturesectionModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;" >{$this->Language["delete"]} section?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="hidden" name="remove_userfeaturesection_id" id="remove_userfeaturesection_id" value=""/>
+                        <span>{$this->Language["are_you_sure_want_to"]} <b>{$this->Language["delete"]} section ?</b> </span> 
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <a href="javascript:void(0);" id="delete_featuresection" class="btn btn-default studio_user"  onclick="removeUserfeatureSection();">{$this->Language["yes"]}</a>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button">{$this->Language["btn_cancel"]}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteFeaturecontentModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;" >{$this->Language["delete"]} {$this->Language["content"]}?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="hidden" name="remove_userfeaturecontent_id" id="remove_userfeaturecontent_id" value=""/>
+                        <span>{$this->Language["are_you_sure_want_to"]} <b>{$this->Language["delete"]} {$this->Language["content"]}?</b> </span> 
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <a href="javascript:void(0);" id="delete_featuresection" class="btn btn-default studio_user"  onclick="removeUserfeatureContent();">{$this->Language["yes"]}</a>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button">{$this->Language["btn_cancel"]}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

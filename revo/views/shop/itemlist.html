@@ -1,0 +1,139 @@
+<div class="content _no-gap-top">
+    <div class="item-detail-title">
+        <div class="container">
+            <h2 class="clearfix">
+                <span class="pull-left">{$this->Language['product_list']}</span>
+                <ul class="page-breadcrumbs">
+                    <li><a href="{$this->base_url}/shop">{$this->Language['shop']}</a></li>
+                    <li><span>{$this->Language['product_list']}</span></li>
+                </ul>
+            </h2>
+        </div>
+    </div>
+    <div class="container">
+        <ul class="item-list row">
+            {foreach from=$product key=k item=value}
+            <li class="col-md-3">
+                <div class="item-wrap {if $value['status'] ==3 || $value['sale_price'] =='0.00'}_stock-out{/if}">
+                    {if $VDShopListItem}
+                        {foreach from=$VDShopListItem|json_decode item=vdListItem}
+                        {if $vdListItem->contentType == "poster_url"}
+                        <div class="item-cover">
+                            <img class="_cover" src="{$value['poster']}" />
+                            <div class="cover-overlay" >
+                                <a class="playbtn" href="{$this->base_url}/{$value['permalink']}">{$this->Language['explore']}</a>
+                                {if $value['status']==1}
+                                    {if $value['is_preorder'] == 0}
+										{if $value['sale_price'] != '0.00'}
+											<a class="butn-ad2cart" href="javascript:void(0);" onclick="showcart({$value['id']}, 1);"></a>
+											<a class="butn-ordernow" href="javascript:void(0);" onclick="showcart({$value['id']}, 2);">{$this->Language['ordernow']}</a>
+										{/if}
+                                    {else}
+                                    <a class="butn-ordernow" href="javascript:void(0);" onclick="window.location = '{$this->base_url}/{$value['permalink']}'">{$this->Language['pre_order']}</a>
+                                    {/if}
+                                {/if}
+                            </div>
+                            {if $value['status']==3}
+                            <div class="_stock-out-txt">{$this->Language['stock_out']}</div>
+                            {/if}
+                        </div>
+                        {else}
+                        
+                        <div 
+                            class="item-info
+                            {if $vdListItem->boldStatus == 'b'} _bold{/if}
+                            {if $vdListItem->width == '1/2'} _col-1b2{/if}
+                            {if $vdListItem->width == '1/3'} _col-1b3{/if}
+                            {if $vdListItem->width == '2/3'} _col-2b3{/if}
+                            {if $vdListItem->align == 'r'} _txt-right{/if}
+                            {if $vdListItem->align == 'c'} _txt-center{/if}
+                            {if $vdListItem->lineCount == 's'} _sline{/if}
+                            " 
+                            style="{if $vdListItem->lineHeight != '' && $vdListItem->lineHeight != '0'}line-height:{$vdListItem->lineHeight}px;{/if}
+                            {if $vdListItem->size != '' && $vdListItem->size != '0'}font-size:{$vdListItem->size}px;{/if}
+                            {if $vdListItem->color != '' && $vdListItem->color != '0'}color:{$vdListItem->color};{/if}
+                            ">
+                            {if $vdListItem->contentType == "title"}
+                                <a href="{$value['permalink']}">{$value['name']}</a>
+                            {elseif $vdListItem->contentType == "price"}
+                                {if $value['is_preorder'] == 0}
+									{if $value['sale_price'] != '0.00'}
+										{Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'], 0, null, 0, 1)}
+									{/if}	
+                                {else}
+                                &nbsp;
+                                {/if}
+                            {else}
+                                {$datakey = $vdListItem->contentType}
+                                {$value[$datakey]|utf8_decode}
+                                {$value['custom'][$datakey]['field_value']|utf8_decode}&nbsp;
+                            {/if}   
+                        </div>   
+                        {/if}
+                        {/foreach}
+                    
+                    {else}
+                        <div class="item-cover">
+                            <img class="_cover" src="{$value['poster']}" />
+                            <div class="cover-overlay" >
+                                <a class="playbtn" href="{$this->base_url}/{$value['permalink']}">{$this->Language['explore']}</a>
+                                {if $value['status']==1}
+                                    {if $value['is_preorder'] == 0}
+										{if $value['sale_price']!='0.00'}
+                                    <a class="butn-ad2cart" href="javascript:void(0);" onclick="showcart({$value['id']}, 1);"></a>
+                                    <a class="butn-ordernow" href="javascript:void(0);" onclick="showcart({$value['id']}, 2);">{$this->Language['ordernow']}</a>
+                                    {else}
+											<div class="_stock-out-txt">{$this->Language['currently_unavailable']}</div>
+										{/if}
+                                    {else}
+                                    <a class="butn-ordernow" href="javascript:void(0);" onclick="window.location = '{$this->base_url}/{$value['permalink']}'">{$this->Language['pre_order']}</a>
+                                    {/if}
+                                {/if}
+                            </div>
+                            {if $value['status']==3}
+                            <div class="_stock-out-txt">{$this->Language['stock_out']}</div>
+                            {/if}
+                        </div>
+                        <div class="spacer_10"></div>
+                        <div class="item-info">
+                            <a href="{$this->base_url}/{$value['permalink']}"> {if $value['name']|count_characters > 30}
+                                {$value['name']|substr:0:30}
+                                {else}
+                                {$value['name']}
+                                {/if}
+                            </a>
+                        </div>
+                        <div class="item-info">
+                            {if $value['is_preorder'] == 0}
+								{if $value['sale_price'] != '0.00'}
+                                {Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'], 0, null, 0, 1)}
+                            {else}
+                            &nbsp;
+                            {/if}
+                            {else}
+								&nbsp;
+                            {/if}
+                        </div>
+                        <div class="spacer_10"></div>
+                    {/if}
+                    
+                    <div class="loader _item-{$value['id']}"></div>
+                </div>
+            </li>
+            {/foreach}
+        </ul>
+        
+        
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+     </div>
+</div>
+<script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js"></script>

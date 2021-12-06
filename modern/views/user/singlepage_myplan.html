@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-md-12 p-l-0">
+        <h3 class="c-font-uppercase muvi_c-font-sbold mt-15 mb-15">{$this->Language['my_plan']}</h3>
+        <div class="table-responsive">
+            <table cellspacing="0" class="muvi_shop_table top20 table table-bordered" style='width:100%;'>
+                <thead>
+                    <tr>
+                        <th class="muvi_product-name" style="width: 35%;">{$this->Language["plan_name"]}</th>
+                        <th class="muvi_product-name">{$this->Language["renews_on_valid_till"]}</th>
+                        <th class="muvi_product-name"></th>
+                    </tr>
+                </thead>                   
+                {assign var="user_id" value=Yii::app()->user->id}
+                {if $bundlesplans_cancelled|@count > 0 || $bundlesplans|@count > 0 }
+                {foreach from=$bundlesplans_cancelled item=cancelplan}
+                <tr class="cart_item">
+                    <td class="muvi_product-remove"> {$cancelplan['name']}</td>
+                    <td class="muvi_product-thumbnail">{date('F d, Y',strtotime($cancelplan['start_date']))}
+                    </td>
+                    <td class="muvi_product-remove">
+                        {if $cancelplan['is_subscribed_user']==1 }  <div class="form-group muvi_top10"  align="center">
+                            {$this->Language["cancelled"]}
+                        </div> {/if}
+                    </td>
+                </tr>
+                {/foreach}
+                {foreach from=$bundlesplans item=plan}
+                <tr class="cart_item">
+                    <td class="muvi_product-remove"> {$plan['name']}</td>
+                    <td class="muvi_product-thumbnail">{date('F d, Y',strtotime($plan['start_date']))}
+                    </td>
+                    <td class="muvi_product-remove"> <div class="text-center">
+                            <a href="javascript:void(0)" id="cancel_subscriptions_bundles_{$plan['id']}" class="btn c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" onclick="cancelsubscription({$plan['id']});" >{$cancel_btn_form}</a>
+                        </div></td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr>
+                    <td colspan="3">{$this->Language["no_record_found"]}</td>
+                </tr>
+                {/if}
+            </table>  
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+<!--@Mantis: 19607 start-->
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<!--@Mantis: 19607 end-->

@@ -1,0 +1,33 @@
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<div class="c-layout-page">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['search_results']}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 20px;min-height: 333px;">
+        <div id="content_list"></div>
+        <div class="row">
+            {if $item_count > 0}
+                {include file='../layouts/listitem.html'}       
+            {else}
+            <div class="col-md-12"><h1>{$this->Language['no_result_found_refine_your_search']}</h1></div>
+            {/if}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

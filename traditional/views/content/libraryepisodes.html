@@ -1,0 +1,23 @@
+{$viewlist = $viewlist|json_decode}
+{$pagination}
+{$kvs = $kvs|json_decode}
+{foreach from=$kvs item=data}
+{foreach from=$viewlist item=view}
+{if $data->movie_stream_id == $view->id}
+<div class="col-md-5ths col-xs-6"> 
+    <div class="thumbnail muvi_episode_content">
+        <div class="muvi_play-box"> <img class="img-responsive" src="{$data->poster}" alt="{$data->title|utf8_decode}" title="{$data->title|utf8_decode}" />
+                <div class="muvi_thumb-bg muvi_play-now"></div>
+                <div class="play-btn">{$data->play_btn}</div>
+                <div class="muvi_thumb-time-line">{if $data->video_duration!= ""}<span class="pull-right muvi_font-200 muvi_f-10 muvi_pad5">{$data->video_duration}</span>{/if}</div>
+        </div>
+        <div class="caption">
+                <h3 class="episode_title">{if $data->title|count_characters > 25}{$data->title|truncate:35}{else}{$data->title}{/if}</h3>                <p class="muvi_font-200 muvi_light-green-color">{if $data->story|utf8_decode|count_characters >50}{$data->story|utf8_decode|truncate:60}<a href="javascript:void(0);" class="muvi_multipart_child more" data-id="more-{$ccc}" data-toggle="modal"  data-target=".bs-example-modal-lg1">{$this->Language['more']}</a>{else}{$data->story|utf8_decode}{/if}</p>
+                <p class="muvi_c-full-desc hide muvi_font-200">{$data->story|utf8_decode}</p>
+
+        </div>
+    </div> 
+</div>
+{/if}
+{/foreach}
+{/foreach}

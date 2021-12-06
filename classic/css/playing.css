@@ -1,0 +1,70 @@
+.video-grid1 {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.padding-0
+{
+    padding-left:0px;
+    padding-right:0px;
+}
+.badge-area
+{
+    width:auto;
+    margin:30px 0px;
+}
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1;
+    color: #fff;
+    font-weight:400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 8px;
+    margin-right:5px;
+    cursor:pointer;
+}
+.social-network
+{
+    margin-top:15px;
+    text-align:right;
+}
+.social-network a {
+    color: #c5c5c5;
+    padding: 10px 15px;
+    font-size:25px;
+}	
+.social-network a:active, .social-network a:hover, .social-network a:focus {
+    color: #32c5d2;
+    padding: 10px 15px;
+}
+.related-video
+{
+    margin:30px 0px;
+}
+#Playerframe{
+    border:1px solid #333;
+    overflow:hidden;
+}
+.video-grid1 > iframe {
+    display: block;
+}
+.lazy.epinit{
+    opacity:0;
+}
+.lazy{
+    opacity: 1;
+    transition:all 0.3s ease-in-out;
+    -moz-transition:all 0.3s ease-in-out;
+    -webkit-transition:all 0.3s ease-in-out;
+    -o-transition:all 0.3s ease-in-out;
+}
+.loader.static-loading{
+    position:static;
+    height:100px;
+    display:block;
+}

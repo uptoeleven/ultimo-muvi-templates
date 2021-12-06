@@ -1,0 +1,67 @@
+{$post = $post|json_decode}
+{if !$this->is_mobileview}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$post->post_title|utf8_decode}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{/if}
+<div class="single-product-area ">
+    <div class="container">
+        <div class="wrapper blogs">
+            <div class="row top20">
+                <div class="col-md-12 ">
+                    {if $this->is_mobileview}
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$post->post_title|utf8_decode}</h1>
+                            </div>
+                        </div>
+                    {/if}
+                    <p>
+                        {$this->Language['by']} <b>{$post->author}</b>, {$this->Language['published_on']} <b>{$post->date}</b>
+                    </p>
+                    {if $post->thumb !=""}<div class="muvi_original_image">{$post->thumb}</div>{/if}
+                    <div class="muvi_full_desc blog-item">{$post->full_desc|utf8_decode}</div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-12"> {if  $comments|@count > 0}<div class="muvi_title1 blogcomment">{$this->Language['comments']}</div>
+                    {foreach from=$comments item=comment}
+                    <span class="h5">{$this->Language['comment_by']}</span> : {$comment->fullname}<br /> 
+                    <div class="muvi_top5">  {$comment->comment}</div> <br />
+                    <hr />
+                    {/foreach}
+                    {/if} <div class="loader" id="muvi_loader_comment"> </div>
+                </div>
+
+
+            </div>
+
+            <div id="muvi_comment_form"> </div> 
+        </div>
+    </div>
+</div>
+{literal}
+<script>
+    $(document).ready(function () {
+        blogViewLoad({/literal}{$post->post_id}{literal});
+        blogViewVideo(".blog-item"); //12046
+
+    });
+</script>   
+{/literal}

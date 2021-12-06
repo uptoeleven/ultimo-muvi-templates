@@ -1,0 +1,208 @@
+<!--- 
+@ER: #52109: UGC Analytics for CMC
+@purpose: HTML of the revenue section
+--> 
+<div class="content">
+        <div class="container">
+    <h2 class="txt-camel">{$this->Language['my_revenue']}</h2>
+    
+    <!-- calendar chart -->
+    <div class="row revenue-main">     
+    <!-- calendar input -->
+    <div class="col-lg-3 col-md-4 col-sm-5">    
+    <div class="chart-date-range">    
+    <div class="date-range-box">
+    <label for="dateRange">{$this->Language['choose_date']}:</label>
+    <input type="text" id="revenue_date" name="dateRange" class="form-control pull-right">
+    <em class="fa fa-calendar icon-position"></em>
+    </div>    
+    </div>    
+    <div class="clearfix"></div>    
+    </div>
+    <!-- calendar input -->   
+    
+    <!-- Revenue New Design Implement Here-->
+    <div class="col-lg-9 col-md-8 col-sm-12">
+      <div class="revenue">
+         <!-- Top Heading Start Here-->
+         <div class="title"><h2>{$this->Language['revenue']}</h2></div>
+         <!-- Top Heading End Here-->
+         <!--Revenue box start here-->
+         <div class="box">
+            <div class="value">
+               <p>{$this->Language['total_earning_period']}</p>
+               <span>{$currency_details->symbol}{$total_revenue}</span>
+            </div>
+            {if ($currency > 1 && !empty($currency))}
+            <div class="select-box">
+                <select class="form-control" id="currency-box">
+                  {foreach from=$currency item=curr}
+                  {if ($curr['id'] == $currency_details->id)}
+                    {$selected= 'selected=selected'}
+                  {else}
+                    {$selected= ''}
+                  {/if}
+                  <option value="{$curr['id']}" {$selected} data-symbol="{$curr['symbol']}" data-code="{$curr['code']}">{$curr['country']}-{$curr['code']}({$curr['symbol']})</option>
+                  {/foreach}
+              </select> 
+            </div>
+            {else}
+            <input type="hidden" id="currency-box" data-symbol = "{$currency_details->symbol}" data-code = "{$currency_details->code}" value="{$currency_details->id}"/>
+            {/if}
+         </div>
+         <!--Revenue box End here-->
+      </div>    
+    </div>
+    <!-- Revenue New Design Implement Here-->
+    
+    </div>
+    <!-- calendar chart -->
+       
+    
+    <!-- Revenue Share Table -->
+    
+    <div class="revenue-share-box">
+    
+    <div class="row rev-down-btn">
+    
+    <div class="col-md-9 col-sm-7 col-xs-6">
+    <p class="followers-mum"><b>{$this->Language['revenue_share_percenate_msg']} <span>{$revenue_details->enduser_revenue_share_percentage}%</span></b></p>
+    </div>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+        <button class="btn btn-lg btn-primary pull-right" id="downloadcsv" value="CSV">{$this->Language['download_csv']}</button>
+    </div>    
+    </div>    
+    <div class="revenue-inner-box">    
+    <table id="submissions-table" class="table table-bordered table-sm" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th class="th-sm">{$this->Language['content']}</th>
+          <th class="th-sm">{$this->Language["date"]}
+          </th>
+          <!-- <th class="th-sm">Transaction by <em class="fas fa-sort-alt"></em>
+          </th> -->
+<!--          <th class="th-sm">{$this->Language["type"]} </th>-->
+          
+          <th class="th-sm text-right">{$this->Language["amount"]}</th>
+          <th class="th-sm text-right">{$this->Language["total_value"]}</th>
+          <th class="th-sm text-right">{$this->Language["revenue_share"]}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {assign var="total_data" value=$data['hits']|@count}
+        {if ($total_data > 0)}
+        {foreach from=$data['hits'] item=revenue}
+<!--        {$revenue|@print_r}-->
+        <tr>
+          <td>{$revenue['_source']['transaction_for']}</td>
+          <td>{$revenue['_source']['transaction_date']|date_format:"%Y-%m-%d %H:%M:%S"}</td>
+          <!-- <td>First Last Name</td> -->
+<!--          <td>PPV</td>-->
+            <td class="text-right">{$revenue['_source']['subtotal']}</td>
+            <td class="text-right">{$revenue['_source']['total_value']}</td>
+          <td class="text-right">{$revenue['_source']['creator_value']}</td>
+        {/foreach}
+        {else}
+        </tr>
+      <td colspan="6" class="text-center">{$this->Language["no_record_found"]}</td>
+        </tr>
+        {/if}
+      </tbody>
+    </table>
+    </div>
+        
+    <div class="row" style="margin-right:0px !important;">
+        <div class="col-md-12">
+            <div class="product-pagination text-center">
+                <nav>
+                    {$pagination}
+                </nav>                        
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- <div class="revenue-share-text">
+    <p><sup>1</sup> Not Inclusive of Tax</p>
+    <p><sup>2</sup> Includes SOCAN licensing fee (1.56%)</p>
+    <p>Your earnings from performance is paid out annually by Picanto.  Questions? Check out our <a href="javascript:void(0);" data-pjax="#main">FAQ</a> or <a href="javascript:void(0);" data-pjax="#main">contact us</a>.</p>
+    </div>     -->
+    </div>        
+    <!-- Revenue Share Table -->     
+         </div>
+    <input type="hidden" id="chkdatestatus" value="1">
+    </div>
+
+<div class="modal fade" id="infoModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="info_message"></p>  
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_ok']}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="{$this->siteurl}/themes/admin/css/daterangepicker/jquery.comiseo.daterangepicker.css" rel="stylesheet">
+<script src="{$this->siteurl}/themes/admin/js/daterangepicker/jquery.comiseo.daterangepicker.js"></script>
+<script src="{$this->siteurl}/themes/admin/js/daterangepicker/moment.min.js"></script>
+<script>
+    var currency_id = '{$default_currency}';
+    var lunch_date = '{$lunch_date}';
+    var start = '{$start_date}';
+    var end = '{$end_date}';
+    $(function() {
+        loadDateRangePicker('revenue_date',lunch_date,start,end);
+        $("#chkdatestatus").val(0);
+    });
+    
+   
+    $('#revenue_date').change(function(){ 
+        var status = $("#chkdatestatus").val();
+        if(status === '0'){
+            loadDefault();
+        }
+        
+    });
+    $('#currency-box').change(function(){ 
+        loadDefault();
+    });
+    $('#downloadcsv').click(function(){
+        var currency_id = $('#currency-box').val();
+        var date_range = $('#revenue_date').val();
+        var date_ranges =JSON.parse(date_range);
+        start = date_ranges.start;
+        end = date_ranges.end;
+        var type = $(this).val();
+        if(type === 'CSV'){
+            var total_count  = "{$data['total']['value']}";
+            if(total_count > 30000){
+               $("#info_message").html(JSLANGUAGE.maximum_data_exceeds_msg);
+               $("#infoModal").modal('show');
+            }else{
+                window.location = '{$this->siteurl}/user/downloadrevenuecsv?dt='+date_range+'&currency_id='+currency_id;
+            }
+        }
+    });
+    function loadDefault() {
+        var currency_id = $('#currency-box').val();
+        var date_range = $('#revenue_date').val();
+        var date_ranges =JSON.parse(date_range);
+        start = date_ranges.start;
+        end = date_ranges.end;
+        var datediff = new Date(start) - new Date(end);
+        var days = datediff/1000/60/60/24;
+        if (days < -900000 ) {
+            $("#info_message").html(JSLANGUAGE.date_limit_exceeds_msg);
+            $("#infoModal").modal('show');
+        }else {
+            window.location = '{$this->siteurl}/user/myrevenue?dt='+date_range+'&currency_id='+currency_id;
+        }
+    }
+   
+</script>

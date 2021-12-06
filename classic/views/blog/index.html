@@ -1,0 +1,40 @@
+{if !$this->is_mobileview}
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 top20">
+                <div class="product-bit-title">
+                    <h2>{$this->Language['blog']}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+<div class="single-product-area {if $this->is_mobileview}top20{/if}">
+    <div class="container">
+        <div class="row">
+                {foreach from=$data|json_decode item=content}
+                <div class="col-md-12">
+                    <h3>{$content->post_title|utf8_decode}</h3>
+                    <p>
+                        {$this->Language['by']} <b>{$content->author}</b>, {$this->Language['published_on']} <b>{$content->date}</b>
+                    </p>
+                    {if $content->thumb !=""}<div class="post-thumbnail">{$content->thumb}</div> {/if}
+                    <div class="short_desc"><p>{$content->short_desc|utf8_decode}&nbsp;<a href="{$content->permalink}{if $this->is_mobileview}?mobileview=1{/if}">{$this->Language['view_more']}</a></p></div>
+                </div>
+                <div class="clearfix"></div>
+                {/foreach}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+<style>
+    #explore {
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+<div class="container">
+    <div class="row top20">
+        <div class="col-lg-3 top-"><h2 class="">{$this->Language['watch_history']}</h2></div>
+    </div>
+</div>
+        
+
+
+<div class="single-product-area top50">
+    <div class="container">
+
+        <div class="row">
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+            <div class="col-md-12">
+                <div class="alert-msg in  fade alert-success profile-success" id="watch_success_message" style="display: none;">{$this->Language['watch_history_success_msg']}</div>
+                {if $item_count != 0}<button id="showModal" class="btn btn-primary pull-right m15" type="button">{$this->Language['clear_history']}</button>{/if}
+            </div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+            {if $item_count > 0}
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+                <div id="watchhistory-container">
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+                {foreach from=$contents|json_decode item=content}
+               
+                <div class="col-sm-3">
+                    <div class="thumbnail listpos thumblist">
+                        <div class=""></div>
+                        <div class="caption">
+                            {if $content->content_types_id== 3}
+                            <button type="button" value="{$content->movie_id}" onclick="showSeason('{$content->movie_id}','{$content->title|utf8_decode}')" id="explore" class="btn btn-md c-btn-grey-1 c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square explore">{$this->Language['explore']}</button>
+                            {else}
+                            {$content->play_btn}
+                            {/if}
+                        </div>                                    
+                        <a href="{$this->base_url}/{$content->permalink}">
+                            <img src="{$content->poster}" alt="{$content->title|utf8_decode}" class="img-tshow lazy">
+                        </a>
+                        <div class="overtext popup_content">
+                            <div class="arrow"></div>
+                            <div class="ptitle caps"><a href="#">{$content->title|utf8_decode}</a></div>
+                            <div class="stripe col-md-12">
+                                <div class="col-md-8">
+                                    {foreach from=$content->genres item=genre}
+                                    <span class="genre_list">{$genre}<span>, </span> </span> 
+                                    {/foreach} 
+                                </div> 
+                                <div class="span4 text-right">{$content->release_date}</div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="ptext">
+                                <p>{$content->short_story|utf8_decode}</p> 
+                            </div>
+                            <div class="clear"></div>
+                            {if $content->casts->actors|count > 0}
+                            <div class="popup-cast">
+                                <div class="span12 row-fluid">
+                                    <div class="cast-heading span4">{$this->Language['cast']}</div>
+                                </div>
+                                <div class="cast-body">
+                                    {$actors = $content->casts->actors}
+                                    {foreach from=$actors item=actor}
+                                    <span class="caps"><a href="{$actor->full_permalink}" >{$actor->celeb_name}</a></span>,      
+                                    {/foreach}   
+                                </div>
+                            </div>
+                            {/if}
+                        </div>                                   
+                    </div>                        
+                    <div class="title">
+                        <a href="{$this->base_url}/{$content->permalink}">
+                            <h3 class="moviename">{$content->title|utf8_decode}</h3>
+                        </a>
+                    </div>
+                </div>
+                
+                {/foreach}
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+                </div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+            {else}
+            <div class="col-sm-12 top10">
+                <div class="nocontent">
+                    {$this->Language['no_content_added_yet']}
+                </div>
+            </div>
+            {/if}
+            <div class="loader" id="loader"></div>    
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-right">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+<div class="modal fade" id="watchModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headermodal">{$this->Language['clear_watch_history']}?</span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" autocomplete="false" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span id="bodymodal">{$this->Language['action_watch_history']}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:void(0);" id="clear_watch_history" class="btn btn-default">{$this->Language['yes']}</a>
+                        <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+<div class="modal fade" id="seasonModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog" style="width: 90%!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headertitel"></span></h4>
+            </div>
+            <div class="modal-body" style="height: 400px; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-sm-6  c-font-uppercase c-font-bold">
+                         {$this->Language['episodes']} 
+                    </div>
+                    <div class="col-sm-3">
+                        <h3 class="c-font-uppercase c-font-bold text-right text-left-xs season-dropdown_title">                                    
+                            {$this->Language['season']}                                
+                        </h3>
+                    </div>
+                    <div class="col-sm-3" id="seasons"></div>
+                </div>
+                <div class="row relative">
+                    <!--To list episodes-->
+                    <input type="hidden" name="content_id" id="content_id"/>
+                    <input type="hidden" name="default_series" id="default_series"/>
+                    <input type="hidden" name="userid" id="userid" value="{Yii::app()->user->id}" />
+                    <div id="episodes" class="cust-row"></div>
+                    <div class="loader" id="loader_episode" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{literal}
+<script>
+//0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start
+    $(document).ready(function () {
+        $("#showModal").click(function () {
+            $("#watchModal").modal('show');
+        });
+        $("#clear_watch_history").click(function () { 
+           var url = HTTP_ROOT + "/rest/clearWatchHistory?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}";
+            $.post(url, function (res) {
+                $("#watchModal").modal('hide');
+                $('#watchhistory-container').html('');
+                $('#showModal').attr("disabled", "disabled");
+                $('#watch_success_message').show();
+                $(".alert-msg").fadeTo(5000, 0).slideUp("slow", function(){
+                    $('#watch_success_message').css({ opacity: 1 });
+                });
+                //location.reload(res);
+            });
+        });
+    });
+//0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end
+    function showSeason(movie_id,title){
+            //var movie_id=$(this).val();
+            var url = HTTP_ROOT + "/rest/fetchSeasons?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}"+"&movie_id="+movie_id;
+            $.post(url, function (res) {
+                res = JSON.stringify(res);
+                res = JSON.parse(res);
+                var htmlval="";
+                htmlval +='<select id="season" name="season" onchange="showeposide(this.value)" class="form-control form-control-border">';
+                for(var j = 0; j < res.seasons.length; j++){
+                     htmlval +='<option value="'+res.seasons[j].series_number+'">Season '+res.seasons[j].series_number+'</option>';               
+                } 
+                htmlval +='</select>';
+                $('#seasons').html(htmlval);
+                $('#headertitel').html(title);
+                $('#content_id').val(movie_id);
+                showeposide(res.seasons[0].series_number)
+            });
+            $("#seasonModal").modal('show');
+        }
+    
+    function showeposide(series){
+            var pageNumber = 1, scrollAmountTrigger = 400, offset = 0, limit = 100;
+            var findEpisodesURL = HTTP_ROOT + "/content/fetchepisodes";
+            xhr=$.ajax({
+            method: "POST",
+            url: findEpisodesURL,
+            dataType: "json",
+            data: {'movie_id': $('#content_id').val(), 'series': series, 'limit': limit,'userid':$('#userid').val()}
+        }).done(function(res) {
+           $("#episodes").html(res.msg);
+        });
+    }
+</script>
+{/literal}

@@ -1,0 +1,67 @@
+{assign var="cropDimesion" value=Yii::app()->common->getPgDimension()}
+    {assign var="producturl" value=$this->base_url}
+    {foreach from=$contentproduct key=k item=value}
+    {$img_path=$value['img_path']}
+<div class="col-md-5ths col-sm-6 ">
+                    <div class="muvi_c-content-product-2 muvi_c-bg-white">
+
+                        <div class="muvi_c-content-overlay">
+                            <div class="muvi_c-overlay-wrapper">
+                                <div class="muvi_c-overlay-content">
+                                    <a href="{$producturl}/{$value['permalink']}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square">Explore
+                                        {if $img_path}
+                                        <img alt="{$value['name']}" src="{$img_path}" title="{$value['name']}"  style="width:100%;" />
+                                        {else}
+                                        <img data-src="holder.js/{$cropDimesion['width']}x{$cropDimesion['height']}" alt="{$value['name']}" title="{$value['name']}"  src="{$img_path}" />
+                                        {/if}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="muvi_c-bg-img-top-center muvi_c-overlay-object" data-height="height" style="height: {$cropDimesion['height']}px; background-image: url('{$img_path}');background-size: {$cropDimesion['width']}px {$cropDimesion['height']}px;"></div>
+                        </div>
+                        <div class="muvi_c-info">
+                            <p class="muvi_c-title muvi_c-font-14 muvi_c-font-slim">
+                                <a href="{$producturl}/{$value['permalink']}">
+                                {if $value['name']|count_characters > 30}
+                                {$value['name']|substr:0:30}
+                                {else}
+                                {$value['name']}
+                                {/if}
+                                </a>
+                            </p>
+                            {if $value['is_preorder'] == 0}
+                            <p class="c-price muvi_c-font-14 muvi_c-font-slim">
+                                {Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'])}
+                            </p>
+                            {else}
+                            <p class="c-price muvi_c-font-14 muvi_c-font-slim">
+                                &nbsp;
+                            </p>
+                            {/if}
+                        </div>
+                        {if $value['status']==1}
+                        <div class="btn-group btn-group-justified" role="group">
+                            {if $value['is_preorder'] == 0}
+                            <div class="btn-group muvi_c-border-top" role="group">
+                                <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" onclick="showcart({$value['id']}, 1);">{$this->Language['add-to-cart']}</a>
+                            </div>
+                            <div class="btn-group c-border-left muvi_c-border-top" role="group">
+                                <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" onclick="showcart({$value['id']}, 2);">{$this->Language['ordernow']}</a>
+                            </div>
+                            {else}
+                                <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" onclick="window.location='{$producturl}/{$value['permalink']}'">PreOrder Now</a>
+                            {/if}
+                        </div>
+                        {elseif $value['status']==3}
+                        <div class="btn-group btn-group-justified" role="group">
+                            <div class="btn-group muvi_c-border-top" role="group">
+                                <div class="muvi_stockout">{$this->Language['stock_out']}</div>
+                            </div>
+                        </div>
+                        {/if}                        
+                    </div>
+                </div>
+                {/foreach}
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}

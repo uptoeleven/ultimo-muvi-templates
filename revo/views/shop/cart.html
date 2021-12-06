@@ -1,0 +1,292 @@
+{assign var=months value=['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']}
+<div class="content _no-gap-top">
+    <div class="item-detail-title">
+        <div class="container">
+            <h2 class="clearfix">
+                <span class="pull-left">{$this->Language['shopping_cart']}</span>
+                <ul class="page-breadcrumbs">
+                    <li><a href="{$this->base_url}/shop">{$this->Language['shop']}</a></li>
+                    <li><span>{$this->Language['shopping_cart']}</span></li>
+                </ul>
+            </h2>
+        </div>
+    </div>
+    {if isset($smarty.session.cart_item)} 
+    {assign var="item_total" value=0}
+    <div class="container">
+        <div class="cart-table col-md-12">
+            <div class="row cart-table-title">
+                <div class="col-md-4 col-sm-3">{$this->Language['item']}</div>
+                <div class="col-md-3 col-sm-4 text-center">{$this->Language['qty']}</div>
+                <div class="col-md-2 col-sm-2 text-center">{$this->Language['unit_price']}</div>
+                <div class="col-md-2 col-sm-2 text-center">{$this->Language['subtotal']}</div>
+                <div class="col-md-1 col-sm-1"></div>
+            </div>
+            <!-- BEGIN: SHOPPING CART ITEM ROW -->
+            {assign var="producturl" value=$this->base_url}
+            {assign var="cart_item" value=$smarty.session.cart_item}
+            {foreach from=$cart_item key=k item=item}
+            {assign var="img_path" value=PGProduct::getpgImage($item['id'],'thumb',$item['pg_varient_id'])} 
+            {assign var="itemid" value=$k}
+            <div class="row cart-table-data  {if $item['product_status']!=1} productstatus_div {/if}">
+                <div class="{if $item['product_status']!=1} col-md-11 col-sm-11 col-xs-10 {else} col-md-4 col-sm-3 col-xs-6 {/if} padding_less">
+					<div class="cart_res_name text-center">{$this->Language['item']}</div>
+                    <img src="{$img_path}" class="_prod-img" /> 
+                    <h3>
+                        <a href="{$producturl}/{$item['permalink']}" class="c-font-bold c-theme-link c-font-22 c-font-dark" style="word-wrap: break-word;">
+                            {$item['name']}
+                        </a>
+                    </h3>
+                    <h4><strong>{$this->Language['sku']}: </strong>{$item['sku']}</h4>
+					<span class="productstatus_cart">
+						{if $item['product_status']!=1}
+							{assign var="errproduct" value=1}
+							{assign var="product_status" value=$item['product_status']}
+							{$this->productstatuserror[$product_status]}
+						{/if}
+					</span>
+                </div>
+				{if $item['product_status']==1}
+                <div class="col-md-3 col-sm-4 col-xs-6 text-center padding_less">
+					<div class="cart_res_name">{$this->Language['qty']}</div>
+                    {if $item['price'] != '0.00'}
+                    <div class="qty-spinner">
+                        <button class="btn btn-primary _btn" data-action="minus" type="button">
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <input type="text" class="form-control _fld cart-page-quant" value="{$item['quantity']}" data-itemid="{$itemid}" id="qnt_{$itemid}" onkeypress="return isNumberKey(event)">
+                        <button class="btn btn-primary _btn" data-action="plus" type="button">
+                            <i class="fa fa-caret-up"></i>
+                        </button>
+<!--                        <a href="javascript:void(0);" onclick="updatecart({$itemid});" title="{$this->Language['update']}">
+                            {$this->Language['update']}
+                        </a>-->
+                    </div>
+                    {else}
+                    1
+                    {/if}
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-5 text-center padding_less">
+					<div class="cart_res_name">{$this->Language['unit_price']}</div>
+                    <p>
+                        {if $item['price'] != '0.00'}{Yii::app()->common->formatPrice($item['price'], $item['currency_id'], 0, null, 0, 1)}{else}{$this->Language['free']}{/if}
+                    </p>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-5 text-center padding_less">
+					<div class="cart_res_name">{$this->Language['subtotal']}</div>
+                    <p>
+                        {if $item['price'] != '0.00'}
+                        {assign var="pertotal" value=($item["price"] * $item["quantity"])}
+                        {Yii::app()->common->formatPrice($pertotal, $item['currency_id'], 0, null, 0, 1)}
+                        {else}{$this->Language['free']}{/if}
+                    </p>
+                </div>
+				{else}
+				{assign var="pertotal" value=0.00}
+<!--				<div class="col-md-7 col-sm-8 col-xs-4 padding_less"><div class="cart_res_name text-center">&nbsp;</div></div>-->
+				{/if}
+                <div class="col-md-1 col-sm-1 col-xs-2 text-center padding_less">
+					<div class="cart_res_name">&nbsp;</div>
+                    <p>
+                        <a onclick="removecart('{$itemid}', 'cart_tr{$itemid}', {$item['quantity']});" href="javascript:void(0);" class="_remove-item" title="{$this->Language['remove_item_from_cart']}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            {if $item['price'] != '0.00'}
+                {assign var="item_total" value="{math equation="x + y" x=$item_total y=$pertotal}"}
+            {/if}    
+            {/foreach}
+            {assign var="total" value=$item_total}
+            <!-- END: SHOPPING CART ITEM ROW -->
+
+            <!-- BEGIN: SUBTOTAL ITEM ROW -->
+            <div class="row cart-bottom">
+                <div class="col-sm-8 col-xs-12 col-lg-8">
+					{if $errproduct==1}
+					<div class="prstatus_error">{$this->Language['prstatus_error']}</div>
+					{/if}
+                    {if ((isset($data['is_coupon_exists'])) && ($data['is_coupon_exists']|intval))}
+                    {assign var="symbol" value=$data['currency']['symbol']}
+                    <div id="charged_amt" style="display: none;" data-amount="{$item_total}" data-currency="{$symbol}">{$symbol}{$item_total}</div>
+                    <div class="coupon-fld input-group">
+                        <input type="text" class="form-control _fld" name="data[coupon]" id="coupon" placeholder="{$this->Language['coupon_code_optional']}" value="{$smarty.session.couponCode}">
+                        <input type="hidden" name="data[coupon_use]" value="0" id="coupon_use" />
+                        <a class="_btn" id="coupon_btn" onclick="validateCoupon(1);">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div id="invalid_coupon_error" style="color:red;font-size:14px;display: none"></div>                           
+                    <div id="valid_coupon_code" style="color:#4da30c;font-size:14px;display: none">{$this->Language['coupon_apply_success']}</div>
+                    <div id="coupon_code_appliedon" style="color:#4da30c;font-size:14px;display: none"></div>
+                    {/if}
+                </div>
+                <script>
+                    {assign var=cnn value=0}
+                    productId = [
+                       {foreach from=$cart_item item=item} 
+                       {literal} { {/literal} "id":'{$cnn++}',"product_id":"{$item['id']}"{literal} }, {/literal} 
+                      {/foreach}
+                      ];
+                      </script>
+                <div class="col-sm-4 col-xs-6 col-lg-4 _total-price-box pull-right">
+                    <div class="row">
+                        <div class="col-xs-6 col-lg-6 col-sm-6">{$this->Language['subtotal']}</div>
+                        <div class="col-xs-6 col-lg-6 col-sm-6"><strong>{$smarty.session.item_total}</strong></div>
+                    </div>
+                    <div class="row" style="display: none;" id="valid_coupon_suc">
+                        <div class="col-xs-6 col-lg-6 col-sm-6">{$this->Language['discount']}</div>
+                        <div class="col-xs-6 col-lg-6 col-sm-6"><strong id="coupon_in_amt"></strong></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-lg-6 col-sm-6">{$this->Language['total']}</div>
+                        <div class="col-xs-6 col-lg-6 col-sm-6"><strong class="grandtotalamount">{Yii::app()->common->formatPrice($total, $item['currency_id'], 0, null, 0, 1)}</strong></div>
+                    </div>
+                </div>
+                <div class="clearfix" ></div>
+                <br/>
+                <div class="col-lg-12">
+                    <a href="{$this->base_url}/shop" class="btn btn-lg btn-primary cart-continue-btn">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        {$this->Language['continue_shopping']}
+                    </a>
+                    <a href="javascript:void(0);" data-toggle="modal" data-target="#loginModal" class="btn btn-lg btn-danger pull-right" onclick="post_comment();">
+                        {$this->Language['checkout']}</a>
+                </div>
+            </div>
+        </div>
+        <div id="address_details" class="col-md-12" {if $smarty.session.address_details == 0} style="display: none;" {/if}>
+            <h3>{$this->Language['address']}</h3>
+            <form class="form-1" action="javascript:void(0);" id="shipingform" name="shipingform">
+                <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                <div class="row" id="parentaddress">
+                    {$addresspage}
+                </div>
+            </form>
+        </div>
+
+        {assign var="met" value=$methods|@count}
+        <div id="shipping_details" class="" style="display: none;">
+            <h3>{$this->Language['shipping_cost']}</h3>
+            <form class="form-1" action="javascript:void(0);" id="shipingcost" name="shipingcost">
+                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="smet" class="row" {if $met < 1}style="display:none;"{/if} >
+                            <div class="form-group col-md-6">
+                                <select name="method" id="method" class="form-control" required >
+                                    <option value="">-{$this->Language['select_shipping_method']}-</option>
+                                    {foreach from=$methods item=method}
+                                    <option value="{$method['method_unique_name']}">{$method['method']}</option>
+                                    {/foreach}
+                                </select>
+                            </div> 
+                            <div class="form-group col-md-3 text-left">
+                                <a href="javascript:void(0);" class="btn btn-primary" onclick="applyshippingmethod()">{$this->Language['btn_apply']}</a>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right" id="shipdiv" style="display: none; font-size:20px;">
+                        <div class="row">
+                            <div class="col-lg-6">{$this->Language['shipping_cost']}</div>
+                            <div class="col-lg-6"><strong id="shipping_amt"></strong></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">{$this->Language['grand_total']}</div>
+                            <div class="col-lg-6">
+                                <span id="grand_total_final"></span>
+                                <span id="grand_total_final_amount" style="display: none;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>    
+        {$free_offer = $settings['free_offer']}
+        {if !$free_offer}
+            {$free_offer = 0}
+        {/if}
+        
+    </div>
+    <div id="payment_details" style="display: none;">
+        {$payment_form}
+    </div>
+    {else}
+    <div class="container">
+        <h3>{$this->Language['shopping_cart']}</h3>
+        {$this->Language['cart_is_empty']}    
+    </div>
+    {/if}
+</div>
+
+
+<div class="c-layout-page">
+    
+    
+    <!-- END: CONTENT/SHOPS/SHOP-CART-1 -->
+
+    <!-- END: PAGE CONTENT -->
+</div>
+
+<div id="successPopup" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['order_processed']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['authenticating_card']}<br/>{$this->Language['donot_close_or_refresh']}</div>
+                <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="free_popup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{$this->Language['select_a_free_offer']}</h4>
+            </div>            
+            <div id="free_form_area"><p style="margin-left:10px">{$this->Language['loading']}</p></div>
+        </div>									
+    </div>
+</div> 
+<div id="productstatuserror" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12">
+						<p style="line-height: initial;">{$this->Language['prstatus_error']}</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>
+<div class="loader _full-page loader_cart"></div>
+<script>
+
+ {literal}   
+	$(document).on('ready pjax:end', function() {
+
+		var total = '{/literal}{$smarty.session.item_total}{literal}';
+		var total_num ='{/literal}{$smarty.session.totalqnt}{literal}'
+		//$('.total_amount').html(total);
+		//$('.total_cnt').html(total_num);
+	});
+</script>
+{/literal}

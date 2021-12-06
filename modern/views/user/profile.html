@@ -1,0 +1,191 @@
+<link rel="stylesheet" href="{$this->siteurl}/css/cropper.min.css" type="text/css" />
+<link rel="stylesheet" href="{$this->siteurl}/css/crop-avatar.css" type="text/css" />
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<div class="single-product-area">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['settings']}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container muvi_content-area">
+        <div class="row">
+            <div id="crop-avatar">
+                <div id="muvi_myflashwrapper" style="display: none"></div>
+                <div class="row-fluid">
+                    <div class="col-md-8">
+                        <div class="alert-msg in  fade alert-success profile-success load-container" id="success_message"></div>
+                        <div class="alert-success-msg in  fade alert-success profile-success load-container" id="password_changes_message"></div><!--18076: Update UX for Password change in Web- For all Template-->
+                        <div class="muvi_form-signin">
+                            <form id="user-account-form" method="POST" action="javascript:void(0);" class="relative">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['account_info']}</h3> 
+                                <div id="profile-errors" class="error center"></div>
+                                <div id="profile-loading" class="loader"></div> 
+                                {if (!$this->chkStudioForCustomProfile)}
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['text_name']}  :</label>
+                                    <div class="controls">
+                                        <input required type="text" class="form-control c-square c-theme" value="{$user->display_name}" placeholder="{$this->Language['text_name_placeholder']}" name="name" id="name" />
+                                    </div>
+                                </div>          
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['email']} :</label>
+                                    <div class="controls">
+                                        <input readonly type="text" class="form-control c-square c-theme" value="{$user->email}" placeholder="Email" name="{$this->Language['text_email_placeholder']}" id="email" />
+                                    </div>
+                                </div> 
+                                {if (count($custom_fields) > 0)}
+                                {foreach from=$custom_fields item=fields}
+                                <div class="form-group">
+                                    <label  class="control-label">{$fields['label']}</label>
+                                    <div class="controls">
+                                        {$fields['field']}
+                                    </div>
+                                </div>
+                                {/foreach}
+                                {/if}
+                                {else}
+                                {if (count($custom_fields) > 0)}
+                                {foreach from=$custom_fields item=fields}
+                                <div class="form-group">
+                                    <label  class="control-label">{$fields['label']}</label>
+                                    <div class="controls">
+                                        {$fields['field']}
+                                    </div>
+                                </div>
+                                {/foreach}
+                                {/if}
+                                {/if}
+                                <div class="form-group ">
+                                    <div class="controls muvi_userprofile_field">
+                                        {if (count($chkAnnoucement) > 0)}
+                                        <label><input name="subscribe_newsletter"  value="1" type="checkbox" checked="checked" /> &nbsp;{$this->Language['subscribe_to_announcement']} </label>  
+                                        {else}
+                                        <label><input name="subscribe_newsletter"  value="1" type="checkbox"  /> &nbsp;{$this->Language['subscribe_to_announcement']}</label>  
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <button id="update-btn" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" type="submit">{$this->Language['btn_update_profile']}</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--18076: Update UX for Password change in Web- For all Template-->
+                            <form id="change-password-form" method="POST" action="javascript:void(0);" class="relative">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> 
+                                <h3 class="c-font-uppercase c-font-sbold">{$this->Language['change_password']}</h3> 
+                                <div id="password-errors" class="error center"></div>
+                                <div id="reset-loading" class="loader"></div> 
+                                <input type="hidden" name="email" value="{$user->email}">
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['current_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control c-square c-theme" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['current_password']}" name="current_password" id="current_password" />
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['new_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control c-square c-theme" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['new_password']}" name="new_password" id="new_password" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['confirm_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control c-square c-theme" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['confirm_password']}" name="confirm_password" id="confirm_password" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <button id="password-btn" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" type="submit">{$this->Language['change_password']}</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--18076: Update UX for Password change in Web- For all Template-->
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="muvi_form-signin">
+                            <h3>&nbsp;</h3>
+                            <h3>&nbsp;</h3>
+                            <div class="form-group">
+                                <div class="controls text-center">
+                                    <img src="{$user_picture}" alt="" title="" class="thumbnail center profilepic" />
+                                    {if $have_profile_image}
+                                    <a class="link" href="#" data-target="#profilePicRemoveModal" data-toggle="modal"><i class="fa fa-times-circle"></i> {$this->Language['remove']}</a><br/>
+                                    {/if}
+                                    <a class="link" href="#" data-target="#avatar-modal" data-toggle="modal">{$this->Language['change_your_picture']}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+                <div class="modal fade" id="avatar-modal" tabindex="-1" role="dialog" aria-labelledby="avatar-modal-label" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content" style="height:500px;">
+                            <form class="avatar-form form-inline" method="post" action="{$this->base_url}/user/upload_image" enctype="multipart/form-data">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" id="avatar-modal-label">{$this->Language['profile_change']}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="avatar-body">
+
+                                        <!-- Upload image and data -->
+                                        <div class="avatar-upload">
+                                            <input class="avatar-src" name="avatar_src" type="hidden">
+                                            <input class="avatar-data" name="avatar_data" type="hidden">
+                                            <input class="" name="fileinfo" id="fileinfo" type="hidden">
+                                            <div class="form-group">
+                                                <label class="wd160">{$this->Language['file_upload_profile']}</label>
+                                                <input class="avatar-input" id="avatarInput" name="Filedata" type="file" />
+                                            </div>                                     
+                                        </div>
+
+                                        <!-- Crop and preview -->
+                                        <div class="avatar-wrapper"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn c-theme-btn c-btn-square c-btn-uppercase c-btn-bold avatar-save" type="submit">{$this->Language['btn_save']}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="profilePicRemoveModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headermodal">{$this->Language['remove_profile_picture']}</span></h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" autocomplete="false" action="javascript:void(0);">
+                                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <span class="bodymodal">{$this->Language['sure_to_remove_proilepic']}</span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="javascript:void(0)" id="remove_profile_pic" class="btn btn-default">{$this->Language['yes']}</a>
+                                        <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+                                    </div>
+                                </form>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>
+<!-- Cropping modal -->
+<!-- /.modal -->

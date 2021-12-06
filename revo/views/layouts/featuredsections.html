@@ -1,0 +1,640 @@
+<script type="text/javascript" src="{Yii::app()->controller->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+<script>   
+var parentThemeName = "{$this->studio->parent_theme}";
+</script>
+{literal}
+<section class="content">
+    <div id="homepage_sections" ng-app="FeaturedContents" ng-controller="HomeFeaturedSections">
+        <div ng-repeat="section in sections" ng-if="section.total > 0" class="parent_sec_{{section.id}} featured-sec-wrap _init" >
+            <div ng-if="section.layout_design == '3'" >
+                <h2 class="clearfix text-center" style="position: relative;">
+                    <span class="caps" style="display: inline-block; margin-top: 4px;">{{section.title|utfdecode}}</span>
+                    <a ng-if="section.cpermalink" ng-href="{/literal}{$this->base_url}/{literal}{{section.cpermalink}}" class="btn btn-primary pull-right" style="position: absolute; right:15px; top:0;">{/literal}{$this->Language['view_more']}{literal}</a>
+                </h2>
+                <ul class="item-list-single row slider">
+                    <li ng-repeat="content in section.contents" class="">
+                        <div class="item-bg" ng-if="content.top_banner !=''"><img class="top_banner_img" ng-src="{{content.top_banner}}" /></div>
+                        <div class="container">
+                            <div class="item-wrap clearfix">
+                                <div class="item-poster" ng-if="content.poster !=''">
+                                    <img class="_cover" ng-src="{{content.poster}}" />
+                                </div>
+                                <div dir="auto" class="item-info">
+                                    <h4>
+                                        <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                        <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                        <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                    </h4>
+
+                                    <ng-container ng-if="section.meta_data_info">
+                                        <div class="_meta-data" ng-switch on="metaDtaInfo.contentType"
+                                        ng-repeat="metaDtaInfo in section.meta_data_info" 
+                                        ng-class="{
+                                            '_col-1b2':metaDtaInfo.width == '1/2', 
+                                            '_col-1b3':metaDtaInfo.width == '1/3', 
+                                            '_col-2b3':metaDtaInfo.width == '2/3', 
+                                            '_txt-right':metaDtaInfo.align == 'r', 
+                                            '_txt-center':metaDtaInfo.align == 'c', 
+                                            '_sline':metaDtaInfo.lineCount == 's', 
+                                            '_bold':metaDtaInfo.boldStatus == 'b', 
+
+                                        }"
+                                        ng-style="{
+                                            'color':metaDtaInfo.color, 
+                                            'font-size':metaDtaInfo.size+'px'
+                                        }" >                                 
+                                            <ng-container ng-switch-when="genre"  >
+                                                <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                            </ng-container>                            
+                                            <ng-container ng-switch-default >
+                                                <ng-container ng-if="content[metaDtaInfo.contentType].field_display_name!==undefined" ng-bind-html="content[metaDtaInfo.contentType].field_display_name|utfdecode|html" ></ng-container>
+                                                <ng-container ng-if="content.custom_meta_data[metaDtaInfo.contentType]!==undefined" ng-bind-html="content.custom_meta_data[metaDtaInfo.contentType]|html" ></ng-container>
+                                                &nbsp;
+                                            </ng-container>
+                                    </div>
+                                    </ng-container>
+                                    <ng-container ng-if="!section.meta_data_info">
+                                        <div class="_meta-data">
+                                            {{content.story}}
+                                        </div>
+                                        <div class="_meta-data">
+                                            <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                        </div>
+                                    </ng-container>
+                                    <div class="spacer_10 clear-fix"></div>
+                                    
+                                    <div ng-if="content.content_types_id == 8" class="_meta-data">
+                                        <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                    </div>
+                                    <!-- ER 31487 start -->
+                                    <div ng-if="content.content_types_id == 5 && content.show_playbtn == 1" class="cover-overlay">
+                                        <div ng-if="{/literal} {Yii::app()->user->id} {literal}" class="cover-overlay">
+                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="getPpvPlans(this,1);" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal" data-isppv="1">{/literal}{$this->Language['btn_play']}{literal}</a>
+                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn" >{/literal}{$this->Language['explore']}{literal}</a>
+                                        </div>
+                                        <div ng-if="{/literal} {!Yii::app()->user->id} {literal}" class="cover-overlay">
+                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" data-target="#loginModal" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal" data-isppv="1">{/literal}{$this->Language['btn_play']}{literal}</a>
+                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                        </div>
+                                    </div>
+                                    <div ng-if="content.content_types_id == 5 && content.show_playbtn == 0" class="cover-overlay">
+                                        <a class="playbtn">{/literal}{$this->Language['coming_soon']}{literal}</a> 
+                                    </div>
+                                    <!-- ER 31487 end -->
+                                    <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                        
+                                    <div ng-if="content.play_btn && content.content_types_id != 3" class="_meta-data play-butn-wrap" ng-bind-html="content.play_btn | html"></div> 
+                                    <div ng-if="content.play_btn && content.content_types_id == 3" class="_meta-data play-butn-wrap"><a href="{{content.permalink}}" class="btn btn-primary btn-lg">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                    
+                                    <div  ng-if="!content.play_btn" class="_meta-data" >
+                                        <a href="{{content.permalink}}" class="btn btn-primary btn-lg">{/literal}{$this->Language['explore']}{literal}</a>
+                                        <ng-container ng-if="content.sale_price" >
+                                            <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="btn btn-primary">{/literal}{$this->Language['add-to-cart']}{literal}</a>
+                                            <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="btn btn-primary">{/literal}{$this->Language['ordernow']}{ literal}</a>
+                                        </ng-container>
+                                    </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <span style="display: none;" ng-init="updateSlider3(section.id)"></span>
+            </div>
+            
+            <div ng-if="section.layout_design != '3'" class="container">
+                <h2 class="clearfix">
+                    <span class="caps" style="display: inline-block; margin-top: 4px;">{{section.title|utfdecode}}</span>
+                    <a ng-if="section.cpermalink" ng-href="{/literal}{$this->base_url}/{literal}{{section.cpermalink}}" class="btn btn-primary pull-right">{/literal}{$this->Language['view_more']}{literal}</a>
+                </h2>
+                <ul class="item-list row" ng-class="section.layout_design == '2'? 'slider' : ''">
+                    <li ng-repeat="content in section.contents" class="col-sm-6 col-xs-12" 
+                        ng-class="
+                            section.column_count == 2?'col-md-6' :
+                            section.column_count == 6?'col-md-2' : 'col-md-3'" >  
+                        <!--ER-57041 -->
+                        <div class="item-wrap" data-selector="{{section.id}}_{{content.movie_stream_id}}_auto" ng-class="{'_stock-out': content.status == 3 || content.sale_price=='0.00'}">
+                        
+                            <div ng-if="content.sale_price" class="loader _item-{{content.id}}"></div>
+                            
+                            <ng-container ng-if="section.meta_data_info" >
+                                <div ng-if="section.meta_data_info[0].contentType != 'poster_url' && section.meta_data_info.length > 1" class="spacer_10"></div>
+                                <ng-container ng-repeat="metaDtaInfo in section.meta_data_info" >
+                                
+                                    <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != 0" class="spacer_10"></div>
+                                    
+                                    <div ng-if="metaDtaInfo.contentType == 'poster_url' && content.poster != ''" class="item-cover" >
+                                        <!--ER:50979 & 53709 - Auto Preview Feature - start--><!--ER-57041-->
+                                    <video preload="none" ng-if="content.auto_preview_file" class="vid_cover" id="{{section.id}}_{{content.movie_stream_id}}_auto" style="display: none;" muted loop>
+                                        <source src="{{content.auto_preview_file}}" type="video/mp4">
+                                        Your browser does not support HTML video.
+                                    </video>
+                                    <!--ER:50979 & 53709 - Auto Preview Feature - end-->
+                                        <img class="_cover" ng-src="{{content.poster}}" />
+                                        <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                            <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                        </div>
+                                        <!-- ER 31487 start -->
+                                        <div ng-if="content.content_types_id == 5 && content.show_playbtn == 1" class="cover-overlay">
+                                            <div ng-if="{/literal} {Yii::app()->user->id} {literal}" class="cover-overlay">
+                                            <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="getPpvPlans(this,1);" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal" data-isppv="1">{/literal}{$this->Language['btn_play']}{literal}</a>
+                                            <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn" >{/literal}{$this->Language['explore']}{literal}</a>
+                                            </div>
+                                            <div ng-if="{/literal} {!Yii::app()->user->id} {literal}" class="cover-overlay">
+                                            <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" data-target="#loginModal" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal" data-isppv="1">{/literal}{$this->Language['btn_play']}{literal}</a>
+                                            <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                            </div>
+                                        </div>
+                                        <div ng-if="content.content_types_id == 5 && content.show_playbtn == 0" class="cover-overlay">
+                                            <a class="playbtn">{/literal}{$this->Language['coming_soon']}{literal}</a> 
+                                        </div>
+                                        <!-- ER 31487 end -->
+                                        <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                            
+                                        <div ng-if="content.play_btn && content.content_types_id != 3 " class="cover-overlay" ng-bind-html="content.play_btn | html"></div> 
+                                        <div ng-if="content.play_btn && content.content_types_id == 3 && content.is_episode != 0 && content.is_episode != 2" class="cover-overlay" ng-bind-html="content.play_btn | html"></div>
+                                        <div ng-if="content.play_btn && content.content_types_id == 3 && (content.is_episode == 0 || content.is_episode == 2)" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                        <div  ng-if="!content.play_btn" class="cover-overlay" >
+                                            <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                            <ng-container ng-if="content.sale_price" >
+                                                <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                            </ng-container>
+                                        </div>
+                                        </ng-container>
+                                    </div>
+                                    <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != section.meta_data_info.length-1" class="spacer_10"></div>
+
+                                    <div dir="auto" 
+                                    ng-class="{
+                                        '_col-1b2':metaDtaInfo.width == '1/2', 
+                                        '_col-1b3':metaDtaInfo.width == '1/3', 
+                                        '_col-2b3':metaDtaInfo.width == '2/3', 
+                                        '_txt-right':metaDtaInfo.align == 'r', 
+                                        '_txt-center':metaDtaInfo.align == 'c', 
+                                        '_sline':metaDtaInfo.lineCount == 's', 
+                                        '_bold':metaDtaInfo.boldStatus == 'b',     
+                                    }"
+                                    ng-style="{
+                                        'color':metaDtaInfo.color, 
+                                        'font-size':metaDtaInfo.size+'px'
+                                    }"
+                                    ng-if="metaDtaInfo.contentType != 'poster_url'" class="item-info" ng-switch on="metaDtaInfo.contentType" >
+                                    
+                                    <ng-container ng-switch-when="title"  >
+                                        <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                        <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                        <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                    </ng-container>                                    
+                                    <ng-container ng-switch-when="genre"  >
+                                        <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                    </ng-container>    
+                                    <ng-container ng-switch-default >
+                                        <ng-container ng-if="content[metaDtaInfo.contentType].field_display_name!==undefined" ng-bind-html="content[metaDtaInfo.contentType].field_display_name|utfdecode|html" ></ng-container>
+                                        <ng-container ng-if="content.custom_meta_data[metaDtaInfo.contentType]!==undefined" ng-bind-html="content.custom_meta_data[metaDtaInfo.contentType]|html" ></ng-container>
+                                        &nbsp;
+                                    </ng-container>
+                                </div>
+                                
+                                </ng-container>
+                                <div ng-if="section.meta_data_info[section.meta_data_info.length-1].contentType != 'poster_url' && section.meta_data_info.length > 1" class="spacer_10"></div>
+                            </ng-container>
+                            
+                            <ng-container ng-if="!section.meta_data_info">
+                                <div class="item-cover" ng-if="content.poster !=''">
+                                    <!--ER:50979 & 53709 - Auto Preview Feature - start--><!--ER-57041-->
+                                    <video preload="none" ng-if="content.auto_preview_file" class="vid_cover" id="{{section.id}}_{{content.movie_stream_id}}_auto" style="display: none;" muted loop>
+                                        <source src="{{content.auto_preview_file}}" type="video/mp4">
+                                        Your browser does not support HTML video.
+                                    </video>
+                                    <!--ER:50979 & 53709 - Auto Preview Feature - end-->
+                                    <img class="_cover" ng-src="{{content.poster}}" />
+                                    <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                        <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                    </div>
+                                    <!--#Mantis : 18523 [SwetaM]-->
+                                     <!--@ER: 19491 @info: publish content later @author: Pritam starts-->
+                                    <div ng-if="content.content_types_id == 5 && content.show_playbtn == 1" class="cover-overlay">
+                                        <div ng-if="{/literal} {Yii::app()->user->id} {literal}" class="cover-overlay">
+                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="getPpvPlans(this,1);" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal" data-isppv="1">{/literal}{$this->Language['btn_play']}{literal}</a>
+                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn" >{/literal}{$this->Language['explore']}{literal}</a>
+                                        </div>
+                                        <div ng-if="{/literal} {!Yii::app()->user->id} {literal}" class="cover-overlay">
+                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" data-target="#loginModal" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal" data-isppv="1">{/literal}{$this->Language['btn_play']}{literal}</a>
+                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                    </div>
+                                        <!--53709 -start-->
+                                        <div ng-if="content.auto_preview_file" class="soundBtn">
+                                            <div class="svg sound_btn mute_btn" data-video_id="{{section.id}}_{{content.movie_stream_id}}_auto" onclick="play_autopreview_sound(this)" id="mute" data-toggle="tooltip" data-placement="top" title="Click to unmute"> <!--ER-57041-->
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                                    <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M23 9L17 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M17 9L23 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                            <div class="svg hide sound_btn unmute_btn" data-video_id="{{section.id}}_{{content.movie_stream_id}}_auto" onclick="play_autopreview_sound(this)" id="unmute" data-toggle="tooltip" data-placement="top" title="Click to mute"> <!--ER-57041-->
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                                    <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M19.07 4.92999C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07M15.54 8.45999C16.4774 9.39763 17.0039 10.6692 17.0039 11.995C17.0039 13.3208 16.4774 14.5924 15.54 15.53" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <!--53709 -end-->
+                                        </div>
+                                    <div ng-if="content.content_types_id == 5 && content.show_playbtn == 0" class="cover-overlay">
+                                        <a class="playbtn">{/literal}{$this->Language['coming_soon']}{literal}</a> 
+                                    </div>
+                                     <!--@ER: 19491 ends-->
+                                    <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" ng-class="{'cover-overlay' : content.auto_preview_file !=''}"> <!--53709-->
+                                        <!--#Mantis : 18523 [SwetaM]-->
+<!--                                        <div ng-if="content.play_btn && content.content_types_id != 3" class="cover-overlay" >
+                                        <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                        </div> -->
+                                    <!--22888 Start-->
+                                    <!--@ER: 19491 @info: publish content later @author: Pritam starts-->
+                                    <div ng-if="content.play_btn && content.content_types_id != 6 && (content.content_types_id != 3 || (content.content_types_id == 3 && content.is_episode != 0 && content.is_episode != 2 && content.show_playbtn == 1))" class="cover-overlay" ng-bind-html="content.play_btn | html"></div>
+<!--                                    <div ng-if="content.play_btn && content.content_types_id != 6 && (content.content_types_id != 3 || (content.content_types_id == 3 && content.is_episode != 0 && content.show_playbtn == 0))" class="cover-overlay">
+                                        <a class="playbtn">{/literal}{$this->Language['coming_soon']}{literal}</a>
+                                    </div>-->
+                                    <div ng-if="content.content_types_id == 6 && content.show_playbtn == 1" class="cover-overlay" ><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                    <div ng-if="content.content_types_id == 6 && content.show_playbtn == 0" class="cover-overlay" ><a class="playbtn">{/literal}{$this->Language['coming_soon']}{literal}</a> </div>
+                                    <div  ng-if="content.content_types_id == 3 && content.is_episode == 2" class="cover-overlay" >
+                                        <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                    </div>
+                                    <div  ng-if="!content.play_btn || (content.content_types_id == 3 && content.is_episode == 0)" class="cover-overlay" >
+                                        <a ng-if="content.show_playbtn == 0 && content.meeting_type==0" class="playbtn">{/literal}{$this->Language['coming_soon']}{literal}</a>
+                                        <a ng-if="content.show_playbtn == 0 && content.meeting_type==1" href="{{content.permalink}} class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                        <a ng-if="content.show_playbtn == 1" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                        <!--@ER: 19491 ends-->    
+                                          <!--22888 End-->
+											<div ng-if="content.status==1">
+												<ng-container ng-if="content.sale_price!='0.00'" >
+													<a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+													<a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+												</ng-container>
+												<ng-container ng-if="content.sale_price=='0.00'">
+													<div class="_stock-out-txt">{/literal}{$this->Language['currently_unavailable']}{literal}</div>
+												</ng-container>
+											</div>
+											<div ng-if="content.status==3">
+												<div class="_stock-out-txt">{/literal}{$this->Language['stock_out']}{literal}</div>
+											</div>	
+                                        <!--53709 -start-->
+                                        <div ng-if="content.auto_preview_file" class="soundBtn">
+                                            <div class="svg sound_btn mute_btn" data-video_id="{{section.id}}_{{content.movie_stream_id}}_auto" onclick="play_autopreview_sound(this)" id="mute" data-toggle="tooltip" data-placement="top" title="Click to unmute"> <!--ER-57041-->
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                                    <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M23 9L17 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M17 9L23 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                            <div class="svg hide sound_btn unmute_btn" data-video_id="{{section.id}}_{{content.movie_stream_id}}_auto" onclick="play_autopreview_sound(this)" id="unmute" data-toggle="tooltip" data-placement="top" title="Click to mute"> <!--ER-57041-->
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                                    <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M19.07 4.92999C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07M15.54 8.45999C16.4774 9.39763 17.0039 10.6692 17.0039 11.995C17.0039 13.3208 16.4774 14.5924 15.54 15.53" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <!--53709 -end-->
+									</div>
+                                    </ng-container>
+                                </div>
+                                <div class="spacer_10"></div>
+                                <div dir="auto" class="item-info">
+                                    <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                    <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                    <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                </div>
+                                <div class="item-info" ng-if="section.content_type != 1">
+                                    <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                </div>
+                                <!-- Start ER #48275 -->
+                                <div dir="auto" class="item-info up-profile">
+                                    <div class="media-left">
+                                        <figure class="upprofile-pic">
+                                            <img src="{{content.profile_image}}" alt="profile logo">
+                                        </figure>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <a ng-if="!content.user_permalink">{{content.user_name}}</a>
+                                            <a ng-if="content.user_permalink" href="{{content.user_permalink}}">{{content.user_name}}</a>
+                                        </h4>
+                                        <!--ER 58507: issue in Playlist Profile image on homepage start (&& content.created_date)-->
+                                        <p ng-if="!content.publish_date && content.created_date">{/literal}{$this->Language['published_on']}{literal} <span ng-bind="formatDate(content.created_date) |  date:'dd MMM'"></span></p>
+                                        <!--ER 58507: issue in Playlist Profile image on homepage end (&& content.created_date)-->
+                                        <p ng-if="content.publish_date" >{/literal}{$this->Language['published_on']}{literal} <span ng-bind="formatDate(content.publish_date) |  date:'dd MMM'"></span></p>
+                                    </div>
+                                </div>
+                                <!-- End ER #48275 -->
+
+                                <div class="item-info1"> 
+                                <ul id="featureblock">
+                                    <li ng-if="section.show_likes == 1">
+                                        <!--Upasana ER 27448-->
+                                        <!--<a href="{{content.permalink}}" ><span class="glyphicon-color glyphicon glyphicon-thumbs-up featureicons"></span> <span class="featurecounts">{{content.all_likes}}</span></a> &nbsp;-->
+                                        <a ng-if="content.is_like==0" href="javascript:;" ng-click="thumbsLike(content)" id = "like-content-{{content.movie_id}} " ><span class="fa fa-thumbs-up"></span> <span class="featurecounts">{{content.all_likes}}</span></a> &nbsp;
+                                        <a ng-if="content.is_like==1" href="javascript:;" ng-click="thumbsUnLike(content)" id = "unlike-content-{{content.movie_id}} " ><span style ="color:#32c5d2" class="fa fa-thumbs-up"></span> <span style ="color:#32c5d2"  class="featurecounts">{{content.all_likes}}</span></a> &nbsp;
+                                         <!--Upasana ER 27448-->
+                                             <!--<a href="javascript:;" ng-click="thumbsLike(content)" id = "like-content-{{content.movie_id}} " ><span class="glyphicon-color glyphicon glyphicon-thumbs-up featureicons"></span> <span class="featurecounts">{{content.all_likes}}</span></a> &nbsp;-->
+                                       
+                                    </li>
+                                    <li ng-if="section.rating_status == 1">
+                                        <a href="{{content.permalink}}" ><span class="featurecounts">{{content.all_comments}}</span> <span class="featureicons">Reviews</span></a> &nbsp;
+                                    </li>
+                                    <li ng-if="section.show_views == 1">
+                                        <a href="{{content.permalink}}" class="featureicons"> <span class="featurecounts">{{content.all_views}}</span> Views </a>
+                                    </li>                                     
+                                </ul>   
+                                <div class="clearfix"></div>    
+                                <ul class="rating-stars">    
+                                    <li class="dropup" ng-if="section.rating_status == 1">
+                                        <a href="{{content.permalink}}" class="dropdown-toggle featureicons" data-toggle="dropdown">
+                                            <input type="hidden" class="rating" data-readonly value="{{content.average_rating}}" />
+                                        </a><span class="caret"></span>
+                                        <span class="ratingfont">{{content.avg_total}}</span>
+                                        <div class="dropup-content dropdown-width" role="menu"> &nbsp;
+                                            <div class="text-center rating-drop-down avg-rating"> {{content.average_rating}} {/literal}{$this->Language['out_of']}{literal} 5 {/literal}{$this->Language['star']}{literal}</div><!--40781-->
+                                            <div class="col-xs-12">
+                                                <div class="pull-left rating-drop-down">
+                                                    <div class="pull-left hover-icon"> 
+                                                        <div class="hover-rating">5 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>                     
+                                                    <div class="pull-left rating-progress-bar">
+                                                        <div class="progress hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_five == 0) ? '2%' : content.count_five +'%' }"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pull-right percentage">{{content.count_five}}%</div>   
+                                                </div>
+                                                <div class="pull-left rating-drop-down">
+                                                    <div class="pull-left hover-icon">
+                                                        <div class="hover-rating">4 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left rating-progress-bar">
+                                                        <div class="progress hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_four == 0) ? '2%' : content.count_four +'%' }"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pull-right percentage">{{content.count_four}}%</div>   
+                                                </div>
+                                                <div class="pull-left rating-drop-down">
+                                                    <div class="pull-left hover-icon">
+                                                        <div class="hover-rating">3 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left rating-progress-bar">
+                                                        <div class="progress hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_three == 0) ? '2%' : content.count_three +'%' }"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pull-right percentage">{{content.count_three}}%</div>  
+                                                </div>
+                                                <div class="pull-left rating-drop-down">
+                                                    <div class="pull-left hover-icon">
+                                                        <div class="hover-rating">2 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left rating-progress-bar">
+                                                        <div class="progress hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_two == 0) ? '2%' : content.count_two +'%' }"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="pull-right percentage">{{content.count_two}}%</div>  
+
+                                                </div>
+                                                <div class="pull-left rating-drop-down">
+                                                    <div class="pull-left hover-icon">
+                                                        <div class="hover-rating">1 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left rating-progress-bar">
+                                                        <div class="progress hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_one == 0) ? '2%' : content.count_one +'%' }"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="pull-right percentage">{{content.count_one}}%</div>  
+
+                                                </div>
+                                                <div class="pull-left">
+                                                    <a  href="{{content.permalink}}" style="padding-left: 44px;">
+                                                        <span class="showreviewfont">See all {{content.avg_total}} reviews </span>&nbsp;<span class="featurereviewcaret fa fa-caret-right"></span>
+                                                    </a>
+                                                </div>
+                                            </div>            
+                                        </div>
+                                        &nbsp;
+                                    </li>
+                                </ul>                                
+                                </div>    
+                                
+                                <div class="item-info" ng-if="section.content_type == 1 && content.sale_price!='0.00'">
+                                    {{content.price}}
+                                </div>
+                                <div class="spacer_10"></div>
+                            </ng-container>
+                        </div>
+                    </li>
+                </ul>
+                <span ng-if="section.layout_design == '2'" style="display: none;" ng-init="updateSlider2(section.id, section.column_count)"></span>
+                <span ng-if="section.layout_design != '2'" style="display: none;" ng-init="updateSlider1(section.id)"></span>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="featured-sec-placeholder" ng-if="isLoader" style="display:block;" >
+                <ul class="clearfix row">
+                    <li class="col-md-3">
+                        <div class="item-wrap">
+                            <i></i>
+                            <h3></h3>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li class="col-md-3">
+                        <div class="item-wrap">
+                            <i></i>
+                            <h3></h3>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li class="col-md-3">
+                        <div class="item-wrap">
+                            <i></i>
+                            <h3></h3>
+                            <p></p>
+                        </div>
+                    </li>
+                    <li class="col-md-3">
+                        <div class="item-wrap">
+                            <i></i>
+                            <h3></h3>
+                            <p></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script> 
+var LIMIT = 3;
+var LOADING_TYPE = '0';
+
+var app = angular.module('FeaturedContents', [])
+    .filter('html',function($sce){
+    return function(input){
+        return $sce.trustAsHtml(input);
+    };
+})
+.filter('utfdecode',function($sce){
+    return function(input){
+        var rData = input;
+        try{ rData = decodeURIComponent(escape(input))}catch(e){}
+        return rData;
+    };
+});
+
+app.controller('HomeFeaturedSections', function($scope, $http, $window, $timeout) {
+    $scope.sections = []; 
+    $scope.isLoader = true;
+    $scope.dataoffsetG = 0;
+    $scope.inProgress = false;
+    $scope.free_content = {/literal}{$free_content};{literal}
+    $scope.hide_featured = {/literal}{$hide_featured};{literal}        
+    if($scope.hide_featured == 0){
+        $scope.sections = {/literal}{$sections};{literal}
+        $scope.dataoffsetG = $scope.dataoffsetG =  $scope.sections.length;
+    }
+    
+    
+    
+    
+    $scope.updateSlider1 = function(secID){
+        $timeout(function(){
+            $('.parent_sec_'+secID+'._init').removeClass('_init');
+            initPjax('.parent_sec_'+secID);
+            $(".item-list li .item-wrap").matchHeight();
+            $(".item-list li .item-wrap .item-info").matchHeight();
+            $('.rating').rating();
+        },50)
+    };
+    $scope.updateSlider2 = function(secID, columnCount){
+        $timeout(function(){
+            initSlickSlider('.parent_sec_'+secID+' .slider', columnCount);
+            $('.parent_sec_'+secID+'._init').removeClass('_init');
+            initPjax('.parent_sec_'+secID);
+            $(".item-list li .item-wrap").matchHeight();
+            $(".item-list li .item-wrap .item-info").matchHeight();
+            $('.rating').rating();
+        },50)
+    };
+    $scope.updateSlider3 = function(secID){
+        $timeout(function(){
+            initSlickSliderSingle('.parent_sec_'+secID+' .slider');
+            $('.parent_sec_'+secID+'._init').removeClass('_init');
+            initPjax('.parent_sec_'+secID);
+            $(".item-list li .item-wrap").matchHeight();
+            $(".item-list li .item-wrap .item-info").matchHeight();
+            $(".rating").rating();
+        },50)
+    };
+    
+    
+    
+    $scope.loadNextSections = function(dataoffset, free_content){
+        $scope.inProgress = true;
+        $http.get(HTTP_ROOT+"/rest/loadFeaturedSections?authToken="+STORE_AUTH_TOKEN+"&dataoffset="+dataoffset+"&free_content="+free_content+"&viewlimit="+LIMIT+"&themes="+parentThemeName+'&adv_info=true&lang_code={/literal}{$this->language_code}{literal}').then(function (response) {
+            if(response.data.section.length > 0){  
+                for(var j = 0; j < response.data.section.length; j++){
+//                    if(response.data.section_count != null)
+//                        LIMIT = response.data.section_count;
+                    if(response.data.loading_style != null)
+                    LOADING_TYPE = response.data.loading_style;
+                    $scope.sections.push(response.data.section[j]);                    
+                }                     
+                $scope.dataoffsetG = dataoffset+parseInt(LIMIT);
+                $scope.inProgress = false;
+                
+                if(LOADING_TYPE == "2") {
+                  $scope.loadNextSections($scope.dataoffsetG,$scope.free_content);
+                }
+            
+                if(LOADING_TYPE == "1" || !LOADING_TYPE)
+                    $scope.isLoader = false;
+            }else{
+                $scope.isLoader = false;
+            } 
+        });
+    };
+    
+    /* Start ER #48275 */
+    $scope.formatDate = function(date){
+          var dateOut = new Date(date);
+          return dateOut;
+    };
+    /* End ER #48275 */ 
+    $window.onscroll = function() {  
+        if((LOADING_TYPE == "3" || LOADING_TYPE == "0") && !$scope.inProgress && $(window).scrollTop() >= $('.featured-sec-placeholder').offset().top - $(window).height()) {
+            $scope.loadNextSections($scope.dataoffsetG,$scope.free_content);
+        }
+    };
+    
+    $window.onload = function() {
+        if(!$scope.inProgress && $(window).scrollTop() >= $('.featured-sec-placeholder').offset().top - $(window).height()) {
+            $scope.loadNextSections($scope.dataoffsetG,$scope.free_content);
+        }
+    };
+     <!--Upasana ER 27448-->
+    $scope.thumbsLike = function(content){
+    
+        $http.get(HTTP_ROOT+"/like/likes?content_id="+content.movie_id+'&lang_code={/literal}{$this->language_code}{literal}&like_status=0').then(function (response) {   
+//        alert(JSON.stringify(response));
+        if(response.data.result == 'login'){
+            if ($("#loginModal").length > 0) {
+                $("#loginModal").modal('show');
+                $('#loader').hide();
+                $("#loginModal .modal-header h4").html('Please login to Like this Content');
+                }
+
+        }else{
+             content.is_like = 1;
+             content.all_likes=response.data.get_likes;
+//             window.location = content.permalink;
+        }
+            
+}); 
+    };
+
+     $scope.thumbsUnLike = function(content){
+
+        $http.get(HTTP_ROOT+"/like/likes?content_id="+content.movie_id+'&lang_code={/literal}{$this->language_code}{literal}&like_status=1').then(function (response) {   
+        if(response.data.result == 'login'){
+            if ($("#loginModal").length > 0) {
+                $("#loginModal").modal('show');
+                $('#loader').hide();
+                $("#loginModal .modal-header h4").html('Please login to Like this Content');
+            }else{
+                    location.reload();
+            }
+        }else{
+             content.is_like = 0;
+             content.all_likes=response.data.get_likes;
+//             window.location = content.permalink;
+        }
+        
+        });
+    };
+     <!--Upasana ER 27448-->
+}); 
+
+function initPjax(parentObj){
+    if ($.support.pjax) {
+        $(parentObj).find('a').each(function(){
+            if($(this).attr('href').length > 0 && $(this).attr('href') != 'javascript:void(0);'){
+                $(this).attr('data-pjax', '#main');
+            }
+        })
+    }
+}
+</script>
+{/literal}

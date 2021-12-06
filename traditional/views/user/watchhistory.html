@@ -1,0 +1,182 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['watch_history']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="wrapper">
+        <div id="content_list"></div>
+        <div class="row muvi_list_page">
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+            <div class="col-md-12" style="margin-top: 25px;">
+                <div class="alert-msg in  fade alert-success profile-success" id="muvi_watch_success_message" style="display: none;">{$this->Language['watch_history_success_msg']}</div>
+<!--20151: Generic|Frontend-Watch History Page-"Clear History Button" & " Yes " button color in Confirmation popup is incorrect in Traditional Template (Jitendra K Sahoo) start-->
+                {if $item_count != 0}<button id="showModal" class="mt-15 mb-15 btn btn-primary pull-right" type="button">{$this->Language['clear_history']}</button>{/if}
+<!--20151: Generic|Frontend-Watch History Page-"Clear History Button" & " Yes " button color in Confirmation popup is incorrect in Traditional Template (Jitendra K Sahoo) end-->
+            </div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+            {if $item_count > 0}
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+            <div id="watchhistory-container">
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+                {foreach from=$contents|json_decode item=content}
+                <div class="col-md-5ths col-xs-6 fav-col">
+                    <div  class="thumbnail wrapper">
+                        {if $content->content_types_id == 3}
+                        <div class="muvi_play-box"> <img src="{$content->poster}" alt="{$content->title|utf8_decode}" title="{$content->title|utf8_decode}">
+                            <div class="muvi_thumb-bg"></div>
+                            <div class="muvi_explore-btn">
+                                <button type="button" value="{$content->movie_id}" onclick="showSeason('{$content->movie_id}','{$content->title|utf8_decode}')" id="explore" class="muvi_explorebtn">{$this->Language['explore']}</button>
+                            </div>
+                            <div class="muvi_thumb-time-line"><span class="muvi_thumb_weight muvi_f-10">{$content->release_date|utf8_decode}</span><span class="pull-right muvi_f-10 muvi_thumb_weight m-t-5">{$content->video_duration}</span></div>
+                        </div>
+                        <div class="caption">
+                            <h3><a href="{$this->base_url}/{$content->permalink}">{if $content->title|count_characters > 18}{$content->title|truncate:28|utf8_decode}{else}{$content->title|utf8_decode}{/if}</a></h3>
+                            <p>{$genre_count = $content->genres|count}
+                              {$j=0}
+                              {foreach from=$content->genres item=genre}{$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                            </p>
+                        </div>
+                        {else}
+                        <a href="{$this->base_url}/{$content->permalink}">
+                            <div class="muvi_play-box"> <img src="{$content->poster}" alt="{$content->title|utf8_decode}" title="{$content->title|utf8_decode}">
+                                <div class="muvi_thumb-bg"></div>
+                                {if $content->play_btn != ''}<div class="play-btn">{$content->play_btn}</div>{/if}
+                                <div class="muvi_thumb-time-line"><span class="muvi_thumb_weight muvi_f-10">{$content->release_date|utf8_decode}</span><span class="pull-right muvi_f-10 muvi_thumb_weight m-t-5">{$content->video_duration}</span></div>
+                            </div>
+                            <div class="caption">
+                                <h3><a href="{$this->base_url}/{$content->permalink}">{if $content->title|count_characters > 18}{$content->title|truncate:28|utf8_decode}{else}{$content->title|utf8_decode}{/if}</a></h3>
+                                <p>{$genre_count = $content->genres|count}
+                                  {$j=0}
+                                  {foreach from=$content->genres item=genre}{$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                                </p>
+                            </div>
+                        </a>
+                        {/if}
+                    </div>
+                </div>
+                {/foreach}
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+            </div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+            {else}
+            <div class="col-sm-12 muvi_top10">
+                <div class="nocontent">
+                    {$this->Language['no_content_added_yet']}
+                </div>
+            </div>
+            {/if}
+            <div class="loader" id="loader"></div>    
+        </div>
+    {if $item_count > $page_size}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div> 
+    {/if}
+    </div>
+</div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+<div class="modal fade" id="muvi_watchModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headermodal">{$this->Language['clear_watch_history']}?</span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" autocomplete="false" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span id="bodymodal">{$this->Language['action_watch_history']}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+<!--20151: Generic|Frontend-Watch History Page-"Clear History Button" & " Yes " button color in Confirmation popup is incorrect in Traditional Template (Jitendra K Sahoo) start-->
+                        <button id="muvi_clear_watch_history" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">{$this->Language['yes']}</button>
+<!--20151: Generic|Frontend-Watch History Page-"Clear History Button" & " Yes " button color in Confirmation popup is incorrect in Traditional Template (Jitendra K Sahoo) end-->
+                        <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->
+<div class="modal fade" id="muvi_seasonModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog" style="width: 90%!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headertitel"></span></h4>
+            </div>
+            <div class="modal-body" style="height: 400px; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-sm-6  c-font-uppercase c-font-bold">
+                         {$this->Language['episodes']} 
+                    </div>
+                    <div class="col-sm-3">
+                        <h3 class="c-font-uppercase c-font-bold text-right muvi_text-left-xs muvi_season-dropdown_title">                                    
+                            {$this->Language['season']}                                
+                        </h3>
+                    </div>
+                    <div class="col-sm-3" id="seasons"></div>
+                </div>
+                <div class="row relative">
+                    <!--To list episodes-->
+                    <input type="hidden" name="content_id" id="content_id"/>
+                    <input type="hidden" name="default_series" id="default_series"/>
+                    <input type="hidden" name="userid" id="userid" value="{Yii::app()->user->id}" />
+                    <div id="episodes" class="cust-row"></div>
+                    <div class="loader" id="loader_episode" style="display: none;"><div class="muvi_dot1"></div><div class="muvi_dot2"></div><div class="muvi_bounce1"></div><div class="muvi_bounce2"></div><div class="muvi_bounce3"></div></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) start-->
+{literal}
+<script>
+    $(document).ready(function () {
+        $("#showModal").click(function () {
+            $("#muvi_watchModal").modal('show');
+        });
+        $("#muvi_clear_watch_history").click(function () { 
+           var url = HTTP_ROOT + "/rest/clearWatchHistory?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}";
+            $.post(url, function (res) {
+                $("#muvi_watchModal").modal('hide');
+                $('#watchhistory-container').html('');
+                $('#showModal').attr("disabled", "disabled");
+                $('#muvi_watch_success_message').show();
+                $(".alert-msg").fadeTo(5000, 0).slideUp("slow", function(){
+                    $('#muvi_watch_success_message').css({ opacity: 1 });
+                });
+                //location.reload(res);
+            });
+        });
+    });
+</script>
+{/literal}
+<!--0013550: Clear watch history for website - Classic, traditional, Audio templates (Jitendra Kumar Sahoo) end-->

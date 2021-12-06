@@ -1,0 +1,143 @@
+<div class="single-product-area">
+    <div class="container">
+        <div class="row top20 col-md-12">
+            <h2>{$this->Language['create_account_now']}</h2>
+        <form id="membership_form" name="membership_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+         <div class="loader" id="membership_loading"></div>
+         <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+         {if $this->studio->social_logins}
+         {if isset($smarty.session.social) } 
+         {assign var=socialAuth value=$smarty.session.social}
+         {else}
+         {assign var=socialAuth value=$this->getSocialUrls()}
+         {/if}
+         {if $socialAuth}
+         <div class="form-group">
+             <ul class="new_social">
+ <!--  20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start-->
+                 {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                 <li class="social_login_new"> <a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login="0" class="facebook_login _customfb _facebook"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/fb_icon.png"><span>{$this->Language['continue_with_facebook']}</span></a></li>
+                 {/if}
+                 {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                 <li class="social_login_new"><a href="{$socialAuth['gplus_url']}" class="_customgplus _googleplus"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/google_icon1.png"><span>{$this->Language['continue_with_google']}</span></a></li>
+                 {/if} 
+<!--  20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar End-->
+             </ul>
+         </div>
+         {/if}
+         {/if}
+            <div id="errors" class="error center"></div>  
+            {if (!$this->chkStudioForCustomProfile)}
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">{$this->Language['text_name']}</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" autocomplete="off" placeholder="{$this->Language['text_name_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="name" name="data[name]" required />
+                </div>
+
+                <label for="email" class="col-sm-2 control-label">{$this->Language['email']}</label>
+                <div class="col-sm-4">
+                    <input type="email" class="form-control" autocomplete="off" placeholder="{$this->Language['text_email_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="email_address" name="data[email]" required />
+                </div>                    
+            </div>   
+            
+            <div class="form-group">
+                <label for="join_password" class="col-sm-2 control-label">{$this->Language['text_password']}</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['text_password_placeholder']}" title="{$this->Language['fill_out_this_field']}" id="join_password" name="data[password]" required />
+                </div>
+
+                <label for="confirm_password" class="col-sm-2 control-label">{$this->Language['confirm_password']}</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['confirm_password']}" title="{$this->Language['fill_out_this_field']}" id="confirm_password" name="data[confirm_password]" required />
+                </div>                    
+            </div>                          
+            {$counter = 0} 
+                {if (count($custom_fields) > 0)}
+                <div class="form-group">
+                {foreach from=$custom_fields item=fields}
+                   {if ($counter%2 == 0)}
+                    </div>
+                    <div class="form-group">
+                   {/if}
+                   <label for="" class="col-sm-2 control-label">{$fields['label']}</label>
+                    <div class="col-sm-4">
+                   {$fields['field']}
+                    </div>
+                 {$counter = $counter+1}   
+                {/foreach}
+                </div>
+                {/if}
+             {else}
+            
+            {$counter = 0} 
+                {if (count($custom_fields) > 0)}
+                <div class="form-group">
+                {foreach from=$custom_fields item=fields}
+                   {if ($counter%2 == 0)}
+                    </div>
+                    <div class="form-group">
+                   {/if}
+                   <label for="" class="col-sm-2 control-label">{$fields['label']}</label>
+                    <div class="col-sm-4">
+                   {$fields['field']}
+                    </div>
+                 {$counter = $counter+1}   
+                {/foreach}
+                </div>
+                {/if}
+                {/if}
+            
+            <div class="top20"></div>
+            
+            
+            {include file='../layouts/listplans.html'}            
+            {if $gateways[0]->short_code == "ippayment"}
+            <div class="form-group ">
+                <div class="col-sm-12">
+                    <label><input name="data[subscribe_newsletter]" value="1" checked="checked" type="checkbox"> &nbsp;{$this->Language['subscribe_to_announcement']}</label>
+                </div>                
+            </div>
+            {$payment_register_btn}
+            {else}
+            {if $is_hosted neq 1} 
+
+            {$payment_form}
+           {/if}
+            <div class="form-group ">
+                <div class="col-sm-12">
+                    <label><input name="data[subscribe_newsletter]" value="1" checked="checked" type="checkbox"> &nbsp;{$this->Language['subscribe_to_announcement']}</label>
+                </div>                
+            </div>
+             {$payment_register_btn}           
+             {/if}
+                           
+            <span class="error" id="plan_error"></span>     
+        </form>            
+        </div>
+    </div>
+</div>    
+<div id="successPopup" class="modal fade" style="width: 660px;">
+    <div class="modal-dialog" style="width: 660px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['thanks_card_auth_sucess']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+                <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var action = 'saveuser';
+    var btn = 'Register';    
+</script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>

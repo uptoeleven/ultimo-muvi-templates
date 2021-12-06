@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="{$this->language_code}" lang="{$this->language_code}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="{$this->language_code}" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{$this->pageTitle}</title>
+        {$this->metatag}
+        <meta name="keywords" content="{$this->pageKeywords}" />
+        <meta name="description" content="{$this->pageDescription}" />
+        <meta property="og:site_name" content="{$this->studio->name}"/>
+        <meta property="og:url" content="{if $this->ogUrl} {$this->ogUrl} {else} {$this->base_url} {/if}" />
+        <meta property="og:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}"/>
+        <meta property="og:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}"/>
+        {if $this->ogImage}
+            <meta property="og:image" content="{$this->ogImage}" />
+            <meta property="og:image:secure_url" content="{$this->ogImage}" /> 
+            <meta property="og:image:type" content="image/*" /> 
+            <meta property="og:image:width" content="200" /> 
+            <meta property="og:image:height" content="400" />
+        {/if}
+        {if $this->is_twitter}
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:site" content="@{$this->studio->name}">
+            <meta name="twitter:creator" content="@{$this->contentDisplayName}">
+            <meta name="twitter:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}">
+            <meta name="twitter:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}">
+            <meta name="twitter:image" content="{$this->ogImage}">
+        {/if}
+        <link rel="icon" type="image/*" href="{$this->favIcon}" />
+        <link rel="canonical" href="{$this->canonical_url}" />               
+        <link rel="stylesheet" href="{$this->siteurl}/css/jquery-ui.min.css" type="text/css" />      
+		<link type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/jquery.mCustomScrollbar.css" rel="stylesheet">        
+
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}/common/bootstrap/css/bootstrap.min.css" /> 
+        <link type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/carousel.css" rel="stylesheet">        
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/styles.css?v={time()}" />
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/{$this->site_theme_color}.css?v={time()}" />
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/slick/slick-theme.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+        <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/rating.css?v={$smarty.const.RELEASE}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/404error.css?v={time()}">
+        <script type="text/javascript" src="{$this->siteurl}/js/jquery.min.js"></script>
+        {literal}
+        <script>
+            $(document).ready(function() {
+                $.validator.messages.required = JSLANGUAGE.required_default_msg;
+                $('#user_menu').addClass('nav navbar-nav navbar-right');
+                $('.joinnow').addClass('btn btn-lg btn-primary');
+                $("#review").find('.btn').addClass("btn-primary top20");
+                $('.detailspage').find('.playbtn').addClass('btn btn-primary playnowbtn');
+                $('.detailspage').find('.playbtn').removeClass('playbtn');
+                if ($('.date_picker').length > 0) {
+                    $(".date_picker").datepicker({
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                }
+                $('.playbtn').html('');
+                jQuery("img.lazy").lazy();
+            });
+        </script>
+        {/literal}  
+        {$trackingcode=$this->trackingCode()}
+        {$open_head_below = $trackingcode['open_head_below']}
+        {$open_body_below = $trackingcode['open_body_below']}
+        {$close_head_above =  $trackingcode['close_head_above']}
+        {$close_body_above =$trackingcode['close_body_above']}
+
+        {if $open_head_below|@count || $close_head_above|@count}
+         {foreach from=$open_head_below item=trackingcode_headopen}
+        {$trackingcode_headopen}
+            {/foreach}
+        {foreach from=$close_head_above item=trackingcode_headclose}
+        {$trackingcode_headclose}
+        {/foreach}
+        {/if}
+        {$this->alljs}     
+{$language_code = $this->language_code}
+      {if $language_code == 'ar' || $language_code == 'ur'}
+         <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/rtl.css" rel="stylesheet" media="screen">
+		  <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/bootstrap.rtl.min.css" rel="stylesheet" media="screen">
+      {/if}
+        <!--- below script is only used for tvguide -->
+        {$default_img = $this->tvguideDefaultImage()}
+        <script type="text/javascript">
+            var default_image = "{$default_img}";
+            var is_audio_enable = "{$this->is_audio_enable}";
+            var HTTP_ROOT = "{Yii::app()->controller->base_url}";
+            var SITE_URL = "{$this->siteurl}";
+            var THEME_URL = "{$Yii->theme->baseUrl}";
+        </script>
+
+        <script defer type="text/javascript" src="{$this->siteurl}/js/jquery.lazy.min.js"></script>
+        <script defer src="{$this->siteurl}/common/js/jquery.validate.min.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.mCustomScrollbar.js"></script>
+
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/general.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/js/themes/usernotification.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{$this->siteurl}/common/js/jquery-ui.min.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/css/slick/slick.min.js"></script>
+        <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/main.js?v=2"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/js/iphone-inline-video.js"></script>
+        
+        <script src="{$this->siteurl}/js/angularjs/angular.min.js"></script>
+        <script defer src="{$this->siteurl}/js/jquery.matchHeight.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/js/slick/slick.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick-theme.css"/>
+        {if (Yii::app()->paymentGateway->isSCA() && (isset(Yii::app()->controller->PAYMENT_GATEWAY['stripe']) && Yii::app()->controller->PAYMENT_GATEWAY['stripe']=='stripe'))}
+        <script src="https://js.stripe.com/v3/"></script>
+        {/if}
+    </head>
+    <body>
+        {if ($this->is_customize_cookie == 1)}
+        {include file='../layouts/cookie_msg.html'}
+        {else}
+        {$this->cookie_msg}
+        {/if}
+        {$this->website_msg}
+        {$this->preview_mode}
+        {if !$this->is_mobileview}
+          {if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->
+            {include file='../layouts/topbar.html'} 
+        {/if} 
+        {/if} 
+        {$content}
+        {if !$this->is_mobileview}
+          {if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->
+            {include file='../layouts/footer.html'}
+        {/if}
+        {/if}
+        {if isset($smarty.session.guest_user_id) && $smarty.session.guest_user_id > 0}
+            {$this->cancel_popup|json_decode}
+        {/if}
+        {if isset($Yii->user->id) && $Yii->user->id > 0}
+        {$this->cancel_popup|json_decode}
+        <script type="text/javascript" src="{$this->siteurl}/js/themes/loginpopup.js"></script>
+        {else}
+        {include file='../layouts/loginpopup.html'}
+        {/if}
+         <!--28917 : Generic|Purchase Popup page: Freezing payment popup window-->
+         <!--<div class="loader" id="loader" style="z-index: 9999;"></div>-->
+        <div id="ppvModal" class="modal fade login-popu" data-backdrop="static" data-keyboard="false"></div>
+        <div class="loader_cart">
+            <div class="loader-body large">
+                <div class="msg">
+                    {$this->Language['loding']}
+                </div>
+            </div>
+            <div class="loader-overlay">
+            </div>
+        </div>
+        {if $open_body_below|@count || $close_body_above|@count}
+            {foreach from=$open_body_below item=trackingcode_bodyopen}
+           {$trackingcode_bodyopen}
+               {/foreach}
+                {foreach from=$close_body_above item=trackingcode_bodyclose}
+           {$trackingcode_bodyclose}
+               {/foreach}
+        {/if}
+        <script defer src="{$this->siteurl}/common/js/byod.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/bootstrap-hover-dropdown.js"></script>
+        <!--<script type="text/javascript" src="{$this->siteurl}/common/js/bootstrap-hover-dropdown.js"></script>-->
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/jquery.cookie-min.js"></script>
+        <!--<script type="text/javascript" src="{$this->siteurl}/common/js/bootstrap-hover-dropdown.js"></script>-->        
+        <script type="text/javascript">
+        // very simple to use!
+        $(document).ready(function() {
+            if(isMobile()){
+                $('.dropdown').find('.dropdown-toggle').attr('data-toggle', 'dropdown');
+                $('.dropdown').find('.dropdown-toggle').removeClass('js-activated disabled');            
+            }
+            else{
+                $('.js-activated').dropdownHover().dropdown();
+            }
+        });
+        </script>
+        {if $this->reminder}        
+            <div class="modal fade calender-modal" tabindex="-1" role="dialog" aria-labelledby="calenderModal" data-backdrop="static" data-keyboard="false">
+                <form class="book_event form-horizontal" name="book_event" id="event_book">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                    <div class="modal-dialog" role="document"> <div class="modal-content">
+                            <div class="modal-header"> 
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title c-font-uppercase c-font-bold" id="calenderModalLabel">{$this->Language['add_to_calender']}</h4> 
+                            </div>
+                            <div class="modal-body"> 
+                                <div class="succs_msg"></div>
+                                <div class="form-group" id="calender-input-form">
+                                    <label class="col-sm-4 text-left" for="email">{$this->Language['booking_time']}:</label>
+                                    <div class="col-sm-8">
+                                        <input class="flatpickr flatpickr-input form-control" id="booked_date" placeholder="{$this->Language['select_booking_time']}" data-id="datetime" readonly="readonly" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary bookevent">{$this->Language['add_to_calender']}</button>
+                                <button type="button" class="btn btn-primary" id="close-event-modal" data-dismiss="modal" style="display:none">{$this->Language['btn_ok']}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                var user_id      = 0;
+                var notification = 0;
+                {if $this->user_id}
+                    user_id = {$this->user_id};
+                {/if}
+                {if $this->notification}
+                    notification = {$this->notification};
+                {/if}    
+                var favicon = "{$this->favIcon}";
+            </script>  
+            <style type="text/css">
+                .btn.addtocal i {
+                    margin-right: 5px;
+                }
+            </style>
+            <link rel="stylesheet" href="{$this->siteurl}/css/flatpickr.min.css" />
+            <script defer type="text/javascript" src="{$this->siteurl}/js/flatpickr.js"></script>
+            <script defer type="text/javascript" src="{$this->siteurl}/js/themes/notification.js"></script>
+        {/if}
+    </body>
+</html>

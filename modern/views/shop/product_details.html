@@ -1,0 +1,472 @@
+<link rel="stylesheet" href="{$this->siteurl}/css/lightslider.min.css" type="text/css">
+
+{literal}
+<style>
+        .lightslider ul{
+            list-style: none outside none;
+            padding-left: 0;
+            margin: 0;
+            text-align: center;
+        }
+        .lightslider .item{
+            /*margin-bottom: 60px;*/
+        }
+        .content-slider{
+            margin: 0 auto !important;
+        }
+        .content-slider li{
+            background-color: #efe7e6;
+            text-align: center;
+            color: #FFF;
+        }
+        .content-slider h3 {
+            margin: 0;
+            padding: 20px 0;
+        }
+        .lightslider{
+            width: 555px;
+            margin: 5px auto;
+        }
+        .lslide{
+            height: auto;
+            overflow: visible;
+            border: 1px solid #a2a6ac;
+            border-radius: 2px;
+        }
+        .lslide.active{
+            border: 1px solid #e73946;
+        }
+        #avatar_preview_div .faded-area {
+            background-color: rgba(255, 255, 255, 0.6);
+            position: absolute;
+            height: 100%;
+            z-index:999;
+            width: 100%;
+            display: none;
+        }
+        #avatar_preview_div .loading-img {
+            background: transparent url('img/loading.gif') center center no-repeat;
+            position: absolute;
+            top: 45%;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .lightslider { width: 100%; }
+        }
+</style>
+{/literal}
+<!-- BEGIN: PAGE CONTAINER -->
+<input type="hidden" value="{$product['id']}" id="p_movieid">
+<input type="hidden" value="physical" id="p_type">
+{if $product['is_free_offer'] == 0}
+{if $product['sale_price'] != 0}
+{assign var="productdefaultprice" value=Yii::app()->common->formatPrice($product['sale_price'],$product['currency_id'], 0, null, 0, 1)}
+{/if}
+{else}
+{assign var="productdefaultprice" value=0}
+{/if}
+
+<input type="hidden" value="{$productdefaultprice}" id="productdefaultprice">
+<input type="hidden" value="{$product['sku']}" id="productdefaultsku">
+<input type="hidden" value="{$default_attribute}" id="muvi_defaultattribute">
+<div class="c-layout-page">
+    <!-- BEGIN: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="muvi_c-font-sbold"><span class="c-font-uppercase">{$this->Language['product_details']}:</span> {$product['name']}</h3>
+            </div>
+            <ul class="muvi_c-page-breadcrumbs muvi_c-theme-nav muvi_c-pull-right c-fonts-regular">
+                <li>
+                    <a href="{$this->base_url}/shop">{$this->Language['shop']}</a>
+                </li>
+                <li>/</li>
+                <li>
+                    <a href="#">{$this->Language['product_details']}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
+    <!-- BEGIN: PAGE CONTENT -->
+    <!-- BEGIN: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
+    <div class="c-content-box muvi_c-size-sm muvi_c-overflow-hide muvi_c-bg-white">
+        <div class="container">
+            <div class="muvi_c-shop-product-details-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="muvi_c-product-gallery">
+                            <div class="muvi_c-product-gallery-content" id="muvi_c-product-dynamic-content-default">
+                                <div class="c-zoom1" style="text-align: center; height:350px; position: relative;" id="avatar_preview_div">
+                                    <div class="faded-area"><div class="loading-img">&nbsp;</div></div>
+                                    {assign var="cropDimesion" value=Yii::app()->common->getPgDimension()}
+                                    {assign var="pgposter" value=Yii::app()->common->getPgPosters($product['id'],$product['studio_id'],'standard',0)}
+                                    {if ($product['id']=='')}
+                                        {$posterImg = POSTER_URL + '/no-image-a.png'}
+                                    {else}
+                                        {$posterImg = str_replace('standard/','original/',$pgposter[0]['poster'])}
+                                    {/if}
+                                    {if (strpos($posterImg, 'no-image') > -1)}
+                                    <img data-src="holder.js/{$cropDimesion['width']}x{$cropDimesion['height']}" alt="{$cropDimesion['width']}x{$cropDimesion['height']}" style="width: 100%;" />
+                                    {else}
+                                        <img src="{$posterImg}" alt="" style="width: auto; max-height: 350px;">
+                                    {/if}
+                                </div>
+                                
+                                <div class="clearfix"></div>
+                                {if ($pgposter|@count > 1)}
+                                    <div class="lightslider">
+                                    <div class="item">
+                                        <ul id="content-slider" class="content-slider">
+                                            {foreach from=$pgposter key=k item=pgThumb}
+                                            {$thumbPoster = str_replace('standard/','thumb/',$pgThumb['poster'])}
+                                           
+                                            <li>
+                                                <a href="javascript:void(0);" data-poster-id="{$pgThumb['id']}" data-product-id="{$product['id']}"onmouseover="changePgPoster(this, 'original')" class="btn upload-Image" style="padding: 0;">
+                                                <img class="img-thumbnails" src="{$thumbPoster}" />
+                                                </a>
+                                            </li>
+                                            
+                                            {/foreach}
+                                        </ul>
+                                    </div>
+                                </div>
+                                {/if}
+                                
+                            </div>
+							    {foreach from=$narray key=k item=pgPstr}                                    
+                                    <div class="muvi_c-product-gallery-content" id="muvi_c-product-dynamic-content-{$k}" style="display: none;">  
+                                        <div class="c-zoom1 avatar_preview_div_class" style="text-align: center; height:350px; position: relative;" id="avatar_preview_div_{$k}">
+                                            <div class="faded-area"><div class="loading-img">&nbsp;</div></div>
+                                            {assign var="newImagePath" value="{$pgposterurl}{$pgPstr[0]['name']}"}
+                                            {assign var="url" value="{$var1} - and - {$var2}"}
+                                            {if ($product['id']=='')}
+                                                {$posterImg1 = POSTER_URL + '/no-image-a.png'}
+                                            {else}
+                                                {$posterImg1 = str_replace('standard/','original/',$newImagePath)}
+                                            {/if}
+                                            {if (strpos($posterImg1, 'no-image') > -1)}
+                                                <img data-src="holder.js/{$cropDimesion['width']}x{$cropDimesion['height']}" alt="{$cropDimesion['width']}x{$cropDimesion['height']}" style="width: 100%;" />
+                                            {else}
+                                                <img src="{$posterImg1}" alt="" style="width: auto; max-height: 350px;">
+                                            {/if}
+                        </div>
+
+                                        <div class="clearfix"></div>
+                                        {if ($pgPstr|@count > 1)}
+                                            <div class="lightslider">
+                                            <div class="item">
+                                                <ul id="muvi_content-slider-{$k}" class="content-slider">
+                                                    {foreach from=$pgPstr key=k item=pgThumb1}
+                                                    {assign var="newThumbPath" value="{$pgposterurl}{$pgThumb1['name']}"}
+                                                    {$thumbPoster1 = str_replace('standard/','thumb/',$newThumbPath)}
+
+                                                    <li>
+                                                        <a href="javascript:void(0);" data-poster-id="{$pgThumb1['id']}" data-product-id="{$product['id']}" data-variant-id="{$pgThumb1['varient_id']}" onmouseover="changeAllPgPoster(this, 'original')" class="upload-Image" style="padding: 0;">
+                                                        <img class="img-thumbnails img-responsive" src="{$thumbPoster1}" />
+                                                        </a>
+                                                    </li>
+
+                                                    {/foreach}                   
+                                                </ul>
+                    </div>
+                                        </div>
+                                        {/if}                                
+                                    </div>
+                                    {/foreach}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="muvi_c-product-meta">
+                            <div class="muvi_c-content-title-1" style="float:none;">
+                                <h3 class="c-font-uppercase c-font-bold" style="word-wrap: break-word;">                                    
+                                    {$product['name']}{if $product['is_preorder'] == 1}&nbsp;<span class="label label-danger">{$this->Language['coming_soon']}&nbsp;</span>{/if}
+                                </h3>
+                                <div class="muvi_c-line-left"></div>
+                            </div>
+                            {if $trailerurl !=''}
+                            <div style="margin-bottom: 10px;">
+                              <!-- Mantis 14357 Start -->  <a href="javascript:void(0);" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase" onClick="frontEndTrailer({$product['id']},'physical')">{$this->Language['view_trailer']}</a><!-- Mantis 14357 End -->
+                            </div>
+                            {/if}
+                            <div class="clearfix"></div>
+                            {if $product['is_preorder'] == 0}
+                            <div class="muvi_c-product-price" id="muvi_productpricediv">
+                                {if $product['is_free_offer'] == 0}
+                                {if $product['sale_price'] != 0}
+                                {Yii::app()->common->formatPrice($product['sale_price'],$product['currency_id'], 0, null, 0, 1)}
+                                {/if}
+                                {else}
+                                Free
+                                {/if}
+                            </div>
+                            {else}
+                            <div class="muvi_c-product-price">Subscribers : {Yii::app()->common->formatPrice($prices['price_for_subscribe'],$product['currency_id'], 0, null, 0, 1)}<br />Non-subscribers : {Yii::app()->common->formatPrice($prices['price_for_unsubscribe'],$product['currency_id'], 0, null, 0, 1)}</div>
+                            {/if}
+                            <div class="row" style="margin-bottom: 5px;">
+                                <div class="col-sm-4 c-font-uppercase c-font-bold">
+                                    {$this->Language['sku']} : <span style="color: #32c5d2;" id="muvi_productskuspan">{$product['sku']}</span>
+                                </div>
+                                {if $product['custom_fields'] !=''}
+                                <div class="col-sm-4 c-font-uppercase c-font-bold">
+                                    {$this->Language['format']} : <span style="color: #32c5d2;">{$product['custom_fields']}</span>
+                                </div>
+                                {/if}
+                                {if $product['rating'] !=''}
+                                <div class="col-sm-4 c-font-uppercase c-font-bold">
+                                    {$this->Language['rating']} : <span style="color: #32c5d2;">{$product['rating']}</span>
+                                </div>
+                                {/if}
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="muvi_c-product-short-desc">{$product['description']}</div>
+                                {if $product['release_date'] && (($product['release_date']|date_format:"%m/%d/%Y") != '01/01/1970') }
+                                <div class="c-font-uppercase c-font-bold ">{$this->Language['release_date']} : <span style="color: #32c5d2;">{$product['release_date']|date_format:"%m/%d/%Y"}</span></div>
+                                {/if}
+								{$variants}	
+                            {if $product['is_free_offer'] == 0}
+                            <div class="muvi_c-product-add-cart c-margin-t-20">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12">
+                                        <div class="c-input-group muvi_c-spinner">
+                                            {if $product['status']!=3}
+                                            <p class="muvi_c-product-meta-label muvi_c-product-margin-2 c-font-uppercase c-font-bold">{$this->Language['qty']}</p>
+                                            <input type="text" class="form-control muvi_c-item-1" value="1" id="muvi_product_qnt" onkeypress="return isNumberKey(event)">
+                                            <div class="c-input-group-btn-vertical">
+                                                <button class="btn btn-default quant_inc" type="button" data_input="muvi_c-item-1" onclick="updatequan(1)">
+                                                    <i class="fa fa-caret-up"></i>
+                                                </button>
+                                                <button class="btn btn-default quant_dec" type="button" data_input="muvi_c-item-1" onclick="updatequan(2)">
+                                                    <i class="fa fa-caret-down"></i>
+                                                </button>
+                                            </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                    {if $product['status']==1}                                        
+										{if $product['sale_price'] == 0} 
+											<div class="col-sm-4 col-xs-12 c-margin-t-20">
+												<button class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase c-bg-red" disabled="disabled">{$this->Language['currently_unavailable']}</button>
+											</div>
+										{else}
+                                    <div class="col-sm-3 col-xs-12 c-margin-t-20">
+                                        <input type="button" {if $product['sale_price'] != 0} onclick="showcart({$product['id']},1);" {/if} value="{$this->Language['add-to-cart']}" name="" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase" {if $product['sale_price'] == 0} disabled="disabled" {/if}>
+                                    </div>
+                                    {if $product['is_preorder'] == 0}
+                                    <div class="col-sm-4 col-xs-12 c-margin-t-20">
+                                        <button class="btn c-btn btn-lg c-btn-red c-btn-square c-font-white c-font-bold c-font-uppercase muvi_c-cart-float-l" {if $product['sale_price'] != 0} onclick="showcart({$product['id']}, 2,1);" {/if} {if $product['sale_price'] == 0} disabled="disabled" {/if}>{$this->Language['ordernow']}</button>
+                                    </div>
+                                    {else}
+                                    <div class="col-sm-4 col-xs-12 c-margin-t-20">
+                                        <button class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase muvi_c-bg-red" {if $product['sale_price'] != 0} onclick="showcart({$product['id']}, 2);" {/if} {if $product['sale_price'] == 0} disabled="disabled" {/if}>{$this->Language['preorder_now']}</button>
+                                    </div>
+                                    {/if}                            
+										{/if}
+                                    {elseif $product['status']==3}
+                                    <div class="col-sm-4 col-xs-12 c-margin-t-20">
+                                        <button class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase muvi_c-bg-red" {if $product['sale_price'] == 0} disabled="disabled" {/if}>{$this->Language['stock_out']}</button>
+                                    </div>
+                                    {/if}
+                                </div>
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--Mantis : 10334  start    --> 
+        {literal} 
+            <div ng-app="relatedContent_product" ng-controller="relatedContentMovie" id="muvi_relatedContent_section" style="position:relative;" ng-cloak>
+                <div ng-if="audio">
+                  <div class="container-fluid muvi_has__gray--bg muvi_content-area">
+                        <div class="wrapper">   
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="muvi_c-content-title-1">
+                                  <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['music']}{literal} </h3>
+                                  <div class="muvi_c-line-left"></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="slider responsive">
+                                <ng-container  ng-repeat="product in audio">
+                                  <div   class="col-md-3 col-sm-6 c-margin-t-30 muvi_c-margin-b-20">
+                                    <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                      <div class="muvi_c-content-overlay">
+                                        <div class="muvi_c-overlay-wrapper">
+                                          <div class="muvi_c-overlay-content" ng-if="product.content_types_id == 5" ng-bind-html="product.play_btn | html"></div>
+                                          <div class="muvi_c-overlay-content" ng-if="product.content_types_id != 5">
+                                            <a href="{{product.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                          </div>
+                                          <div class="muvi_c-overlay-content" ng-if="product.content_types_id == 1">
+                                            <a href="{{product.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                          </div>
+                                        </div>
+                                        <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                          <img src="{{product.poster}}" alt="" title="{{product.title | utfdecode}}" class="muvi_list-poster">
+                                        </div>
+                                      </div>
+                                      <div class="muvi_c-info">
+                                        <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                          <a href="{{product.permalink}}" >{{product.title | utfdecode}}</a>
+                                        </p>
+                                        <p class="caption_genre c-font-16" style="">
+                                          <span ng-repeat="genres in product.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>  
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                            <span>{{thumbnailAutoheight(section.id)}}</span> 
+                        </div>  
+                    </div>
+                </div>
+                <div ng-if="video">
+                    <div class="container-fluid muvi_content-area">
+                        <div class="wrapper">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="muvi_c-content-title-1">
+                                  <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['video']}{literal} </h3>
+                                  <div class="muvi_c-line-left"></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="slider responsive">
+                                <ng-container  ng-repeat="product in video ">
+                                  <div   class="col-md-3 col-sm-6 c-margin-t-30 muvi_c-margin-b-20">
+                                    <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                      <div class="muvi_c-content-overlay">
+                                        <div class="muvi_c-overlay-wrapper">
+                                          <div class="muvi_c-overlay-content" ng-if="product.content_types_id == 1 || product.content_types_id == 2" ng-bind-html="product.play_btn | html"></div>
+                                          <div class="muvi_c-overlay-content" ng-if="product.content_types_id != 1 || product.content_types_id != 2">
+                                            <a href="{{product.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                          </div>
+                                          <div class="muvi_c-overlay-content" ng-if="product.content_types_id == 1 || product.content_types_id == 2">
+                                            <a href="{{product.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                          </div>
+                                        </div>
+                                        <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                          <img src="{{product.poster}}" alt="" title="{{product.title | utfdecode}}" class="muvi_list-poster">
+                                        </div>
+                                      </div>
+                                      <div class="muvi_c-info">
+                                        <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                          <a href="{{product.permalink}}" >{{product.title | utfdecode}}</a>
+                                        </p>
+                                        <p class="caption_genre c-font-16" style="">
+                                          <span ng-repeat="genres in product.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>  
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                            <span>{{thumbnailAutoheight(section.id)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="physical">
+                    <div class="container-fluid muvi_content-area muvi_has__gray--bg">
+                      <div class="wrapper">                      
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="muvi_c-content-title-1">
+                                <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['product']}{literal}</h3>
+                                <div class="muvi_c-line-left"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="slider responsive">
+                              <ng-container  ng-repeat="product in physical">
+                                <div  class="col-md-3 col-sm-6 c-margin-t-30 muvi_c-margin-b-20">
+                                  <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                    <div class="muvi_c-content-overlay">
+                                      <div class="muvi_c-overlay-wrapper">
+                                        <div class="muvi_c-overlay-content" ng-if="product.content_types_id != 7" ng-bind-html="product.play_btn | html"></div>
+                                        <div class="muvi_c-overlay-content" ng-if="product.content_types_id == 7">
+                                          <a href="{{product.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                        </div>
+                                        <div class="muvi_c-overlay-content">
+                                          <a href="{{product.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                        </div>
+                                      </div>
+                                      <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                        <img src="{{product.poster}}" alt="" title="{{product.name | utfdecode}}" class="muvi_list-poster">
+                                      </div>
+                                    </div>
+                                    <div class="muvi_c-info">
+                                      <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim" ng-if="product.content_types_id != 7">
+                                        <a href="{{product.permalink}}" >{{product.name | utfdecode}}</a>
+                                      </p>
+                                      <p class="muvi_caption_genre muvi_c-title muvi_c-font-16 muvi_c-font-slim" ng-if="product.content_types_id == 7">
+                                        <a href="{{product.permalink}}" data-pjax="#main" tabindex="0">{{product.name | html}}</a>
+                                      </p>
+                                      <p class="muvi_caption_genre muvi_c-font-16" ng-if="product.content_types_id == 7" ng-bind="product.price"></p>
+                                      <p class="muvi_caption_genre muvi_c-font-16" ng-if="product.content_types_id != 7"></p>
+                                      <p class="caption_genre c-font-16" style="">
+                                        <span ng-repeat="genres in product.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>  
+                                      </p>
+                                    </div>
+                                    <div role="group" class="btn-group btn-group-justified" ng-if="product.content_types_id == 7">
+                                      <div role="group" class="btn-group muvi_c-border-top" ng-if="product.status == 1">
+                                        <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(product.id,1)" tabindex="0">{/literal}{$this->Language['add-to-cart']}{literal}</a>
+                                      </div>
+                                      <div role="group" class="btn-group c-border-left muvi_c-border-top" ng-if="product.status == 1">
+                                        <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(product.id,2)" tabindex="0">{/literal}{$this->Language['pre_order']}{literal}</a>
+                                      </div>
+                                      <div role="group" class="btn-group muvi_c-border-top" ng-if="product.status == 2">
+                                        <div class="muvi_stockout">{/literal}{$this->Language['inactive']}{literal}</div>
+                                      </div>
+                                      <div role="group" class="btn-group muvi_c-border-top" ng-if="product.status == 3">
+                                        <div class="muvi_stockout">{/literal}{$this->Language['stock_out']}{literal}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                          </div>
+                          <span>{{thumbnailAutoheight(section.id)}}</span>                        
+                      </div>
+                    </div>
+                </div>
+            </div>
+        {/literal}
+<!--Mantis : 10334  end    --> 
+    </div>
+    <!-- END: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
+
+    <!-- END: PAGE CONTENT -->
+</div>
+<div id="myTrailer"> 
+     <div class="wrapper">
+         <div class="videocontent">
+        </div> 
+    </div>
+</div>
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<!--Mantis : 19646 start-->
+<link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
+<!--Mantis : 19646 end-->
+{literal}
+<script type="text/javascript">
+    var contentId = {/literal}{$product['id']}{literal};
+        getCntid(contentId);
+$(document).ready(function () {
+    var ls= $("#content-slider");
+    slider_pseudocall(ls);
+});
+</script>
+{/literal}
+	
+	

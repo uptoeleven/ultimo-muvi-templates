@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['activate_plan']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="wrapper muvi_bottom-padding50"> 
+        <div class="row top20">
+            <div class="col-md-12 muvi_activate_member">
+                <form id="membership_form" name="membership_form" method="POST" class="form-horizontal">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                    <div id="loading" class="loader"></div>
+                    <div id="errors" class="error center"></div>                                   
+                    <div class="top20"></div>            
+                    <div {if $gateways[0]->short_code == "ippayment"} class="col-md-12" {else} class="col-md-6" {/if}>{include file='../layouts/listplans.html'}</div>
+                    {if $gateways[0]->short_code == "ippayment"}
+                    <div class="form-group">
+                        {$activate_btn_form}   
+                            </div>
+                    {else}
+                    {if $is_hosted neq 1}
+                    <div class="col-md-6 payment_form">{$payment_form}</div>
+                    {/if}
+                    <div class="form-group">
+                        {$activate_btn_form}   
+                            </div>
+                    {/if}
+                    <div class="clear"></div><br>
+
+
+                    <span class="error" id="plan_error"></span>     
+                </form>   
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="successPopup" class="modal fade" >
+    <div class="modal-dialog" style="width: 660px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['account_activate_after_card_submit']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+                <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var action = 'activate';
+    var btn = 'Activate';
+    //43819 starts
+    if (window.location.hash === "#select-plan") {
+        $('#membership_form').append('<input type=\"hidden\" name=\"data[select_plan]\" value=\"1\">');
+    }
+    //43819 ends
+</script>

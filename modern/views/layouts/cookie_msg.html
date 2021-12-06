@@ -1,0 +1,49 @@
+{if ($this->showMessageForCookie == '1')}
+{literal}
+<style>
+    .cookies_agree{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        background: rgba(8,8,8,.8);
+        z-index: 99999999;
+        color: #bababa;
+        padding: .8rem!important;
+    }
+    .muvi_accept_cookie{
+        border: 0;
+        background: #32c5d2;
+        font-size: 14px;
+        color: #fff;
+        margin-left: 30px;
+        padding: 5px 30px;
+        border-radius: 20px;
+        outline:none;
+    }
+    .cookies_agree a {
+        color: #32c5d2;
+        text-decoration: none;
+        background-color: transparent;
+    }
+    .cookies_agree i {
+        float:right;
+        margin: 5px;
+        font-size: 12px;
+        color: #ddd; cursor: pointer;
+    }
+</style>
+<script>
+    var setCookieUrl = HTTP_ROOT+"/site/setCookieMsg/";
+    $(document).ready(function() {
+        cookieMsg(setCookieUrl);
+    });
+</script>
+{/literal}
+<!--ER-36352: Change position of cookie message in Frontend website start-->
+<div id="muvi_cookieModal" class="cookies_agree"> <i class="fa fa-close close_cookie"></i>
+    <span>{$this->cookie_msg_new}</span><button class="muvi_accept_cookie">Agree &amp; Proceed</button>
+</div>
+<!--ER-36352: Change position of cookie message in Frontend website end-->
+{/if}

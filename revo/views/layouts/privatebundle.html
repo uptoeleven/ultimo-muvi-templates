@@ -1,0 +1,283 @@
+{literal}
+<style>
+    .active_plan{
+        color:#fff;
+        font-weight:bold;
+        background:#5cb85c;
+        width:100%;
+        display:inline-block;
+        position:absolute;
+        left: 0;
+        bottom:0;
+    }
+    .rad_val{
+        padding: 7px
+    }
+    .content-box{
+        padding: 30px 0 50px 0;
+        margin: 0;
+    }
+    .tiles-box{
+        width: 100%;
+        height: auto;
+        padding: 20px 35px;
+        border-radius: 10px;
+        border: 1px solid #edeef2;
+        background-color: #fff;
+        box-shadow: 0px 4px 7px #eff0f4;
+    }
+    .heading {
+        font-size: 24px;
+        font-weight: bolder;
+        color: #1F2229;
+        margin-left: 35px;
+    }
+    .bundle_border{
+        border-bottom: 2px solid #18A0FB;
+    }
+    .bundle_padding {
+        padding: 4px;
+    }
+    .trading-data{
+        padding: 15px 20px;
+    }
+    .trading-data .thumb{
+        width: 35px;
+        height: 35px;
+        border-radius: 4px;
+    }
+    .trading-data-text{
+        font-size: 14px;
+        line-height: 20px;
+        color: #1F2229;
+        font-weight: bold;
+        text-align: center;
+    }
+    .trading-data-text_99 {
+        font-size: 40px;
+    }
+    .w-100.d-md-flex.d-lg-flex.justify-content-between {
+        display: flex;
+    }
+    ul#menu li {
+        display:inline;
+    }
+    .radio_list {
+        font-size: 14px;
+        font-weight: bolder;
+        color: #1F2229;
+    }
+    .radio_list_option {
+        font-weight: bolder;
+        padding-left: 50px;
+        display: inline-block;
+    }
+    .validity {
+        margin-left: -20px;
+    }
+    .para_plan{
+        display: inline-block;
+        width: 59%;
+    }
+    .para_plan_no {
+        display: inline-block;
+        vertical-align: top;
+        text-align: right;
+        width: 40%;
+    }
+    /*===============Responsive===================*/
+    @media (max-width: 1290px){
+        .w-150{
+            width: 120px;
+        }
+    }
+    @media (max-width: 1199px){
+        .w-150{
+            width: 150px;
+        }
+    }
+    @media (max-width: 1024px){
+        .page {
+            width: 100%;
+        }
+    }
+    @media(max-width:991px){
+        .para_plan_no {
+            width: 35%;
+        }
+    }
+    @media(max-width:767px){
+        .para_plan{
+            display: block;
+            width: 100%;
+            padding-bottom: 20px;
+        }
+        .para_plan_no {
+            text-align: left;
+            display: block;
+            width: 100%;
+        }
+    }
+    @media(min-width:768px){
+        .display {
+            display: inline-flex;
+        }
+    }
+    @media(max-width:576px){
+        .rad_list {
+            padding: 0 0 0 20px;
+        }
+        .checkbox-inline+.checkbox-inline, .radio-inline+.radio-inline {
+            margin-left: 0;
+        }
+        .radio_list_option {
+            font-weight: bolder;
+            padding-left: 0;
+            display: block;
+        }
+    }
+</style>
+{/literal}
+
+{if $plans|@count > 0}
+<div class='row plan-list'>
+    {$month_original =  $this->Original['select_month']|trim}
+    {$year_original =  $this->Original['select_year']|trim}
+    {$day_original =  $this->Original['day']|trim}
+    {$plan_recurrence = $plan->recurrence|trim}
+    {$recurrence_trial = $plan->trial_recurrence|trim}
+    {if $month_original == $plan_recurrence}
+    {$recurrence = $this->Language['select_month']}
+    {$recurrences = $this->Language['months']}
+    {elseif $year_original == $plan_recurrence}
+    {$recurrence = $this->Language['select_year']}
+    {$recurrences = $this->Language['years']}
+    {else}
+    {$recurrence = $plan_recurrence}
+    {$recurrences = $this->Language['days']}
+    {/if}
+
+    {if $month_original == $recurrence_trial}
+    {$trial_recurrence = $this->Language['select_month']}
+    {elseif $day_original == $recurrence_trial}
+    {$trial_recurrence = $this->Language['day']}
+    {else}
+    {$trial_recurrence = $recurrence_trial}
+    {/if}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="tiles-box trending-box mb-3">
+                <div class="d-flex justify-content-between bundle_border">
+                    <div class="bundle_padding">
+                        <h4 class="heading">{$plans->title}</h4>
+                    </div>
+                </div>
+
+                <div class="trading-data">
+                    <div class="para_plan">
+                        <p class="mb-0 trading-data-text"> {$plans->description}</p>
+                    </div>
+                    <div class="para_plan_no">
+                        <div id='currency_type' class="trading-data-text"></div>
+                    </div>
+                </div>
+
+                <div class="radio_list validity display">
+                    <div class="rad_val">
+                        <label for="validity">Validity :</label>
+                    </div>
+
+                    <div class="rad_list">
+                        {foreach from=$timeframe key=i item=frame}
+                        <label for="rdo_timeframe_{$i}" class="radio-inline option_one radio_list_option">
+                            {if $is_subscribe == 0}
+                            <input type="radio" id="rdo_timeframe_{$i}" name="validity" data-price="{$frame['price_for_unsubscribed']}" data-currency_id="{$frame['currency_id']}" data-currency_symbol="{$frame['currency_symbol']}" data-timeframe_id="{$frame['id']}" data-validity="{$frame['validity_days']}" onclick="setPrivatePPVBundlePrice(this)">{$frame['validity_days']} Days
+                            {else}
+                            <input type="radio" id="rdo_timeframe_{$i}" name="validity" data-price="{$frame['price_for_subscribed']}" data-currency_id="{$frame['currency_id']}" data-currency_symbol="{$frame['currency_symbol']}" data-timeframe_id="{$frame['id']}" data-validity="{$frame['validity_days']}" onclick="setPrivatePPVBundlePrice(this)">{$frame['validity_days']} Days
+                            {/if}
+                        </label>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="data[discount_amount]" id="discount_amount" value="">
+<input type="hidden" name="data[free_trail_charged]" id="free_trail_charged" value="">
+<input name="data[plan_id]" type="hidden" id="plan_id" value="{$plans->id}"/>
+<input name="data[currency_id]" type="hidden" id="currency_id"/>
+<input name="data[timeframe_id]" type="hidden" id="timeframe_id"/>
+<input name="data[currency_symbol]" type="hidden" id="currency_symbol"/>
+<input name="data[amount]" type="hidden" id="amount" />
+<input type="hidden" value="Ppv" id="monetization" />
+<input name="data[is_bundle]" type="hidden" value="1"/>
+<input name="data[movie_id]" type="hidden" value="{$movie_id}"/>
+<input name="data[permalink]" type="hidden" value="{$permalink}"/>
+
+{if $isCouponExists}
+<div class="clearfix"></div>
+<div class="row border-right plandetails" id="divCoupon">
+    <div class="col-md-12">
+        <div class="form-group top50">
+            <div class="col-md-12">
+                <div style="font-weight: bold">
+                    <span id="charged_amt" data-amount="{$price}"></span>
+                    <span id="discount_charged_amt" style="display: none;">
+                        <span id="labele_text">{$this->Language['price']}</span>
+                        <span id="dis_charged_amt" style="text-decoration: line-through;"></span>
+                        <sup><span style="font-weight: bold;font-size: 15px;" id="discount_charged_amt_span"></span></sup><br>
+                        <span id="free_trail_txt" style="font-weight: bold;font-size: 15px;"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-5 ">
+        {$signup_steps = Yii::app()->general->signupSteps()}
+        {if $signup_steps == 1 && $reactivate != 1 && $activate != 1}
+        {$disabled = "disabled"}
+        {else}
+        {$disabled = ""}
+        {/if}
+        <div class="col-md-10">
+            <input type="text" {$disabled} class="form-control" name="data[coupon]" id="coupon" placeholder="{$this->Language['coupon_code_optional']}" autocomplete="off" >
+        </div>
+        <div class="col-md-2">
+            <button type="button" {$disabled} class="btn btn-info btn-flat" id="coupon_btn3" onclick="validateCouponForPrivatePPVBundle();">{$this->Language['btn_apply']}</button>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="col-md-12">
+            <div id="invalid_coupon_error" style="color:red;font-size:16px;display:none"></div>
+            <div id="valid_coupon_suc" class="has-success" style="display: none;">
+                <label for="inputSuccess" class="control-label" style="font-weight: normal;color: #4da30c;font-size:16px;">{$this->Language['discount_on_coupon']} <span id="coupon_in_amt"></span></label>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+{/if}
+
+<div class="clearfix"></div>
+
+{literal}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#coupon').on('keyup keypress', function (e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        if ($('#rdo_timeframe_0').length) {
+            $('#rdo_timeframe_0').attr('checked', true);
+            setPrivatePPVBundlePrice($('#rdo_timeframe_0'));
+        }
+    });
+</script>
+{/literal}

@@ -1,0 +1,38 @@
+{foreach from=$value1['contents'] key=k item=value}
+{assign var="img_path" value=PGProduct::getpgImage($value['id'],'standard')}
+<div class="col-md-5ths col-xs-6">
+    <div class="thumbnail">
+        <div class="muvi_play-box">
+            <a href="{$content->permalink}"><img src="{$img_path}" alt="{$value['name']}" title="{$value['name']}" /></a>
+            <div class="muvi_popup-data muvi_thumb-bg">
+                <div class="ptext">
+                {if $value['description']|count_characters > 30}
+                {$value['description']|substr:0:100}
+                {else}
+                {$value['description']}
+                {/if}                    
+                </div><br />
+                <div class="price"><strong>{Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'])}</strong></div>
+                
+            {if $value['status']==1}
+            <p class="text-center">
+                {if $value['is_preorder'] == 0}
+                <input type="button" style="margin-left:0px;" class="muvi_AddToCart btn muvi_cart2 btn-primary btn-green-small" value="{$this->Language['add-to-cart']}" onclick="showcart({$value['id']}, 1);"><br />
+                <input type="button" style="margin-left:0px;" class="muvi_AddToCart btn order-now2 btn-primary btn-green-small" value="{$this->Language['ordernow']}" onclick="showcart({$value['id']}, 2);" />
+                {else}
+                <input type="button" style="margin-left:0px;" class="muvi_AddToCart btn order-now2 btn-primary btn-green-small" value="{$this->Language['pre_ordernow']}" onclick="window.location = '{$producturl}/{$value['permalink']}'" />                              
+                {/if}
+            </p>
+            {elseif $value['status']==3}
+            <div class="text-center">
+                <div class="muvi_stockout">{$this->Language['stock_out']}</div>
+            </div>
+            {/if}                 
+            </div>
+        </div>
+        <div class="caption">
+            <h3 class="muvi_caption_title"><a href="{$producturl}/{$value['permalink']}">{$value['name']}</a></h3>
+        </div>
+    </div>
+</div>
+{/foreach}

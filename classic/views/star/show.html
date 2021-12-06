@@ -1,0 +1,28 @@
+{$content = $item|json_decode}
+<div class="single-product-area">
+    <div class="container">
+        <div class="row top20">
+            <div class="col-md-12">
+            <h2>{$content->name}</h2>
+            <img src="{$celebrity_image}" alt="{$content->name}" align="left" style="margin-right: 20px;" />
+            <p>{$content->summary|utf8_decode}</p>
+            {if $content->custom_data|count > 0}
+                {foreach from=$content->custom_data key=ckey item=cval}
+                <p>
+                    <b>{$cval->field_name} :</b> 
+                    {if is_array($cval->value)}
+                        {', '|implode:$cval->value}
+                    {else}
+                        {$cval->value}
+                    {/if}
+                </p>
+                {/foreach}
+            {/if}
+            <br /><br />
+           </div>
+        </div>
+        <div class="row top20">
+            {include file='../layouts/listitem.html'}
+        </div>
+    </div>
+</div>

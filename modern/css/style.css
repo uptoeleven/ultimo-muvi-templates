@@ -1,0 +1,134 @@
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+    background-color: transparent;
+}
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background-color: transparent;
+}
+.navbar-default {
+    height: 65px;
+    padding: 5px 40px;
+}
+
+
+.navbar-nav > li:not(.pull-right) {
+    float: left;
+}
+.mt {
+    margin-top: -5px;
+}
+.btn:focus,
+.btn:active,
+button {
+    outline: 0 !important;
+}
+
+.btn {
+
+}
+
+.as-btn-md {
+    min-width: 179px;
+    height: 40px;
+    padding:7px 12px;
+}
+.as-btn-accent {
+    border-color: #32c5d2;
+    color: #fff;
+    background: #32c5d2;
+    font-weight:600;
+    font-size:17px;
+}
+
+.as-btn-accent:hover {
+    color: #fff;
+    background: #1f9ea9;
+    border-color: #1f9ea9;
+}
+
+.as-btn-accent:focus,
+.btn-accent:active {
+    color: #fff;
+    background: #1f9ea9;
+}
+.as-btn-grey {
+    color: #707277;
+    border:2px solid #707277;
+    margin-right:20px;
+    font-weight:600;
+    font-size:17px;
+}
+
+.as-btn-grey:hover {
+    color: #fff;
+    background: #eb5d68;
+    border:2px solid #eb5d68;
+}
+
+.as-btn-grey:focus,
+.btn-grey:active {
+    color: #fff;
+    background: #eb5d68;
+    border:2px solid #eb5d68;
+}
+#generalInfoModal .modal-body {
+    padding:20px;
+    position: relative;
+}
+.modal-body {
+    position: relative;
+}
+
+.c-layout-header .c-cart-menu{
+    z-index:9;
+}
+.mt-15{ margin-top:15px; }
+.mb-15{ margin-bottom:15px; }
+@media (max-width: 992px) {
+    .dropdown-menu::before{
+        display:none;
+    }
+}
+@media (max-width: 799px) {
+    #muvi_homepage_sections .slick-next{right:0}
+    #muvi_homepage_sections .slick-prev{left:0;}
+}
+.video-js {width:100% !important; height: 50%; padding-top: 48%;}
+.RDVideoHelper{display: none;}
+video::-webkit-media-controls {
+    display:none !important;
+} 
+
+.slick-next {
+    right: -27px;
+}
+
+/* stripe SCA card design */
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 34px;
+
+  padding: 7px 12px;
+
+  border: 1px solid #8e8e8e;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+/* stripe SCA card design end block */
+ 

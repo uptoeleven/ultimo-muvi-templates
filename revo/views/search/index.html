@@ -1,0 +1,28 @@
+<script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['search_results']}</h2>
+        {if $item_count > 0}
+        <ul class="item-list row">
+            {include file='../layouts/listitem.html'}
+        </ul>
+        {else}
+        <div class="col-md-12"><h3>{$this->Language['no_result_found_refine_your_search']}</h3></div>
+        {/if}
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(window).bind("load", function() {
+    $(".item-list .item-wrap .item-cover").matchHeight();
+});
+</script>

@@ -1,0 +1,109 @@
+{$content = $contents|json_decode}
+{$playlist = $content->playlist}
+{$val = $prev_offset+1}
+{assign var=num value=$val}
+{foreach from=$playlist item=listitem}
+{$user_id=Yii::app()->user->id}
+{$itemCount = $listitem->counts}
+
+<!--#20401: Playlist and Queue Feature for REVO and Modern Template- R1-->
+<div class="play-list list_{$num} muvi_play-list-table" data-id="{$num}" style="border-bottom: 1px solid #dedede;">
+    <div class="loader" id="playlist_loading"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="table-responsive">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th class="c-black">
+                            {$num++}
+                        </th>
+                        <th>
+                            {if $itemCount > 0}
+                            {if $listitem->type == 1}
+                            <a href="javascript:void(0);" class="playPlaylist" data-playlist_id="{$listitem->list_id}" data-playlist_name="{$listitem->list_name}" data-user_id="{$user_id}" data-index="0"><i class="fa fa-play img-play" aria-hidden="true"></i></a>
+                            {/if}
+                            {if $listitem->type == 2}
+                                <a href="javascript:void(0);" class="playPlaylist" 
+                                    {$dataItem = $listitem->lists}
+                                    {foreach from=$dataItem item=result} 
+                                    data-movie_id="{$result->movie_uniq_id}" data-movie_stream_uniq_id="{$result->movie_stream_uniq_id}" data-content-permalink="{$result->c_permalink}" data-stream_id="{$result->movie_stream_uniq_id}" data-ctype="{$result->content_types_id}" data-playlist_id="{$listitem->list_id}" data-playlist_permalink="{$listitem->playlist_permalink}" data-user-id="{$user_id}" onclick="playlistContentVideoPlay(this);"
+                                    {/foreach}>
+                                    <i class="fa fa-play img-play" aria-hidden="true"></i>
+                            </a>
+                            {/if}
+                            {/if}
+                        </th>
+                        <th>
+                            {$listitem->list_name}
+                        </th>
+                        <th class="c-black">
+                            {if $itemCount > 0}
+                            {if $itemCount > 1}
+                            {$itemCount} {if $listitem->type == 1}{$this->Language['tracks']}{else}{$this->Language['videos']}{/if}
+                            {else}
+                            {$itemCount} {if $listitem->type == 1}{$this->Language['track']}{else}{$this->Language['video']}{/if}
+                            {/if}
+                            {else}
+                                {if $listitem->type == 1}{$this->Language['no_track']}{else}{$this->Language['no_video_playlist']}{/if}
+                            {/if}
+                        </th>
+                        <th class="icon-menu">
+        <a href="javascript:void(0);"><span class="editPlaylist" data-playlist_id="{$listitem->list_id}" data-id="{$num}"  data-user_id="{$user_id}" data-playlist_name="{$listitem->list_name}"><i class="fa fa-pencil img-edit" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:void(0);" class="delete_playlist" data-type="{$listitem->type}" data-playlist_id="{$listitem->list_id}" data-playlist_name="{$listitem->list_name}" data-user_id="{$user_id}" data-id="{$num}"   data-header="{$this->Language['are_you_sure_to_delete_playlist']}" data-button="deletePlaylist" onclick="showConfirmPopup(this);"><i class="fa fa-trash-o img-del" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:void(0);" onclick="togglePlayListItem(this);" class="text-uppercase openColl" data-toggle="collapse" data-target="#collapseExample_{$num}" aria-expanded="false" data-id="{$num}" aria-controls="collapseExample"><i class="fa fa-plus img-add" aria-hidden="true"></i><i class="fa fa-minus img-min current" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </th>
+                    </tr>
+                </thead>
+
+            </table>
+    </div>
+        </div>
+
+    
+    <div class="collapse collapse_list" id="collapseExample_{$num}">
+        <div class="panel-body">
+            <div class="row playList">
+                <div class="col-md-12">
+                {if $itemCount > 0}
+                {$dataItem = $listitem->lists}
+                {assign var=numb value=1}
+                {foreach from=$dataItem item=result}
+                {$casts=$result->casts}
+                    <div class="track-list playlist {$val}" style="border:none;padding: 0;">
+                    <div class="track-item playlist-track row" data-id="{$result->movie_stream_id}">
+                            <div class="table-responsive">
+                                <table class="table inner-table">
+                                    <tr>
+                                        <td class="title c-black">{$numb++}</td>
+                                        <td class="playslist_user">
+                            <span class="title left5">&nbsp;{$result->content_title}&nbsp;&nbsp;</span>
+                            <span class="meta-info c-white">{foreach from=$casts key=counter item=cast}{$cast_count=$cast|@count}{$j=0}{foreach from=$cast key=counter item=castitem}{$castitem->celeb_name}{$j = $j+1}{if $j != $cast_count}, {/if}{/foreach}{/foreach}</span>
+                            <span class="title pull-right top-22">&nbsp;&nbsp;{$result->video_duration}</span>
+                                        </td>
+                                        <td>
+                            <a href="javascript:void(0);" data-content_id="{$result->movie_stream_id}"  data-playlist_id="{$listitem->list_id}" data-user_id="{$user_id}" data-header="{$this->Language['are_you_sure_to_delete_content']}" data-button="deleteContent" onclick="showConfirmPopup(this);">
+                                            <!--<img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/Icons/delete.png" class="img-del" alt="{$this->Language['delete']}" title="{$this->Language['delete']}"></a>-->
+                                           <i class="fa fa-trash-o img-del" aria-hidden="true" alt="{$this->Language['delete']}" title="{$this->Language['delete']}"></i>
+                                        </td>
+                                    </tr>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+                {else}
+                <h6>{$this->Language['no_content_added_yet']}</h6>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+<!--#20401: Playlist and Queue Feature for REVO and Modern Template- R1-->
+{/foreach}
+<input type="hidden" id="latest_offset" value="{$offset}">
+
+	
+

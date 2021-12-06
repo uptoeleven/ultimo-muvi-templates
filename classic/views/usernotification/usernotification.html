@@ -1,0 +1,81 @@
+<link href="{$this->siteurl}/css/usernotification.css" rel="stylesheet" media="screen" />
+<script type="text/javascript" src="{$this->siteurl}/js/jquery.mCustomScrollbar.js"></script>   
+<link href="{$this->siteurl}/css/jquery.mCustomScrollbar.css" rel="stylesheet" media="screen" /> 
+<div class="container">
+    <div id="result"></div>
+    <h2 class="txt-camel">{$this->Language['text_message']}</h2>
+    <hr>
+    <div class="row">
+        <div class="col-xs-4">
+            <ul id="notification_msg_menu" class="messagemenu notificationlist">
+
+                {if $allnotification|@count >0}
+                {foreach from=$allnotification item=content}
+
+                <li {if $content->status==1}class="active-msg-menu"{/if} onclick="readNotification({$content->user_id},{$content->notification_id}, this)">
+
+                    <h2 class="_lg">{$content->title}</h2>
+                    <h2 class="_sm">{$content->title|truncate:20}</h2>
+                    <h4>{date('D, d F Y', strtotime($content->updated_date))}</h4>
+
+                </li>
+
+                {/foreach}
+                <span class="_no-data _hide">{$this->Language['no_message_available']}</span>
+                {else}
+                <span class="_no-data">{$this->Language['no_message_available']}</span>
+                {/if}
+            </ul>
+        </div>
+        {if $allnotification|@count >0}
+        <div class="col-xs-8">
+
+            <div class="message_body" id="notification_msg_detail">
+
+                <a class="pull-right _close" data-userid="" data-notifid="" onclick="deleteNotification(this)"><span class="glyphicon glyphicon-trash"></span></a>
+                <h2></h2>
+                <h4></h4>
+                <p></p>
+
+
+            </div>
+        </div>
+        {/if}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {$pages=ceil($count_notification/10)}
+            {$start=1}
+            {if $offset > 3}
+            {$start=$offset}
+            {/if}
+            {$end=$start+3}
+            {if $end > $pages}
+            {$end=$pages}
+            {/if}
+            {if $pages > 1}
+            <div class="product-pagination text-center pull-left">
+                <nav>
+                    <ul class="pagination pagination-normal">
+                        {if $offset > 1}
+                        <li><a id="pl_2" href="{$this->base_url}/usernotification/notification?offset=1" class="pagination-css" data-toggle="tooltip" ><i class="glyphicon glyphicon-backward"></i></a></li> 
+                        <li><a id="pn_2" href="{$this->base_url}/usernotification/notification?offset={$offset-1}" class="pagination-css" data-toggle="tooltip" ><i class="glyphicon glyphglyphicon glyphicon-chevron-left"></i></a></li>
+                        {/if}
+                        {for $j=$start ; $j <= $end; $j++ }
+                        {$end_records=$j*10}
+                        {if $end_records > $count_notification}
+                        {$end_records=$count_notification}
+                        {/if}
+                        <li {if $offset==$j}class="active"{/if}><a id="pg_1" href="{$this->base_url}/usernotification/notification?offset={$j}" class="pagination-css" data-toggle="tooltip" title="showing {(($j-1)*10)+1} - {$end_records} records of {$count_notification} records">{$j}</a></li>
+                        {/for}
+                        {if $offset != $pages}
+                        <li><a id="pn_2" href="{$this->base_url}/usernotification/notification?offset={$offset+1}" class="pagination-css" data-toggle="tooltip" ><i class="glyphicon glyphglyphicon glyphicon-chevron-right"></i></a></li>
+                        <li><a id="pl_2" href="{$this->base_url}/usernotification/notification?offset={$pages}" class="pagination-css" data-toggle="tooltip" ><i class="glyphicon glyphicon-forward"></i></a></li>
+                        {/if}
+                    </ul>
+                </nav>                        
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>

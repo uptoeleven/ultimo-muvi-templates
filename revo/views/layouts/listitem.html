@@ -1,0 +1,366 @@
+<script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+{foreach from=$contents|json_decode item=content}
+    {if $content->is_playlist == 1}
+        {if $content->is_search == 1}
+            {$data = $content}
+        {else}
+            {$data = $content->list}
+        {/if}
+        {$content_poster = $content->poster_playlist}
+        {include file='../layouts/playlistitem.html'}
+    {elseif $content->is_physical == 1}
+        {if $content->is_search == 1}
+            {$physical = $content}
+        {else}
+            {$physical = $content->physical}
+        {/if}
+        {include file='../layouts/physicallist.html'}
+    <!--@ER : 57619 @info: user search @author: Manas  starts-->    
+    {elseif $content->is_user == 1}
+        {$users = $content}
+        {include file='../layouts/userlistitem.html'}    
+    <!--@ER : 57619 @info: user search @author: Manas End-->    
+    {else}
+        <li class="col-md-3">
+    <div class="item-wrap clearfix" data-selector="{$content->movie_stream_id}_auto">
+        {if $VDListItemInfo}
+            {foreach from=$VDListItemInfo|json_decode item=vdListItem}
+            {if $vdListItem->contentType == "poster_url"}
+            <div class="item-cover">
+                <!--ER:50979 & 53709 - Auto Preview Feature - start-->
+                {if $content->auto_preview_file != ''}<!--ER-57041-->
+                <video preload="none" class="vid_cover" id="{$content->movie_stream_id}_auto" style="display: none;" muted loop>
+                    <source src="{$content->auto_preview_file}" type="video/mp4">
+                    Your browser does not support HTML video.
+                </video>
+                {/if}
+                <!--ER:50979 & 53709  - Auto Preview Feature - end-->
+                <img class="_cover" src="{$content->poster}" />
+                <!--@ER : 19491 @info: publish content later @author: Pritam  starts-->
+                <div class="cover-overlay">
+                    {if $content->content_types_id == 5}
+                        {if $content->full_movie != ''}
+<!--                <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                {$this->Language['play_now']}
+                </a>-->
+                {if $content->is_downloadable == 1  && $content->show_playbtn == 1}
+					{$content->download_btn}
+                {elseif $content->is_downloadable == 1 && $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>
+                    {elseif $content->is_downloadable == 2 && $content->show_playbtn == 1}
+                {$content->play_btn}
+					{$content->download_btn}
+                                 {elseif $content->is_downloadable == 2 && $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>       
+				{else}
+                           {if $content->show_playbtn == 1}
+					{$content->play_btn}
+                                        {else}
+                                          <a class="comingsoon">{$this->Language['coming_soon']}</a>
+				{/if}
+				{/if}
+                <!--   18112 [Sweta M]-->
+                {elseif $content->is_converted == 0 && $content->play_btn != '' && $content->show_playbtn == 1}
+                {$content->play_btn}
+                {elseif $content->is_converted == 0 && $content->play_btn != '' && $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>
+                        {else}
+                        <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                        {/if}
+                    {elseif $content->content_types_id == 8}
+                        <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                            {$this->Language['play_now']}
+                        </a>
+                    {elseif $content->content_types_id == 3}
+                    <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                    {elseif $content->content_types_id == 6}
+                    <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                    {else}
+                    {if $content->content_types_id!= 3}
+                    {if $content->is_downloadable == 1}
+                    {if $content->download_btn != '' && $content->show_playbtn == 1}{$content->download_btn}{elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a> {else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {elseif $content->is_downloadable == 2}
+                    {if $content->play_btn != '' && $content->show_playbtn == 1}{$content->play_btn} {elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {if $content->download_btn != '' && $content->show_playbtn == 1}{$content->download_btn}{elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {else}
+                    {if $content->play_btn != '' && $content->show_playbtn == 1}{$content->play_btn}{elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {/if}
+                    {/if}
+                    {/if}
+                    <!--53709 -start-->
+                    {if $content->auto_preview_file != ''}
+                    <div class="soundBtn">
+                        <div class="svg sound_btn mute_btn" data-video_id="{$content->movie_stream_id}_auto" onclick="play_autopreview_sound(this)" id="mute" data-toggle="tooltip" data-placement="top" title="Click to unmute">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M23 9L17 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M17 9L23 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="svg hide sound_btn unmute_btn" data-video_id="{$content->movie_stream_id}_auto" onclick="play_autopreview_sound(this)" id="unmute" data-toggle="tooltip" data-placement="top" title="Click to mute">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M19.07 4.92999C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07M15.54 8.45999C16.4774 9.39763 17.0039 10.6692 17.0039 11.995C17.0039 13.3208 16.4774 14.5924 15.54 15.53" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                    {/if}
+                    <!--53709 -end-->
+                </div>
+                <!--@ER : 19491 ends  -->
+            </div>
+            {else}
+            <div dir="auto"
+                class="item-info
+                {if $vdListItem->boldStatus == 'b'} _bold{/if}
+                {if $vdListItem->width == '1/2'} _col-1b2{/if}
+                {if $vdListItem->width == '1/3'} _col-1b3{/if}
+                {if $vdListItem->width == '2/3'} _col-2b3{/if}
+                {if $vdListItem->align == 'r'} _txt-right{/if}
+                {if $vdListItem->align == 'c'} _txt-center{/if}
+                {if $vdListItem->lineCount == 's'} _sline{/if}
+                " 
+                style="{if $vdListItem->lineHeight != '' && $vdListItem->lineHeight != '0'}line-height:{$vdListItem->lineHeight}px;{/if}
+                {if $vdListItem->size != '' && $vdListItem->size != '0'}font-size:{$vdListItem->size}px;{/if}
+                {if $vdListItem->color != '' && $vdListItem->color != '0'}color:{$vdListItem->color};{/if}
+                ">
+                {if $vdListItem->contentType == "title"}
+                    <a href="{$content->permalink}">{$content->title|utf8_decode}</a>
+                {elseif $vdListItem->contentType == "genre"}
+                    {if $content->genres|@count > 0}
+                        {$genre_count = $content->genres|count}
+                        {$j=0}
+                        {foreach from=$content->genres item=genre}
+                        {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                    {/if}
+                    &nbsp;
+                {elseif $vdListItem->contentType == "release_date"}
+                    {$content->full_release_date|utf8_decode}&nbsp;
+                {else}
+                    {$datakey = $vdListItem->contentType}
+                    {if $datakey}
+                    {$content->$datakey|utf8_decode}
+                    {$content->custom->$datakey->field_value|utf8_decode}&nbsp;
+                    {/if}
+                {/if}
+
+            </div>     
+            {/if}
+            {/foreach}
+        {else}
+            <!--@ER : 19491 @info: publish content later @author: Pritam  starts-->
+            <div class="item-cover">
+                <!--ER:50979 & 53709 - Auto Preview Feature - start-->
+                {if $content->auto_preview_file != ''}
+                <video preload="none" class="vid_cover" id="{$content->movie_stream_id}_auto" style="display: none;" muted loop>
+                    <source src="{$content->auto_preview_file}" type="video/mp4">
+                    Your browser does not support HTML video.
+                </video>
+                {/if}
+                <!--ER:50979 & 53709 - Auto Preview Feature - end-->
+                <img class="_cover" src="{$content->poster}" />
+                <!--@ER : 19491 @info: publish content later @author: Pritam  starts-->
+                <div class="cover-overlay">
+                    {if $content->content_types_id == 5}
+                        {if $content->full_movie != '' && $content->show_playbtn == 1}
+                <!--#Mantis : 18523-->
+                {$content->play_btn}
+                {elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>
+<!--                <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                {$this->Language['play_now']}
+                </a>-->
+                <!--   18112 [Sweta M]-->
+                {elseif $content->is_converted != 1 && $content->play_btn != '' && $content->show_playbtn == 1}
+                {$content->play_btn}
+                 {elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>
+                        {else}
+                        <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                        {/if}
+                    {elseif $content->content_types_id == 8}
+                        <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                            {$this->Language['play_now']}
+                        </a>
+                    {elseif $content->content_types_id == 3}
+                    <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                    {elseif $content->content_types_id == 6}
+                    <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                    {else}
+                    {if $content->content_types_id!= 3}
+                    {if $content->is_downloadable == 1}
+                    {if $content->download_btn != '' &&  $content->show_playbtn == 1}{$content->download_btn}{elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a> {else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}                                        
+                    {elseif $content->is_downloadable == 2}
+                    {if $content->play_btn != '' &&  $content->show_playbtn == 1}{$content->play_btn}{elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a> {else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {if $content->download_btn != '' &&  $content->show_playbtn == 1}{$content->download_btn}{elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {else}
+                    {if isset($content->meeting_type) && $content->meeting_type==1}
+                    {if $content->play_btn != '' &&  $content->show_playbtn == 1}{$content->play_btn}{elseif $content->show_playbtn == 0}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {else}
+                    {if $content->play_btn != '' &&  $content->show_playbtn == 1}{$content->play_btn}{elseif $content->show_playbtn == 0}<a class="comingsoon">{$this->Language['coming_soon']}</a>{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {/if}
+                    {/if}
+                    {/if}                 
+                    {/if}
+                    <!--53709 -start-->
+                    {if $content->auto_preview_file != ''}
+                    <div class="soundBtn">
+                        <div class="svg sound_btn mute_btn" data-video_id="{$content->movie_stream_id}_auto" onclick="play_autopreview_sound(this)" id="mute" data-toggle="tooltip" data-placement="top" title="Click to unmute">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M23 9L17 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M17 9L23 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="svg hide sound_btn unmute_btn" data-video_id="{$content->movie_stream_id}_auto" onclick="play_autopreview_sound(this)" id="unmute" data-toggle="tooltip" data-placement="top" title="Click to mute">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M19.07 4.92999C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07M15.54 8.45999C16.4774 9.39763 17.0039 10.6692 17.0039 11.995C17.0039 13.3208 16.4774 14.5924 15.54 15.53" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                    {/if}
+                    <!--53709 -end-->
+                </div>
+                <!--@ER : 19491 ends-->
+            </div>
+            <div class="spacer_10"></div>
+            <div dir="auto" class="item-info">
+                <a href="{$content->permalink}">{$content->title|utf8_decode}</a>
+            </div>
+            <div class="item-info">
+                {if $content->genres|@count > 0}
+                    {$genre_count = $content->genres|count}
+                    {$j=0}
+                    {foreach from=$content->genres item=genre}
+                    {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                {/if}
+                &nbsp;
+            </div>
+        <div class="item-info1">
+        <ul id="listingicons" class="clearfix"> 
+            {if $show_likes == 1}
+            <li class="listicons">
+                <!--Upasana ER 27448-->
+                {if $content->is_like == 0}
+
+                <a href="javascript:;" data-permalink = "{$content->permalink}" data-is_like="{$content->is_like}"  data-movie_id ="{$content->movie_id}" onclick="listLike(this)" >
+          <span class="fa fa-thumbs-up"> </span> <span  id = "like_{$content->movie_id}">{$content->all_likes} </span> 
+                       
+                    
+                </a>
+                   {else}
+                    <a href="javascript:;" data-permalink = "{$content->permalink}" data-is_like="{$content->is_like}" data-movie_id ="{$content->movie_id}" onclick="listLike(this)" >
+          <span  style ="color:#32c5d2"  class="fa fa-thumbs-up"></span>  <span  id = "like_{$content->movie_id}"> {$content->all_likes}</span> 
+                       
+                    
+                </a>
+                    &nbsp; 
+                 {/if}
+                  <!--Upasana ER 27448-->
+            </li>
+            {/if}
+            {if $rating_status == 1}
+            <li class="listicons">    
+                <a href="{$content->permalink}">
+                    {$content->all_comments}
+                    <span>Reviews</span>  
+                </a>                            
+            </li>
+            {/if}
+            {if $show_views == 1}
+            <li class="listicons">  
+                <a href="{$content->permalink}">
+                    {$content->all_views}    
+                    <span class="glyphicon-color"> Views </span>
+                </a>                         
+            </li>
+            {/if}            
+        </ul>   
+        {if $rating_status == 1}
+        <ul class="rating-stars">    
+            <li class="rating-hover listicons">   
+                <a href="{$content->permalink}" class="dropdown-toggle" data-toggle="dropdown"> 
+                    <input type="hidden" class="rating" data-readonly value="{$content->average_rating}" />
+                </a><span class="caret"></span>
+                <span class="ratingfont">{$content->avg_total}</span>
+                <div class="dropdown-menu dropdown-width" role="menu">
+                    <div class="text-center rating-drop-down" > {if !empty($content->average_rating)}{$content->average_rating}{else} 0{/if} {$this->Language['out_of']} 5 {$this->Language['star']}</div><!--40781-->
+                    <div class="col-xs-12">
+                        <div class="pull-left rating-drop-down">
+                            <div class="pull-left hover-icon"> 
+                                <div class="hover-rating">5 <span class="glyphicon glyphicon-star glystar"></span></div>
+                            </div>                     
+                            <div class="pull-left rating-progress-bar">
+                                <div class="progress hover-progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" {if $content->count_five == 0} style="width:2%;" {else} style="width:{$content->count_five}%;" {/if}></div>
+                                </div>
+                            </div>
+                            <div class="pull-right percentage">{$content->count_five}%</div>   
+                        </div>
+                        <div class="pull-left rating-drop-down">
+                            <div class="pull-left hover-icon">
+                                <div class="hover-rating">4 <span class="glyphicon glyphicon-star glystar"></span></div>
+                            </div>
+                            <div class="pull-left rating-progress-bar">
+                                <div class="progress hover-progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" {if $content->count_four == 0} style="width:2%;" {else} style="width:{$content->count_four}%;" {/if}></div>
+                                </div>
+                            </div>
+
+                            <div class="pull-right percentage">{$content->count_four}%</div>   
+
+                        </div>
+                        <div class="pull-left rating-drop-down">
+                            <div class="pull-left hover-icon">
+                                <div class="hover-rating">3 <span class="glyphicon glyphicon-star glystar"></span></div>
+                            </div>
+                            <div class="pull-left rating-progress-bar">
+                                <div class="progress hover-progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" {if $content->count_three == 0} style="width:2%;" {else} style="width:{$content->count_three}%;" {/if}></div>
+                                </div>
+                            </div>
+
+                            <div class="pull-right percentage">{$content->count_three}%</div>  
+
+                        </div>
+                        <div class="pull-left rating-drop-down">
+                            <div class="pull-left hover-icon">
+                                <div class="hover-rating">2 <span class="glyphicon glyphicon-star glystar"></span></div>
+                            </div>
+                            <div class="pull-left rating-progress-bar">
+                                <div class="progress hover-progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" {if $content->count_two == 0} style="width:2%;" {else} style="width:{$content->count_two}%;" {/if}></div>
+                                </div>
+                            </div>
+
+                            <div class="pull-right percentage">{$content->count_two}%</div>  
+
+                        </div>
+                        <div class="pull-left rating-drop-down">
+                            <div class="pull-left hover-icon">
+                                <div class="hover-rating">1 <span class="glyphicon glyphicon-star glystar"></span></div>
+                            </div>
+                            <div class="pull-left rating-progress-bar">
+                                <div class="progress hover-progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" {if $content->count_one == 0} style="width:2%;" {else} style="width:{$content->count_one}%;" {/if}></div>
+                                </div>
+                            </div>
+
+                            <div class="pull-right percentage">{$content->count_one}%</div>  
+
+                        </div>
+                        <div class="pull-left">
+                            <a  href="{$content->permalink}" style="padding-left: 45px;">
+                                {if $content->avg_total > 0}
+                                <span class="showreviewfont">See all {$content->avg_total} reviews </span>&nbsp;<span class="showreviewcaret fa fa-caret-right"></span>
+                                {/if}
+                            </a>
+                        </div>
+                    </div>            
+                </div>
+            </li>
+        </ul>
+        {/if}
+        </div>
+            <div class="spacer_10"></div>
+        {/if}
+    </div>
+</li>
+    {/if}
+{/foreach}

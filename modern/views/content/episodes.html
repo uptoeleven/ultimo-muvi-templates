@@ -1,0 +1,122 @@
+{$kvs = $kvs|json_decode}
+{assign var=num value=0}
+{assign var=val value=0}
+{assign var=cnn value=0}
+{$user_id=Yii::app()->user->id}
+{foreach from=$kvs item=data}
+
+{$episode_image=$data->poster}
+{$casts = $data->casts}
+{if $data->content_types_id == 6}
+{$audio_duration_full = $data->video_duration}
+{$audio_duration = ":"|explode:$audio_duration_full}
+<li class="track"> 
+     <!--@mantis: 18541 start-->
+    <span class="track-play"> 
+    <!--#Mantis:18523 [SwetaM]-->
+     <!--@ER: 19491 @info: publish content later @author: Pritam starts-->
+    {if $data->show_playbtn == 1}
+        {$data->play_btn}
+         <i class="fa fa-play"></i>
+         {else}
+         <i class="fa fa-play noplay"></i>  
+    {/if}     
+        </a>      
+    </span>
+    <span class="track-title">
+
+    <!--#Mantis:18523 [SwetaM]-->
+        {if $data->show_playbtn == 1}
+            <span class="c-font-sbold"> {if $this->add_to_favourite != 0}<a href="javascript:void(0);" data-login_status="{if $this->user_id} 1 {else} 0 {/if}" data-content_id="{$data->movie_stream_id}" data-content_type="1" class="c-white addtofav" data-fav_status="{if $data->is_fav_status == '1'}0{else}1{/if}"><i class="{if $data->is_fav_status == '1'} fa fa-heart {else} fa fa-heart-o {/if}"></i></a>{/if}
+                &nbsp; {$data->content_title} </span>
+        {else}
+            <span class="c-font-sbold noplay"> {if $this->add_to_favourite != 0}<a href="javascript:void(0);" data-login_status="{if $this->user_id} 1 {else} 0 {/if}" data-content_id="{$data->movie_stream_id}" data-content_type="1" class="c-white addtofav" data-fav_status="{if $data->is_fav_status == '1'}0{else}1{/if}"><i class="{if $data->is_fav_status == '1'} fa fa-heart {else} fa fa-heart-o {/if}"></i></a>{/if}
+                &nbsp; {$data->content_title|utf8_decode}  &emsp; <b>- {$this->Language['coming_soon']|upper}</b></span>
+        {/if}
+        </a>
+
+        <p class="muvi_c-margin-b-0 muvi_c-font-14">{foreach from=$casts key=counter item=cast}{$cast_count=$cast|@count}{$j=0}{foreach from=$cast key=counter item=castitem}{$castitem->celeb_name}{$j = $j+1}{if $j != $cast_count}, {/if}{/foreach}{/foreach}</p>
+    </span> 
+      <!--@ER: 19491 -->
+     <!--@mantis: 18541 end-->
+    {if $audio_duration_full != ''}<span class="muvi_track-meta"><span class="muvi_track-duration">{if $audio_duration[0]|intval > 0} {$audio_duration_full}  {else} {$audio_duration[1]}:{$audio_duration[2]} {/if}</span></span>{/if}
+    {if $this->add_to_playlist != 0 || $this->add_to_queue != 0}
+    <span class="muvi_track-meta">	
+    <!--@ER: 19491 @info: publish content later @author: Pritam starts-->
+    {if $data->show_playbtn == 1}        
+        <div class="dropup">
+            <div class="dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-ellipsis-v" aria-hidden="true" style="font-size: 28px;"></i>
+            </div>
+            <ul class="dropdown-menu  dropdown-menu1 dropdown-menu-right" aria-labelledby="dropdownMenu3">
+                {if $this->add_to_playlist != 0}<li><a href="javascript:void(0);" class="c-white addPlay" data-type="1" data-content_id="{$data->movie_stream_id}" data-user_id="{$user_id}" data-is_episode="{$data->is_episode}">{$this->Language['add_to_playlist']}</a></li>{/if}   <!--#20401: Playlist and Queue Feature for REVO and Modern Template- R1-->
+                {if $this->add_to_queue != 0}<li><a href="javascript:void(0);" class="c-white addToQue" data-id="{$data->movie_stream_id}"  data-is_episode="{$data->is_episode}">{$this->Language['add_to_queue']}</a></li>{/if}
+            </ul>
+        </div>
+    {else}
+        <div class="dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-ellipsis-v noplay" aria-hidden="true" style="font-size: 28px;"></i>
+        </div>    
+    {/if}
+    <!--@ER: 19491 ends-->
+    </span>
+    {/if}
+</li>
+{else}
+{assign var=ccc value=$ccc+1}
+<div class="col-md-5ths col-sm-6 muvi_episode_content_{$data->movie_stream_id}">
+    <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_episode-boxx">
+
+        <div class="muvi_c-content-overlay">
+            <div class="muvi_c-overlay-wrapper">
+                <div class="muvi_c-overlay-content">
+                    <!--@ER: 19491 @info: publish content later @author: Pritam starts-->
+                    <div>
+						{if $data->is_downloadable == 1}
+                            {if $data->show_playbtn == 1}
+							{$data->download_btn}
+                            {else}
+                            <a class="comingsoon">{$this->Language['coming_soon']}</a>
+                            {/if}
+                        
+						{elseif $data->is_downloadable == 2}
+                            {if $data->show_playbtn == 1}
+							{$data->play_btn}<br><br>
+							{$data->download_btn}
+						{else}
+                            <a class="comingsoon">{$this->Language['coming_soon']}</a>
+                            {/if}
+                        {else}
+                            {if $data->show_playbtn == 1}
+							{$data->play_btn}
+                            {else}
+                            <a class="comingsoon">{$this->Language['coming_soon']}</a>
+						{/if}
+                        {/if}
+					</div>
+                    {if $this->add_to_favourite}
+                    <a data-login_status="{if $this->user_id} 1 {else} 0 {/if}" data-content_id="{$data->movie_stream_id}" data-content_type="1" class="addtofav"  data-fav_status="{if $data->is_fav_status == '1'}0{else}1{/if}">><i class="{if $data->is_fav_status == '1'}fa fa-heart{else}fa fa-heart-o{/if}"></i></a>
+                    {/if}
+                    <!--@ER: 19491 ends -->
+                </div>
+            </div>
+            <img class="muvi_c-bg-img-top-center muvi_c-overlay-object" src="{$episode_image}">
+        </div>
+        <div class="muvi_c-info">
+            <p class="muvi_c-title c-font-bold c-font-uppercase muvi_c-font-slim">
+                {$data->title}
+            </p>
+            <p class="c-price muvi_c-font-14 muvi_c-font-slim">
+                {if $data->story|utf8_decode|count_characters > 55}{$data->story|utf8_decode|truncate:70}<a href="javascript:void();" class="muvi_multipart_child more" data-id="more-{$ccc}" data-stream-id="{$data->movie_stream_id}" data-toggle="modal"  data-target=".bs-example-modal-lg3">{$this->Language['more']}</a>{else}{$data->story|utf8_decode}{/if}
+            </p>
+            <p class="muvi_c-full-desc hide">{$data->story|utf8_decode}</p><br>
+             <!--@ER: 19491 @info: publish content later @author: Pritam -->
+            {if $this->add_to_video_playlist != 0 && $data->show_playbtn == 1}<a href="javascript:void(0);" class="btn c-theme-btn c-btn-square c-btn-uppercase c-btn-bold c-white addPlay" data-type="2" data-content_id="{$data->movie_stream_id}" data-user_id="{$user_id}" data-is_episode="{$data->is_episode}">{$this->Language['add_to_playlist']}</a>{/if}  <!-- #20401: Playlist and Queue Feature for REVO and Modern Template- R1 -->
+        </div>
+    </div>
+</div>
+{/if}
+{/foreach}
+<script type='text/javascript'>
+	$('.muvi_c-info').matchHeight();
+</script>

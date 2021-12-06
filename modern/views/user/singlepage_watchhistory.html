@@ -1,0 +1,71 @@
+<div class="row cust-row">
+    {if $item_count != 0}
+    {foreach $contents|json_decode as $content}
+    <div class="col-md-3 col-sm-6 muvi_c-margin-b-20">
+        <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+            <div class="muvi_c-content-overlay">
+                <div class="muvi_c-overlay-wrapper">
+                    <div class="muvi_c-overlay-content">
+                        {if $content->content_types_id == 5}
+                        {if $content->full_movie != ''}
+                        <div class="muvi_play-btn-wrap">
+                            <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio" data-ctype="{$content->content_types_id}">
+                                {$this->Language['play_now']}</a>
+                        </div>
+                        {else}
+                        <a class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" href="{$this->base_url}/{$content->permalink}">{$this->Language['explore']}</a>
+                        {/if}
+                        {elseif $content->content_types_id == 6}
+                        <a  class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" href="{$this->base_url}/{$content->permalink}">{$this->Language['play_all']}</a>
+                        {else}
+                        {if $content->content_types_id!= 3}
+                        {if $content->is_downloadable == 1}
+                        {if $content->download_btn != '' }<div class="muvi_play-btn-wrap">{$content->download_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                        {elseif $content->is_downloadable == 2}
+                        {if $content->play_btn != '' }<div class="muvi_play-btn-wrap">{$content->play_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                        {if $content->download_btn != '' }<br><div class="muvi_play-btn-wrap">{$content->download_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                        {else}
+                        {if $content->play_btn != '' }<div class="muvi_play-btn-wrap">{$content->play_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                        {/if}
+                        {/if}
+                        {/if}
+                    </div>
+                </div>
+                <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center"><img class="muvi_list-poster" src="{$content->poster}" /></div>
+            </div>
+            <div class="muvi_c-info">
+                <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                    <a href="{$this->base_url}/{$content->permalink}">{$content->title|utf8_decode}</a>
+                </p>
+                {if $content->genres|@count > 0}
+                <p class="muvi_caption_genre muvi_c-font-16">
+                    {$genre_count = $content->genres|count}
+                    {$j=0}
+                    {foreach from=$content->genres item=genre}
+                    {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                </p>
+                {/if}                        
+            </div>                     
+        </div>
+    </div> 
+    {/foreach}
+    {else}
+    <div class="col-sm-12 muvi_top10">
+        <div class="nocontent">
+            {$this->Language['no_content_have_been_added']}
+        </div>
+    </div>
+    {/if}
+    <div class="loader" id="loader"></div>    
+</div>
+{if $item_count > $page_size}
+<div class="row">
+    <div class="col-md-12">
+        <div class="product-pagination text-center">
+            <nav>
+                {$pagination}
+            </nav>                        
+        </div>
+    </div>
+</div> 
+{/if}

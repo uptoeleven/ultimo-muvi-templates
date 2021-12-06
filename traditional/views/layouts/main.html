@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="{$this->language_code}" lang="{$this->language_code}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="{$this->language_code}" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{$this->pageTitle}</title>
+        {$this->metatag}
+        <meta name="keywords" content="{$this->pageKeywords}" />
+        <meta name="description" content="{$this->pageDescription}" />
+        <meta property="og:site_name" content="{$this->studio->name}"/>
+        <meta property="og:url" content="{if $this->ogUrl} {$this->ogUrl} {else} {$this->siteurl} {/if}" />
+        <meta property="og:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}"/>
+        <meta property="og:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}"/>
+        {if $this->ogImage}
+        <meta property="og:image" content="{$this->ogImage}" />
+        <meta property="og:image:secure_url" content="{$this->ogImage}" /> 
+        <meta property="og:image:type" content="image/*" /> 
+        <meta property="og:image:width" content="200" /> 
+        <meta property="og:image:height" content="400" />
+        {/if}
+        {if $this->is_twitter}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@{$this->studio->name}">
+        <meta name="twitter:creator" content="@{$this->contentDisplayName}">
+        <meta name="twitter:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}">
+        <meta name="twitter:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}">
+        <meta name="twitter:image" content="{$this->ogImage}">
+        {/if}
+        <link rel="icon" type="image/*" href="{$this->favIcon}" />
+        <link rel="canonical" href="{$this->canonical_url}" />
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}/common/bs/css/bootstrap.min.css" />                 
+        <!--End bootstrap-->                       
+
+        <!-- Custom styles for this template -->
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/ie10-viewport-bug-workaround.css" /> 
+
+        <!-- popup Window -->
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/popup/remodal.css" /> 
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/popup/remodal-default-theme.css" /> 
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/simple-line-icons.min.css" />
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+        <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/owl.carousel.css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/banner-thumb-slide.css" />
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/styles.css?v={time()}" /> 
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/responsive.css?v={time()}" /> 
+        <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/jquery.mCustomScrollbar_1.css" rel="stylesheet" media="screen" />
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" />  
+        <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/jquery.mCustomScrollbar_1.css" rel="stylesheet" media="screen" />
+        <link rel="stylesheet" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/404error.css?v={time()}">
+        <script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery-v1.11.1.js"></script>
+        <script defer src="{$this->siteurl}/common/js/general.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/js/themes/usernotification.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/js/jquery.lazy.min.js"></script>
+        <script defer src="{$this->siteurl}/common/js/jquery.validate.min.js"></script>
+        <script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/main.js?v=3"></script> 
+        <script defer src="{$this->siteurl}/common/js/byod.js"></script>
+        <script>
+            var card_name = "{$this->Language['text_card_name']}";
+            var card_number = "{$this->Language['text_card_number']}";
+            var security_code = "{$this->Language['text_security_code']}";
+            var field_name = "{$this->Language['fill_out_this_field']}";
+            var parentThemeName = "{$this->studio->parent_theme}";
+            
+//            views/layouts/featuredsections.html  (start)
+            var addToCart = "{$this->Language['add-to-cart']}";
+            var orderNow = "{$this->Language['ordernow']}";
+            var more = "{$this->Language['more']}";
+            var preOrder = "{$this->Language['pre_order']}";
+            var stockOut = "{$this->Language['stock_out']}";
+            var language_code = "{$this->language_code}";
+//            views/layouts/featuredsections.html  (end)
+            
+//            views/movie/show.html  (start)
+//            var parentThemeName = "{$this->studio->parent_theme}";
+            var inactive = "{$this->Language['inactive']}";
+            // videojs.options.flash.swf = "{$this->siteurl}/js/video-js.swf";
+            var createSignedUrl = "{$this->siteurl}/user/getNewSignedUrlForTrailer";
+//            views/movie/show.html  (end)
+  
+//            views/movie/showparent.html  (start)
+//            var parentThemeName = "{$this->studio->parent_theme}";
+//var addToCart = "{$this->Language['add-to-cart']}";
+//var orderNow = "{$this->Language['ordernow']}";
+//var more = "{$this->Language['more']}";
+//var preOrder = "{$this->Language['pre_order']}";
+//var stockOut = "{$this->Language['stock_out']}";
+//var inactive = "{$this->Language['inactive']}";
+//            views/movie/showparent.html  (end)
+
+var short_code = "{$this->PAYMENT_GATEWAY[$gateways->short_code]}";
+        </script>
+        <script src="{$this->siteurl}/js/angularjs/angular.min.js"></script>
+        <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/app.js"></script>
+        
+        <script defer src="{$this->siteurl}/js/jquery.matchHeight.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/js/slick/slick.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick-theme.css"/>	
+        <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/rating.css?v={$smarty.const.RELEASE}" rel="stylesheet" media="screen">
+
+        <!-- Custom styles for this template -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+              <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+              <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <![endif]-->
+
+        <!-- ER 31312 starts here -->
+        {$trackingcode=$this->trackingCode()}
+        {$open_head_below = $trackingcode['open_head_below']}
+        {$open_body_below = $trackingcode['open_body_below']}
+        {$close_head_above =  $trackingcode['close_head_above']}
+        {$close_body_above =$trackingcode['close_body_above']}
+
+        {if $open_head_below|@count || $close_head_above|@count}
+            {foreach from=$open_head_below item=trackingcode_headopen}
+                {$trackingcode_headopen}
+            {/foreach}
+            {foreach from=$close_head_above item=trackingcode_headclose}
+                {$trackingcode_headclose}
+            {/foreach}
+        {/if}
+        <!-- ER 31312 ends here -->
+
+        {$this->alljs}   
+        {$default_img = $this->tvguideDefaultImage()}
+        <script type="text/javascript">
+            var default_image = "{$default_img}";
+            var HTTP_ROOT = "{Yii::app()->controller->base_url}";
+            var SITE_URL = "{$this->siteurl}";
+            var THEME_URL = "{$Yii->theme->baseUrl}";
+            var BASE_URL = "{$this->base_url}";
+            var USER_ID = "{Yii::app()->user->id}";
+        </script>
+        {if (Yii::app()->paymentGateway->isSCA() && (isset(Yii::app()->controller->PAYMENT_GATEWAY['stripe']) && Yii::app()->controller->PAYMENT_GATEWAY['stripe']=='stripe'))}
+        <script src="https://js.stripe.com/v3/"></script>
+        {/if}
+    </head>
+    <body>
+        {if ($this->is_customize_cookie == 1)}
+        {include file='../layouts/cookie_msg.html'}
+        {else}
+        {$this->cookie_msg}
+        {/if}
+        {$this->website_msg}
+        {include file='../layouts/topbar.html'} 
+        {if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->  
+        {include file='../layouts/mainmenu.html'}         
+        {/if}
+        {$content}
+        {if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->  
+        {include file='../layouts/footer.html'}
+        {/if}
+        {if isset($smarty.session.guest_user_id) && $smarty.session.guest_user_id > 0}
+            {$this->cancel_popup|json_decode}
+        {/if}
+        {if isset($Yii->user->id) && $Yii->user->id > 0}
+        {$this->cancel_popup|json_decode}
+        {/if}
+        <!-- #31905 Updated : emil_id is appearing twice on login popup page-->  
+        {if $Yii->user->id == 0}
+        {include file='../layouts/loginpopup.html'}
+        {/if}
+        {$this->preview_mode}
+        <div id="ppvModal" class="modal fade login-popu" data-backdrop="static" data-keyboard="false"></div>
+
+        <div class="loader_cart">
+            <div class="loader-body large">
+                <div class="msg">
+                    {$this->Language['loding']}
+                </div>
+            </div>
+            <div class="loader-overlay">
+            </div>
+        </div>
+
+    <!-- ER 31312 starts here -->
+    {if $open_body_below|@count || $close_body_above|@count}
+        {foreach from=$open_body_below item=trackingcode_bodyopen}
+            {$trackingcode_bodyopen}
+        {/foreach}
+        {foreach from=$close_body_above item=trackingcode_bodyclose}
+            {$trackingcode_bodyclose}
+        {/foreach}
+    {/if}
+    <!-- ER 31312 ends here -->
+
+        <!--Start bootstrap-->
+        <!--For search auto suggest-->
+        {if $this->reminder}        
+            <div class="modal fade calender-modal" tabindex="-1" role="dialog" aria-labelledby="calenderModal" data-backdrop="static" data-keyboard="false">
+                <form class="book_event form-horizontal" name="book_event" id="muvi_event_book">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                    <div class="modal-dialog" role="document"> <div class="modal-content">
+                            <div class="modal-header"> 
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title c-font-uppercase c-font-bold" id="muvi_calenderModalLabel">{$this->Language['add_to_calender']}</h4> 
+                            </div>
+                            <div class="modal-body"> 
+                                <div class="succs_msg"></div>
+                                <div class="form-group" id="calender-input-form">
+                                    <label class="col-sm-4 text-left" for="email">{$this->Language['booking_time']}:</label>
+                                    <div class="col-sm-8">
+                                        <input class="flatpickr flatpickr-input form-control" id="booked_date" placeholder="{$this->Language['select_booking_time']}" data-id="datetime" readonly="readonly" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary bookevent">{$this->Language['add_to_calender']}</button>
+                                <button type="button" class="btn btn-primary" id="close-event-modal" data-dismiss="modal" style="display:none">{$this->Language['btn_ok']}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                var user_id      = 0;
+                var notification = 0;
+                {if $this->user_id}
+                    user_id = {$this->user_id};
+                {/if}
+                {if $this->notification}
+                    notification = {$this->notification};
+                {/if}    
+                var favicon = "{$this->favIcon}";
+            </script>  
+            <style type="text/css">
+                .btn.addtocal {
+                    margin-left: 0;
+                    padding: 10px;
+                }
+                .btn.addtocal i {
+                    margin-right: 5px;
+                }
+            </style>
+            <link rel="stylesheet" href="{$this->siteurl}/css/flatpickr.min.css" />
+            <script defer type="text/javascript" src="{$this->siteurl}/js/flatpickr.js"></script>
+            <script defer type="text/javascript" src="{$this->siteurl}/js/themes/notification.js"></script>
+        {/if}
+        <!-- Custom JS for this template -->
+        <script type="text/javascript" src="{$this->siteurl}/common/bs/js/bootstrap.min.js"></script>
+        <script defer src="{$this->siteurl}{$Yii->theme->baseUrl}/popup/remodal.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+        <script defer src="{$this->siteurl}{$Yii->theme->baseUrl}/js/banner-thumb-slide.js"></script>
+        <script defer src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.sticky.js"></script>
+        <script defer src="{$this->siteurl}{$Yii->theme->baseUrl}/js/owl.carousel.min.js"></script>
+        <script defer src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.easing.1.3.min.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.mCustomScrollbar.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/jquery.cookie-min.js"></script>
+        {if Yii::app()->controller->id == 'movie' && Yii::app()->controller->action->id == 'show'}
+            <script defer type="text/javascript" src="{$this->siteurl}/js/content.js"></script>
+        {/if}       
+        <script defer src="{$this->siteurl}{$Yii->theme->baseUrl}/js/search.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>            
+        <script defer src="{$this->siteurl}/js/jquery.matchHeight.js" type="text/javascript" ></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/js/themes/loginpopup.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
+        <script defer src="{$this->siteurl}/js/jquery.matchHeight.js"></script>
+        <script defer type="text/javascript" src="https://d1yjifjuhwl7lc.cloudfront.net/public/assets/js/jquery.bootpag.min.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+        <script defer type="text/javascript" src="{Yii::app()->getBaseUrl(true)}/common/js/placeholder/holder.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/placeholder/holder.js"></script>
+        <script defer src="{$this->siteurl}{$Yii->theme->baseUrl}/assets/plugins/zoom-master/jquery.zoom.min.js" type="text/javascript"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.mCustomScrollbar.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/crop-avatar.js"></script>
+        <script defer type="text/javascript" src="{$this->siteurl}/common/js/cropper.min.js"></script> 
+    </body>
+</html>

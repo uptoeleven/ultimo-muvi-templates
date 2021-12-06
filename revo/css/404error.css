@@ -1,0 +1,13 @@
+.errorimage {
+       margin: 0 auto;
+}
+.main404{
+    background-color: #f3f3f3;
+}
+.withgap {
+    margin-bottom:10px;
+ }
+ a.response_url ,a.precheckout_response_url,a.checkout_response_url,a.success_response_url {
+    color: #337ab7;
+    text-decoration: none;
+}

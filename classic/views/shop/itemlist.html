@@ -1,0 +1,151 @@
+{assign var="cropDimesion" value=Yii::app()->common->getPgDimension()}    
+    <div class="container">   
+       <h2 class="c-font-bold c-margin-t-20">{$this->Language['product_list']}</h2>
+      
+        <div class="c-layout-sidebar-content top20">
+            <div class="row productlist-row">
+            <div class="product-row">
+        {assign var="producturl" value=$this->base_url}
+        {foreach from=$product key=k item=value}
+        <div class="col-md-3 col-sm-4 col-xs-6 margin-bottom-30">
+        <div class="productlist">
+            <div class="kart_product">
+                 {assign var="img_path" value=PGProduct::getpgImage($value['id'],'standard')}
+                <a href="{$producturl}/{$value['permalink']}" style="color:#000">                 
+                        <img alt="{$value['name']}" src="{$img_path}">
+                </a>
+                <div class="popup_content">
+                        <div class="arrow"></div>
+                        <div class="ptitle caps"><a href="{$producturl}/{$value['permalink']}">{$value['name']}</a></div>
+                        <div class="stripe col-md-12">
+                                <div class="col-md-4">
+                                        {if $value['is_preorder'] == 0}
+											{if $value['sale_price'] != 0}
+                                                {Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'])}
+											{else}&nbsp;
+											{/if}	
+                                        {else}
+                                                &nbsp;
+                                        {/if}
+                                </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="ptext" style="border-bottom:none;">
+                          {if $value['description']|count_characters > 100}
+                        {$value['description']|substr:0:100}
+                        {else}
+                        {$value['description']}
+                        {/if}
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                   <div class="col-md-8 col-sm-7 col-xs-7">
+                 <div class="title">
+                  <a title="{$value['name']}" href="{$producturl}/{$value['permalink']}">
+                      <h3 class="itemname text-left">
+                         {if $value['name']|count_characters > 20}
+                        {$value['name']|substr:0:20}
+                        {else}
+                        {$value['name']}
+                        {/if}</h3>
+                  </a>
+                 </div>
+                </div>
+                <div class="col-md-4 col-sm-5 col-xs-5 text-right">
+                    <h3 class="itemname">
+                        {if $value['is_preorder'] == 0}
+							{if $value['sale_price'] != 0}
+                        {Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'])}
+							{/if}
+                        {else}
+                        &nbsp;
+                        {/if}
+                    </h3>
+                </div>
+               </div>
+                          
+                    {if $value['status']==1}
+                        {if $value['is_preorder'] == 0}
+							{if $value['sale_price'] != 0}
+                         <input type="button" class="AddToCart btn cart" name="" value="{$this->Language['add-to-cart']}" onclick="showcart({$value['id']}, 1);">
+                         <input type="button" class="AddToCart btn order-now" name="" value="{$this->Language['ordernow']}" onclick="showcart({$value['id']}, 2);">
+                        {else}
+								<div class="stockout text-white">{$this->Language['currently_unavailable']}</div>
+							{/if}
+                        {else}
+                         <input type="button" class="AddToCart btn order-now" name="" value="{$this->Language['pre_order']}" onclick="window.location='{$producturl}/{$value['permalink']}'">
+                        {/if}
+                    {elseif $value['status']==3}
+                    <div class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group c-border-top" role="group">
+                            <div class="stockout text-white">{$this->Language['stock_out']}</div>
+                        </div>
+                    </div>
+                    {/if}                    
+            
+                
+                
+                            
+        </div>
+    </div>
+ {/foreach}
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="addtocarterror" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12">
+						<p style="line-height: initial;">{$this->Language['addtocarterror']}</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>
+
+<div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+
+<script type="text/javascript" src="{Yii::app()->getBaseUrl(true)}/common/js/placeholder/holder.js"></script>
+{literal}
+<script type="text/javascript">
+		$('.productlist').matchHeight();
+    function showcart(id, flag){
+        $('.loader_cart').show();
+        var url = '{/literal}{$this->siteurl}{literal}/shop/addtocart';
+        $.post(url, {'quantity':1, 'id':id}, function(res){
+            if (flag == 2){
+                window.location.href = '{/literal}{$this->base_url}{literal}/shop/cart';
+            } else{
+				if(res=='currencyerror'){
+					$('.loader_cart').hide();
+					$("#addtocarterror").modal("show");
+				}else{
+					$('.loader_cart').hide();
+					$('html,body').animate({scrollTop:0}, 500);
+					$('#round-cart').html(eval($('#round-cart').html()) + 1);
+					$('#cartpopup').html(res);
+				}
+            }
+        })
+    }
+</script>
+{/literal}

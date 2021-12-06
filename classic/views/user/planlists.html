@@ -1,0 +1,76 @@
+{literal}
+<style>
+    .product-remove{padding-left: 10px!important; padding-right: 10px!important;}
+    #itemdetails{width: 25% !important;}
+    table{border: 1px solid #e9e4e4 !important;}
+    th{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    td{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    .product-name{padding-top: 17px !important; padding-bottom: 17px !important;padding-left: 10px!important; padding-right: 10px!important;}
+</style>
+{/literal}
+<div class="single-product-area">
+    <div class="container">
+        <div class="row" style="margin-right:0px !important;">
+             <div class="col-md-12 p-l-0">
+              <h2 class="c-font-bold c-margin-t-20"> {$this->Language['my_plan']} </h2>
+               <div class="table-responsive">
+                <table cellspacing="0" class="shop_table top20 table" style='width:100%;'>
+                    <thead>
+                        <tr>
+                            <th class="product-name" style="width: 35%;">{$this->Language["plan_name"]}</th>
+                            <th class="product-name">{$this->Language["renews_on_valid_till"]}</th>
+                            <th class="product-name"></th>
+                        </tr>
+                    </thead>                   
+                    {assign var="user_id" value=Yii::app()->user->id}
+                    {if $bundlesplans_cancelled|@count > 0 || $bundlesplans|@count > 0 }
+                    {foreach from=$bundlesplans_cancelled item=cancelplan}
+                    <tr class="cart_item">
+                        <td class="product-remove"> {$cancelplan['name']}</td>
+                        <td class="product-thumbnail">{date('F d, Y',strtotime($cancelplan['start_date']))}
+                        </td>
+                        <td class="product-remove">
+                        {if $cancelplan['is_subscribed_user']==1 }  <div class="form-group top10"  align="center">
+                                    {$this->Language["cancelled"]}
+                        </div> {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {foreach from=$bundlesplans item=plan}
+                    <tr class="cart_item">
+                        <td class="product-remove"> {$plan['name']}</td>
+                        <td class="product-thumbnail">{date('F d, Y',strtotime($plan['start_date']))}
+                        </td>
+                        <td class="product-remove"> <div class="form-group top10"  align="center">
+                        <a href="javascript:void(0)" id="cancel_subscriptions_bundles_{$plan['id']}" class="btn btn-primary"  onclick="cancelsubscription({$plan['id']});" >{$cancel_btn_form}</a>
+                    </div></td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                        <tr>
+                            <!--43819 starts-->
+                            {if $is_free_user == 0}
+                            <td colspan="2">{$this->Language["no_record_found"]}</td>
+                            <td class="text-center"><a href="{$this->siteurl}/user/allplans" id="select_my_plan" class="btn btn-primary">{($this->Language["select_plan"]=='')?'Select Plan':$this->Language["select_plan"]}</a></td> <!--ER-59702-->
+                            {else}
+                            <td colspan="3">{$this->Language["no_record_found"]}</td>
+                            {/if}
+                            <!--43819 ends-->
+                        </tr>
+                         {/if}
+                </table>  
+                   <div>
+                   <div class="row" style="margin-right:0px !important;">
+                        <div class="col-md-12">
+                            <div class="product-pagination text-center">
+                                <nav>
+                                    {$pagination}
+                                </nav>                        
+                            </div>
+                        </div>
+                   </div>        
+              </div>
+        </div>
+    </div>
+    </div>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>

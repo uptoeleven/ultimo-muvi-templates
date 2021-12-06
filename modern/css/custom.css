@@ -1,0 +1,1083 @@
+body{font-size:16px;}
+.footer .muvi_newsletter-title h2{
+    font-size: 16px;
+}
+.muvi_c-info{min-height: 89px;}
+.c-mobile-logo {
+    height:auto;
+    width: 90px;
+}
+img{max-width:100%;}
+.muvi_c-layout-footer{margin-top:0px;}
+@media (max-width: 1024px){
+.muvi_c-title.muvi_c-font-14.muvi_c-font-slim > a {font-size: 12px !important;}
+.muvi_c-content-product-2 .muvi_c-info {min-height: 75px !important;}
+}
+@media (max-width: 991px){
+.c-layout-header .c-brand > .c-topbar-toggler, .c-layout-header .c-brand > .muvi_c-search-toggler, .c-layout-header .c-brand > .muvi_c-cart-toggler {
+    margin: 0px 15px 0 0;
+}
+@media (min-width: 768px){
+     .col-sm-5ths {
+    float: left;
+    width: 20%;
+}
+    
+}
+
+}
+  .light-grey{
+  color:#818181;
+  }
+  .rating-symbol{
+  color:#ec5d68;
+  }
+  .cast {
+    padding-bottom: 10px;
+}
+  .col-xs-5ths, .col-sm-5ths, .col-md-5ths, .col-lg-5ths {
+    min-height: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+}
+.col-xs-5ths {
+    float: left;
+    margin-top: 20px;
+    width: 20%;
+}
+.label-red{
+    color: #ec5d68;
+    font-weight: 200;
+}
+.cast img {
+    float: left;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+ @media (min-width: 1366px) {
+   .muvi_c-content-product-2 .muvi_c-btn-product.btn-lg {
+    font-size: 12px;
+    padding: 14px 20px;
+	text-align:center;
+}
+}
+
+
+
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20% !important;
+        float: left;
+		margin-top:30px;
+    }
+
+}
+@media (max-width: 991px) {
+.dropdown-toggle.js-activated.disabled.muvi_c-link {
+    margin-top: 8px;
+}
+}
+.playbtn {
+    color: #ffffff;
+}
+.playbtn:hover , .playbtn:focus , .playbtn:active{
+    color: #ffffff;
+}
+.play_btn a.playbtn:hover ,.play_btn a.playbtn:active,.play_btn a.playbtn:focus{color:#ffffff}
+.tp-loader.spinner2.loader{top:0!important;}
+.img-responsive.responsive-image {
+    width: 100%;
+}
+.muvi_bottom25{padding-bottom: 25px;}
+.input-group-btn span, .input-group-btn i{font-size:22px;}
+.c-layout-header-fixed .c-layout-page{margin-top:80px;}
+.titleheight{height:47px;}
+.c-layout-header .c-quick-search > .form-control{height: 80px;}
+.c-layout-header .c-quick-search > .leftsearchicon{position: absolute;top: 30px;font-size:22px;}
+@media (max-width: 991px) {
+    .c-layout-header .c-quick-search > .leftsearchicon{
+        top: 21px;
+    }
+}
+#siteSearch{
+    margin-left: 25px;
+}
+.c-page-on-scroll .c-layout-header .muvi_c-navbar .c-mega-menu > .nav.navbar-nav > li > .muvi_c-btn-icon{padding:15px;}
+
+.muvi_content-area{padding-top:20px; padding-bottom:20px;}
+.content-box{margin-bottom:20px;}
+.relative{position: relative;}
+.muvi_c-shop-product-details-2 .muvi_c-product-gallery > .muvi_c-product-gallery-content{height:100%;}
+#loader_episode, .loader{position: absolute; width: 100%; height: 100%; top: 0px; bottom: 0px; left: 0px; display: none; background: url('../images/loading.gif') no-repeat center;}
+
+.c-layout-header{background: #FFF;}
+#myPopover ul, #myPopover li{list-style: none; padding:0px;}
+#myPopover li{display: inline-block; padding: 5px; cursor: pointer; width: 100%;}
+#myPopover li:hover, #myPopover li.active{color:#32c5d2;}
+.nav > li > a:hover, .nav > li > a:focus{background-color: inherit;}
+img.img-left{ margin-right: 20px; display: inline-block; }
+.selectplan {
+    background: #f7fafb none repeat scroll 0 0;
+    border: 2px solid #f4f8f9;
+    color: #333;
+    padding: 10px;
+    position: relative;
+}
+.c-layout-header-fixed.muvi_c-layout-header-topbar .c-layout-page{margin-top: 82px;}
+@media (max-width: 991px) {
+    .c-layout-header-fixed.muvi_c-layout-header-topbar .c-layout-page{margin-top: 65px;} 
+    .c-layout-header .muvi_c-navbar .c-mega-menu.c-mega-menu-dark-mobile li .fa{color:#FFF;}
+    .c-layout-header .c-quick-search > .form-control{height: 65px;}
+    .c-layout-header .c-quick-search > span{top:8px; width:36px;}
+}
+@media (min-width: 992px) {
+.c-layout-header .c-quick-search > .muvi_c-theme-link{top: 40px;}
+.c-layout-header .muvi_c-navbar .c-mega-menu > .nav.navbar-nav > li > .muvi_c-link{min-height:80px;padding: 30px 15px; }
+.c-layout-header .muvi_c-navbar .c-mega-menu > .nav.navbar-nav > li > .muvi_c-btn-icon{margin:15px 5px;}
+.c-layout-header .muvi_c-navbar .c-mega-menu > .nav.navbar-nav > li > .muvi_c-link.profile{padding: 23px 15px;}
+.c-layout-header .muvi_c-navbar .c-mega-menu > .nav.navbar-nav > li > a.language-list{padding: 30px 15px;}
+}
+
+.profile .user-icon{max-width: 35px;}
+.muvi_list-box{background-color: #ffffff !important; border: 1px solid #f6f6f6;}
+.lowopacity{opacity: 1;}
+.bg-black{background-color: #000;}
+.social-icon-size .fa{font-size:20px;}
+.muvi_c-layout-go2top > i{color:#CCC;}
+.muvi_c-layout-breadcrumbs-1 .muvi_c-page-title h3{margin:8px 0px;}
+.fancybox-wrap{opacity:1 !important;}
+#episodes .muvi_c-info {
+    min-height: 113px;
+}
+.c-font-capitalize{text-transform:capitalize}
+a{color:#6e6f76}
+.crusor{cursor:pointer}
+.genre {
+    margin-right: 6px !important;
+}
+.sortby_active{color:#32c5d2}
+.filter_by {
+    margin-left: 15px;
+}
+.dropdown-menu.pull-right > form {
+    width: 280px;
+}
+.c-mega-menu a{color:#3a3f45}
+.sortby:hover{color:#32c5d2} 
+code{background-color:#32c5d2;color:#ffffff}
+.muvi_c-weight-300{font-weight:300}
+.box{height:18px !important;}
+.muvi_c-font-none{text-transform: none;}
+.top6{padding-top: 6px;}
+.btn.btn-default.btn-sm.muvi_poweredby {
+    padding: 0 5px;font-size: 14px;margin-top: 10px;
+    
+}
+
+.btn.btn-default.btn-sm.muvi_poweredby::before {
+    border-bottom: 8px solid #fff;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    left: 75px;
+    margin: auto;
+    position: absolute;
+    top: 87px;
+    width: 0;
+}
+
+@media (max-width: 991px) {
+ .btn.btn-default.btn-sm.muvi_poweredby::before { top: 110px;}  
+}
+
+
+/*
+ *** CSS Support for Audio , Video and Physical 
+ *** From Designer Desk
+*/
+/*Genraral*/
+.btn-default{
+    border:1px solid #32c5d2;
+    color: #5c6873;
+}
+.muvi_content-area{
+    padding-top: 60px;
+    padding-bottom: 55px;
+}
+.m-t-0{
+    margin-top: 0;
+}
+.muvi_bottom30{
+    padding-bottom: 30px;
+}
+/*For Video Detail Page*/
+
+.btn-default:hover{
+    color: #32c5d2;
+    background-color: #fff;
+    border:1px solid #32c5d2;
+}
+
+.muvi_artwork-wrapper{
+    display: inline-block;
+    position: relative;
+    margin: 0 auto;
+}
+.muvi_artwork-wrapper::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    background: url(../images/shadow.png) bottom  center no-repeat;
+    height: 230px;
+    width: 500px;
+    left: -126px;
+    z-index: -1;
+    background-size: 94%;
+}
+
+.shadow__of--artwork{
+    position: absolute;
+    bottom: 0;
+}
+.muvi_artwork__meta{
+    text-align: center;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    background-color: #fff;
+}
+.muvi_artwork__meta > div{
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    cursor: pointer;
+}
+.muvi_artwork__meta > div:nth-child(2){
+    border-left:1px solid #e6e6e6;
+}
+.muvi_artwork__meta .muvi_media__block--1,.muvi_artwork__meta .muvi_media__block--2{
+      padding: 15px 0 0px;
+}
+.muvi_artwork__meta .muvi_media__block--1 a,.muvi_artwork__meta .muvi_media__block--2 a{
+    display: block;
+}
+.muvi_artwork__meta i{
+    color: #ef5350;
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: block;
+}
+.muvi_artwork__meta h4{
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 0;
+}
+.label-green{
+    color: #32c5d2;
+    font-weight: 500;
+    font-size: 65%;
+    vertical-align: super;
+    position: relative;
+    top: 0.2em;
+}
+/*Favorite Button*/
+.muvi_ellipse__shape{
+    position: absolute;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.74);
+    border-radius: 26px;
+    padding: 10px 21px 8px;
+    overflow: hidden;
+    cursor: pointer;
+    color: white;
+    /*-webkit-transition-timing-function: cubic-bezier(0.38, -0.35, 0.265, 1.15);*/
+    transition-property: box-shadow,width;
+    transition-duration: .2s,.5s;
+    transition-delay: 0s,0s;
+    width: 58px;
+    height: 40px;
+}
+/*#20401: Playlist and Queue Feature for REVO and Modern Template- R1*/
+.muvi_ellipse__shape img {
+    display: inline-block;
+    vertical-align: top;
+    width: 16px !important;
+    height: 16px !important;
+    
+}
+#playlist_add_song img{
+    width: 50px;
+    height: 50px;
+}
+.img_playlist{background: url('../../../img/add-playlist.png') no-repeat center center; background-size: 20px 20px;}
+.img_playlist:hover{background: url('../../../img/playlist-hover.png') no-repeat center center; background-size: 20px 20px;}
+/*#20401: Playlist and Queue Feature for REVO and Modern Template- R1*/
+.muvi_favourite{
+    top: 10px;
+}
+.muvi_favourite_text ,.muvi_share_text,.muvi_add_playlist_text {
+    margin-left: 10px;
+    top:-1px;
+    opacity: 0;
+    position: relative;
+    display: inline-block;
+}
+.muvi_favourite_text span , .muvi_share_text span,.muvi_add_playlist_text span {
+    color: white;
+    text-transform: capitalize;
+    font-weight: normal;
+    font-size: 14px;
+}
+.muvi_ellipse__shape:hover > .muvi_favourite_text , .muvi_ellipse__shape:hover > .muvi_share_text, .muvi_ellipse__shape:hover > .muvi_add_playlist_text {
+    top: -1px;
+    opacity: 1;
+    transition-property: top,opacity;
+    transition-duration: 0.4s;
+    transition-delay: .4s;
+}
+.muvi_ellipse__shape:hover {
+    width: 80%;
+}
+.favorited .fa-heart , .favorited .favorited__already{
+  display: inline-block !important;
+  color: #32c5d2;
+}
+.favorited .fa-heart-o , .favorited .muvi_favorate__this{
+  display: none !important;
+}
+.favorited:hover {
+    width: 80%;
+}
+.share{
+    top: 55px;
+}
+.muvi_ellipse__shape.share:hover{
+    width: 80%;
+}
+.muvi_ellipse__shape .muvi_share_text{
+    float: right;
+}
+.muvi_ellipse__shape_queue:hover > .muvi_favourite_text , .muvi_ellipse__shape_queue:hover > .muvi_share_text {
+    top: -1px;
+    opacity: 1;
+    transition-property: top,opacity;
+    transition-duration: 0.4s;
+    transition-delay: .4s;
+}
+.muvi_ellipse__shape_queue:hover {
+    width: 165px;
+}
+/*.muvi_ellipse__shape .muvi_share__this i{
+    width: 25px;
+    height: 25px;
+    padding: 7px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    margin-left: 2px;
+}*/
+.muvi_ellipse__shape .muvi_share__this i {
+    padding: 0px 0px 0px 3px;
+    font-size: 22px;
+    margin-left: 2px;
+}
+.muvi_ellipse__shape .muvi_share__this i:first-child{
+    margin-left: 10px;
+}
+
+.muvi_c-content-title-1 > .c-line-right, .muvi_c-content-title-1 > .muvi_c-line-left{
+    margin: 10px 0 15px 0;
+    height: 5px;
+}
+
+/*Rating*/
+.rating{
+    margin-bottom: 35px;
+}
+.rating i{
+    font-size: 16px;
+    color: #eb5d68;
+    cursor: pointer;
+}
+.rating span{
+    /*margin-left: 10px;*/
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.muvi_meta__info,.ppv_price{
+    margin-bottom: 18px;
+}
+.muvi_action__sec{
+    margin-bottom: 30px;
+}
+/*PPV Pricing*/
+.ppv_price h1{
+    font-size: 30px;
+    font-weight: 600;
+}
+.ppv_price span {
+    font-size: 73%;
+    font-weight: 600;
+    position: relative;
+    top: -3px;
+}
+/*Content Navtab*/
+.muvi_content__navtab .nav-tabs > li.active > a, .muvi_content__navtab .nav-tabs > li.active > a:hover, .muvi_content__navtab .nav-tabs > li.active > a:focus {
+  border: 0;
+}
+.muvi_content__navtab .nav-tabs{
+    border-bottom:0;
+}
+.muvi_content__navtab .nav-tabs > li > a{
+    padding-left: 0;
+    border: 0;
+    opacity: 0.7;
+}
+.muvi_content__navtab .nav-tabs > li.active > a{
+    opacity: 1;
+    color: #555;
+}
+.muvi_content__navtab .nav-tabs > li > a:hover{
+    opacity: 1;
+
+}
+.muvi_content__navtab .nav-tabs>li>a:hover{
+    border:0;
+}
+.muvi_content__navtab .tab-content{
+    padding:20px 0;
+}
+/*.muvi_content__navtab .nav-tabs>li{
+    width: 90px;
+    height: 40px;
+}*/
+.muvi_content__navtab .nav-tabs>li {
+    width: auto;
+    height: auto;
+    border-bottom: 2px solid;
+}
+/*Music Section*/
+.muvi_has__gray--bg{
+    background-color: #f5f5f5;
+}
+.track__header{
+    font-size: 24px;
+    padding:  15px;
+    height: 62px;
+    position: relative;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.4);   /*#21385: Video Playlist Feature -R2 (CMs Admin can create video playlist)*/
+}
+.track__header span{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 50;
+}
+#muvi_player-blur img {
+    filter: blur(42px);
+    left: 50%;
+    margin: -25% 0 0 -50%;
+    opacity: .7;
+    position: absolute;
+    top: 50%;
+    width: 169%;
+    z-index: 10;
+}
+#muvi_player-blur:after {
+    background: rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 20;
+}
+.muvi_record-tracklist {
+    border-top: 1px solid #dedede;
+    color: #555;
+    counter-reset: li;
+    font-size: 15px;
+    font-size: 1.5rem;
+    margin-bottom: 2.66666667em;
+    padding: 0;
+    list-style-type: decimal;
+}
+.muvi_record-tracklist .track {
+    border-bottom: 1px solid #dedede;
+    display: table;
+    margin-bottom: 0;
+    padding: 1em 0;
+    width: 100%;
+}
+.muvi_record-tracklist .track:before {
+    color: #666;
+    content: counter(li);
+    counter-increment: li;
+    display: table-cell;
+    padding-right: 10px;
+    padding-left: 10px;
+    text-align: left;
+    width: 50px;
+    vertical-align: middle;
+}
+.muvi_record-tracklist .track.is-playable {
+    cursor: pointer;
+}
+.muvi_record-tracklist .track-title {
+    display: table-cell;
+}
+.muvi_record-tracklist .muvi_track-meta {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+}
+.muvi_record-tracklist .track-play{
+    display: table-cell;
+    width: 45px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.muvi_record-tracklist .track-play:hover{
+    color:#32c5d2;
+}
+.muvi_c-margin-b-0{
+    margin-bottom: 0;
+}
+/*Responsive utility*/
+@media (max-width:991px){
+    .muvi_artwork-wrapper{
+        display: block;
+        width:280px;
+        margin: 0 auto 30px;
+    }
+}
+@media (max-width:767px){
+   .muvi_content-area{
+        padding-top: 20px;
+        padding-bottom: 20px;
+    } 
+    .muvi_record-tracklist .track:before{
+        content:initial;
+    }
+    .muvi_record-tracklist .track-play{
+        width:35px;
+    }
+	.muvi_record-tracklist .track:before {
+    content: counter(li);
+    padding-right: 10px;
+    padding-left: 5px;
+    width: 30px;
+    vertical-align: middle;
+}
+ .btn.btn-default.btn-sm.muvi_poweredby::before {
+    top: 87px;
+}
+}
+@media (min-width:992px){
+    .music__artwork--block{
+        margin: 80px 0 0;
+    }
+	
+}
+@media (min-width:992px) and (max-width:1199px){
+    .muvi_artwork-wrapper::after{
+        left: -121px;
+        background-size: 92%;
+    }
+}
+@media (min-width:1200px){
+    .muvi_artwork-wrapper{
+         display: block;
+    }
+    .muvi_artwork-wrapper::after{
+            width: 584px;
+            left: -130px;
+            background-size: 100%;
+    }
+    .muvi_artwork-wrapper img{
+        width:100%;
+    }
+	
+}
+@media (max-width:1024px){
+.btn.btn-default.btn-sm.muvi_poweredby::before {
+    top: 110px;
+}
+.footer a {
+    padding: 4px;
+}
+}
+@media (max-width:736px){
+ .btn.btn-default.btn-sm.muvi_poweredby::before {
+    top: 85px;
+}
+}
+@media (max-width:732px){
+ .btn.btn-default.btn-sm.muvi_poweredby::before {
+    top: 85px;
+}
+}
+
+@media (max-width:640px){
+ .btn.btn-default.btn-sm.muvi_poweredby::before {
+    top: 87px;
+}
+.muvi_record-tracklist .track:before {
+    content: counter(li);
+    padding-right: 10px;
+    padding-left: 5px;
+    width: 30px;
+    vertical-align: middle;
+}
+}
+@media (max-width:450px){
+    .muvi_artwork-wrapper:after{
+        content: initial;
+    }
+    .muvi_artwork-wrapper {
+        display: inline-block;
+        width: auto;
+        margin: 0 0 20px 0;
+    }
+}
+@media (max-width:320px){
+.btn.btn-lg {
+    padding: 11px 7px 9px;
+}
+.btn {
+    font-size: 14px;
+}
+}
+.pl-list__remove{
+	color : #333333;
+}
+.ui-autocomplete-category {
+    font-weight: bold;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+} 
+.flatpickr.active{
+    color: #000 !important;
+}
+.show_cursor{
+    cursor:pointer;
+}
+.calender-modal .modal-body{overflow:visible}
+/*#20401: Video Playlist Feature for REVO and Modern Template- R1- end user can create and play his playlist*/
+.modal-body {
+    position: relative;
+    max-height: 450px;
+    overflow: auto;
+}
+/*#20401: Video Playlist Feature for REVO and Modern Template- R1- end user can create and play his playlist*/
+/* Player Page */
+.bg-primary {
+    color: #fff;
+    background-color: #31383c;
+    padding:30px 0px;
+}
+.muvi_video-grid1 {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.padding-0
+{
+    padding-left:0px;
+    padding-right:0px;
+}
+.bg-primary h1 {
+    color:#fff;
+    font-size:30px;
+    letter-spacing:1px;
+}
+
+.bg-primary p {
+    color: #c5c5c5;
+    font-size:15px;
+    line-height:22px;
+    word-wrap: break-word;
+}
+.badge-area
+{
+    width:auto;
+    margin:30px 0px;
+}
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 8px 20px;
+    font-size: 16px;
+    line-height: 1;
+    color: #fff;
+    font-weight:400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color:transparent;
+    border-radius: 8px;
+    border:1px solid #c5c5c5;
+    margin-right:5px;
+}
+.badge:hover {
+    
+    color: #fff;
+    background-color:#32c5d2;
+    border:1px solid #32c5d2;
+    cursor:pointer;
+}
+.social-network
+{
+    margin-top:15px;
+    text-align:right;
+}
+.social-network a {
+    color: #c5c5c5;
+    padding: 10px 15px;
+    font-size:25px;
+}	
+.social-network a:active, .social-network a:hover, .social-network a:focus {
+    color: #32c5d2;
+    padding: 10px 15px;
+}
+.muvi_related-video
+{
+    margin:30px 0px;
+}
+a.language-list.text-center {
+    padding: 0px !important;
+}
+.lang-center{
+    margin-top: 30px !important;
+    margin-left: 15px !important;
+}
+body.modal-open{
+	overflow:hidden;
+}
+@media (max-width: 768px){
+body.modal-open{
+    position : fixed;
+}
+}
+.footer .muvi_newsletter-title {
+    margin-top: 0px;
+}
+@media all and (max-width: 1199px){
+.footer .muvi_newsletter-title h2{
+    font-size: 14px;
+}   
+}
+.footer .footer-social {
+    padding-top: 4px;
+}
+.footer .muvi_newsletter-title > a  {padding: 0px;}
+.payment_form .loader.loader_list {
+    min-height: 100px;
+    z-index: 9;
+}
+.track-list.playlist {
+    padding: 15px 15px 5px;
+}
+#play_list #playlist_loading{
+    background-size: 90px;
+    min-height: 90px;
+    z-index: 999;
+    top: -20px;
+ 
+}
+@media (max-width: 992px){
+    .mob-tm {margin-top: 50px;}  
+}
+.new_social{display:inline-block;}
+.muvi_social_login_new{display:inline-block;float:left;margin:0 15px 0 0;list-style:none;}
+.muvi_c-title{word-wrap: break-word;}
+/* css for login with comcast button
+18511:SAML 2.0 Integration in Muvi Platform
+*/
+.new_social li{
+    margin: 5px 15px 5px 0;
+    display: inline-block;
+}
+.new_social li a._custom{
+    display: block;
+    text-decoration: none;
+    color: #FFF;
+    background: #999;
+    padding: 1px;
+}
+.new_social li a._custom img{
+    display: inline-block;
+    vertical-align: middle;
+    height: 25px;
+    width:auto;
+}
+.new_social li a._custom span{
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.new_social li a._custom._comcast{
+    background: #0076a8;
+}
+/*20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start*/
+.new_social li{
+     margin: 0 15px 0 0;
+     display: inline-block;
+ }
+ .new_social li a._customfb,.new_social li a._customgplus{
+     display: block;
+     text-decoration: none;
+     color: #FFF;
+     background: #999;
+     padding: 1px;
+ }
+ .new_social li a._customfb img, .new_social li a._customgplus img{
+     display: inline-block;
+     vertical-align: middle;
+     height: 26px;
+     width:auto;
+ }
+ .new_social li a._customfb span,.new_social li a._customgplus span{
+     display: inline-block;
+     padding: 0 10px;
+     font-size: 13px;
+     font-weight: bold;
+ }
+ .new_social li a._customfb._facebook{
+     background: #3b5998;
+ }
+ 
+ 
+ .new_social li a._customgplus img{
+     background: white; 
+ }
+
+ .new_social li a._customgplus._googleplus{
+     background: #0076a8;
+ }
+   .muvi_bottom50 ul li
+{
+    margin-bottom: 2%;
+}
+.new_social li
+{
+margin-bottom: 2%;
+}
+/*20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar End*/
+a.resumeplaybtn{
+    font-size: 16px;
+    padding: 11.3px 31px 13px 31px;
+    color: #ffffff;
+    font-weight: bold;
+    background: #32c5d2;
+    border-color: #32c5d2;
+    text-transform: uppercase;
+    position: absolute;
+    top: 40%;
+    left: 33%;
+}
+.resolution_container:hover .resolution {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    visibility: visible;
+}
+.resolution.shareicon {
+    float: left;
+    height: 145px;
+    margin-left: -168px;
+    padding: 20px 18px 10px;
+    text-align: left;
+    width: 175px;
+}
+.resolution {
+    background: #303031;
+    border: 0 solid #303031;
+    border-color: #1a1f2b transparent transparent;
+    background: rgba(34,46,55,1);
+    background: -moz-linear-gradient(top, rgba(34,46,55,1) 0%, rgba(34,46,55,1) 21%, rgba(26,31,43,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(34,46,55,1)), color-stop(21%, rgba(34,46,55,1)), color-stop(100%, rgba(26,31,43,1)));
+    background: -webkit-linear-gradient(top, rgba(34,46,55,1) 0%, rgba(34,46,55,1) 21%, rgba(26,31,43,1) 100%);
+    background: -o-linear-gradient(top, rgba(34,46,55,1) 0%, rgba(34,46,55,1) 21%, rgba(26,31,43,1) 100%);
+    background: -ms-linear-gradient(top, rgba(34,46,55,1) 0%, rgba(34,46,55,1) 21%, rgba(26,31,43,1) 100%);
+    background: linear-gradient(to bottom, rgba(34,46,55,1) 0%, rgba(34,46,55,1) 21%, rgba(26,31,43,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222e37', endColorstr='#1a1f2b', GradientType=0 );
+    box-shadow: 1px 2px 4px #0d111a;
+}
+.resolution {
+    background: #1a1f2b;
+    border: 0 solid #ccc;
+    border-color: #1a1f2b transparent transparent;
+}
+.resolution {
+    position: absolute;
+    left: 72%;
+    bottom: 53px;
+    width: 40px;
+    margin-left: -20px;
+    height: 120px;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+    -webkit-transition: all 0.3s cubic-bezier(0.17, 0.72, 0.26, 1.23);
+    transition: all 0.3s cubic-bezier(0.17, 0.72, 0.26, 1.23);
+    background: #303031;
+    border: 1px solid #303031;
+    border-radius: 1px;
+    z-index: 88888;
+}
+ .ap__item--settings .resolution_container {line-height: 20px;}
+.resolution_container .fa-cog{font-size: 26px;
+    color: white;}
+.ap__item--settings .resolution_container .resolution .list-inline>li{
+    display: block;
+}
+.ap__item--settings .resolution_container .resolution::after {
+    right: 25px;
+    left: auto;
+}
+.ap__item--settings .resolution_container .resolution::after {
+    content: '';
+    position: absolute;
+    border: 7px solid transparent;
+    left: 81%;
+    margin-left: 5px;
+    bottom: -15px;
+    z-index: -1;
+    border-top: 7px solid #303031;
+}
+.resolution::before, .resolution::after {
+    border-color: #303031 transparent transparent;
+}
+.muvi_c-overlay-content .addtofav i {
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    background-color: transparent !important;
+}
+.muvi_c-content-overlay .addtofav {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: #ffffff2b !important;
+    display: inline-block;
+    padding: 5px 3px;
+    border-radius: 2px;
+    vertical-align: bottom;
+    color: #FFF;
+    text-align: center;
+}
+.muvi_c-content-overlay .addtofav:hover {
+    background-color: #33c5d1 !important;
+    color:#FFF;
+}
+.muvi_c-content-overlay .addtofav:hover i{
+  color:#FFF !important;
+}
+.muvi_action__sec .hide
+{
+   display: block !important;
+   margin-right: 76%;
+   margin-top: 13px;
+}
+
+.dropdown-menu {
+    min-width: auto;
+}
+/*#53478 Kids mode CSS START*/
+.checkbox.checbox-switch {
+    padding-left: 5px;
+    margin: 0;
+    display: inline-block;
+    text-align: left;
+}
+
+.checkbox.checbox-switch label,
+.checkbox-inline.checbox-switch {
+    display: inline-block;
+    position: relative;
+    padding-left: 0;
+}
+.checkbox.checbox-switch label input,
+.checkbox-inline.checbox-switch input {
+    display: none;
+}
+.checkbox.checbox-switch label span,
+.checkbox-inline.checbox-switch span {
+    width: 35px;
+    border-radius: 20px;
+    height: 18px;
+    border: 1px solid #dbdbdb;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(223, 223, 223);
+    box-shadow: rgb(223, 223, 223) 0px 0px 0px 0px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.checkbox.checbox-switch label span:before,
+.checkbox-inline.checbox-switch span:before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgb(255,255,255);
+    content: " ";
+    top: 0;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.checkbox.checbox-switch label > input:checked + span:before,
+.checkbox-inline.checbox-switch > input:checked + span:before {
+    left: 16px;
+}
+
+/* Switch Primary */
+.checkbox.checbox-switch.switch-primary label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-primary > input:checked + span {
+    background-color: #2cb7f6;
+    border-color: #2cb7f6;
+    box-shadow: #2cb7f6 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-primary label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-primary > input:checked:disabled + span {
+    background-color: rgb(109, 163, 221);
+    border-color: rgb(109, 163, 221);
+    box-shadow: rgb(109, 163, 221) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+/*Kids mode CSS END*/

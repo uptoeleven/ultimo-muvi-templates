@@ -1,0 +1,20 @@
+{assign var="user_id" value=Yii::app()->user->id}
+{assign var="debit_count" value=$user_all_debits|@count}
+{if $user_id > 0}
+    {if ($debit_count > 0)}
+        {foreach from=$user_all_debits item=debit}
+            <tr class="cart_item">
+                <td class="muvi_product-remove">{Date('M d, Y', strtotime($debit['created_date']))}</td>
+                <td class="muvi_product-remove">{$debit['transaction_type_name']}</td>
+                <td class="muvi_product-remove">{($debit['content_name'])?$debit['content_name']:'N/A'}</td>
+                <!--<td class="muvi_product-remove">N/A</td>-->
+                <td class="muvi_product-remove">{intval($debit['debit_value'])}</td>
+            </tr>
+        {/foreach}
+    {else}
+        <tr>
+            <td colspan="6" class="muvi_product-remove">{$this->Language["no_record_found"]}</td>
+        </tr>
+    {/if}
+{/if}
+<input type="hidden" id="total_credit" value="{$debit_count}" />

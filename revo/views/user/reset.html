@@ -1,0 +1,52 @@
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['reset_your_password']}</h2>
+        <div class="row">
+        <form class="col-md-6" name="frmRT" id="frmRT" method="post" action="javascript:void(0);">
+         <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+        <div id="reset-loading" class="loader" style="display: none;"></div>
+        <input type="hidden" name="reset_password_token" value="{$token}" readonly />
+        <input type="hidden" name="email" value="{$email}" readonly />
+        <input type="hidden" name="user_id" value="{$user_id}" readonly /> 
+
+
+            <div class="form-group ">
+                <label class="control-label required" for="login_email">{$this->Language['text_new_password']}</label>
+                <div class="controls">
+                      <input type="password" name="password" id="password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control" />
+                </div>
+            </div>   
+            <!--23167:Confirm Password field in Reset password Page-->
+            <div class="form-group ">
+                <label class="control-label required" for="login_email">{$this->Language['confirm_password']}</label>
+                <div class="controls">
+                      <input type="password" name="password_confirm" id="password_confirm" placeholder="{$this->Language['confirm_password']}" autocomplete="off" class="form-control" />
+                </div>
+            </div>
+            <!--23167:Confirm Password field in Reset password Page end-->
+            <!--<div class="loader" id="loader"></div>-->
+            <div class="clear"></div>
+            <div class="form-group ">
+                <div class="controls">
+                <button type="submit" class="btn btn-lg btn-primary" name="login_submit" id="login-btn"> {$this->Language['btn_reset']}</button>
+                </div>
+            </div>
+            <div id="reset-errors" class="error center"></div>
+        </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade custom-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content planWrapper-Content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="icon-close" style="color:white;"></i></span></button>
+                <h1 class="modal-title text-center" id="myModalLabel">{$this->Language['reset_password']}</h1>
+            </div>
+            <div class="modal-body result-message">
+                {$this->Language['password_changed']}.
+            </div>
+
+        </div>
+    </div>
+</div>

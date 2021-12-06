@@ -1,0 +1,108 @@
+<div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <div class="muvi_feature-banner">
+                    <div class="muvi_overlay-img">
+                        <div class="muvi_left23">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <h1 class="center white">{$this->Language['order_details']}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{assign var="url" value="`$this->base_url`/user/purchaseHistory"}
+<div class="container">
+    <div class="wrapper  muvi_bottom-padding50">
+        <div class="row muvi_top50">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12 text-right top20 muvi_light-green-color"><a href="{$url}"><< Back to list</a></div>
+                    <div class="col-sm-8 top20">
+                        <h2 style="display: inline-block;padding-right: 10px;">{$this->Language['order']}#{$order['order_number']}</h2>{$this->Language['placed_on']} <b>{$order['created_date']}</b>
+                    </div>
+                    <div class="col-sm-4 top20 col-xs-12 text-right">
+                        <a href="javascript:void(printDiv('print'));" class="muvi_light-green-color"><i class="fa fa-print muvi_padding-right-10 muvi_light-green-color"></i> {$this->Language['print']}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12" id="print">
+                <div class="row">
+                    <div class="col-md-8 infobox table-responsive">  <table cellspacing="0" class="muvi_shop_table cart">
+                            <thead>
+                                <tr>
+                                    <th class="muvi_product-name">&nbsp;</th>
+                                    <th class="muvi_product-name">Item</th>
+                                    <th class="muvi_product-price">{$this->Language['status']}</th>
+                                    <th class="muvi_product-quantity">{$this->Language['price']}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach from=$order_details key=k item=value}
+                                {assign var="img_path" value=PGProduct::getpgImage($value['product_id'],'thumb')}
+                                <tr class="cart_item">
+
+                                    <td class="muvi_product-remove">
+                                        <img src="{$img_path}" alt="{$value['name']}" style="max-width:100px;border:1px solid #ddd;">
+                                    </td>
+
+                                    <td class="muvi_product-thumbnail">
+                                        {$value['name']}<br>
+                                        {$this->Language['quantity']}: {$value['quantity']}
+                                    </td>
+
+                                    <td class="muvi_product-name">
+                                        {$status[$value['item_status']]}
+                                    </td>
+
+                                    <td class="muvi_product-price">
+                                        {Yii::app()->common->formatPrice($value['sub_total'], $value['currency_id'])}
+                                    </td>
+
+
+                                </tr>
+                                {/foreach}
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                    <td>
+                                        {$this->Language['total']} : {Yii::app()->common->formatPrice($order['grand_total'],$order_details[0]['currency_id'])}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> 
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="infobox">
+                            <h3>{$this->Language['customer_info']}</h3>
+                            <p>{$this->Language['text_name']} : {$userinfo['display_name']}</p>
+                            <p>{$this->Language['email']} : {$userinfo['email']}</p>
+                        </div>
+                        <div class="infobox">
+                            <h3>{$this->Language['shipping_address']}</h3>
+                            <p>
+                                {$addr['first_name']}&nbsp{$addr['last_name']}<br>
+                                {$addr['address']}<br>
+                                {$addr['city']}<br>
+                                {$addr['state']}
+                                {$addr['country']}
+                            </p>
+                            <p>
+                                {$this->Language['zip']} : {$addr['zip']}<br>
+                                {$this->Language['phone']} : {$addr['phone_number']}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

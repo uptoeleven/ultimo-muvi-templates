@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['reset_your_password']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="wrapper muvi_bottom-padding50">
+        <div class="row top20">
+            <div class="col-md-6">
+                <form name="frmRT" id="frmRT" method="post">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                    <div id="reset-loading" class="loader"></div>
+                    <input type="hidden" name="reset_password_token" value="{$token}" readonly />
+                    <input type="hidden" name="email" value="{$email}" readonly />
+                    <input type="hidden" name="user_id" value="{$user_id}" readonly /> 
+
+                    <div class="form-group reset">
+                        <div class="muvi_title1"><label class="control-label required" for="password">{$this->Language['text_new_password']}</label></div>
+                        <div class="muvi_icon-addon muvi_addon-lg">
+                            <input type="password" name="password" id="password" placeholder="{$this->Language['text_new_password']}" autocomplete="off" class="form-control" />
+                            <label data-original-title="name" title="" rel="tooltip" for="name"><i class="fa fa-lock"></i></label>
+                        </div>
+                    </div>     
+                    <div class="clear"></div>
+                    <div class="form-group ">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-lg btn-primary btn-green-small pull-right" name="login_submit" id="login-btn"><i class="fa fa-sign-in muvi_padding-right-10" aria-hidden="true"></i> {$this->Language['btn_submit']}</button>
+                        </div>
+                    </div>
+                    <div id="reset-errors" class="error center"></div>
+                </form>  
+            </div>               
+        </div>        
+    </div>
+</div>
+
+
+<div class="modal fade custom-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content planWrapper-Content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="icon-close" style="color:white;"></i></span></button>
+                <h1 class="modal-title text-center" id="myModalLabel">{$this->Language['reset_password']}</h1>
+            </div>
+            <div class="modal-body muvi_result-message">
+                {$this->Language['password_changed']}.
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#reset-loading').hide();
+    });
+</script>

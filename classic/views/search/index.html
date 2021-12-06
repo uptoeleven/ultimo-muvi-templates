@@ -1,0 +1,36 @@
+<script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row top20">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>{$this->Language['search_results']}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-product-area top50">
+    <div class="container">
+        <div id="content_list"></div>
+        <div class="row">
+
+            {if $item_count > 0}
+                {include file='../layouts/listitem.html'}
+		{else}
+		<h5>{$this->Language['no_result_found_refine_your_search']}</h5>
+            {/if} 
+            
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

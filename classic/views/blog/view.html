@@ -1,0 +1,62 @@
+{$post = $post|json_decode}
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 top20">
+                <div class="product-bit-title">
+                    <h2>{$post->post_title|utf8_decode}</h2>
+                    <p>
+                        {$this->Language['by']} <b>{$post->author}</b>, {$this->Language['published_on']} <b>{$post->date}</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-product-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {if $post->thumb !=""}
+                <div class="featured_image">
+                    {$post->thumb}
+                </div>
+                {/if}
+                <div class="desc blog-item">{$post->full_desc|utf8_decode}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-product-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {foreach from=$comments item=comment}
+            {$comment->comment} <br />
+            {$this->Language['comment_by']} : {$comment->fullname}<br />
+<hr />
+{/foreach}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-product-area">
+    <div class="container">
+       <div id="comment_form"></div> 
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        blogViewVideo(".blog-item");
+         $.ajax({
+        url: "/blog/LoadCommentForm",
+        data: "post_id="+{$post->post_id},
+        type:'POST',
+        success: function (data) {
+            $('#comment_form').html(data);
+        }
+        });
+    });
+</script>

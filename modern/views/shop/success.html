@@ -1,0 +1,35 @@
+<div class="c-layout-page">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['shopping_cart']}</h3>
+            </div>
+            <ul class="muvi_c-page-breadcrumbs muvi_c-theme-nav muvi_c-pull-right c-fonts-regular">
+                <li>
+                    <a href="{$this->siteurl}">{$this->Language['shop']}</a>
+                </li>
+                <li>/</li>
+                <li>
+                    <a href="{$this->siteurl}/shop">{$this->Language['product_list']}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container" style="padding: 20px;">
+        <h1>{$this->Language['order_placed']}</h1>
+        <p>{$this->Language['order_processed']}</p>
+        <div class="pull-right"><a class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r" href="{$this->base_url}/shop">{$this->Language['continue_shopping']}</a></div>
+    </div>
+</div>
+<script>
+    // Window load event used just in case window height is dependant upon images
+$(window).bind("load", function() { 
+    positionFooter();       
+    
+    $(window)
+            .scroll(positionFooter)
+            .resize(positionFooter)               
+});
+
+
+</script>

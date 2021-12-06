@@ -1,0 +1,48 @@
+{if $success_message != ''}{$success_message}{/if}
+<div id="comment_list" class="p-t-20">
+{if $comments|count > 0}
+{foreach from=$comments item=comment}
+    <div class="row p-t-10">
+        <div class="col-sm-1"><img src="{$comment['profile_picture']}" class="img-circle img-responsive" alt="{$comment['username']}" title="{$comment['username']}" /></div>
+        <div class="col-sm-11">
+            <h4 class="media-heading">{$comment['username']}</h4>
+            <p>{$comment['comment']}</p>
+            <div class="row">
+                <div class="col-md-3"><a href="javascript:void(0);" onclick="show_reply({$comment['comment_id']});">{$this->Language['reply']}</a></div>
+                <div class="col-md-9">{$comment['comment_since']}</div>
+                <div class="clear" style="height:5px;"></div>
+                <div id="reply_area_{$comment['comment_id']}" style="display: none;">
+                    <form>
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                        <div class="loader" style="display:none;"></div>        
+                        <div class="col-sm-10">
+                            <textarea name="reply_text" placeholder="{$this->Language['reply_here']}" class="form-control"></textarea>
+                        </div>
+                        <div class="col-sm-2"><input type="button" value="{$this->Language['reply']}" class="btn-small btn btn-primary comment-reply-btn" data-content_id="{$content->movie_id}" data-parent_id="{$comment['comment_id']}" /></div>
+                    </form>                    
+                </div>
+            </div>
+            {foreach from=$comment['replies'] item=reply}
+            <div class="row p-t-10">
+                <div class="col-md-1"><img src="{$reply['profile_picture']}" class="img-circle img-responsive" alt="{$reply['username']}" title="{$reply['username']}" /></div>
+                <div class="col-md-11">
+                    <h4 class="media-heading">{$reply['username']}</h4>
+                    <div class="clear" style="height:3px;"></div>
+                    <p>{$reply['message']}</p>
+                    <div class="clear" style="height:5px;"></div>
+                    {$reply['reply_since']}
+                </div>
+                <div class="clear"></div>
+            </div> 
+            {/foreach}            
+        </div>
+    </div>
+<div class="clear divider"></div>
+{/foreach}
+{/if}
+</div>
+<script>
+window.setTimeout(function() {
+    $(".alert").remove(); 
+}, 5000);
+</script>

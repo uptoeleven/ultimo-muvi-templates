@@ -1,0 +1,88 @@
+<div class="container muvi_footer_container">
+    <div class="wrapper">   
+        <footer class="footer">
+            <div class="wrapper">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <p class="text-muted">{$this->copyright}</p>
+                    </div>
+                    <div class="col-md-9 col-sm-12 pull-right">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="muvi_bottom_pages">
+                                    <ul class="muvi_ftr_ul">
+                                        <li class="muvi_ftr-link"><a href="{Yii::app()->controller->base_url}/contactus" title="{$this->Language['contact_us']}">{$this->Language['contact_us']}</a></li>
+                                        {if $this->has_blog}<li  class="muvi_ftr-link"><a href="{Yii::app()->controller->base_url}/blog" title="{$this->Language['head_blog']}">{$this->Language['head_blog']}</a></li>{/if}
+                                        {if $this->has_faqs}<li  class="muvi_ftr-link"><a href="{Yii::app()->controller->base_url}/faqs" title="{$this->Language['faq']}">{$this->Language['faq']}</a></li>{/if}
+                                    </ul>
+                                    {if $this->footer_menu|@count > 0}
+                                    <ul class="muvi_ftr-menu">
+                                        {foreach from=$this->footer_menu key=key item=mitem}  
+                                        {assign var=val value=$val+1}
+                                        <li {if $mitem['children']|@count > 0}class="c-menu-type-classic"{/if}><a href="{$mitem['permalink']}" id="menu-{$val}" {if $mitem['link_type'] == 2} target=""{/if} class="{$mitem['class']} c-link dropdown-toggle" title="{$mitem['title']}">{$mitem['title']} {if $mitem['children']|@count > 0}{/if}</a>
+                                            {if $mitem['children']|@count > 0}
+                                            <ul class="muvi_ftr-menu">
+                                                {foreach from=$mitem['children'] key=key item=mcitem}
+                                                <li><a href="{$mcitem['permalink']}" id="menu-{$val}"  {if $mitem['link_type'] == 2} target="_blank"{/if} title="{$mitem['title']}">{$mcitem['title']}</a></li>
+                                                {/foreach}
+                                            </ul>
+                                            {/if}
+                                        </li>
+                                        {/foreach}                                        
+                                    </ul>   
+                                    {/if}
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">                     	 
+                                {if ($this->studio->hide_powered_by == 0)&& ($this->studio->is_deleted == 0) && ($this->studio->status == 1) && ($this->studio->is_subscribed == 0)} 
+
+                                <div class="muvi_footer-poweredby">
+                                    <span class="font-12">{$this->Language['powered_by']}</span><a href="{$this->cms_url}/sdk/?utm_source={$studio->permalink}" target="_blank" title="{$this->Language['muvi']}"><img src="{$this->siteurl}/images/studio-logo.png" alt="{$this->Language['muvi']}" title="{$this->Language['muvi']}" /></a>
+                                    <a class="btn btn-default btn-sm muvi_poweredby" role="button" href="{$this->cms_url}/payment/subscription">{$this->Language['remove_this_branding']}</a>
+                                </div>  
+                                {/if}
+                            </div>
+                            <div class="col-md-3 col-sm-4 col-xs-12 text-right muvi_footer-news-soc">
+                                {if (isset($this->studio->fb_link) && $this->studio->fb_link != '') || 
+                                (isset($this->studio->tw_link) && $this->studio->tw_link != '') || 
+                                (isset($this->studio->gp_link) && $this->studio->gp_link != '') || 
+                                (isset($this->studio->ig_link) && $this->studio->ig_link != '') || 
+                                (isset($this->studio->yb_link) && $this->studio->yb_link != '')}
+                                <ul class="share-buttons">
+                                    {if isset($this->studio->fb_link) && $this->studio->fb_link != ''}
+                                    <li><a href="{$this->studio->fb_link}" target="_blank" title="{$this->Language['link_facebook']}"><img alt="{$this->Language['link_facebook']}" src="{$this->siteurl}{$Yii->theme->baseUrl}/images/social_icons/Facebook.png"></a></li>
+                                    {/if}
+                                    {if isset($this->studio->tw_link) && $this->studio->tw_link != ''}
+                                    <li><a href="{$this->studio->tw_link}" target="_blank" title="{$this->Language['link_twitter']}"><img alt="{$this->Language['link_twitter']}" src="{$this->siteurl}{$Yii->theme->baseUrl}/images/social_icons/Twitter.png"></a></li>
+                                    {/if}
+                                    {if isset($this->studio->gp_link) && $this->studio->gp_link != ''}
+                                    <li><a href="{$this->studio->gp_link}" target="_blank" title="{$this->Language['link_gplus']}"><img alt="{$this->Language['link_gplus']}" src="{$this->siteurl}{$Yii->theme->baseUrl}/images/social_icons/Google+.png"></a></li>
+                                    {/if}
+                                    {if isset($this->studio->ig_link) && $this->studio->ig_link != ''}
+                                    <li ><a href="{$this->studio->ig_link}" target="_blank" title="{$this->Language['link_instagram']}"><img alt="{$this->Language['link_instagram']}" src="{$this->siteurl}{$Yii->theme->baseUrl}/images/social_icons/instagram.png"></a></li>
+                                    {/if} 
+                                    {if isset($this->studio->yb_link) && $this->studio->yb_link != ''}
+                                    <li><a href="{$this->studio->yb_link}" target="_blank" title="{$this->Language['link_youtube']}"><img alt="{$this->Language['link_youtube']}" src="{$this->siteurl}{$Yii->theme->baseUrl}/images/social_icons/youtube.png"></a></li>
+                                    {/if}
+                                </ul>
+                                {/if}
+                                {if $this->ioslinks!='' || $this->androidlinks!=''}
+                                <ul class="list-inline text-right appStoreLink">
+                                    {if $this->ioslinks!=''}<li><a href="{$this->ioslinks}" title="{$this->Language['apple_store']}" target="_blank"><img style="width:110px; !important" src="{$this->siteurl}/images/public/Apple-Store.png" alt="{$this->Language['apple_store']}" title="{$this->Language['apple_store']}"></a></li>{/if}
+                                    {if $this->androidlinks!=''}<li><a href="{$this->androidlinks}" title="{$this->Language['google_play']}" target="_blank"><img style="width:110px; !important" src="{$this->siteurl}/images/public/Google-Play.png" alt="{$this->Language['google_play']}" title="{$this->Language['google_play']}"></a></li>{/if}
+                                </ul>
+                                {/if}
+                                <div class="newsletter">
+                                    {$this->newsletter}</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </footer>
+    </div>
+</div>

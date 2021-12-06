@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="{$this->language_code}" lang="{$this->language_code}">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="language" content="{$this->language_code}" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{$this->pageTitle}</title>
+{$this->metatag}
+<meta name="keywords" content="{$this->pageKeywords}" />
+<meta name="description" content="{$this->pageDescription}" />
+<link rel="icon" type="image/*" href="{$this->favIcon}" />
+<link rel="canonical" href="{$this->canonical_url}" />
+<meta name="description" content="{$this->pageDescription}" />
+<meta property="og:site_name" content="{$this->studio->name}"/>
+<meta property="og:url" content="{if $this->ogUrl} {$this->ogUrl} {else} {$this->siteurl} {/if}" />
+<meta property="og:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}"/>
+<meta property="og:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}"/>
+{if $this->ogImage}
+<meta property="og:image" content="{$this->ogImage}" />
+<meta property="og:image:secure_url" content="{$this->ogImage}" /> 
+<meta property="og:image:type" content="image/*" /> 
+<meta property="og:image:width" content="200" /> 
+<meta property="og:image:height" content="400" />
+{/if}
+{if $this->is_twitter}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@{$this->studio->name}">
+<meta name="twitter:creator" content="@{$this->contentDisplayName}">
+<meta name="twitter:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}">
+<meta name="twitter:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}">
+<meta name="twitter:image" content="{$this->ogImage}">
+{/if}
+
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/default.css?v={time()}" rel="stylesheet" type="text/css" />
+
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/custom.css?v=revo" rel="stylesheet" type="text/css" />
+<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700&amp;subset=all' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/cart.css?v={time()}" rel="stylesheet" media="screen"> 
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/rating.css?v={$smarty.const.RELEASE}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/404error.css?v={time()}">
+<script src="{$this->siteurl}/js/angularjs/angular.min.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/js/jquery.min.js"></script>
+<script defer type="text/javascript" src="{$this->siteurl}/js/jquery.pjax.js"></script>
+<script defer type="text/javascript" src="{$this->siteurl}/common/js/byod.js?v=2"></script>
+<link href="{$this->siteurl}/css/audioplayer.css?v={$smarty.const.RELEASE}" rel="stylesheet" media="screen"> 
+<script src="{$this->siteurl}/js/zeroclipboard/clipboard.min.js"></script> <!-- Er : #54395 [Ashutosh]  -->
+        
+        <!-- ER 31312 starts here -->
+        {$trackingcode=$this->trackingCode()}
+        {$open_head_below = $trackingcode['open_head_below']}
+        {$open_body_below = $trackingcode['open_body_below']}
+        {$close_head_above =  $trackingcode['close_head_above']}
+        {$close_body_above =$trackingcode['close_body_above']}
+
+        {if $open_head_below|@count || $close_head_above|@count}
+            {foreach from=$open_head_below item=trackingcode_headopen}
+                {$trackingcode_headopen}
+            {/foreach}
+            {foreach from=$close_head_above item=trackingcode_headclose}
+                {$trackingcode_headclose}
+            {/foreach}
+        {/if}
+        <!-- ER 31312 ends here -->
+
+<!--19325: Playout support in Revo template (Jitendra Kumar Sahoo) start-->
+{$default_img = $this->tvguideDefaultImage()}
+<!--19325: Playout support in Revo template (Jitendra Kumar Sahoo) end-->
+<script type="text/javascript">
+    var default_image = "{$default_img}";
+    var HTTP_ROOT = "{Yii::app()->controller->base_url}";
+    var SITE_URL = "{$this->siteurl}";
+    var THEME_URL = "{$Yii->theme->baseUrl}";
+    var card_name = "{$this->Language['text_card_name']}";
+    var card_number = "{$this->Language['text_card_number']}";
+    var security_code = "{$this->Language['cvv']}";
+    var let_u_go = "{$this->Language['sorry_to_let_go']}";
+    var tracks = "{$this->Language['tracks']}";
+    var user_picture_update = "{$this->Language['profile_picture_updated']}";
+    var no_content_added = "{$this->Language['no_content_added_yet']}";
+    var Password_reset = "{$this->Language['password_reset_link']}";
+    var password_changed = "{$this->Language['password_changed']}";
+    var text_message_placeholder = "{$this->Language['text_message_placeholder']}";
+    var playlist_name_not_blank = "{$this->Language['playlist_name_not_blank']}";
+    var remove = "{$this->Language['remove']}";
+    var added_fav = "{$this->Language['added_to_fav']}";
+    var add_fav = "{$this->Language['add_to_fav']}";
+    var add_to_play = "{$this->Language['add_to_playlist']}";
+    var sdk_user_id = '{Yii::app()->user->id}';
+    var save_playlist = "{$this->Language['save_playlist']}";
+    var queue_empty = "{$this->Language['queue_list_empty']}";
+    var explore = "{$this->Language['explore']}";
+    var add_to_cart = "{$this->Language['add-to-cart']}";
+    var order_now = "{$this->Language['ordernow']}";
+    var track = "{$this->Language['track']}";
+    var is_audio_enable = "{$this->is_audio_enable}";
+    var watch_duration_exceed_message = "{$this->Language['watch_duration_exceed_message']}";//34193
+    var daily_watch_duration_status = "{$this->store_configs->daily_watch_duration_status}";//34193
+    
+    var hybrid = 1;
+    $(document).ready(function() {
+        $.removeCookie('QUEID');
+          var year = (new Date()).getFullYear();
+        if ($('.date_picker').length > 0) {
+            $(".date_picker[id!='birthday']").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+            $('.date_picker[id="birthday"]').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1900:"+year
+            });
+        }
+    });
+</script>
+{$this->alljs}
+
+<script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/bootstrap.min.js"></script>
+<script defer type="text/javascript" src="{$this->siteurl}/common/js/general.js"></script>
+<script defer type="text/javascript" src="{$this->siteurl}/js/themes/usernotification.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script defer type="text/javascript" src="{$this->siteurl}/common/js/jquery.cookie-min.js"></script>
+
+<script defer src="{$this->siteurl}/common/js/jquery.validate.min.js"></script>
+<script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/main.js"></script>
+<!---ER-24621 Starts here-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<!---ER-24621 ends here-->
+<!--<script src="{$this->siteurl}/common/js/byod.min.js"></script>-->
+<script  defer type="text/javascript" src="{$this->siteurl}/js/themes/loginpopup.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick-theme.css"/>
+<script defer type="text/javascript" src="{$this->siteurl}/js/slick/slick.min.js"></script>
+<script defer type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
+<link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
+<script defer src="{$this->siteurl}/js/jquery.matchHeight.js"></script>
+<script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.mCustomScrollbar.js"></script>   
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/jquery.mCustomScrollbar.css" rel="stylesheet" media="screen" /> 
+{if (Yii::app()->paymentGateway->isSCA() && (isset(Yii::app()->controller->PAYMENT_GATEWAY['stripe']) && Yii::app()->controller->PAYMENT_GATEWAY['stripe']=='stripe'))}
+<script src="https://js.stripe.com/v3/"></script>
+{/if}     
+        
+</head>
+<body class="{$this->style_code} {if $this->ishome}_home{/if}">
+    {$this->cookie_msg}
+    {$this->website_msg}    
+    {if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->   
+    {include file='../layouts/topbar.html'}
+    {/if}
+    <div id="main">{$content}</div>
+    {if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->   
+    {include file='../layouts/footer.html'}
+    {/if}
+    {if isset($smarty.session.guest_user_id) && $smarty.session.guest_user_id > 0}
+        {$this->cancel_popup|json_decode}
+    {/if}
+    {if isset($Yii->user->id) && $Yii->user->id > 0}
+        {$this->cancel_popup|json_decode}
+    {else}
+        {include file='../layouts/loginpopup.html'}
+        {include file='../layouts/generalInfoPopUp.html'}
+    {/if}
+    
+    <!-- @ER: 21403 -->
+    <div class="loader download_loader" style="display: none"></div>      
+    <div id="ppvModal" class="modal fade login-popu" data-backdrop="static" data-keyboard="false"></div>
+    {include file='../layouts/playlist_popup.html'}
+    
+    <!-- ER 31312 starts here -->
+    {if $open_body_below|@count || $close_body_above|@count}
+        {foreach from=$open_body_below item=trackingcode_bodyopen}
+            {$trackingcode_bodyopen}
+        {/foreach}
+        {foreach from=$close_body_above item=trackingcode_bodyclose}
+            {$trackingcode_bodyclose}
+        {/foreach}
+    {/if}
+    <!-- ER 31312 ends here -->
+    <!-- ER 34193 start here -->
+    <div class="modal fade" id="audiomessge" tabindex="-1" role="dialog" data-backdrop="static" >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel"> <strong style="color:black">Oops! You cannot access this content</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                    <br>
+                    <center style="color:black;font-size:14px;">{$this->Language['watch_duration_exceed_message']} </center>
+                    <br>
+                    </div>
+                    <div class="modal-footer" style ="text-align:center;">
+                        <button type="button" class="btn btn-danger watch-duration-btn-click" data-dismiss="modal" aria-label="Close">{$this->Language['btn_ok']}</button>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--CWD FADE POPUP MESSAGE @AVI-->
+        <div class="modal fade" id="audiocwdmessge" tabindex="-1" role="dialog" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel"> <strong style="color:black">Oops! You cannot access this content</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                    <br>
+                    <center style="color:black;font-size:14px;">{$this->Language['content_watch_duration_exceed_message']}</center>
+                    <br>
+                    </div>
+                    <div class="modal-footer" style ="text-align:center;">
+                        <button type="button" class="btn btn-danger watch-duration-btn-click" data-dismiss="modal" aria-label="Close">{$this->Language['btn_ok']}</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- ER 34193 start here -->
+    <!--For reminder feature-->
+        {if $this->reminder}        
+            <div class="modal fade calender-modal" tabindex="-1" role="dialog" aria-labelledby="calenderModal" data-backdrop="static" data-keyboard="false">
+                <form class="book_event form-horizontal" name="book_event" id="event_book">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                    <div class="modal-dialog" role="document"> <div class="modal-content">
+                            <div class="modal-header"> 
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title c-font-uppercase c-font-bold" id="calenderModalLabel">{$this->Language['add_to_calender']}</h4> 
+                            </div>
+                            <div class="modal-body"> 
+                                <div class="succs_msg"></div>
+                                <div class="form-group" id="calender-input-form">
+                                    <label class="col-sm-4 text-left" for="email">{$this->Language['booking_time']}:</label>
+                                    <div class="col-sm-8">
+                                        <input class="flatpickr flatpickr-input form-control" id="booked_date" placeholder="{$this->Language['select_booking_time']}" data-id="datetime" readonly="readonly" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary pull-right bold_class btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold bookevent">{$this->Language['add_to_calender']}</button>
+                                <button type="button" class="btn btn-primary pull-right bold_class btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" id="close-event-modal" data-dismiss="modal" style="display:none">{$this->Language['btn_ok']}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                var user_id      = 0;
+                var notification = 0;
+                {if $this->user_id}
+                    user_id = {$this->user_id};
+                {/if}
+                {if $this->notification}
+                    notification = {$this->notification};
+                {/if}  
+                var favicon = "{$this->favIcon}";
+            </script>    
+            <link rel="stylesheet" href="{$this->siteurl}/css/flatpickr.min.css" />
+            <script defer type="text/javascript" src="{$this->siteurl}/js/flatpickr.js"></script>
+            <script defer type="text/javascript" src="{$this->siteurl}/js/themes/notification.js"></script>
+         {/if}
+         
+    <div class="loader _full-page"></div>
+    {literal}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('header nav ul li a').click(function(){
+                $('header nav  ul li a.active').removeClass('active');
+                $(this).addClass('active');
+            })
+            if ($.support.pjax) {
+                $.pjax.defaults.timeout = 999999;
+                $(document).pjax('a[data-pjax]', '#main');
+                $(document).on('submit', 'form[data-pjax]', function(event) {
+                    $.pjax.submit(event, '#main');
+                });
+            }
+            $(document).on('pjax:start', function() {
+                $('.load-container').show();
+                if($('#bootstrap-touch-slider').find('video').prop('muted')){
+                    $('#bootstrap-touch-slider').find('video').pause();
+                }
+                // $('#bootstrap-touch-slider').find('video').pause();
+                $('#flexslider').find('video').pause();
+            });
+
+            $(document).on('pjax:end', function() {
+                var main = document.createElement("script");
+                main.type = "text/javascript";
+                main.src = THEME_URL + '/js/main.js';
+                $("#main").append(main);
+                var owl = document.createElement("script");
+                owl.type = "text/javascript";
+                owl.src = THEME_URL + '/assets/plugins/owl-carousel/owl.carousel.min.js';
+                $("#main").append(owl);
+                var slick = document.createElement("script");
+                slick.type = "text/javascript";
+                slick.src = SITE_URL + '/js/slick/slick.min.js';
+                $("#main").append(slick);
+                var rating = document.createElement("script");
+                rating.type = "text/javascript";
+                rating.src = THEME_URL + '/assets/plugins/bootstrap/js/bootstrap.min.js';
+                $('#listingPage').append(rating);
+                var login = document.createElement("script");
+                login.type = "text/javascript";
+                login.src = SITE_URL + '/js/themes/loginpopup.js';
+                $(".login-form").append(login);
+                var bootRating = document.createElement("script");
+                bootRating.type = "text/javascript";
+                bootRating.src = SITE_URL + '/common/rating/bootstrap-rating.js';
+                $("#main").append(bootRating);
+                //$(".content-details").append(bootRating);
+                $('.load-container').hide();
+                var byod = document.createElement("script");
+                byod.type = "text/javascript";
+                byod.src = SITE_URL + '/common/js/byod.js';
+                $("#main").append(byod);
+                var main = document.createElement("script");
+                main.type = "text/javascript";
+                main.src = SITE_URL + '/js/themes/usernotification.js';
+                $("#main").append(main);
+
+                var bannerStyle = document.createElement("script");
+                bannerStyle.type = "text/javascript";
+                bannerStyle.src = SITE_URL + '/bannerStyle/style_1/js/videobanner.js';
+                $("#main").append(bannerStyle);
+
+                var editor = document.createElement("script");
+                editor.type = "text/javascript";
+                editor.src = SITE_URL + '/js/editor.js';
+                $("#main").append(editor);
+
+                $('.load-container').hide();
+                var year = (new Date()).getFullYear();
+                if ($('.date_picker').length > 0) {
+                    $(".date_picker[id!='birthday']").datepicker({
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                    $('.date_picker[id="birthday"]').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        yearRange: "1900:"+year
+                    });
+                }
+            });
+            
+            $(document).on('pjax:complete', function() {
+                $('body').removeClass('_nav-on');
+                $('.menu-toggle-butn').click(function(){
+                     $('body').toggleClass('_nav-on');
+                });
+                $('.load-container').hide();
+                if($("#homepage_sections").length > 0){
+                    angular.bootstrap($("#homepage_sections")[0], ["FeaturedContents"]);
+                }   
+//              mantis : 10334 start
+                if($("#relatedContent_section").length > 0){
+                    // angular.bootstrap($("#relatedContent_section")[0], ["relatedContent"]);
+                    angular.bootstrap(document, ['relatedContent']);
+                }  
+//              mantis : 10334 End
+            });
+            
+            $(document).on('pjax:popstate', function(event) {
+               	$.pjax.reload({container:"#main", async:true});
+                $('.menu-toggle-butn').click(function(){
+                     $('body').toggleClass('_nav-on');
+                });
+            });
+            
+        });
+        
+    </script>
+    {/literal}
+    <!--Start #27152: One player for Audio and Video-->
+    <script src="{$this->siteurl}/js/themes/audioplayer_new.js?v=6"></script>
+    {if $this->store_configs->support_optional_content == 1}
+    <link rel="stylesheet" href="{$this->siteurl}/css/mediaplayer.css?v={time()}">
+    <script defer src="{$this->siteurl}/js/themes/mediaplayer.js"></script>
+    {/if}
+    <!--End #27152: One player for Audio and Video-->
+    <div class="loader load-container _full-page"></div>
+</body>
+</html>

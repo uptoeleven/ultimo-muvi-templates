@@ -1,0 +1,445 @@
+<header>
+    <!--//52108-->
+    {if isset($this->store_configs->sso_with_miniorange_shopify_recharge) && $this->store_configs->sso_with_miniorange_shopify_recharge == 1}
+    <input type="hidden" id="sso_with_miniorange_shopify_recharge" value="1" />
+    {/if}<!--//52108-->
+    {if $this->store_configs->is_enable_custom_registration == 1  && $this->custom_register_page_banner !=""}<!--40392 -->
+    <img class="img-responsive cover" alt="Custom_banner" src="{$this->custom_register_page_banner}" />
+    {else}<!--40392 -->
+    <div class="container clearfix">
+        <a class="logo" href="{$this->base_url}"><img src="{$this->siteLogo}" /></a>
+        <a class="menu-toggle-butn"><span></span></a>
+        <nav>
+            <ul>
+                {include file='../layouts/mainmenu.html'}
+                <li><a class="srch-butn"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>
+                {if Yii::app()->general->getStoreLink()}
+                <li class="cart-menu">
+                    <a href="javascript:void(0);" onclick="goKart();" class="cart-toggle-butn cart-triger">
+                        <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                        <span class="_count round-cart" id="cart-popup-counter">
+                            {if $smarty.session.totalqnt}
+                            {$smarty.session.totalqnt}
+                            {else}
+                            0
+                            {/if}
+                        </span>
+                    </a>
+                    <span id="cartpopup">
+                        {include file='../shop/cartpopup.html'}
+                    </span>
+                </li>
+                {/if}
+                {if $this->usermenu|@count > 0}                        
+                {foreach from=$this->usermenu key=key item=mitem}   
+                {if $mitem['children']|@count > 0}
+                <li class="">
+                    <a href="#" class="{$mitem['class']} dropdown-toggle _user-menu">
+                        <img class="img-circle user-icon" alt="{$mitem['display_name']}" title="{$mitem['display_name']}" src="{$mitem['profile_image']}" /> 
+                        {$mitem['display_name']} 
+                        <span class="caret"></span>
+                    </a>
+                    {else}
+                    <li>
+                        {if $smarty.session.guest_user_id == ''}
+                        <!--  52108  -->     
+                        {if (isset($this->store_configs->sso_with_miniorange_shopify_recharge) && $this->store_configs->sso_with_miniorange_shopify_recharge == 1)}
+                         {if $mitem['class'] == 'register'}<a href="{$this->base_url}/user/login?sso" class="login active" data-pjax="#main"> <i class="fa fa-lock"></i> {$this->Language['login']}</a>{/if}
+                        {else}<!--  52108  -->  
+                        <a href="{$mitem['permalink']}" class="{$mitem['class']}">
+                            {if $mitem['class'] == 'register'}
+                            <i class="fa fa-user"></i> 
+                            {elseif $mitem['class'] == 'login'} 
+                            <i class="fa fa-lock"></i> 
+                            {/if}
+                            {$mitem['title']}
+                        </a>
+                        {/if}<!--  52108  -->  
+                        {else}
+                            {if $key==0}
+                                {$smarty.session.guest_name}
+                            {/if}                                
+                        {/if}                                
+                        {/if}                                
+                        {if $mitem['children']|@count > 0}
+                        <ul class="dropdown-menu">
+                            {foreach from=$mitem['children'] key=key item=mcitem name=usrmenu}
+                            {if $this->store_configs->parental_control && $smarty.foreach.usrmenu.last}
+                            <li>
+                                <a href="javascript:void(0);">KIDS MODE
+                                    <div class="checkbox checbox-switch switch-primary">
+                                        <label>
+                                            <input type="checkbox" value="1" name="parental_controlled_flag" {if isset($smarty.cookies.KidsMode) && $smarty.cookies.KidsMode} checked="" {/if} onclick="changeMode(this,1)"/>
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </a>                                
+                            </li>
+                            {/if}
+                            <li>                                
+                                <a {if $mcitem['class'] == 'cancelsubscription'} data-target="#cancelsubscription" data-toggle="modal" {else}href="{$mcitem['permalink']}"{/if} class="{$mcitem['class']}">{$mcitem['title']}</a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                        {/if}
+                    </li>
+                </li>
+                {/foreach}
+                {/if} 
+                
+                {$language_code = $this->language_code}
+                {$totallang =$this->enable_laguages|count}
+                {if $totallang > 1} 
+                {$studio_languages = $this->enable_laguages}
+                <li id="web_language">
+                    <a id="lang-popover-butn" class="lang-butn" rel="popover" data-popover-content="#myPopover" data-placement="bottom" data-toggle="popover">
+                        <i class="fa fa-language"></i>
+                    </a>
+                </li>
+                <!--0018725: Generic|Volo|Responsive issue in the menu section start  (id="web_language")-->
+                <li class="dropdown" id="mob_language">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-language"></i>
+                    </a>  
+                        <ol class="dropdown-menu lang-list-popover" id="myPopover_language">
+                            {foreach from=$studio_languages key=key item=value}
+                            {if $value['status'] != 0} 
+                            <li value="{$value['code']}" class="{if $language_code == $value['code']}active{/if}" onclick="changeLang('{$value['code']}')">{$value['name']} </li>
+                            {elseif $value['code'] == "en"}
+                            <li value="{$value['code']}" class="{if $language_code == $value['code']}active{/if}" onclick="changeLang('{$value['code']}')">
+                                {$value['name']}
+                            </li>
+                            {/if} 
+                            {/foreach}
+                            <li>{$this->Language['demo']}</li>
+                        </ol>                                 
+                </li>
+                 <!--0018725: Generic|Volo|Responsive issue in the menu section end-->
+                <div id="myPopover" class="hide">
+                    <ul class="lang-list-popover">
+                        {foreach from=$studio_languages key=key item=value}
+                        {if $value['status'] != 0} 
+                        <li value="{$value['code']}" class="{if $language_code == $value['code']}active{/if}" onclick="changeLang('{$value['code']}')">{$value['name']} </li>
+                        {elseif $value['code'] == "en"}
+                        <li value="{$value['code']}" class="{if $language_code == $value['code']}active{/if}" onclick="changeLang('{$value['code']}')">
+                            {$value['name']}
+                        </li>
+                        {/if} 
+                        {/foreach}
+                        <li>{$this->Language['demo']}</li>
+                    </ul>
+                </div>  
+                {/if}
+                <!--0016219: User Notification feature (For all Template) R1 start-->
+                {if $this->user_id}
+                <li class="c-cart-toggler-wrapper">
+                    <a class="c-btn-icon c-cart-toggler usernotification_bell">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="count_new_notification">
+                            <span class="_count round-cart">
+                                {$this->count_new_notification}
+                            </span>
+                        </span>
+                    </a>
+                    <input type="hidden" id="notification_userid" name="notification_userid" value="{$this->user_id}">
+                </li>
+                {elseif $this->store_configs->parental_control}
+                <li>
+                    <a href="javascript:void(0);">KIDS MODE
+                        <div class="checkbox checbox-switch switch-primary">
+                            <label>
+                                <input type="checkbox" value="1" name="parental_controlled_flag" {if isset($smarty.cookies.KidsMode) && $smarty.cookies.KidsMode} checked="" {/if} onclick="changeMode(this,0)"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </a>
+                </li>                
+                {/if}
+                <!--0016219: User Notification feature (For all Template) R1 end-->
+            </ul>
+        </nav>
+        
+    </div>
+    
+    <div class="search-bar">
+        <div class="container">
+            <form class="" onsubmit="return validate_search();" action="{$this->base_url}/search/show_all"  id="search-form">
+                <i class="fa fa-search search-icon"></i>
+                <input type="text" class="form-control sitesearch" id="siteSearch" name="search_field" placeholder="{$this->Language['type_to_search']}" name="search_field" autocomplete="off" />
+                <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                <a class="close-search" href="javascript:void(0);" onclick="hide('mysearch')">&times;</a>
+            </form>
+        </div>
+    </div>
+    {/if}<!--40392 -->
+     <div class="alert-msg in  fade alert-success profile-success" id="connect_us_form_success_message" style="display: none;"></div><!--41016 -->
+</header>
+<!--39145 :To include three processes for third party users -->
+<div class="modal fade success-modal" id="success-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="javascript:window.location.reload()"  class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <span>{$this->Language['hi']} <b class="response_username"></b> </span> 
+                    </div>
+                    <div class="col-sm-12 withgap">
+                        <a target="_blank" class="success_response_url" href=""><span class="response_feedback"></span> </a>
+                    </div>
+                    <div class="col-sm-12 withgap">
+                        <input type="hidden" name="redirecturl" value="" id="hidden_redirecturl"/>
+                        <a href="javascript:void(0);" class= "btn btn-lg btn-primary"  onclick="precheckoutLibrary();">{$this->Language['proceed']}</a>
+                    </div>
+                </div>
+                <div class="text-center withgap">
+                    <span>{$this->Language['text_clicking_proceed']} <a target="_blank" class="response_url"  href=" {$this->store_configs->user_based_pricing_terms_condition} "><b>{$this->Language['terms_condition_link_text']}</b></a>  {$this->Language['and']} </span>
+                    <a target="_blank" class="response_url" href="{$this->store_configs->user_based_pricing_library_link}"><b><span id="libraryselected"></span></b></a> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade failure-modal" id="failure-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="javascript:window.location.reload()"  class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <a target="_blank" class="response_url" href=""><span class="response_feedback"></span> </a>
+                    </div>
+                    <div class="col-sm-12 withgap">
+                        <a href="javascript:void(0);"  class= "btn btn-lg btn-primary"  onclick="window.location.reload();">{$this->Language['retry']}</a>
+                    </div>
+                </div>
+<!--                <div class="text-center withgap">
+                    <span><a target="_blank" class="response_url" href=""><b>{$this->Language['click_here']}  </b></a>{$this->Language['to_reset_your_password']}</span> 
+                </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade precheckout-success-modal" id="precheckout-success-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="javascript:window.location.reload()" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <a target="_blank" class="precheckout_response_url" href=""><span class="precheckout_response_feedback"></span> </a>
+                    </div>
+                    
+                        <input type="hidden" name="librarypermalink" value="" id="hidden_librarypermalink"/>
+                        <input type="hidden" class="precheckout_response_price_value" value=""/><!--42536-->
+<!--                    <div class="col-sm-12 withgap">
+                        <span>{$this->Language['price']} :  </span><span class="precheckout_response_price"></span> 
+                    </div>-->
+                    <div class="col-sm-12 withgap">
+                        <a href="javascript:void(0);"  class= "btn btn-lg btn-primary"  onclick="window.location.reload();">{$this->Language['back']}</a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="javascript:void(0);"  class= "btn btn-lg btn-primary"  onclick="proceedtoLibraryCheckout();">{$this->Language['play_now']}</a>
+                    </div>
+                </div>
+<!--                <div class="text-center withgap">
+                    <span>{$this->Language['text_clicking_playnow']} <a target="_blank" class="precheckout_response_url" href=""><b>{$this->Language['terms_and_conditions']}</b></a> </span> 
+                </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade precheckout-failure-modal" id="precheckout-failure-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="javascript:window.location.reload()" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <a target="_blank" class="precheckout_response_url" href=""><span class="precheckout_response_feedback"></span> </a>
+                    </div>
+                    <div class="col-sm-12 withgap">
+                        <a href="javascript:void(0);"  class= "btn btn-lg btn-primary"  onclick="window.location.reload();">{$this->Language['back']}</a>
+                    </div>
+                </div>
+<!--                <div class="text-center withgap">
+                    <span><a target="_blank" class="precheckout_response_url" href="">{$this->Language['click_here']}</a> <b>{$this->Language['to_know_more']}</b> </span> 
+                </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade proceedcheckout-modal" id="proceedcheckout-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="javascript:window.location.reload()"  class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <span>{$this->Language['price']} : </span><span class="proceedcheckout_price"></span> 
+                    </div>
+                </div>
+                <div class="text-center withgap">
+                    <span><a href="javascript:void(0);"  class= "btn btn-lg btn-primary"  onclick="checkoutLibrary();">{$this->Language['btn_proceed_payment']}</a></span> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade checkout-success-modal" id="checkout-success-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="javascript:window.location.reload()"  class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <a target="_blank" class="checkout_response_url" href=""><span class="checkout_response_feedback"></span> </a>
+                    </div>
+                    <div class="col-sm-12 withgap">
+                        <a href="javascript:void(0);"  class= "btn btn-lg btn-primary"  onclick="proceedtoplay();">{$this->Language['play_now']}</a>
+                    </div>
+                </div>
+<!--                <div class="text-center withgap">
+                    <span>{$this->Language['text_clicking_playnow']} <a target="_blank" class="checkout_response_url" href=""><b>{$this->Language['terms_and_conditions']}</b></a> </span> 
+                </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade checkout-failure-modal" id="checkout-failure-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="javascript:window.location.reload()"  class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <a target="_blank" class="checkout_response_url" href=""><span class="checkout_response_feedback"></span> </a>
+                    </div>
+                    <div class="col-sm-12 withgap">
+                        <a href="javascript:void(0);"  class= "btn btn-lg btn-primary"  onclick="window.location.reload();">{$this->Language['retry']}</a>
+                    </div>
+                </div>
+<!--                <div class="text-center withgap">
+                    <span><a target="_blank" class="checkout_response_url" href="">{$this->Language['click_here']}</a><b> {$this->Language['to_know_more']}<b> </span> 
+                </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+<!--39145 :To include three processes for third party users -->
+<!--41016 -->
+<div class="modal fade connect-with-us-modal" id="connect-with-us-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{$this->Language['connect_with_us']}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-left">
+                    <div class="col-sm-12 withgap">
+                        
+                        <div class="comment">
+                            <form name="connect_us_form" id="connect_us_form" method="post" action="javascript:void(0);">
+                                <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                                 <input type="hidden" id= "fmovie_id" name="ConnectUsForm[movie_id]"  value="" />
+                                 <input type="hidden" id= "fcelibrity_id" name="ConnectUsForm[celibrity_id]"  value="" />
+                                <div class="form-group">
+                                    <label for="name">{$this->Language['text_name']}</label>
+                                    <input type="text" class="form-control" id="fname" name="ConnectUsForm[fname]" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_name_placeholder']}" autocomplete="off" />
+                                </div>    
+                                <div class="form-group">
+                                    <label for="name">{$this->Language['email']}</label>
+                                    <input type="text" class="form-control" id="femail" name="ConnectUsForm[femail]" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment">{$this->Language['text_message_placeholder']}</label>
+                                    <textarea class="form-control" rows="3" name="ConnectUsForm[fmessage]" id="fmessage" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_message_placeholder']}" ></textarea>
+                                </div>
+                                <div class="error" id="comment_error"></div>
+                                <button type="submit" class="btn blog-comment-submit btn-lg btn-primary">{$this->Language['btn_submit']}</button>
+                            </form>    
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--41016 -->
+<!--//52108-->
+<div class="modal fade recharge-subscribe-modal" id="recharge-subscribe-modal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{$this->Language['subscribe_user_can_view']}</h4>
+                <button type="button"  class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <div class="col-sm-12 withgap">
+                        <span>{$this->Language['purchase_renew_subscribe_text']}</span> 
+                    </div>
+                    <div class="col-sm-12 withgap">
+                        <a href="{Yii::app()->general->getSsoRedirectUrl()}" class= "btn btn-lg btn-primary">{$this->Language['subscribe']}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--//52108-->
+<!--//53478 Start-->
+<div id="password_parental_control" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="position: relative;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12" id="password_form_div">
+                        <form name="password_form" id="password_form" method="post" class="form-horizontal" action="javascript:void(0);">
+                            <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                            <div class="form-group">
+                                <div id="login_errors_pwd" class="error"></div>
+                                <div id="success_message_pwd" class="message"></div>
+                                <div class="loader" id="login_loading_pwd" style="display: none;"></div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="password">{$this->Language['text_password']}</label>
+                                <div class="controls">
+                                    <input type="password" name="password_form[password]" id="password_form_pwd" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <button type="submit" class="btn btn-primary" name="pwd_submit" id="password_parental_control-btn">{$this->Language['btn_submit']}</button>
+                                    <div id="login-loading" class="loader" style="display: none;"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>
+<!--//53478 END-->

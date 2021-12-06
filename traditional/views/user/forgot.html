@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['forgot_pwd']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="wrapper  muvi_bottom-padding50">
+        <div class="row top20">
+            <div class="col-md-12">
+                <div class="muvi_title1 muvi_font-17">{$this->Language['text_email_for_password_reset']}</div>
+            </div>
+
+            <div class="col-md-12 muvi_top50">
+                <div id="reset-loading" class="loader"></div>
+                <div class="muvi_form-signin">
+                    <form name="frmRP" id="frmRP" method="post">
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                        <div class="form-group  ">
+                            <div class="muvi_icon-addon muvi_addon-lg">
+                                <input type="text" name="email" id="muvi_reset_email" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" />
+                                <label for="name" rel="tooltip" title="" data-original-title="name"><i class="fa fa-envelope-o"></i></label>
+                            </div>
+                        </div>    
+                        <div class="clear"></div>
+                        <div class="form-group ">
+                            <div class="controls">
+                                <div class="pull-left muvi_top10 help-block">{$this->Language['remember_password']} <a class="link txt-right" href="{$this->base_url}/user/login">{$this->Language['login_here']}</a></div>
+                                <button type="submit" class="btn btn-primary pull-right" name="login_submit" id="login-btn"><i class="fa fa-rocket muvi_padding-right-10"></i>   {$this->Language['btn_submit']}</button>
+                            </div>
+                        </div>
+                        <div id="reset-errors" class="error center"></div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

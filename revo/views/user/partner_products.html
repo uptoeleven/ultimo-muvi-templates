@@ -1,0 +1,72 @@
+<div id="main">
+    {include file='../user/partner_banner.html'}
+    <section class="content">
+        <div id="cp_sections">
+            {include file='../user/partner_menu.html'}
+            <div class="parent_sec_87383 featured-sec-wrap">
+                <div class="container">
+                    <ul class="item-list row">
+                    {foreach from=$product key=k item=value}
+                    <li class="col-md-3">
+                        <div class="item-wrap {if $value['status'] ==3 || $value['sale_price'] =='0.00'}_stock-out{/if}">
+                            <div class="item-cover">
+                                <img class="_cover" src="{$value['poster']}" />
+                                <div class="cover-overlay" >
+                                    <a class="playbtn" href="{$this->base_url}/{$value['permalink']}">{$this->Language['explore']}</a>
+                                    {if $value['status']==1}
+                                        {if $value['is_preorder'] == 0}
+                                            {if $value['sale_price']!='0.00'}
+                                        <a class="butn-ad2cart" href="javascript:void(0);" onclick="showcart({$value['id']}, 1);"></a>
+                                        <a class="butn-ordernow" href="javascript:void(0);" onclick="showcart({$value['id']}, 2);">{$this->Language['ordernow']}</a>
+                                        {else}
+                                        <div class="_stock-out-txt">{$this->Language['currently_unavailable']}</div>
+                                        {/if}
+                                        {else}
+                                        <a class="butn-ordernow" href="javascript:void(0);" onclick="window.location = '{$this->base_url}/{$value['permalink']}'">{$this->Language['pre_order']}</a>
+                                        {/if}
+                                    {/if}
+                                </div>
+                                {if $value['status']==3}
+                                <div class="_stock-out-txt">{$this->Language['stock_out']}</div>
+                                {/if}
+                            </div>
+                            <div class="spacer_10"></div>
+                            <div class="item-info">
+                                <a href="{$this->base_url}/{$value['permalink']}"> {if $value['name']|count_characters > 30}
+                                    {$value['name']|substr:0:30}
+                                    {else}
+                                    {$value['name']}
+                                    {/if}
+                                </a>
+                            </div>
+                            <div class="item-info">
+                                {if $value['is_preorder'] == 0}
+                                    {if $value['sale_price'] != '0.00'}
+                                    {Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'], 0, null, 0, 1)}
+                                {else}
+                                &nbsp;
+                                {/if}
+                                {else}
+                                &nbsp;
+                                {/if}
+                            </div>
+                            <div class="spacer_10"></div>
+                            <div class="loader _item-{$value['id']}"></div>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="product-pagination text-center">
+                                <nav>
+                                    {$pagination}
+                                </nav>                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

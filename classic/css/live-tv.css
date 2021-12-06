@@ -1,0 +1,150 @@
+/*.planbox {
+    background:transparent;
+    border: 1px solid #333;
+    color: #333;
+    padding:10px;
+    position: relative;
+}
+.billed-box h4{color:#e10813;font-weight: 300}
+.billed-box .tick-icon {
+    background: url("../images/tick-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 38px;
+    position: absolute;
+    left: -6%;
+    top: -12%;
+    width: 38px;    
+}
+.billed-box h3 {color: #fff; font-weight: 300;}
+.billed-box2 {background: none repeat scroll 0 0 #fff;border: 1px solid #ddd;}
+.table-striped > tbody > tr:nth-of-type(2n+1){background: #333;}
+select{color: #555;}
+
+.maincontent-area{ background:#e20813 !important} .form-horizontal{color:#ccc}.bold-green{color: #39b54a; font-weight: normal}
+
+.div-responsive {
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    width: 100%;
+ height:300px;
+padding-top:30px;
+}*/
+
+.loader{display: none; position: absolute; width: 100%; height: 100%; top: 0px; bottom: 0px; left: 0px; background: url(../images/loader.gif) no-repeat center; z-index: 99; min-height:35px !important;}
+.bg-white {
+    background: #fff ;
+    min-height: 407px;
+    padding: 10px;
+}
+.day-date {
+    font-size: 18px;
+    padding: 15px 10px;
+}
+.div17{width:17%;padding-top: 18px;} .div83{width:83%; float: left;}
+.channel1 div{background:#111;padding:-2px 0px; float:left; display:inline-block; height: 57px; font-size:14px; vertical-align:middle;
+box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 2px solid #000;
+}
+.channel-number{
+	font-weight:normal;
+	min-width:32px;
+	max-width:52px;
+	background:#e20813 !important;
+	background: #e20813 !important; /* Old browsers */
+	background: -moz-linear-gradient(left,  #e20813 0%, #5c0308 100%) !important; /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  #e20813 0%,#5c0308 100%) !important; /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right,  #e20813 0%,#5c0308 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e20813', endColorstr='#5c0308',GradientType=1 ) !important; /* IE6-9 */
+	}
+.channel-list{
+	width: 150px;
+}
+.channel-list img {
+    display: block;
+    height: 100%;
+    max-width: 100%;
+    margin:0 auto;
+}
+.div-responsive {
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    width: 100%;
+	height:300px;
+}
+.noprogram {background:#111!important;}
+.cursor_pointer{cursor:pointer}
+.cursor_pointer_program_tostart{cursor:pointer}
+
+.channel1 .channeldata{
+    background: #333;
+}
+
+.channeldata.red-bg{
+    background:#e20813; color:#fff;
+}
+
+.top20{ padding-top:20px !important;} .top40{ padding-top:40px !important;} .top10{ padding-top:10px !important;}
+.red-bg{background:#e20813; color:#fff;}
+.gray{color:#999 !important}
+
+.channel-front:hover {
+    background: #666 none repeat scroll 0 0;
+    border: 15px solid #000;
+    margin: auto;
+    text-align: center;
+}
+.active-channel {
+    background: #f00 none repeat scroll 0 0;
+    border: 15px solid #000;
+    height: 170px;
+    margin: auto;
+    text-align: center;
+    transform-style: preserve-3d;
+}
+
+.title36 {
+margin-top: 20px;
+    color: #fff;
+    font-size: 36px !important;
+}
+
+.carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+    max-height: 250px;
+}
+.mCustomScrollBox{padding-top:30px;}
+.newtvdiv{min-height:520px !important;}
+div#mCSB_1:focus{
+    outline: none !important;
+}
+.loadertop{margin-top:150px}
+
+/*New Css Added playout*/
+
+@media screen and (max-width: 992px) {
+.day-date {
+    padding: 0px 10px;
+}
+}
+@media screen and (max-width: 800px) {
+.mCustomScrollbar {
+    margin-top: -40px;
+}
+}
+@media all and (max-width: 767px) and (min-width: 530px) {
+.day-date {
+    padding: 10px 10px;
+}
+}
+
+@media screen and (max-width: 480px) {
+.day-date {
+    padding: 7px 10px;
+}
+.carousel-control.left span {
+    margin-left: -40px;
+}
+.div83 {
+    width: 76%;
+}
+}

@@ -1,0 +1,78 @@
+<div class="c-cart-menu" {if $smarty.session.totalqnt!=0} style="border: 1px solid #f3f3f3;" {/if}>
+ {if $smarty.session.totalqnt!=0}
+    <div class="muvi_c-cart-menu-title">
+        <p class="muvi_c-cart-menu-float-l muvi_c-font-sbold">
+            <span class="total_cnt">{$smarty.session.totalqnt}</span> {$this->Language['item-s']}
+        </p>
+        <p class="muvi_c-cart-menu-float-r muvi_c-theme-font muvi_c-font-sbold  total_amount">{$smarty.session.item_total}</p>
+    </div>
+    <ul class="muvi_c-cart-menu-items">
+        {assign var="producturl" value=$this->base_url}
+        {assign var="cart_item" value=$smarty.session.cart_item}
+        {foreach from=$cart_item key=k item=item}
+			{assign var="img_path" value=PGProduct::getpgImage($item['id'],'thumb',$item['pg_varient_id'])}
+            {assign var="itemid" value=$k}
+            {assign var="qnty" value=$item['quantity']}
+            <li id='cart_tr{$itemid}'  {if $item['product_status']!=1} class="productstatus_div" {/if}>
+                <div class="muvi_c-cart-menu-close">
+                    <a onclick="removefromcart('{$itemid}', 'cart_tr{$itemid}','{$qnty}');" href="javascript:void(0);" class="muvi_c-theme-link">&times;</a>
+                </div>
+                <img src="{$img_path}" />
+		<div class="muvi_c-cart-menu-content">
+					{if $errproduct==1}{else}
+                    <p><span class="total_cnt">{$item["quantity"]}</span> x
+                        <span class="muvi_c-item-price muvi_c-theme-font">{Yii::app()->common->formatPrice($item['price'],$item['currency_id'], 0, null, 0, 1)}</span>
+                    </p>
+					{/if}
+                    <a href="{$producturl}/{$item['permalink']}" class="muvi_c-item-name muvi_c-font-sbold">
+                        {if $item['name']|count_characters > 30}
+                        {$item['name']|substr:0:30}
+                        {else}
+                        {$item['name']}
+                        {/if}
+                    </a>
+                </div>
+            </li>
+        {/foreach}
+    </ul>
+    <div class="muvi_c-cart-menu-footer">
+        <a href="javascript:void(0);" onclick="goKart();" class="btn btn-md c-btn c-btn-square c-theme-btn c-font-white c-font-bold c-center c-font-uppercase view_cart">View Cart</a>
+    </div>
+ {/if}
+</div>
+
+<div id="addtocarterror" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12">
+						<p style="line-height: initial;">{$this->Language['addtocarterror']}</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>
+
+<div id="productstatuserror" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12">
+						<p style="line-height: initial;">{$this->Language['prstatus_error']}</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>

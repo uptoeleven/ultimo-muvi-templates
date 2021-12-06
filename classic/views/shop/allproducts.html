@@ -1,0 +1,42 @@
+{foreach from=$value1['contents'] key=k item=value}
+{assign var="img_path" value=PGProduct::getpgImage($value['id'],'standard')}
+<div class="col-sm-3">                
+    <div class="thumbnail listpos physical thumblist"> 
+        <div class="caption"></div>
+        <div class="overtext popup_content">
+            <div class="arrow"></div>
+            <div class="ptitle caps"><a href="{$producturl}/{$value['permalink']}">{$value['name']}</a></div>
+            <div class="stripe col-md-12">
+                {Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'])}
+            </div>
+            <div class="clear"></div>
+            <div class="ptext">
+                {if $value['description']|count_characters > 30}
+                {$value['description']|substr:0:100}
+                {else}
+                {$value['description']}
+                {/if}
+            </div><br />
+            <div class="clear"></div>
+            {if $value['status']==1}
+            <div class="text-center">
+                {if $value['is_preorder'] == 0}
+                <input type="button" class="AddToCart btn cart2" value="{$this->Language['add-to-cart']}" onclick="showcart({$value['id']}, 1);"><br /><br />
+                <input type="button" class="AddToCart btn order-now2" value="{$this->Language['ordernow']}" onclick="showcart({$value['id']}, 2);" />
+                {else}
+                <input type="button" class="AddToCart btn order-now2" value="{$this->Language['pre_ordernow']}" onclick="window.location = '{$producturl}/{$value['permalink']}'" />                              
+                {/if}
+            </div>
+            {elseif $value['status']==3}
+            <div class="text-center">
+                <div class="stockout">{$this->Language['stock_out']}</div>
+            </div>
+            {/if}
+        </div>         
+        <a href="{$content->permalink}">
+            <img class="img-tshow lazy" alt="{$value['name']}" title="{$value['name']}" src="{$img_path}">
+        </a>                                
+    </div>
+    <h3 class="moviename"><a href="{$producturl}/{$value['permalink']}">{$value['name']}</a></h3>
+</div>
+{/foreach}

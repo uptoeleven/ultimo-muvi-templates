@@ -1,0 +1,20 @@
+/*@ER : 19491 @info: publish content later */ 
+.noplay:hover {
+    cursor:not-allowed
+ }  
+.comingsoon{
+   display: inline-block;
+   vertical-align: middle;
+   padding: 0px 15px;
+   color: #FFF;
+   line-height: 40px;
+   height: 40px;
+   border: 1px solid #32c5d2;
+   font-weight: 600;
+   background: none;
+}
+.comingsoon:hover {
+   color: #FFF;
+   background: #32c5d2;
+   text-decoration: none;
+}  

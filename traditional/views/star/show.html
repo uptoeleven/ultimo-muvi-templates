@@ -1,0 +1,43 @@
+{$content = $item|json_decode}
+<div class="container">
+    <div class="wrapper">
+        <div class="row top20">
+            <div class="col-md-12">
+                <div class=" muvi_title1">{$content->name}</div>
+            </div>
+            <div class="row">
+                {if $celebrity_image !=''}
+                <div class="col-md-2 col-xs-12">
+                    <img src="{$celebrity_image}" alt="{$content->name}" title="{$content->name}" class="star_image img-responsive" align="left" />
+                </div>
+                {/if}
+                <div class="col-md-10 col-xs-12">
+                    <p class="muvi_star_summary">{$content->summary|utf8_decode}</p>
+                    {if $content->custom_data|count > 0}
+                        {foreach from=$content->custom_data key=ckey item=cval}
+                        <p class="muvi_star_summary">
+                            <span class="muvi_light-green-color">{$cval->field_name} :</span> 
+                            {if is_array($cval->value)}
+                                {', '|implode:$cval->value}
+                            {else}
+                                {$cval->value}
+                            {/if}
+                        </p>
+                        {/foreach}
+                    {/if}
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="muvi_title1">{$this->Language['cast_details']}</div>
+                <div class="muvi_list_page">
+                    <div class="row muvi_top10 ">
+                        {include file='../layouts/castitem.html'}
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

@@ -1,0 +1,99 @@
+
+{if Yii::app()->controller->id == 'blog' && Yii::app()->controller->action->id == 'LoadCommentForm'}
+    <script type="text/javascript" src="{$this->siteurl}/js/themes/library.js"></script> 
+{/if}
+
+{if Yii::app()->controller->id == 'faqs' && Yii::app()->controller->action->id == 'index'}
+    <script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/search.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'site' && Yii::app()->controller->action->id == 'SdkIndex'}
+    <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js?v={$smarty.const.RELEASE}"></script>
+{/if}
+<!--@mantis: 19646 start-->
+<!--
+-{if Yii::app()->controller->id == 'site' && Yii::app()->controller->action->id == 'error'}
+-    <script type="text/javascript" src="{$this->siteurl}/js/themes/loginpopup.js"></script>
+-{/if}-->
+<!--@mantis: 19646 end-->
+{if Yii::app()->controller->id == 'media' && Yii::app()->controller->action->id == 'list'}
+    <script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'movie' && Yii::app()->controller->action->id == 'show'}
+    <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js?v={$smarty.const.RELEASE}"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/content.js"></script>
+   
+{/if}
+
+{if Yii::app()->controller->id == 'shop' && Yii::app()->controller->action->id == 'index'}
+    <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js?v={$smarty.const.RELEASE}"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/js/placeholder/holder.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'shop' && Yii::app()->controller->action->id == 'ProductDetails'}
+    <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js?v={$smarty.const.RELEASE}"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/js/placeholder/holder.js"></script>
+    <script src="{$this->siteurl}{$Yii->theme->baseUrl}/assets/plugins/zoom-master/jquery.zoom.min.js" type="text/javascript"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'playing' && Yii::app()->controller->action->id == 'playMovie'}
+    <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/cart.js?v={$smarty.const.RELEASE}"></script>  <!--21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. -->
+    <script type="text/javascript" src="{$this->siteurl}/js/content.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'playlist' && Yii::app()->controller->action->id == 'show'}
+    <script type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'search' && Yii::app()->controller->action->id == 'index'}
+    <script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'tvguide' && Yii::app()->controller->action->id == 'index'}
+    <script type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.mCustomScrollbar.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'createContent'}
+    <script type="text/javascript" src="{$this->siteurl}/js/add-ugccontent.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/themes/admin/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/themes/admin/js/plugins/input-mask/jquery.inputmask.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/themes/admin/js/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/bootstrap-tagsinput.min.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/typeahead.bundle.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/jquery.Jcrop.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/js/placeholder/holder.js"></script>
+    <script src="{$this->siteurl}/js/flatpickr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/s3_multi.js?v=2"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/zeroclipboard/ZeroClipboard.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'editContent'}
+    <script type="text/javascript" src="{$this->siteurl}/js/s3_multi.js?v=2"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/jquery.Jcrop.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/add-ugccontent.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'Showdetails'}
+    <script type="text/javascript" src="{$this->siteurl}/js/s3_multi.js?v=2"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/add-ugccontent.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/zeroclipboard/ZeroClipboard.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'Showfanreport'}
+    <script type="text/javascript" src="{$this->siteurl}/common/js/fanreport.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'user'}
+    <script type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/js/cropper.min.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/js/crop-avatar.js"></script>
+    <script src="{$this->siteurl}/js/jquery.matchHeight.js" type="text/javascript" ></script>
+{/if}
+
+

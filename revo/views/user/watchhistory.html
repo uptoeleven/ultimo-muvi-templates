@@ -1,0 +1,262 @@
+<style>
+.cover-overlay .explorebtn:hover {
+   background: #32c5d2;
+   text-decoration: none;
+}
+.cover-overlay .explorebtn{
+   display: inline-block;
+   vertical-align: middle;
+   padding: 0px 15px;
+   color: #FFF;
+   line-height: 40px;
+   height: 40px;
+   border: 1px solid #32c5d2;
+   font-weight: 600;
+   transition: all 0.3s ease-in-out;
+   -moz-transition: all 0.3s ease-in-out;
+   -webkit-transition: all 0.3s ease-in-out;
+   -o-transition: all 0.3s ease-in-out;
+   background-color: transparent;
+}
+h3 {
+   font-size: 18px;
+   margin: 10px 0;
+}
+.c-font-bold {
+   font-weight: 600 !important;
+}
+.row {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+</style>
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['watch_history']}</h2>
+        {if $item_count > 0}
+        <ul class="item-list row">
+         {foreach from=$contents|json_decode item=content}
+    {if $content->is_playlist == 1}
+        {if $content->is_search == 1}
+            {$data = $content}
+        {else}
+            {$data = $content->list}
+        {/if}
+        {$content_poster = $content->poster_playlist}
+        {include file='../layouts/playlistitem.html'}
+    {elseif $content->is_physical == 1}
+        {if $content->is_search == 1}
+            {$physical = $content}
+        {else}
+            {$physical = $content->physical}
+        {/if}
+        {include file='../layouts/physicallist.html'}
+    {else}
+        <li class="col-md-3">
+    <div class="item-wrap clearfix">
+        {if $VDListItemInfo}
+            {foreach from=$VDListItemInfo|json_decode item=vdListItem}
+            {if $vdListItem->contentType == "poster_url"}
+            <div class="item-cover">
+                <img class="_cover" src="{$content->poster}" />
+                <div class="cover-overlay">
+                    {if $content->content_types_id == 5}
+                        {if $content->full_movie != ''}
+                            <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                {$this->Language['play_now']}
+                            </a>
+                        {else}
+                        <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                        {/if}
+                    {elseif $content->content_types_id == 8}
+                        <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                            {$this->Language['play_now']}
+                        </a>
+                    {elseif $content->content_types_id == 3}
+                    <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                    {elseif $content->content_types_id == 6}
+                    <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                    {else}
+                    {if $content->content_types_id!= 3}
+                    {if $content->is_downloadable == 1}
+                    {if $content->download_btn != '' }{$content->download_btn} {else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {elseif $content->is_downloadable == 2}
+                    {if $content->play_btn != '' }{$content->play_btn} {else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {if $content->download_btn != '' }{$content->download_btn}{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {else}
+                    {if $content->play_btn != '' }{$content->play_btn}{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {/if}
+                    {/if}
+                    {/if}
+                </div>
+            </div>
+            {else}
+            <div 
+                class="item-info
+                {if $vdListItem->boldStatus == 'b'} _bold{/if}
+                {if $vdListItem->width == '1/2'} _col-1b2{/if}
+                {if $vdListItem->width == '1/3'} _col-1b3{/if}
+                {if $vdListItem->width == '2/3'} _col-2b3{/if}
+                {if $vdListItem->align == 'r'} _txt-right{/if}
+                {if $vdListItem->align == 'c'} _txt-center{/if}
+                {if $vdListItem->lineCount == 's'} _sline{/if}
+                " 
+                style="{if $vdListItem->lineHeight != '' && $vdListItem->lineHeight != '0'}line-height:{$vdListItem->lineHeight}px;{/if}
+                {if $vdListItem->size != '' && $vdListItem->size != '0'}font-size:{$vdListItem->size}px;{/if}
+                {if $vdListItem->color != '' && $vdListItem->color != '0'}color:{$vdListItem->color};{/if}
+                ">
+                {if $vdListItem->contentType == "title"}
+                    <a href="{$content->permalink}">{$content->title|utf8_decode}</a>
+                {elseif $vdListItem->contentType == "genre"}
+                    {if $content->genres|@count > 0}
+                        {$genre_count = $content->genres|count}
+                        {$j=0}
+                        {foreach from=$content->genres item=genre}
+                        {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                    {/if}
+                    &nbsp;
+                {elseif $vdListItem->contentType == "release_date"}
+                    {$content->full_release_date|utf8_decode}&nbsp;
+                {else}
+                    {$datakey = $vdListItem->contentType}
+                    {if $datakey}
+                    {$content->$datakey|utf8_decode}
+                    {$content->custom->$datakey->field_value|utf8_decode}&nbsp;
+                    {/if}
+                {/if}
+
+            </div>     
+            {/if}
+            {/foreach}
+        {else}
+            <div class="item-cover">
+                <img class="_cover" src="{$content->poster}" />
+                <div class="cover-overlay">
+                    {if $content->content_types_id == 5}
+                        {if $content->full_movie != ''}
+                            <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                {$this->Language['play_now']}
+                            </a>
+                        {else}
+                        <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                        {/if}
+                    {elseif $content->content_types_id == 8}
+                        <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                            {$this->Language['play_now']}
+                        </a>
+                    {elseif $content->content_types_id == 3}
+                    <button type="button" value="{$content->movie_id}" onclick="showSeason('{$content->movie_id}','{$content->title|utf8_decode}')" id="explore" class="explorebtn">{$this->Language['explore']}</button>
+                    {elseif $content->content_types_id == 6}
+                    <a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>
+                    {else}
+                    {if $content->content_types_id!= 3}
+                    {if $content->is_downloadable == 1}
+                    {if $content->download_btn != '' }{$content->download_btn} {else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {elseif $content->is_downloadable == 2}
+                    {if $content->play_btn != '' }{$content->play_btn} {else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {if $content->download_btn != '' }{$content->download_btn}{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {else}
+                    {if $content->play_btn != '' }{$content->play_btn}{else}<a class="playbtn" href="{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                    {/if}
+                    {/if}
+                    {/if}                 
+                </div>
+            </div>
+            <div class="spacer_10"></div>
+            <div class="item-info">
+                <a href="{$this->base_url}/{$content->permalink}">{$content->title|utf8_decode}</a>
+            </div>
+            <div class="item-info">
+                {if $content->genres|@count > 0}
+                    {$genre_count = $content->genres|count}
+                    {$j=0}
+                    {foreach from=$content->genres item=genre}
+                    {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                {/if}
+                &nbsp;
+            </div>
+            <div class="spacer_10"></div>
+        {/if}
+    </div>
+</li>
+    {/if}
+{/foreach}
+        </ul>
+        {/if}
+        <br/>
+        <div class="product-pagination text-center">
+            <nav>
+                {$pagination}
+            </nav>                        
+        </div>
+          
+     </div>
+</div>
+<div class="modal fade" id="seasonModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog" style="width: 90%!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headertitel"></span></h4>
+            </div>
+            <div class="modal-body" style="height: 400px; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-sm-6  c-font-uppercase c-font-bold">
+                         {$this->Language['episodes']} 
+                    </div>
+                    <div class="col-sm-3">
+                        <h3 class="c-font-uppercase c-font-bold text-right text-left-xs season-dropdown_title">                                    
+                            {$this->Language['season']}                                
+                        </h3>
+                    </div>
+                    <div class="col-sm-3" id="seasons"></div>
+                </div>
+                <div class="row relative">
+                    <!--To list episodes-->
+                    <input type="hidden" name="content_id" id="content_id"/>
+                    <input type="hidden" name="default_series" id="default_series"/>
+                    <input type="hidden" name="userid" id="userid" value="{Yii::app()->user->id}" />
+                    <div id="episodes" class="cust-row"></div>
+                    <div class="loader" id="loader_episode" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{literal}
+<script>
+    function showSeason(movie_id,title){
+            //var movie_id=$(this).val();
+            var url = HTTP_ROOT + "/rest/fetchSeasons?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}"+"&movie_id="+movie_id;
+            $.post(url, function (res) {
+                res = JSON.stringify(res);
+                res = JSON.parse(res);
+                var htmlval="";
+                htmlval +='<select id="season" name="season" onchange="showeposide(this.value)" class="form-control form-control-border">';
+                for(var j = 0; j < res.seasons.length; j++){
+                     htmlval +='<option value="'+res.seasons[j].series_number+'">Season '+res.seasons[j].series_number+'</option>';               
+                } 
+                htmlval +='</select>';
+                $('#seasons').html(htmlval);
+                $('#headertitel').html(title);
+                $('#content_id').val(movie_id);
+                showeposide(res.seasons[0].series_number)
+            });
+            $("#seasonModal").modal('show');
+        }
+    
+    function showeposide(series){
+            var pageNumber = 1, scrollAmountTrigger = 400, offset = 0, limit = 100;
+            var findEpisodesURL = HTTP_ROOT + "/content/fetchepisodes";
+            xhr=$.ajax({
+            method: "POST",
+            url: findEpisodesURL,
+            dataType: "json",
+            data: {'movie_id': $('#content_id').val(), 'series': series, 'limit': limit,'userid':$('#userid').val()}
+        }).done(function(res) {
+           $("#episodes").html(res.msg);
+        });
+    }
+</script>
+{/literal}

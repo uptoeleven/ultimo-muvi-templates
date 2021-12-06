@@ -1,0 +1,118 @@
+<div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold c-bordered c-bordered-both">
+    <div class="container">
+          <h2 class="c-font-bold c-margin-t-20">{$this->Language['order_details']} </h2>
+    </div>
+</div>
+{assign var="url" value="`$this->base_url`/user/purchaseHistory"}
+{literal}
+<style>
+    .infobox{
+        border: 1px solid #E9E9E9;
+        margin-bottom: 20px;
+        padding: 5px;
+    }
+</style>
+{/literal}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 text-right"><a href="{$url}"><< {$this->Language['back_to_list']}</a></div>
+        <div class="col-sm-12" style="padding: 20px 0 40px;">
+            <div class="col-sm-8">
+                <h3 style="display: inline-block;padding-right: 10px;">{$this->Language['order']} #{$order['order_number']}</h3>{$this->Language['placed_on']} <b>{$order['created_date']}</b>
+            </div>
+            <div class="col-sm-4 text-right">
+                <a href="javascript:void(printDiv('print'));" class="btn btn-primary">{$this->Language['print']}</a>
+            </div>
+        </div>
+        <div id="print" >
+        <div class="col-sm-12">
+            <div class="row">
+            <div class="col-sm-8 ">
+                <table class="table">
+                    <thead>
+                    <th>{$this->Language['image']}</th>
+                    <th>{$this->Language["item_details"]}</th>
+                    <th>{$this->Language["status"]}</th>
+                    <th>{$this->Language["price"]}</th>
+                    </thead>
+                    <tbody>
+                        {foreach from=$order_details key=k item=value}
+                        {if $value['personalization_id']!=''}
+							{assign var="img_path" value=PGProduct::getPersionalizeImage($value['personalization_id'])}
+                        {else}
+							{assign var="img_path" value=PGProduct::getpgImage($value['product_id'],'thumb')}
+                        {/if} 
+                        <tr>
+                            <td><img src="{$img_path}" alt="{$value['name']}" style="max-width:100px;border:1px solid #ddd;"></td>
+                            <td>
+                                <div style="word-break: break-all;">{$value['name']}</div><br>
+                                {$this->Language["quantity"]} {$value['quantity']}
+                            </td>
+                            <td>
+                                {$status[$value['item_status']]}
+                            </td>
+                            <td>{if $item['sub_total'] != '0.00'}
+                                {Yii::app()->common->formatPrice($value['sub_total'], $value['currency_id'])}
+                                {else}{$this->Language['free']}{/if}
+                            </td>
+                        </tr>    
+                        {/foreach}
+                        <tr>
+                            <td colspan="3" align='right'>{$this->Language['subtotal']} : </td>
+                            <td>
+                                {Yii::app()->common->formatPrice($order['total'],$order_details[0]['currency_id'])}
+                            </td>
+                        </tr>
+                        {if $order['discount']!='0.00'}
+                        <tr>
+                            <td colspan="3" align='right'>{$this->Language['discount']} : </td>
+                            <td>
+                                {if $order['discount_type']}
+                                    {$order['discount']}%
+                                {else}
+                                    {Yii::app()->common->formatPrice($order['discount'],$order_details[0]['currency_id'])}
+                                {/if}
+                            </td>
+                        </tr>
+                        {/if}
+                        <tr>
+                            <td colspan="3" align='right'>{$this->Language['shipping_cost']} : </td>
+                            <td>
+                                {Yii::app()->common->formatPrice($order['shipping_cost'],$order_details[0]['currency_id'])}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align='right'>{$this->Language['total']} : </td>
+                            <td>
+                                {Yii::app()->common->formatPrice(($order['grand_total']),$order_details[0]['currency_id'])}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <div class="infobox">
+                    <h3>{$this->Language["customer_info"]}</h3>
+                    <p> {$this->Language["text_name"]} : {$userinfo['display_name']}</p>
+                    <p>{$this->Language["email"]} : {$userinfo['email']}</p>
+                </div>
+                <div class="infobox">
+                    <h3>{$this->Language["shipping_address"]}</h3>
+                    <p>
+                        {$addr['first_name']}&nbsp{$addr['last_name']}<br>
+                        {$addr['address']}<br>
+                        {$addr['city']}<br>
+                        {$addr['state']}
+                        {$addr['country']}
+                    </p>
+                    <p>
+                        {$this->Language["zip"]} : {$addr['zip']}<br>
+                        {$this->Language["phone"]} : {$addr['phone_number']}
+                    </p>
+                </div>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>

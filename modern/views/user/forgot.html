@@ -1,0 +1,76 @@
+<div class="single-product-area forget">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['forgot_pwd']}</h3>
+                <h4 class=""></h4>
+            </div>
+        </div>
+    </div>
+    <div class="container muvi_content-area">
+        <div class="row"> 
+            <div class="col-md-6">
+                <h2 class="login-title">{$this->Language['forgot_pwd']}</h2>
+                <div id="reset-loading" class="loader"></div>
+
+                <div class="muvi_form-signin">
+                    <!--//28147:-->
+                    {if $this->sms_otp_enabled}
+                    <form name="frmRT" id="frmRT" method="post" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                    <input type="hidden" name="sms_otp_enabled" id="sms_otp_enabled" value="{$this->sms_otp_enabled}" />
+                        <div class="form-group ">
+                            <label class="control-label required" for="login_email">{$this->Language['phone_number']}</label>
+                            <div class="controls">
+                                <input type="text" name="mobile_number" onblur="sendRPOtpToUser(this.value)" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" id="mobile_number" placeholder="{$this->Language['phone_number']}" autocomplete="off" class="form-control" />
+                                <input type="hidden" name="email" class="email" id="reset_email" />
+                            </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label class="control-label required" for="login_email">{$this->Language['otp']}</label>
+                            <div class="controls">
+                                <input type="text" name="otp" id="otp" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" placeholder="{$this->Language['otp']}" autocomplete="off" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label required" for="login_email">{$this->Language['text_password_placeholder']}</label>
+                            <div class="controls">
+                                <input type="password" name="password" id="password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control" />
+                            </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label class="control-label required" for="login_email">{$this->Language['confirm_password']}</label>
+                            <div class="controls">
+                                <input type="password" name="password_confirm" id="password_confirm" placeholder="{$this->Language['confirm_password']}" autocomplete="off" class="form-control" />
+                            </div>
+                        </div> 
+                        {else}
+                        <!--//28147:-->
+                    <form name="frmRP" id="frmRP" method="post" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                        <div class="form-group ">
+                            <label class="control-label required" for="login_email">{$this->Language['text_email_for_password_reset']}</label>
+                            <div class="controls">
+                                <input type="text" name="email" id="reset_email" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" />
+                            </div>
+                        </div>   
+                        {/if}
+                        <div class="loader" id="loader"></div>
+                        <div class="clear"></div>
+                        <div class="form-group ">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" name="login_submit" id="login-btn">{$this->Language['btn_submit']}</button>
+                                {if $this->sms_otp_enabled}<!--//28147:-->
+                                <button type="button" id="resend_otp" class="btn c-theme-btn btn-md c-btn-uppercase c-btn-bold c-btn-square c-btn-login" onclick="sendRPOtpToUser();">{$this->Language['resend_otp']}</button>
+                                {/if}<!--//28147:-->
+                                <div style="float: right; margin-top: 10px;">{$this->Language['remember_password']} <a class="link txt-right" href="{$this->base_url}/user/login">{$this->Language['login_here']}</a></div>
+                            </div>
+                        </div>
+                        <div id="reset-errors" class="error center"></div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

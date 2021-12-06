@@ -1,0 +1,343 @@
+{$content = $contents|json_decode}
+{$categories = $categories|json_decode}
+<script type="text/javascript">
+var content_id = {$content->movie_id}; 
+var movie_stream_id = {$content->movie_stream_id}; 
+setValuesForPlayVideo(content_id,movie_stream_id);
+</script>
+<div class="c-layout-page">
+    <div class="single-product-area content">
+        <div class="bg-primary text-white">
+           <div class="container">
+                <div class="col-md-12 padding-0">
+                    <div class="muvi_video-grid1">
+                        <div class="loader" id="muvi_video_loader" style="display:none"></div>
+                        <iframe src="{$play_path}?remove_back_button=1" allowfullscreen width="100%" id="Playerframe" frameborder="0" scrolling="no"></iframe>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 padding-0">
+                        <div class="col-md-8 padding-0">
+                            <h1>{$content->title|utf8_decode} </h1>
+                            {$total_count = $categories|@count}
+                            {$i = 1}
+                            {if $total_count > 0}
+                            <p>
+                                {foreach from=$categories item=category}
+                                {$category->category_name}{if $total_count > $i} ,{/if}
+                                {$i = $i + 1}
+                                {/foreach}
+                            </p>
+                            {/if}
+                            {if $content->genres|@count > 0}
+                            {$genre_count = $content->genres|count}
+                            <div class="badge-area">
+                                {foreach from=$content->genres item=genre}
+                                <span class="badge badge-default">{$genre}</span>
+                                {/foreach}
+                            </div>
+                            {/if}
+                        </div>
+                        <div class="col-md-4 padding-0">
+                            <div class="social-network">
+                                {if $this->add_to_video_playlist > 0}
+                                <a class="addToPlayList img_playlist" href="javascript:void(0);" data-title="add-to-playlist" data-type="2" data-user_id="{$this->user_id}" data-is_episode="{$content->is_episode}" data-content_id="{$content->movie_stream_id}"></a>
+                                {/if}
+                                <!-- <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$this->base_url}{$pageUrl}" data-title="Facebook Share"><i class="fa fa-facebook-square" aria-hidden="true" title="{$this->Language['share_in_facebook']}"></i></a>
+				 <a target="_blank" href="https://twitter.com/intent/tweet?text={$this->base_url}{$pageUrl}" data-title="Share on Twitter">  <i class="fa fa-twitter-square" aria-hidden="true" title="{$this->Language['share_in_twitter']}"></i></a>ER-36051-->
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <p>{$content->story|utf8_decode}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        {literal}
+        <div ng-app="Player">
+            {/literal}{if $content->is_episode == 1}{literal}
+            <div class="container"  ng-cloak>
+                <div class="wrapper">
+                    <div class="muvi_related-video mt50" ng-controller="episodes">
+                        <div ng-if="hasData">
+                            <div class="row">  
+                                <div class="col-xs-12">
+                                    <div class="muvi_c-content-title-1">
+                                        <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['other_episodes']}{literal}</h3>
+                                        <div class="muvi_c-line-left"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <section class="lazy slick epinit">
+                                    <div class="col-md-3 col-sm-6 muvi_c-margin-b-20 slick-slide" ng-repeat="episode in episodelist">
+                                        <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                            <div class="muvi_c-content-overlay">
+                                                <div class="muvi_c-overlay-wrapper">
+                                                    <div class="muvi_c-overlay-content" ng-bind-html="episode.play_btn | html"></div>
+                                                </div>
+                                                <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                                    <img src="{{episode.poster}}"> 
+                                                </div>
+                                            </div>
+                                            <div class="muvi_c-info">
+                                                <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                                    <a href="{{episode.permalink}}" ng-bind="episode.title"></a>
+                                                </p>
+                                                <span class="muvi_caption_genre muvi_c-font-16" ng-repeat="genres in episode.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="loader static-loading" id="episode_load" ng-if="isLoading"></div>
+                            <span style="display:none;">{{initSlid("epinit")}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/literal}{/if}{literal}
+            <div ng-cloak ng-controller="related">
+                <!--21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details.-->
+                <div ng-if="video">
+                    <div class="container-fluid  muvi_content-area">
+                        <div class="wrapper">
+                            <div class="row">  
+                                <div class="col-xs-12">
+                                    <div class="muvi_c-content-title-1">
+                                        <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['video']}{literal}</h3>
+                                        <div class="muvi_c-line-left"></div>
+                                    </div>    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <section class="lazy slick relatediniit" >
+                                    <div class="col-md-3 col-sm-6 muvi_c-margin-b-20" ng-repeat="content in video">
+                                        <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                            <div class="muvi_c-content-overlay">
+                                                <div class="muvi_c-overlay-wrapper">
+                                                    <div class="muvi_c-overlay-content" ng-if="!content.full_movie && content.content_types_id != 3">
+                                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                                    </div>
+                                                    <div class="muvi_c-overlay-content" ng-if="content.play_btn && content.full_movie && content.content_types_id != 3" ng-bind-html="content.play_btn | html"></div>
+                                                    <div class="muvi_c-overlay-content" ng-if="content.full_movie && content.content_types_id == 3" ng-bind-html="content.play_btn | html"></div>
+                                                    <div class="muvi_c-overlay-content" ng-if="!content.full_movie && content.content_types_id == 3">
+                                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                                    </div>
+
+                                                </div>
+                                                <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                                    <img src="{{content.poster}}"> 
+                                                </div>
+                                            </div>
+                                            <div class="muvi_c-info">
+                                                <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                                    <a href="{{content.permalink}}" ng-bind="content.title"></a>
+                                                </p>
+                                                <span class="muvi_caption_genre muvi_c-font-16" ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="loader static-loading" id="related_load" ng-if="isLoading"></div>
+                            <span style="display:none;">{{initSlid("relatediniit")}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="audio">
+                    <div class="container-fluid muvi_content-area muvi_has__gray--bg">
+                        <div class="wrapper">
+                            <div class="row">  
+                                <div class="col-xs-12">
+                                    <div class="muvi_c-content-title-1">
+                                        <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['music']}{literal}</h3>
+                                        <div class="muvi_c-line-left"></div>
+                                    </div>    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <section class="lazy slick relatediniit" >
+                                    <div class="col-md-3 col-sm-6 muvi_c-margin-b-20" ng-repeat="content in audio">
+                                        <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                            <div class="muvi_c-content-overlay">
+                                                <div class="muvi_c-overlay-wrapper">
+                                                    <div class="muvi_c-overlay-content" ng-if="content.content_types_id == 5 && !content.full_movie" >
+                                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                                    </div>
+                                                    <div class="muvi_c-overlay-content" ng-if="content.content_types_id == 5 && content.full_movie">
+                                                        <a href="javascript:void(0);" class="playbtn" onclick="displayPopup(this);" data-permalink="{{content.c_permalink}}">{/literal}{$this->Language['play_now']}{literal}</a>';
+                                                    </div>
+                                                    <div class="muvi_c-overlay-content" ng-if="content.content_types_id != 5">
+                                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="playbtn" onclick="displayPopup(this);" data-permalink="{{content.c_permalink}}">{/literal}{$this->Language['play_now']}{literal}</a>';
+                                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                                    </div>
+                                                </div>
+                                                <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                                    <img src="{{content.poster}}"> 
+                                                </div>
+                                            </div>
+                                            <div class="muvi_c-info">
+                                                <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                                    <a href="{{content.permalink}}" ng-bind="content.title"></a>
+                                                </p>
+                                                <span class="muvi_caption_genre muvi_c-font-16" ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="loader static-loading" id="related_load" ng-if="isLoading"></div>
+                            <span style="display:none;">{{initSlid("relatediniit")}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="physical">
+                    <div class="container-fluid  muvi_content-area">
+                        <div class="wrapper">
+                            <div class="row">  
+                                <div class="col-xs-12">
+                                    <div class="muvi_c-content-title-1">
+                                        <h3 class="c-font-uppercase c-font-bold">{/literal}{$this->Language['product']}{literal}</h3>
+                                        <div class="muvi_c-line-left"></div>
+                                    </div>    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <section class="lazy slick relatediniit" >
+                                    <div class="col-md-3 col-sm-6 muvi_c-margin-b-20" ng-repeat="content in physical">
+                                        <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                                            <div class="muvi_c-content-overlay">
+                                                <div class="muvi_c-overlay-wrapper">
+                                                    <div class="muvi_c-overlay-content">
+                                                        <a href="{/literal}{$this->base_url}{literal}/{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                                    </div>
+                                                </div>
+                                                <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                                    <img src="{{content.poster}}"> 
+                                                </div>
+                                            </div>
+                                            <div class="muvi_c-info">
+                                                <p class="muvi_caption_genre muvi_c-title muvi_c-font-16 muvi_c-font-slim">
+                                                    <a href="{/literal}{$this->base_url}{literal}/{{content.permalink}}" data-pjax="#main" tabindex="0">{{content.name}}</a>
+                                                </p>
+                                                <p class="muvi_caption_genre muvi_c-font-16" ng-if="content.content_types_id == 7 && content.sale_price != 0.00" ng-bind="content.price"></p>
+                                            </div>
+                                            <div role="group" class="btn-group btn-group-justified">
+                                                <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 1 && content.sale_price != 0.00">
+                                                    <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(content.id, 1)" tabindex="0">{/literal}{$this->Language['add-to-cart']}{literal}</a>
+                                                </div>
+                                                <div role="group" class="btn-group c-border-left muvi_c-border-top" ng-if="content.status == 1 && content.sale_price != 0.00">
+                                                    <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(content.id, 2)" tabindex="0">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                </div>
+                                                <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 1 && content.sale_price == 0.00">
+                                                    <div class="muvi_stockout">{/literal}{$this->Language['currently_unavailable']}{literal}</div>
+                                                </div>
+                                                <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 2">
+                                                    <div class="muvi_stockout">{/literal}{$this->Language['inactive']}{literal}</div>
+                                                </div>
+                                                <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 3">
+                                                    <div class="muvi_stockout">{/literal}{$this->Language['stock_out']}{literal}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="loader static-loading" id="related_load" ng-if="isLoading"></div>
+                            <span style="display:none;">{{initSlid("relatediniit")}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!--21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details.-->
+
+
+            </div>
+        </div>
+        {/literal}
+        <div class="container">
+            <div class="col-md-12 padding-0">
+                {if $this->studio->rating_activated == 1}
+                <div class="row muvi_bottom25" id='reviews_section'>
+                    <div class="col-md-12">
+                        <div class="loader" id="loader_review"></div>
+                        <div class="form-group muvi_review_form  muvi_c-content-title-1">
+                            {$review_form}
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                {if $this->studio->comment_activated == 1}
+                <div class="row muvi_bottom25">
+                    {include file='../media/comment_form.html'}
+                    {include file='../media/comment_list.html'}            
+                </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+<!--21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details.-->
+<div class="modal fade" id="audioConfirmPopup" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headermodal">{$this->Language['play_audio']}</span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <span id="bodymodal">{$this->Language['relatedcontent_audio_confirmation_msg']}</span>
+                        <input type="hidden" id="selected_content_permalink">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="confirmbtn" class="btn btn-default">{$this->Language['yes']}</a>
+                <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details.-->
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+{literal}
+<style type="text/css">
+    #Playerframe{
+        border:none;
+        overflow:hidden;
+    }
+    .muvi_video-grid1 > iframe {
+        display: block;
+    }
+    .lazy.epinit{
+        opacity:0;
+    }
+    .lazy{
+        opacity: 1;
+        transition:all 0.3s ease-in-out;
+        -moz-transition:all 0.3s ease-in-out;
+        -webkit-transition:all 0.3s ease-in-out;
+        -o-transition:all 0.3s ease-in-out;
+    }
+    .loader.static-loading{
+        position:static;
+        height:100px;
+        display:block;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        playVideoInPlaying();
+        $('#Playerframe').ready(function(){
+            iframeLoaded();
+        });
+    });
+</script>  
+{/literal}

@@ -1,0 +1,50 @@
+<div class="single-product-area contact-form">
+    <div class="c-layout-page">
+        <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+            <div class="container">
+                <div class="muvi_c-page-title muvi_c-pull-left">
+                    <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['add_sub_user']}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="container muvi_content-area">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert-success alert-msg" id="success_message" style="display:none;"></div>
+                    <form name="AdduserForm" id="adduser_form" method="post" action="javascript:void(0);">
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+<!--                        <h4 class="c-font-uppercase muvi_c-font-sbold">ADD NEW USER</h4>-->
+                        <div class="form-group ">
+                            <label class="control-label" for="name">{$this->Language['text_name']} *</label>
+                            <div class="controls">
+                                <input type="text" minlength="4" required name="data[name]" id="name" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_name_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value=""   autofocus />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="name">{$this->Language['email']} *</label>
+                            <div class="controls">
+                                <input type="email" title="{$this->Language['ensure_enter_email']}" name="data[email]"  id="email" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value=""  required />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label" for="password">{$this->Language['text_password_placeholder']} *</label>
+                            <div class="controls">
+                                <input type="password" title="{$this->Language['fill_out_this_field']}" name="data[password]" id="password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value=""  required />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="controls text-left">
+                                <input type="hidden" id="parent_user" value="{Yii::app()->user->id}">
+                                <input type="hidden" id="parent_email" value="{Yii::app()->user->email}">
+                                <button type="submit" class="btn btn-lg btn-primary c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" name="adduser" id="adduser">{$this->Language['add_sub_user_button_text']}</button>
+                            </div>
+                        </div>
+                        <div id="login-errors" class="error center"></div>
+                    </form>  
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row top20">
+        <div class="col-lg-3 col-md-3"></div>
+        <div class="col-lg-6 col-md-6">
+            <div class="login-title heading_2">{$this->Language['forgot_pwd']}</div>
+            <div class="form-signin">
+
+                 <form name="frmRP" id="frmRP" method="post" action="javascript:void(0);">
+					 <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                      <div id="reset-loading" class="loader" style="display: none;"></div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">{$this->Language['text_email_for_password_reset']}</label>
+                        <input type="text" name="email" id="reset_email" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" />
+                    </div>
+                      <div id="reset-errors" class="error" style="font-weight: bold;"></div>
+                    <div class="row">
+                        <div class="col-xs-6 top20">
+                            <button class="btn btn-primary" type="submit"  name="login_submit" id="login-btn">{$this->Language['btn_submit']}</button>
+
+                        </div>
+                        <div class="col-xs-6  top20">
+                            {$this->Language['remember_password']} <a class="link-ylw txt-right" href="/user/login">{$this->Language['login_here']}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+</div><!--.container-->

@@ -1,0 +1,9 @@
+{$content = $content|json_decode}
+<div class="single-product-area">
+    <div class="container">
+        <div class="row top20">
+        <h2>{$content->title|utf8_decode}</h2>
+        <div>{$content->content|utf8_decode}</div>
+        </div>
+    </div>
+</div>

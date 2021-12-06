@@ -1,0 +1,31 @@
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'createContent'}
+    <script type="text/javascript" src="{$this->siteurl}/js/add-ugccontent.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/themes/admin/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/themes/admin/js/plugins/input-mask/jquery.inputmask.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/themes/admin/js/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/bootstrap-tagsinput.min.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/typeahead.bundle.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/jquery.Jcrop.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/common/js/placeholder/holder.js"></script>
+    <script src="{$this->siteurl}/js/flatpickr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/s3_multi.js?v=2"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/zeroclipboard/ZeroClipboard.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'editContent'}
+    <script type="text/javascript" src="{$this->siteurl}/js/s3_multi.js?v=2"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/jquery.Jcrop.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/add-ugccontent.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'Showdetails'}
+    <script type="text/javascript" src="{$this->siteurl}/js/s3_multi.js?v=2"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/add-ugccontent.js"></script>
+    <script type="text/javascript" src="{$this->siteurl}/js/zeroclipboard/ZeroClipboard.js"></script>
+{/if}
+
+{if Yii::app()->controller->id == 'ugc' && Yii::app()->controller->action->id == 'Showfanreport'}
+    <script type="text/javascript" src="{$this->siteurl}/common/js/fanreport.js"></script>
+{/if}

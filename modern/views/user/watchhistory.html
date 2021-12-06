@@ -1,0 +1,159 @@
+<div class="muvi_product-big-title-area">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['watch_history']}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="single-product-area muvi_content-area">
+    <div class="container">                
+        
+            <div class="row cust-row">
+                <div class="col-md-12">
+                    <div class="alert-msg in  fade alert-success profile-success" id="muvi_watch_success_message" style="display: none;">{$this->Language['watch_history_success_msg']}</div>
+                    {if $item_count != 0}<button id="showModal" class="mt-15 mb-15 btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold pull-right" type="button">{$this->Language['clear_history']}</button>{/if}
+                </div>
+                {if $item_count != 0}
+                <div id="watchhistory-container">
+                    {foreach $contents|json_decode as $content}
+                    <div class="col-md-3 col-sm-6 muvi_c-margin-b-20">
+                        <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                            <div class="muvi_c-content-overlay">
+                            <div class="muvi_c-overlay-wrapper">
+                                <div class="muvi_c-overlay-content">
+                                    {if $content->content_types_id == 5}
+                                    {if $content->full_movie != ''}
+                                    <div class="muvi_play-btn-wrap">
+                                        <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio" data-ctype="{$content->content_types_id}">
+                                            {$this->Language['play_now']}</a>
+                                    </div>
+                                    {else}
+                                    <a class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" href="{$this->base_url}/{$content->permalink}">{$this->Language['explore']}</a>
+                                    {/if}
+                                    {elseif $content->content_types_id == 6}
+                                    <a  class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" href="{$this->base_url}/{$content->permalink}">{$this->Language['play_all']}</a>
+                                    {else}
+                                    {if $content->content_types_id!= 3}
+                                    {if $content->is_downloadable == 1}
+                                    {if $content->download_btn != '' }<div class="muvi_play-btn-wrap">{$content->download_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                                    {elseif $content->is_downloadable == 2}
+                                    {if $content->play_btn != '' }<div class="muvi_play-btn-wrap">{$content->play_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                                    {if $content->download_btn != '' }<br><div class="muvi_play-btn-wrap">{$content->download_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                                    {else}
+                                    {if $content->play_btn != '' }<div class="muvi_play-btn-wrap">{$content->play_btn}</div> {else}<a class="muvi_c-overlay-wrapper" href="{$this->base_url}/{$content->permalink}"></a>{/if}
+                                    {/if}
+                                    {/if}
+                                    {/if}
+                                    {if $content->content_types_id== 3}
+                                    <button type="button" value="{$content->movie_id}" onclick="showSeasonWatch('{$content->movie_id}','{$content->title|utf8_decode}')" id="explore" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square explore" >{$this->Language['explore']}</button>
+                                    {/if}
+                                </div>
+                            </div>
+                                <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center"><img class="muvi_list-poster" src="{$content->poster}" /></div>
+                            </div>
+                            <div class="muvi_c-info">
+                                <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                    <a href="{$this->base_url}/{$content->permalink}">{$content->title|utf8_decode}</a>
+                                </p>
+                                {if $content->genres|@count > 0}
+                                <p class="muvi_caption_genre muvi_c-font-16">
+                                    {$genre_count = $content->genres|count}
+                                    {$j=0}
+                                    {foreach from=$content->genres item=genre}
+                                    {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                                </p>
+                                {/if}                        
+                            </div>                     
+                        </div>
+                    </div> 
+                {/foreach}
+                </div>
+                {else}
+                <div class="col-sm-12 muvi_top10">
+                    <div class="nocontent">
+                        {$this->Language['no_content_have_been_added']}
+                    </div>
+                </div>
+                {/if}
+                <div class="loader" id="loader"></div>    
+            </div>
+            {if $item_count > $page_size}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                            {$pagination}
+                        </nav>                        
+                    </div>
+                </div>
+            </div> 
+            {/if}
+    
+</div>
+</div>
+<div class="modal fade" id="muvi_watchModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headermodal">{$this->Language['clear_watch_history']}?</span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" autocomplete="false" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span id="bodymodal">{$this->Language['action_watch_history']}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:void(0);" id="muvi_clear_watch_history" class="btn btn-default">{$this->Language['yes']}</a>
+                        <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="muvi_seasonModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog" style="width: 90%!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headertitel"></span></h4>
+            </div>
+            <div class="modal-body" style="height: 400px; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-sm-6  c-font-uppercase c-font-bold">
+                         {$this->Language['episodes']} 
+                    </div>
+                    <div class="col-sm-3">
+                        <h3 class="c-font-uppercase c-font-bold text-right text-left-xs season-dropdown_title">                                    
+                            {$this->Language['season']}                                
+                        </h3>
+                    </div>
+                    <div class="col-sm-3" id="muvi_seasons"></div>
+                </div>
+                <div class="row relative">
+                    <!--To list episodes-->
+                    <input type="hidden" name="content_id" id="content_id"/>
+                    <input type="hidden" name="default_series" id="default_series"/>
+                    <input type="hidden" name="userid" id="userid" value="{Yii::app()->user->id}" />
+                    <div id="episodes" class="cust-row"></div>
+                    <div class="loader" id="loader_episode" style="display: none;"><div class="muvi_dot1"></div><div class="muvi_dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{literal}
+<script>
+    $(document).ready(function () {
+       watchHistoryLoad();
+    });
+</script>
+{/literal}

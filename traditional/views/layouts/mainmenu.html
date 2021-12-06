@@ -1,0 +1,102 @@
+<header class="classic">
+<div class="container"> 
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand logo_image" href="{$this->base_url}"><img src="{$this->siteLogo}" alt="{$this->studio->name}"></a> </div>
+            <div id="navbar" class="navbar-collapse collapse ">
+                <ul class="nav navbar-nav muvi_left-menu-margin muvi_main_menu">
+                    {if $this->mainmenu|@count > 0}                        
+                        {foreach from=$this->mainmenu key=key item=mitem}  
+                        {assign var=val value=$val+1}
+                        <li {if $mitem['children']|@count > 0}class="muvi_c-menu-type-classic"{/if}><a href="{if $mitem['permalink'] == '#'}javascript:void(0);{else}{$mitem['permalink']}{/if}" id="menu-{$val}" {if $mitem['link_type'] == 2} target="_blank"{/if} class="{$mitem['class']} muvi_c-link dropdown-toggle">{$mitem['title']} {if $mitem['children']|@count > 0}<span class="caret"></span>{/if}</a>
+                            {if $mitem['children']|@count > 0}
+                            <ul class="dropdown-menu">
+                                {foreach from=$mitem['children'] key=key item=mcitem}
+                                <li><a href="{$mcitem['permalink']}" id="menu-{$val}"  {if $mcitem['link_type'] == 2} target="_blank"{/if}>{$mcitem['title']}</a></li>
+                                {/foreach}
+                </ul>
+                            {/if}
+                        </li>
+                        {/foreach}
+                        {/if}
+                </ul>
+                <ul class="nav navbar-nav search navbar-right">
+                    <li class="muvi_searchSec muvi_top10 ">
+                        <form role="search" method="get" id="search-form" class="form-inline m-b-0" onsubmit="return validate_search();" action="{$this->base_url}/search/show_all">
+                            <div class="form-group">
+                                <label class="sr-only" for="search">{$this->Language['text_search_placeholder']}</label>
+                                <div class="input-group">
+                                    <input class="form-control ui-autocomplete-input" name="search_field" id="siteSearch" placeholder="{$this->Language['text_search_placeholder']}" autocomplete="off" type="text">
+                                     <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                    {if Yii::app()->general->getStoreLink()}
+                    <li class="cart_icon_parent">
+                        <a href="{$this->base_url}/shop/cart">
+                            <i class="icon-handbag muvi_c-cart-icon"></i>
+                            <div id="round-cart">{if $smarty.session.totalqnt}
+                                {$smarty.session.totalqnt}
+                                {else}
+                                0
+                                {/if}</div>
+                        </a>
+                    </li>
+                    {/if}
+                    <li class="user"> 
+                        <ul class="nav navbar-nav navbar-right user_menu">
+                            <div class="user-menu usermenu">
+                                {$this->user_menu|json_decode}
+                            </div>
+                        </ul>
+                    </li>
+                    {$language_code = $this->language_code}
+
+                    {$totallang =$this->enable_laguages|count}
+                    {if $totallang > 1} 
+                    {$studio_languages = $this->enable_laguages}  <li><a href="#" rel="popover" data-popover-content="#myPopover" data-placement="bottom" class="language-list"><i class="fa fa-language" aria-hidden="true"></i></a></li>{/if} 
+                    <!--0016219: User Notification feature (For all Template) R1 start-->
+                    {if $this->user_id}
+                    <li class="cart_icon_parent">
+                        <a class="usernotification_bell">
+                            <i class="fa fa-bell-o"></i>
+                            <div class="count_new_notification">{$this->count_new_notification}</div>
+                        </a>
+                        <input type="hidden" id="notification_userid" name="notification_userid" value="{$this->user_id}">
+                    </li>
+                    {/if}
+                    <!--0016219: User Notification feature (For all Template) R1 end-->
+                    <div id="myPopover" class="hide">
+                        <ul>
+                            {foreach from=$studio_languages key=key item=value}
+                            {if $value['status'] != 0} 
+                            <li value="{$value['code']}" class="{if $language_code == $value['code']}active{/if}" onclick="changeLang('{$value['code']}')">{$value['name']} </li>
+                            {elseif $value['code'] == "en"}
+                            <li value="{$value['code']}" class="{if $language_code == $value['code']}active{/if}" onclick="changeLang('{$value['code']}')">
+                                {$value['name']}
+                            </li>
+                            {/if} 
+                            {/foreach}
+                        </ul>
+                    </div>     
+                </ul>
+            </div>
+            <!--/.nav-collapse --> 
+        </div>
+        <!--/.container-fluid --> 
+    </nav>
+</div>
+<!-- /container -->
+</header>
+
+<script>
+$(function(){
+layoutsMainmenuLoad();
+});
+</script>

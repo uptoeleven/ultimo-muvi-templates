@@ -1,0 +1,235 @@
+<style>
+    #drop-menu {
+        margin-left: 0px;   
+        position: absolute;
+        top: 20px;
+        left: 60px;
+    }
+    .dropfont {
+        color: #000000;
+        font-size: 13px;  
+        right: 14px;
+    }
+
+</style>
+<div class="container">
+    {if $searchfilter['content_sort']!= 0 || ($searchfilter['content_filters']!= "")}
+           
+    <div class="row top20">
+        
+        <div class="col-lg-3 top-"><h2 class=""> {$category->title|utf8_decode}</h2></div>
+
+        <div class="col-lg-6 fltdrpdown pull-right">
+            <div id="loginContainer ">
+
+                <a href="#" id="loginButton" style="width:100px;"><img src="{$this->siteurl}/images/Filter_icon.png" class="pull-left top10 left10" width="15"><span> {$this->Language['filter']}</span> <em></em></a>
+
+                {if $searchfilter['content_filters'] != "" &&  $searchfilter['content_sort'] != 0}  
+                <div id="loginBox" class="opacity-new opacity-new col-lg-12">
+                    <form action="{$this->base_url}/{$category->permalink}" method="get" name="listingSearch" id="filterFormPopup">
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                        <!--<form id="filterFormPopup">-->
+                        <fieldset id="body">
+                            <fieldset>
+                                <div class="row text-black">
+                                    {if $searchfilter['content_filters'] != ""}
+                                    <div class="col-xs-6">
+                                        <label class="text-black">{$this->Language['filter_by']}</label>
+                                        {if $searchfilter['content_filters'] & 1}
+                                        <div class="nav nav-pills">
+                                            <li class="dropdown">
+                                                <a class="dropfont" role="button">{$this->Language['filter_category']}</a>
+                                                <ul class="dropdown-menu" id="drop-menu" role="menu" aria-labelledby="drop1">
+                                                    {assign var=ctgcounter value=0}
+                                                    {foreach from=$con_cat key="conkey" item="conitem"}
+                                                    <div class="col-md-12">
+                                                        <li><label class="c-title c-font-16 c-weight-300"> <input id="ischkd{$ctgcounter}" type="checkbox" data-id="{$conkey}" value="{$conkey}" onclick="getsearchlist(this)" {if in_array($conkey,$selected_catg)} checked="checked" {/if}> {$conitem|upper}</label></li>
+                                                    </div>
+                                                    {/foreach}
+                                                </ul>
+                                            </li>
+                                        </div>
+                                        {/if}                      
+                                        {if $searchfilter['content_filters'] & 2}
+                                        <div class="nav nav-pills"> 
+                                            <li class="dropdown">
+                                                <a class="dropfont" role="button">{$this->Language['filter_genre']}</a>
+                                                <ul class="dropdown-menu" id="drop-menu" role="menu" aria-labelledby="drop2">
+                                                    {assign var=gnrcounter value=0}
+                                                    {foreach from=$genres item=genre} 
+                                                    <div class="col-md-12">
+                                                        <li><label class="c-title c-font-16 c-weight-300">  <input id="ischkd{$gnrcounter}" type="checkbox" class="genre"  data-id="{$genre}" value="{$genre}" onclick="getsortlist(this)" {if in_array($genre,$selected_genres)} checked="checked" {/if}> {$genre}</label></li>
+                                                    </div>{/foreach} 
+                                                </ul>
+                                            </li>
+                                        </div>
+                                        {/if}  
+                                    </div>
+                                    {/if}
+                                    {if $searchfilter['content_sort'] != 0}
+                                    <div class="col-xs-6">
+                                        <label for="sort" class="text-black">{$this->Language['sort_by']}</label> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'lastupload'} sortby_active {/if}" onclick="sortby('lastupload');">{$this->Language['sort_last_uploaded']}</span> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'releasedate'} sortby_active {/if}" onclick="sortby('releasedate');">{$this->Language['sort_release_date']}</span> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'sortasc'} sortby_active {/if}" onclick="sortby('sortasc');">{$this->Language['sort_alpha_a_z']}</span> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'sortdesc'} sortby_active {/if}" onclick="sortby('sortdesc');">{$this->Language['sort_alpha_z_a']}</span>
+                                    </div>
+                                    {/if}
+                                    <div style="clear:both"></div>
+                                </div>
+                            </fieldset>
+
+                        </fieldset>
+                    </form>
+                </div>
+                {/if}
+                {if $searchfilter['content_filters'] != "" && $searchfilter['content_sort'] == 0}
+                <div id="loginBox" class="opacity-new opacity-new col-lg-12 _small">
+                    <form action="{$this->base_url}/{$category->permalink}" method="get" name="listingSearch" id="filterFormPopup">
+                        <fieldset id="body">
+                            <fieldset>
+                                <div class="row text-black">
+                                    <div class="col-xs-12">
+                                        <label class="text-black">{$this->Language['filter_by']}</label>
+                                        {if $searchfilter['content_filters'] & 1}
+                                        <div class="nav nav-pills">
+                                            <li class="dropdown">
+                                                <a class="dropfont" role="button">Category</a>
+                                                <ul class="dropdown-menu" id="drop-menu" role="menu" aria-labelledby="drop1">
+                                                    {assign var=ctgcounter value=0}
+                                                    {foreach from=$con_cat item=concat}
+                                                    <div class="col-md-12">
+                                                        <li><label class="c-title c-font-16 c-weight-300"> <input id="ischkd{$ctgcounter}" type="checkbox" data-id="{$concat}" value="{$concat}" onclick="getsearchlist(this)" {if in_array($concat,$selected_catg)} checked="checked" {/if}> {$concat|upper}</label></li>
+                                                    </div>{/foreach} 
+                                                </ul>
+                                            </li>
+                                        </div>
+                                        {/if}                      
+
+                                        {if $searchfilter['content_filters'] & 2}
+                                        <div class="nav nav-pills"> 
+                                            <li class="dropdown">
+                                                <a class="dropfont" role="button">Genre</a>
+                                                <ul class="dropdown-menu" id="drop-menu" role="menu" aria-labelledby="drop2">
+                                                    {assign var=gnrcounter value=0}
+                                            {foreach from=$genres item=genre}
+                                                    <div class="col-md-12">
+                                                        <li><label class="c-title c-font-16 c-weight-300">  <input id="ischkd{$gnrcounter}" type="checkbox" class="genre"  data-id="{$genre}" value="{$genre}" onclick="getsortlist(this)" {if in_array($genre,$selected_genres)} checked="checked" {/if}> {$genre}</label></li>
+                                                    </div>{/foreach} 
+                                        </ul>
+                                            </li>
+                                        </div>
+                                        {/if}  
+                                    </div>
+  
+                                    <div style="clear:both"></div>
+                                </div>
+                            </fieldset>
+                             
+                        </fieldset>
+                    </form>
+                                    </div>
+                {/if}
+                {if $searchfilter['content_sort'] != 0 && $searchfilter['content_filters'] == ""}
+                <div id="loginBox" class="opacity-new opacity-new col-lg-12 _small">
+                    <form action="{$this->base_url}/{$category->permalink}" method="get" name="listingSearch" id="filterFormPopup">
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                        <fieldset id="body">
+                            <fieldset>
+                                <div class="row text-black">
+                                    <div class="col-xs-12">
+                                        <label for="sort" class="text-black">{$this->Language['sort_by']}</label> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'lastupload'} sortby_active {/if}" onclick="sortby('lastupload');">{$this->Language['sort_last_uploaded']}</span> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'releasedate'} sortby_active {/if}" onclick="sortby('releasedate');">{$this->Language['sort_release_date']}</span> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'sortasc'} sortby_active {/if}" onclick="sortby('sortasc');">{$this->Language['sort_alpha_a_z']}</span> <br />
+                                        <span class="sortby {if $smarty.get.orderby == 'sortdesc'} sortby_active {/if}" onclick="sortby('sortdesc');">{$this->Language['sort_alpha_z_a']}</span>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+                            </fieldset>
+
+                        </fieldset>
+                    </form>
+                </div>
+                {/if}
+            </div>
+        </div>
+
+    </div>
+    {/if}
+</div>
+
+<div class="single-product-area top50 css_pad">
+    <div class="container">
+
+        <div class="row">
+
+            {if $item_count > 0}
+            {include file='../layouts/listitem.html'}
+            {/if}
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-right">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+ 
+$(window).bind("load", function() {
+    $(".thumblist").matchHeight();
+	$(".popup_content .title").matchHeight();
+	$(".moviename").matchHeight();
+	$(".title").matchHeight();
+	$.fn.matchHeight._update();    
+});
+    $(document).ready(function () {
+        $('.nav .dropdown').hover(function () {
+            $(this).addClass('open');
+        }, function () {
+            $(this).removeClass('open');
+        });
+    });
+    //Upasana ER 27448
+   function listLike(obj){
+		var _this = $(obj);
+        var movie_id = $(obj).attr('data-movie_id');
+        var is_like = $(obj).attr('data-is_like');
+        var like_status = is_like=='1' ? 0 : 1;
+       $.ajax({
+       url: HTTP_ROOT+"/like/likes",
+       type: 'POST', 
+       data: { content_id: movie_id, like_status:is_like},
+       dataType: 'json',
+       success: function (data, status, xhr) {
+           if(data.result == 'login'){
+            if ($("#loginModal").length > 0) {
+                $("#loginModal").modal('show');
+                $('#loader').hide();
+                $("#loginModal .modal-header h4").html('Please login to Like this Content');
+            }else{
+                location.reload();
+            }
+        }else{
+            $('#like_'+movie_id).html(data.get_likes);
+			_this.attr('data-is_like', like_status);
+           if(like_status == 1){
+                _this.children("span.fa-thumbs-up ").css('color', '#32c5d2');
+           }else{
+                _this.children("span.fa-thumbs-up ").css('color', '#ffffff');              
+           }
+        }
+       },
+       error: function (jqXhr, textStatus, errorMessage) {               
+       }
+    });
+   }
+</script>

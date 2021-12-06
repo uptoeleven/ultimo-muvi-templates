@@ -1,0 +1,340 @@
+   
+.bs-slider{
+    position: relative;
+    max-height: 100%;
+    background: #000000;
+}
+.bs-slider:hover {
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+.bs-slider:active {
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+.bs-slider .bs-slider-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+.bs-slider > .carousel-inner > .item > img,
+.bs-slider > .carousel-inner > .item > a > img {
+    margin: auto;
+    width: 100% !important;
+}
+
+/********************
+*****Slide effect
+**********************/
+
+.bs-slider .fade {
+    opacity: 1;
+}
+.bs-slider .fade .item {
+    top: 0;
+    z-index: 1;
+    opacity: 0;
+    width: 100%;
+    position: absolute;
+    left: 0 !important;
+    display: block !important;
+    -webkit-transition: opacity ease-in-out 1s;
+    -moz-transition: opacity ease-in-out 1s;
+    -ms-transition: opacity ease-in-out 1s;
+    -o-transition: opacity ease-in-out 1s;
+    transition: opacity ease-in-out 1s;
+}
+.bs-slider .fade .item:first-child {
+    top: auto;
+    position: relative;
+}
+.bs-slider .fade .item.active {
+    opacity: 1;
+    z-index: 2;
+    -webkit-transition: opacity ease-in-out 1s;
+    -moz-transition: opacity ease-in-out 1s;
+    -ms-transition: opacity ease-in-out 1s;
+    -o-transition: opacity ease-in-out 1s;
+    transition: opacity ease-in-out 1s;
+}
+
+
+
+
+
+
+/*---------- LEFT/RIGHT ROUND CONTROL ----------*/
+.control-round .carousel-control {
+    top: 47%;
+    opacity: 1;
+    width: 45px;
+    height: 45px;
+    z-index: 100;
+    color: #ffffff;
+    display: block;
+    font-size: 24px;
+    cursor: pointer;
+    overflow: hidden;
+    line-height: 43px;
+    text-shadow: none;
+    position: absolute;
+    font-weight: normal;
+    background: transparent;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+}
+.control-round:hover .carousel-control{
+    opacity: 1;
+}
+.control-round .carousel-control.left {
+    left: 1%;
+}
+.control-round .carousel-control.right {
+    right: 1%;
+}
+.control-round .carousel-control.left:hover,
+.control-round .carousel-control.right:hover{
+    color: #fdfdfd;
+    background: rgba(0, 0, 0, 0.5);
+    border: 0px transparent;
+}
+.control-round .carousel-control.left>span:nth-child(1){
+    left: 45%;
+}
+.control-round .carousel-control.right>span:nth-child(1){
+    right: 45%;
+}
+
+
+/*---------- SLIDE CAPTION ----------*/
+.slide_style_left {
+    text-align: left !important;
+}
+.slide_style_right {
+    text-align: right !important;
+}
+.slide_style_center {
+    text-align: center !important;
+}
+/*16196 : In banner editor section in homepage, activating the join now button in cms does not activate that button in front end <sanjib>*/
+.slide-text {
+    left: 0;
+    /*bottom: 8%;*/
+    right: 0;
+    top:42%;
+    margin: auto;
+    padding: 10px;
+    position: absolute;
+    text-align: left;
+    padding: 21px 71px;
+    pointer-events: none;
+    
+}
+.slide-text *{
+    pointer-events: all;
+}
+
+.slide-text > .bnr-text-large {
+    padding: 0;
+    color: #ffffff;
+    font-size: 30px;
+    font-style: normal;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    display: inline-block;
+    -webkit-animation-delay: 0.7s;
+    animation-delay: 0.7s;
+}
+.slide-text > .bnr-text-small {
+    padding: 0;
+    color: #ffffff;
+    font-size: 14px;
+    font-style: normal;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    display: inline-block;
+    -webkit-animation-delay: 0.7s;
+    animation-delay: 0.7s;
+}
+.slide-text > a:hover,
+.slide-text > a:active {
+    color: #ffffff;
+	background: #4da30c;
+	border-color: #4da30c;
+    -webkit-transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
+    transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+.slide-text > a.bannerBtn:hover, .slide-text > a.bannerBtn:active{
+	background : #2abc99 none repeat scroll 0 0;
+	color : #ffffff;
+}
+
+
+
+
+
+
+/*------------------------------------------------------*/
+/* RESPONSIVE
+/*------------------------------------------------------*/
+
+@media (max-width: 991px) {
+    .slide-text .bnr-text-large {
+        font-size: 20px;
+        line-height: 20px;
+        margin-bottom: 20px;
+    }
+    .slide-text > p {
+
+        font-size: 18px;
+    }
+}
+
+
+/*---------- MEDIA 480px ----------*/
+@media  (max-width: 768px) {
+    .slide-text {
+        padding: 54px 75px;
+top:20%;
+    }
+    .slide-text .bnr-text-large {
+        font-size: 20px;
+        line-height: 40px;
+        margin-bottom: 10px;
+    }
+    .slide-text > p {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 20px;
+    }
+
+}
+@media  (max-width: 480px) {
+    .slide-text {
+        padding: 47px 48px;
+top:0%;
+    }
+    .slide-text .bnr-text-large {
+        font-size: 16px;
+        line-height: 25px;
+        margin-bottom: 5px;
+    }
+    .slide-text > p {
+        font-size: 12px;
+        line-height: 18px;
+        margin-bottom: 10px;
+    }
+    .slide-text > a.btn-default, 
+    .slide-text > a.btn-primary {
+        font-size: 10px;
+        line-height: 10px;
+        margin-right: 10px;
+        text-align: center;
+        padding: 10px 15px;
+    }
+    .indicators-line > .carousel-indicators{
+        display: none;
+    }
+
+}
+.navbar-wrapper{
+    position:relative !important;
+}
+
+.slide_advance{
+    height:100% !important;
+    top:8% !important;
+}
+  #background {
+    object-fit: cover;
+    }
+    .bannerBtn{
+    font-size: 14px;
+    color: #ffffff !important;
+    font-size: 24px;
+    position: absolute;
+    z-index: 999;
+    }
+      .bannerBtn {
+    background-color: #2abc99;
+    border-radius: 5px;
+    color: #ffffff !important;
+    font-size: 23px;
+    font-weight: 400;
+    padding: 6px;
+    }
+    .butn-banner-mute{
+    position: absolute;
+    bottom: 5px;
+    right: 4%;
+    height: 40px;
+    width:40px;
+    background: rgba(255,255,255,0.3);
+    cursor:pointer;
+    z-index:1;
+    border-radius:50%;
+    opacity:0;
+    transition:all 0.3s ease-in-out;
+    -moz-transition:all 0.3s ease-in-out;
+    -webkit-transition:all 0.3s ease-in-out;
+    -o-transition:all 0.3s ease-in-out;
+    color:#000;
+    line-height:40px;
+    font-size:22px;
+}
+.butn-banner-mute i._on{
+    display:none;
+}
+.butn-banner-mute._on i{
+    display:none;
+}
+.butn-banner-mute._on i._on{
+    display:inline-block;
+}
+.item:hover .butn-banner-mute{
+    opacity:0.7;
+}
+.item:hover .butn-banner-mute:hover{
+    opacity:1 ;
+}
+.active a{
+     color : #ffffff;
+}
+
+
+@media(min-width: 600px) and (max-width : 1020px){
+   .slide-text > .bnr-text-small {
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+.slide-text .bnr-text-large {
+    font-size: 17px;
+    line-height: 26px;
+    margin-bottom: 10px;
+}
+.c-btn-uppercase.btn-lg {
+    font-size: 10px;
+    padding: 7px 21px 6px 15px;
+}
+.slide-text {
+    padding: 32px 75px;
+    top: 13%;
+}
+}
+
+@media (max-width : 420px){
+	.slide-text {
+    padding: 0 50px;
+}
+.slide-text .bnr-text-large {
+    font-size: 11px;
+    line-height: 18px;
+    margin-bottom: 1px;
+}
+.slide-text > .bnr-text-small {
+    font-size: 7px;
+}
+}

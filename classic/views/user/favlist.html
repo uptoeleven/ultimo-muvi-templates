@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="row top20">
+        <div class="col-lg-3 top-"><h2 class="">{$this->Language['my_favourite']}</h2></div>
+    </div>
+</div>
+        
+
+
+<div class="single-product-area top50">
+    <div class="container">
+
+        <div class="row">
+            {if $item_count > 0}
+                {foreach from=$contents|json_decode item=content}
+               
+                <div class="col-sm-3">
+                    <div class="thumbnail listpos thumblist">
+                        <div class=""></div>
+                        <div class="caption">
+                            {$content->play_btn}
+                        </div>                                    
+                        <a href="{$this->base_url}/{$content->permalink}">
+                            <img src="{$content->poster}" alt="{$content->title|utf8_decode}" class="img-tshow lazy">
+                        </a>
+                        <div class="overtext popup_content">
+                            <div class="arrow"></div>
+                            <div class="ptitle caps"><a href="#">{$content->title|utf8_decode}</a></div>
+                            <div class="stripe col-md-12">
+                                <div class="col-md-8">
+                                    {foreach from=$content->genres item=genre}
+                                    <span class="genre_list">{$genre}<span>, </span> </span> 
+                                    {/foreach} 
+                                </div> 
+                                <div class="span4 text-right">{$content->release_date}</div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="ptext">
+                                <p>{$content->short_story|utf8_decode}</p> 
+                            </div>
+                            <div class="clear"></div>
+                            {if $content->casts->actors|count > 0}
+                            <div class="popup-cast">
+                                <div class="span12 row-fluid">
+                                    <div class="cast-heading span4">{$this->Language['cast']}</div>
+                                </div>
+                                <div class="cast-body">
+                                    {$actors = $content->casts->actors}
+                                    {foreach from=$actors item=actor}
+                                    <span class="caps"><a href="{$actor->full_permalink}" >{$actor->celeb_name}</a></span>,      
+                                    {/foreach}   
+                                </div>
+                            </div>
+                            {/if}
+                        </div>                                   
+                    </div>                        
+                    <div class="title">
+                        <a href="{$this->base_url}/{$content->permalink}">
+                            <h3 class="moviename">{$content->title|utf8_decode}</h3>
+                        </a>
+                    </div>
+                    <a href="javascript:void(0);"><div class="delete-fab" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}"><i class="fa fa-trash-o" aria-hidden="true"></i></div></a>
+                </div>
+                
+                {/foreach}
+            {else}
+            <div class="col-sm-12 top10">
+                <div class="nocontent">
+                    {$this->Language['no_content_added_yet']}
+                </div>
+            </div>
+            {/if}
+            <div class="loader" id="loader"></div>    
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-right">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

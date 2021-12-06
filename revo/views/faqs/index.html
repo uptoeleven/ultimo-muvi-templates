@@ -1,0 +1,32 @@
+
+<script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/search.js"></script>
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['faq']}</h2>
+
+            <div class="search-area row">
+                <div class="col-sm-6" style="margin-top:20px;">
+                    <div class="input-group">
+                        <input type="text" name="search" id="search" placeholder="{$this->Language['what_are_you_searching']}"  class="form-control c-square c-theme" />
+                        <span class="input-group-addon" style="border-radius:0;"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group loader" style="display:none;">
+           
+            </div>
+            <div class="row faq_data back">
+                {foreach from=$data|json_decode item=content}
+                <div class="col-md-12">
+                    <h3 class="heading"><a href="javascript:void(0);" class="showmore" data-id="{$content->faq_id}">{$content->title}</a></h3>
+                    {if $content->content_length > 500}
+                    <div class="short_desc">{$content->short_content}...<a href="javascript:void(0);" class="showmore" data-id="{$content->faq_id}">{$this->Language['view_more']}</a></div>
+                    {else}
+                    <div class="short_desc">{$content->short_content}</div>
+                    {/if}
+                </div>
+                {/foreach}
+            </div>
+
+     </div>
+</div>

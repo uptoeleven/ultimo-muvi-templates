@@ -1,0 +1,148 @@
+
+<div class="muvi_product-big-title-area">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['my_library']}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-product-area muvi_content-area listPage">
+    <div class="container">
+	  <div class="row">
+	   {assign var="total_purchase" value=$library|@count}
+	   {foreach from=$library item=purchase}
+            {if ($purchase['is_media_published'] && (!$purchase['parent_publish_status'] || !$purchase['publish_status'])) || ($purchase['is_media_available'] == 1 && ($purchase['parent_publish_status'] || $purchase['publish_status']))} 
+	  <div class="col-md-3 col-sm-6 muvi_c-margin-b-20">
+                    <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                        <div class="muvi_c-content-overlay">
+                            <div class="muvi_c-overlay-wrapper">
+                                <div class="muvi_c-overlay-content">
+									{if $purchase['is_play'] == 1 && $purchase['content_livestream_status']==0}<a href="{$purchase['baseurl']}" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase playbtn">{$this->Language['play_now']}</a>{/if}<!--22332-->
+                                                                        {if $purchase['is_play'] == 1 && $purchase['content_livestream_status']==1}<a style="cursor: default;" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase playbtn">{$this->Language['stream_offline']}</a>{/if}<!--22332-->
+                                    {if $purchase['is_play'] == 0}
+                                    <button type="button" onclick="showSeason('{$purchase['movie_id']}','{$purchase['movie_name']|utf8_decode}','{$purchase['permalink']|utf8_decode}')" id="explore" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square explore" >{$this->Language['explore']}</button>
+                                    {/if}
+                                   </div>
+                             </div>
+                            <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center"><img class="muvi_list-poster" src="{$purchase['poster']}" alt="{$purchase['movie_name']}" title="{$purchase['movie_name']}" /></div>
+                        </div>
+                        <div class="muvi_c-info">
+                            <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                <a href="{$purchase['baseurl_for_details']}">{$purchase['movie_name']}</a>
+                            </p>
+							{$genre_count = $purchase['genres']|count}
+                            {if $genre_count|@count > 0}
+                            <p class="muvi_caption_genre muvi_c-font-16">
+                                {$j=0}
+                                {foreach from=$purchase['genres'] item=genre}
+                                {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                            </p>
+                            {/if}                        
+                        </div>                     
+                    </div>
+                </div>
+            {/if}
+				{/foreach}
+       {foreach from=$pplibrary item=purchase}
+       {if ($purchase['is_media_published'] && (!$purchase['parent_publish_status'] || !$purchase['publish_status'])) || ($purchase['is_media_available'] == 1 && ($purchase['parent_publish_status'] || $purchase['publish_status']))} 
+	  <div class="col-md-3 col-sm-6 muvi_c-margin-b-20">
+                    <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                        <div class="muvi_c-content-overlay">
+                            <div class="muvi_c-overlay-wrapper">
+                                <div class="muvi_c-overlay-content">
+                                    {if $purchase['is_play'] == 1 && $purchase['content_livestream_status']==0}<a href="{$purchase['baseurl']}" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase playbtn">{$this->Language['play_now']}</a>{/if}<!--22332-->
+                                    {if $purchase['is_play'] == 1 && $purchase['content_livestream_status']==1}<a style="cursor: default;" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase playbtn">{$this->Language['stream_offline']}</a>{/if}<!--22332-->
+                                    {if $purchase['is_play'] == 0}
+                                    <button type="button" onclick="showSeason('{$purchase['movie_id']}','{$purchase['movie_name']|utf8_decode}','{$purchase['permalink']|utf8_decode}')" id="explore" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square explore" >{$this->Language['explore']}</button>
+                                    {/if}
+                                   </div>
+                             </div>
+                            <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center"><img class="muvi_list-poster" src="{$purchase['poster']}" alt="{$purchase['movie_name']}" title="{$purchase['movie_name']}" /></div>
+                        </div>
+                        <div class="muvi_c-info">
+                            <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                <a href="{$purchase['baseurl_for_details']}">{$purchase['movie_name']}</a>
+                            </p>
+							{$genre_count = $purchase['genres']|count}
+                            {if $genre_count|@count > 0}
+                            <p class="muvi_caption_genre muvi_c-font-16">
+                                {$j=0}
+                                {foreach from=$purchase['genres'] item=genre}
+                                {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                            </p>
+                            {/if}                        
+                        </div>                     
+                    </div>
+                </div>
+                {/if}
+				{/foreach}
+{foreach from=$freecontent item=purchase}
+	  <div class="col-md-3 col-sm-6 muvi_c-margin-b-20">
+                    <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                        <div class="muvi_c-content-overlay">
+                            <div class="muvi_c-overlay-wrapper">
+                                <div class="muvi_c-overlay-content">
+                                   {if $purchase['is_play'] == 1 && $purchase['content_livestream_status']==0}<a href="{$purchase['baseurl']}" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase playbtn">{$this->Language['play_now']}</a>{/if}<!--22332-->
+                                   {if $purchase['is_play'] == 1 && $purchase['content_livestream_status']==1}<a style="cursor: default;" class="btn c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase playbtn">{$this->Language['stream_offline']}</a>{/if}<!--22332-->
+                                   {if $purchase['is_play'] == 0}
+                                   <button type="button" onclick="showSeason('{$purchase['movie_id']}','{$purchase['movie_name']|utf8_decode}','{$purchase['permalink']|utf8_decode}')" id="explore" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square explore" >{$this->Language['explore']}</button>
+                                   {/if}
+                                   </div>
+                             </div>
+                            <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center"><img class="muvi_list-poster" src="{$purchase['poster']}" alt="{$purchase['movie_name']}" title="{$purchase['movie_name']}" /></div>
+                        </div>
+                        <div class="muvi_c-info">
+                            <p class="muvi_c-title muvi_c-font-18 muvi_c-font-slim">
+                                <a href="{$purchase['baseurl_for_details']}">{$purchase['movie_name']}</a>
+                            </p>
+							{$genre_count = $purchase['genres']|count}
+                            {if $genre_count|@count > 0}
+                            <p class="muvi_caption_genre muvi_c-font-16">
+                                {$j=0}
+                                {foreach from=$purchase['genres'] item=genre}
+                                {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                            </p>
+                            {/if}                        
+                        </div>                     
+                    </div>
+                </div>
+				{/foreach}
+		</div>
+	</div>
+	</div>
+<div class="modal fade" id="muvi_seasonModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog" style="width: 90%!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headertitel"></span></h4>
+            </div>
+            <div class="modal-body" style="height: 400px; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-sm-6  c-font-uppercase c-font-bold">
+                         {$this->Language['episodes']} 
+                    </div>
+                    <div class="col-sm-3">
+                        <h3 class="c-font-uppercase c-font-bold text-right text-left-xs season-dropdown_title">                                    
+                            {$this->Language['season']}                                
+                        </h3>
+                    </div>
+                    <div class="col-sm-3" id="muvi_seasons"></div>
+                </div>
+                <div class="row relative">
+                    <!--To list episodes-->
+                    <input type="hidden" name="content_id" id="content_id"/>
+                    <input type="hidden" name="permalink" id="permalink"/>
+                    <input type="hidden" name="default_series" id="default_series"/>
+                    <input type="hidden" name="userid" id="userid" value="{Yii::app()->user->id}" />
+                    <div id="episodes" class="cust-row"></div>
+                    <div class="loader" id="loader_episode" style="display: none;"><div class="muvi_dot1"></div><div class="muvi_dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

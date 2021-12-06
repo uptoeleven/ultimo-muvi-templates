@@ -1,0 +1,13 @@
+<div class="col-md-12">
+    <div class="row relative">
+        <form name="comment-form" id="commentform" method="post"> 
+            <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+            <div class="loader" id="comment_loader" style="display:none"></div>
+             <div class="clearfix"></div>
+            <h2 class="comment-icon">{$this->Language['comments']}</h2><br />
+            <div class="form-group"><textarea name="commentfield" id="commentfield" placeholder="{$this->Language['write_something_here']}"  rows="4" class="form-control input-xxxlarge"></textarea></div>
+            <div class="form-group"><button type="submit" class="btn btn-primary post-comment" data-content_id="{$content->movie_id}">{$this->Language['post_your_comment']}</button></div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>

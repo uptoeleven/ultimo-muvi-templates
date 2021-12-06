@@ -1,0 +1,49 @@
+<div class="single-product-area contact-form">
+    <div class="c-layout-page">
+        <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+            <div class="container">
+                <div class="muvi_c-page-title muvi_c-pull-left">
+                    <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['update_sub_user']}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="container muvi_content-area">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert-success alert-msg" id="success_message" style="display:none;"></div>
+                    <form name="EdituserForm" id="edituser_form" method="post" action="javascript:void(0);">
+                        <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+<!--                        <h4 class="c-font-uppercase muvi_c-font-sbold">UPDATE NEW USER</h4>-->
+                        <div class="form-group ">
+                            <label class="control-label" for="name">{$this->Language['text_name']} *</label>
+                            <div class="controls">
+                                <input type="text" required name="data[name]" id="name" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['text_name_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value="{$childusersDetails->display_name}"   autofocus />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="name">{$this->Language['email']} *</label>
+                            <div class="controls">
+                                <input type="email" title="{$this->Language['ensure_enter_email']}" name="data[email]"  id="email" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control c-square c-theme" value="{$childusersDetails->email}"  required readonly />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="controls text-right">
+                                <input type="hidden" name="enduser_id" value="{$childusersDetails->id}" id="enduser_id" >
+                                <button type="submit" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold" name="updateuser" id="adduser">{$this->Language['update']}</button>
+                            </div>
+                        </div>
+                        <div id="login-errors" class="error center"></div>
+                    </form>  
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+           
+{literal}
+<script type="text/javascript">
+    contactusLoad("{/literal}{$this->Language['text_message_placeholder']}{literal}");
+</script>  
+{/literal}
+    </div>
+</div>
