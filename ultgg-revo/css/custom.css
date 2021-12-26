@@ -1,0 +1,980 @@
+/*Social Logins */
+.social-icons {	margin: 0;padding: 0;}
+.social-icons:after,.social-icons:before {content: "";display: table;}
+.social-icons:after {clear: both;}
+.social-icons li {float: left;display: inline;list-style: none;margin-right: 5px;margin-bottom: 5px;text-indent: -9999px;background: #fff;}
+.social-icons li a,a.social-icon {width: 136px;height: 28px;display: block;background-position: 0 0;background-repeat: no-repeat;transition: all .3s ease-in-out;-o-transition: all .3s ease-in-out;		-ms-transition: all .3s ease-in-out;-moz-transition: all .3s ease-in-out;-webkit-transition: all .3s ease-in-out;}
+.social-icons li:hover a {background-position: 0 -38px;}
+
+.social-icons-color li a,.social-icons.invert li a,a.social-icon {background-position: 0 -38px!important;}
+.social-icons-color li a {opacity: .7;}
+.social-icons-color li a:hover {opacity: 1;}
+.social-icons.invert li:hover a {background-position: 0 0!important;}
+.social-icons .facebook {background: url(../images/facebook.png)no-repeat;}
+.social-icons .googleplus {background: url(../images/googleplus.png)no-repeat;}
+.social-icons .signupfacebook {background: url(../images/signupfacebook.png)no-repeat;width: 140px;}
+.social-icons .signupgoogleplus {background: url(../images/signupgoogleplus.png)no-repeat;width: 140px;}
+/*Social Logins end */
+  
+.item-wrap a>.delete-fab i {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    z-index: 800;
+    color: red;
+}
+.search-bar{
+    opacity: 0;
+    pointer-events: none;
+    transition:all 0.3s ease-in-out;
+    -moz-transition:all 0.3s ease-in-out;
+    -webkit-transition:all 0.3s ease-in-out;
+    -o-transition:all 0.3s ease-in-out;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right:0;
+    bottom: 0;
+    overflow: hidden;
+    background: #FFF;
+}
+header._search-on .search-bar{
+    opacity: 1;
+    pointer-events: all;
+} 
+.search-bar .container{
+    position: relative;
+    top: 50%;
+    margin-top: -17px;
+}
+
+.search-bar #search-form{
+    position: relative;
+    z-index: 100; 
+}
+.search-bar input.sitesearch {
+    width:100%;
+    font-size: 18px;
+    padding-left: 35px;
+    padding-right: 35px;
+    border:none;
+    box-shadow: none;
+}
+.search-bar input.sitesearch:hover,
+.search-bar input.sitesearch:focus {
+    border:none;
+    outline:none;
+    box-shadow: none;
+}
+.search-bar .search-icon { 
+    position: absolute;
+    width: 30px;
+    text-align: center;
+    left: 0;
+    top: 5px;
+    font-size: 22px;
+    z-index:1;
+}
+.search-bar .close-search {
+    position:absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    text-align: center;
+    font-size: 36px;
+    font-weight:500;
+    z-index:1;
+    line-height: 35px;
+    cursor: pointer;
+}
+.error{
+    color: red;
+}
+.item_playlist{
+    width: 55% !important;
+    color: #fff !important;
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+    background-color: transparent;
+}
+bootstrap.min.css:1
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background-color: transparent;
+}
+.navbar-default {
+    height: 65px;
+    padding: 5px 40px;
+}
+
+
+.navbar-nav > li:not(.pull-right) {
+    float: left;
+}
+.mt {
+    margin-top: -5px;
+}
+.btn:focus,
+.btn:active,
+button {
+    outline: 0 !important;
+}
+
+.btn {
+    
+}
+
+.as-btn-md {
+    min-width: 179px;
+    height: 40px;
+    padding:7px 12px;
+}
+.as-btn-accent {
+    border-color: #32c5d2;
+    color: #fff;
+    background: #32c5d2;
+	font-weight:600;
+	font-size:17px;
+}
+
+.as-btn-accent:hover {
+    color: #fff;
+    background: #1f9ea9;
+	border-color: #1f9ea9;
+}
+
+.as-btn-accent:focus,
+.btn-accent:active {
+    color: #fff;
+    background: #1f9ea9;
+}
+.as-btn-grey {
+    color: #707277;
+	border:2px solid #707277;
+	margin-right:20px;
+	font-weight:600;
+	font-size:17px;
+}
+
+.as-btn-grey:hover {
+    color: #fff;
+    background: #eb5d68;
+	border:2px solid #eb5d68;
+}
+
+.as-btn-grey:focus,
+.btn-grey:active {
+    color: #fff;
+    background: #eb5d68;
+	border:2px solid #eb5d68;
+}
+#generalInfoModal .modal-body {
+    padding:20px;
+    position: relative;
+}
+.modal-body {
+    position: relative;
+}
+
+.c-layout-header .c-cart-menu{
+z-index:9;
+}
+@media (max-width: 992px) {
+   .dropdown-menu::before{
+      display:none;
+   }
+}
+@media (max-width: 799px) {
+  #homepage_sections .slick-next{right:0}
+  #homepage_sections .slick-prev{left:0;}
+}
+.video-js {width:100% !important; height: 50%; padding-top: 48%;}
+.RDVideoHelper{display: none;}
+/*video::-webkit-media-controls {
+	display:none !important;
+}*/
+
+.modal-body {
+    position: relative;
+    max-height:450px;
+    overflow:auto;
+}
+.calender-modal .modal-body { 
+    overflow:visible;
+}
+.st2 {
+    fill: #7e7c8a;
+}
+
+@media (max-width:360px){
+
+.as-btn-grey {
+    margin-right:0px;
+}
+.as-btn-md {
+    min-width: 100%;
+    padding: 8px 17px;
+    margin-bottom: 10px;
+}
+}
+
+.c-layout-go2top{bottom:80px;}
+.payment_form{
+    background: #FFF;
+}
+
+.filter .mCustomScrollbar {
+    max-height: 350px;
+    width: 320px;
+    margin: 10px 0;
+}
+.filter .mCSB_inside > .mCSB_container{
+    margin-right: 15px;
+}
+.filter h3{
+    margin: 0 0 10px;
+    padding: 0;
+    font-size: 18px;
+}
+.filter .list-inline li{
+    display: block;
+}
+.filter .list-inline li label{
+    font-weight: normal;
+    cursour:pointer;
+}
+.filter .list-inline li label.sortby.sortby_active {
+    color:#32c5d2;
+}
+.filter .list-inline li label input[type="checkbox"]{
+    margin-right: 5px;
+}
+.filter-select-item ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.filter-select-item ul li{
+    margin: 0 2px 5px 2px;
+    padding: 2px 10px;
+    display: inline-block;
+    background: #32c5d2;
+    border-radius: 15px;
+    font-size: 14px;
+    color: #FFF;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-ransition: all 0.3s ease-in-out;
+}
+.filter-select-item ul li:hover{
+    opacity: 0.7;
+}
+.filter-select-item ul li span{
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 3px;
+    pointer-events: all;
+}
+.new_social{display:inline-block;}
+.social_login{padding:0}
+
+.social_login_new{display:inline-block;float:left;margin:0 15px 0 0;list-style:none;}
+/*#playlist-form{
+    min-height: 120px;
+}*/
+img.thumbnail.profilepic {
+    margin: 0 auto 20px;
+}
+.wordOverflow {
+    overflow-wrap: break-word;
+    -webkit-overflow-wrap: break-word;
+    -moz-overflow-wrap: break-word;
+    -o-overflow-wrap: break-word;
+    word-wrap: break-word;
+    -webkit-word-wrap: break-word;
+    -moz-word-wrap: break-word;
+    -o-word-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -o-hyphens: auto;
+}
+/*	0018355: Implement Advance Player in REVO Template[Nibedita Kar]start*/
+.bg-primary {
+    color: #fff;
+    background-color: #31383c;
+    padding:30px 0px;
+}
+.social-network-size{
+        font-size: 25px;
+         margin-top: 20px;
+        
+}
+.social-network-size a{
+    color: #fff;
+}
+.category-margin p{
+        margin-left: 3px;
+}
+
+.story-margin .category-margin{
+      padding-left: 0px;
+    padding-right: 0px;
+}
+ 
+.story-margin p{
+        margin: 14px 3px 10px;
+}
+
+.badge-padding{
+      padding: 9px 17px;
+      border-radius: 7px;
+      margin-left:3px;
+     
+}
+
+.c-info .c-title-margin{
+        margin: 5px 13px 10px;
+}
+.slick .slick-list .slick-track li{
+        outline:none;
+}
+/*	0018355: Implement Advance Player in REVO Template[Nibedita Kar]end*/
+body .item-list li .item-wrap .item-cover img._cover { width: 100%;}
+
+/*0018725: Generic|Volo|Responsive issue in the menu section start*/
+#myPopover_language{
+    width: 50%;
+    position: absolute;
+    left: 24%;
+    padding: 9px 14px;
+}
+#myPopover_language li {font-weight: 400;
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+}
+.open > .mob_arrow, .open > .mob_arrow:after{
+    display: block;
+}
+#myPopover_language:after{
+    top: -11px;
+    display: block;
+    content: " ";
+    border-top-width: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    left: 63px;
+    border-top-width: 0;
+    border-bottom-color: #ffffff;
+    border-width: 10px;
+    margin-top: -9px;
+    position: absolute;
+    z-index: 9999;
+}
+#myPopover_language:before{
+        border-top-width: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+    display: block;
+    content: ' ';
+    border-bottom-color: rgba(0,0,0,.25);
+    border-width: 11px;
+    position: absolute;
+    left: 42%;
+    z-index: 9999;
+    top: -22px;
+}
+#mob_language{ display: none;}
+@media (max-width: 991px) {
+#mob_language{ display: block;}
+#web_language{display: none;}
+}
+/*0018725: Generic|Volo|Responsive issue in the menu section end*/
+
+/*12046: Increasing width on implementing 3rd party video in blog page. (start)*/
+.blog-item p{
+   clear: both;
+}
+ /*12046: Increasing width on implementing 3rd party video in blog page. (end)*/
+/* css for login with comcast button
+18511:SAML 2.0 Integration in Muvi Platform
+*/
+.new_social li{
+    margin: 5px 15px 5px 0;
+    display: inline-block;
+}
+.new_social li a._custom{
+    display: block;
+    text-decoration: none;
+    color: #FFF;
+    background: #999;
+    padding: 1px;
+}
+.new_social li a._custom img{
+    display: inline-block;
+    vertical-align: middle;
+    height: 25px;
+    width:auto;
+}
+.new_social li a._custom span{
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 26px; //#40996
+}
+.new_social li a._custom._comcast{
+    background: #0076a8;
+}
+/* end here*/
+/*20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start*/
+.new_social li{
+     margin: 0 15px 0 0;
+     display: inline-block;
+ }
+ .new_social li a._customfb,.new_social li a._customgplus{
+     display: block;
+     text-decoration: none;
+     color: #FFF;
+     background: #999;
+     padding: 1px;
+ }
+ .new_social li a._customfb img, .new_social li a._customgplus img{
+     display: inline-block;
+     vertical-align: middle;
+     height: 26px;
+     width:auto;
+ }
+ .new_social li a._customfb span,.new_social li a._customgplus span{
+     display: inline-block;
+     padding: 0 10px;
+     font-size: 13px;
+     font-weight: bold;
+ }
+ .new_social li a._customfb._facebook{
+     background: #3b5998;
+ }
+ 
+ 
+ .new_social li a._customgplus img{
+     background: white; 
+ }
+
+ .new_social li a._customgplus._googleplus{
+     background: #0076a8;
+ }
+   .muvi_bottom50 ul li
+{
+    margin-bottom: 2%;
+}
+.new_social li
+{
+margin-bottom: 2%;
+}
+/*20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar End*/
+/* #19398: Follow/Unfollow by Chinu - Start */
+.count-followers{
+    color:#32c5d2;
+    font-weight:bold;
+    padding-right:5px;
+    font-size: 14px;
+}
+/* #19398: Follow/Unfollow by Chinu - End */
+
+/*20987:UI design same as the story for myplaylist page- start*/
+.muvi_play-list-table{
+    border: none;
+    padding: 0;
+}
+.muvi_play-list-table .panel{
+    margin: 0;
+    border-radius: 0;
+    border-bottom: 0;
+}
+
+.muvi_play-list-table .panel .panel-heading .table{
+    margin: 0;
+}
+.muvi_play-list-table .panel .table>thead>tr>th{
+    border:none;
+    /*width: 25%;*/
+    text-align: left;
+    padding: 0;
+}
+/*#20401: Playlist and Queue Feature for REVO and Modern Template- R1*/
+.muvi_play-list-table .panel .table>thead>tr>th:first-child{width: 5%;}
+.muvi_play-list-table .panel .table>thead>tr>th:nth-child(2){width: 3%;}
+.muvi_play-list-table .panel .table>thead>tr>th:nth-child(3){width: 52%;}
+.muvi_play-list-table .panel .table>thead>tr>th:nth-child(4){width: 30%;}
+.muvi_play-list-table .panel .table>thead>tr>th:last-child{
+    width: 10%;
+    text-align: right;
+}
+/*#20401: Playlist and Queue Feature for REVO and Modern Template- R1*/
+.muvi_play-list-table .panel-heading{
+    padding: 8px;
+    border-bottom: 0;
+}
+.muvi_play-list-table .table{margin: 0; padding: 0;}
+.muvi_play-list-table .table td{
+    border:none;
+    border-bottom: 1px solid #dedede;
+}
+.muvi_play-list-table .panel-body{
+    padding: 0 20px;
+}
+
+.muvi_play-list-table .inner-table td:nth-child(1){
+    width: 5%;
+}
+.muvi_play-list-table .inner-table td:nth-child(3){
+    width: 10%;
+    text-align: center;
+}
+.muvi_play-list-table .inner-table td:nth-child(2){
+    width: 85%;
+}
+.muvi_play-list-table .table-responsive{
+    border:none;
+}
+
+/*=============Revenue New Design Start Here #52109 ==================*/
+.revenue{ padding:0; margin: 0; width: 500px;}
+.revenue .title{ width: 100%; padding: 0; margin: 0; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 4px;} 
+.revenue .title h2{ font-size: 20px; line-height: 28px; font-weight: 700; color: #303049; padding: 5px 0 5px 23px; margin: 0;}
+.revenue .box{ width: 100%; padding: 10px 23px; margin: 15px 0 0 0; box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 4px;}
+.revenue .box .value{ display: inline-block; width: 200px; vertical-align: top;}
+.revenue .box .value p{ color: #303049; font-size: 14px; line-height: 20px; font-weight: 700; padding: 0; margin: 0;}
+.revenue .box .value span{ color: #303049; font-size: 32px; line-height: 40px; font-weight: 700;}
+.revenue .box .select-box{ display: inline-block; width: 245px; vertical-align: top;}
+.revenue .box .select-box select{ border: 1px solid #DBE1EA; border-radius: 4px; box-shadow: none; font-size: 12px; font-weight: 600;
+color: #7B8794;}
+
+.revenue-share-box {
+    margin-top: 60px;
+}
+.revenue-share-box #submissions-table {
+    margin-top: 20px;
+}
+.icon-position{ 
+    position: absolute;
+    top: 43px;
+    right:23px;
+}
+.followers-mum{
+    font-weight:700;
+    font-size: 1.3em;
+    padding: 10px 0 0 0;
+    margin: 0;
+}
+.followers-mum span{
+    color:#32c5d2;
+}
+.comiseo-daterangepicker-triggerbutton.ui-button{ height:47px; border-width: 2px;}
+/*====responsive design here============*/
+/*====responsive design here============*/
+@media(max-width:992px){
+   .revenue{ width: 100%;} 
+}
+@media(max-width:576px){
+    .revenue .box .value{ width: 100%;}
+    .revenue .box .select-box{ width: 100%; margin-top: 10px;}
+    .revenue .box{ padding: 20px 23px;}
+ }
+ /*  End #52109 */
+@media(max-width:640px){
+ /*.muvi_play-list-table th,.muvi_play-list-table td{font-size: 14px;}*/
+ .muvi_play-list-table .panel .table>thead>tr>th,.muvi_play-list-table .panel .table>thead>tr>td{
+     font-size: 14px;
+ }
+}
+
+/*20987:UI design same as the story for myplaylist page- end*/
+.container-overview .item-cover-lg {
+    width: 100%;
+}
+
+/*@20432:Generic | Revo template | The Footer of the login page not sticked in bottom.*/
+ @media only screen and (max-width: 480px) {
+        #main{
+        min-height: 480px;
+      }
+    }
+/*@20432:Generic | Revo template | The Footer of the login page not sticked in bottom.*/
+.dropdown-menu {
+    margin-top: 0;
+}
+.cover-overlay .addtofav {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #ffffff2b;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 2px;
+    vertical-align: bottom;
+    color: #FFF;
+    text-align: center;
+}
+.cover-overlay .addtofav:hover {
+    background-color: #33c5d1;
+}
+.cover-overlay .addtofav:hover i {
+    color: #FFF;
+}
+.muvi_record-tracklist .track-title {
+    display: table-cell;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.top_banner_img{
+width : 100%;
+}
+.cast_summery a{
+	color:#32c5d2
+}
+.cast_summery img{display: block; max-width: 100%;height: auto;}
+.cast_summery iframe{max-width: 100%;}
+body .item-list li .item-wrap .item-info a, body .item-list li .item-wrap div._meta-data a {
+    text-align: initial;
+}
+
+/* CSS for partner profile page */
+.cp-profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.cp-profile .media {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.cp-profile .media .media-body {
+  width: auto;
+  padding: 0;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.cp-profile .media .media-body .media-heading {
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.cp-profile .media .media-body p {
+  margin: 0;
+}
+.profile-pic {
+  width: 64px;
+  height: 64px;
+  margin: 0;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.profile-pic img {
+  width: 64px;
+  height: 64px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.cp-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 12px 0;
+  margin: 20px 0 30px;
+}
+
+.share-social {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.share-social p {
+  margin-right: 8px;
+}
+
+.share-social a {
+  margin: 0 4px;
+  font-size: 18px;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+    color: #fff;
+    background-color: #32c5d2;
+}
+/* CSS for partner profile page */
+
+/* #48275: CSS to display profile image, name and display date */
+.up-profile .media {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.upprofile-pic {
+    width: 45px;
+    height: 45px;
+    margin: 0;
+    border-radius: 100%;
+    overflow: hidden;
+}
+.upprofile-pic img {
+    width: 45px;
+    height: 45px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.up-profile .media-heading {
+    color: #333;
+    font-size: 14px;
+    font-weight: 300;
+}
+.up-profile p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 300;
+    
+}
+/* End #48277: CSS to display profile image, name and display date */
+
+/* #50979 - Hover Transition Start */
+
+body .item-list li .item-wrap {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    transform: scale(1);
+    transition: all ease-in-out 0.2s;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+body .item-list li .item-wrap .vid_cover+._cover {
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    transition: all ease-in-out 0.2s;
+}
+
+body .item-list li .item-wrap .vid_cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    min-height: 100%;
+    transform: scale(3);
+    z-index: 0;
+    transition: all ease-in-out 0.2s;
+}
+
+body .item-list li .item-wrap .item-cover .vid_cover+._cover+.cover-overlay {
+    background: transparent;
+}
+
+body .item-list li .item-wrap:hover {
+    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    transform: scale(1.05);
+}
+
+body .item-list li .item-wrap:hover .vid_cover+._cover {
+    opacity: 0;
+}
+
+/* #50979 -Hover Transition End */
+
+/* #53709 -Auto preview mute/unmute button Start */
+body .item-list li .item-wrap:hover .cover-overlay {
+    opacity: 1;
+}
+
+body .item-list li .item-wrap:hover .cover-overlay .soundBtn {
+    display: none;
+}
+
+body .item-list li .item-wrap:hover .item-cover .vid_cover+._cover+.cover-overlay .soundBtn {
+    display: flex;
+}
+
+.soundBtn {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    display:block !important;
+}
+
+.soundBtn .svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.soundBtn .svg.hide {
+    display: none !important;
+}
+
+.soundBtn .svg path {
+    stroke: #fff;
+}
+/* #53709 -Auto preview mute/unmute button End */
+
+/* show/hide password icon start */
+.toggle-password {
+    right: 20px;
+    margin-top: 10px;
+    position: absolute;
+    z-index: 2;
+    cursor: pointer;
+}
+/* show/hide password icon end */
+
+/*ER:55656 - start*/
+.countrycode1 {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-bottom: 20px;
+    float: left;
+}
+
+@media (min-width:1025px) {
+    .countrycode2 {
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-top: 0px;
+        float: left;
+    }
+}
+@media (max-width: 767px) {
+    .countrycode2 {
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: 14px;
+        float: left;
+    }
+}
+.cus .btn {
+    width: 100%;
+    padding-left: 15px!important;
+    padding-right: 15px!important;
+}
+/*ER:55656 - end*/
+/*#53478 Kids mode CSS START*/
+.checkbox.checbox-switch {
+    padding-left: 5px;
+    margin: 0;
+    display: inline-block;
+    text-align: left;
+}
+
+.checkbox.checbox-switch label,
+.checkbox-inline.checbox-switch {
+    display: inline-block;
+    position: relative;
+    padding-left: 0;
+}
+.checkbox.checbox-switch label input,
+.checkbox-inline.checbox-switch input {
+    display: none;
+}
+.checkbox.checbox-switch label span,
+.checkbox-inline.checbox-switch span {
+    width: 35px;
+    border-radius: 20px;
+    height: 18px;
+    border: 1px solid #dbdbdb;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(223, 223, 223);
+    box-shadow: rgb(223, 223, 223) 0px 0px 0px 0px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.checkbox.checbox-switch label span:before,
+.checkbox-inline.checbox-switch span:before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgb(255,255,255);
+    content: " ";
+    top: 0;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.checkbox.checbox-switch label > input:checked + span:before,
+.checkbox-inline.checbox-switch > input:checked + span:before {
+    left: 16px;
+}
+
+/* Switch Primary */
+.checkbox.checbox-switch.switch-primary label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-primary > input:checked + span {
+    background-color: #2cb7f6;
+    border-color: #2cb7f6;
+    box-shadow: #2cb7f6 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-primary label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-primary > input:checked:disabled + span {
+    background-color: rgb(109, 163, 221);
+    border-color: rgb(109, 163, 221);
+    box-shadow: rgb(109, 163, 221) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+/*Kids mode CSS END*/

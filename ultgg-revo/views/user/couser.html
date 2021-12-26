@@ -1,0 +1,42 @@
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/profile-setting.css?v=revo" rel="stylesheet" type="text/css" />
+{literal}
+<style>
+    .slider-setting-bottom {background: none; border:none;}
+</style>
+{/literal}
+<div id="coUser_sections">
+    <div class="container">
+        <div class="slider-setting-bottom border-bottom mt-2 mb-2 pb-1 pl-0 pr-0 pt-0">
+            <h2 class="sectionTitle">{$this->Language['co_user']}</h2>
+        </div>
+        {if isset($cousers) && !empty($cousers)}
+        <ul class="usersList">
+            
+                {foreach from=$cousers key=counter item=couser}
+                <li class="items color-white">
+                    <div class="d-flex flex-column align-center">
+                        <figure class="profile-pic">
+                            <img src="{$couser['profile_image_file_name']}" alt="{$couser['profile_image_file_name']}">
+                        </figure>
+                        <h5 class="name mb-0">
+                        {if $couser['is_homepage_enable']}
+                        <a href="{$this->base_url}/{$couser['permalink']}">{$couser['user_name']}</a>
+                        {else}
+                        {$couser['user_name']}
+                        {/if}
+                        </h5>
+                        <p class="control-label">{$couser['enduser_subgroup']}</p>
+                    </div>
+                </li>
+                {/foreach}
+            
+        </ul>
+        {else}
+        <table class="table">
+            <tr>
+                <td class="text-center">{$this->Language['no_data_found']}</td>
+            </tr>
+        </table>
+        {/if}
+    </div>
+</div>

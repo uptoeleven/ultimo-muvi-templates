@@ -1,0 +1,363 @@
+{literal}
+<style>
+    .carousel-control {
+        width: 7%;
+        bottom: initial !important;
+        top: 48% !important;
+    }
+    #banner_sortable li{
+        display: inline;
+    }
+    .img-thumbnail {
+        height: 107px !important;
+        width: 107px !important;
+        margin-bottom: 3px;
+    }
+    .upload-Image {
+        height: 107px;
+        width: 107px;
+        background-color: #fff;
+        border-color: #fff;
+        display: inline-flex;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }      
+    .upload-Image em{
+        font-size: 2.5em;
+        top: 50%;
+        position: absolute;
+        margin-top: -17px;
+        left: 47%;
+        margin-left: -17px;
+        color:#2cb7f6;
+    }
+    .upload-Image:hover{ 
+        background-color: #edf1f2;
+    }
+    .upload-Image:hover em{
+        color: #0aa1e5;
+    }
+    .btn.upload-Image.relative {
+        margin-top: -3px;
+         float: left;
+    }
+    .play-btn-big {
+    background: rgba(0, 0, 0, 0) url("../images/play-button.png") repeat scroll 0 0;
+    bottom: 0;
+    height: 64px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 64px;
+}
+
+ul.sortable {width: 100%; float: left; margin: 20px 0; list-style: none; position: relative !important;}
+ul.sortable li {height: 107px; float: left;  border: 2px solid #fff; cursor: move;}
+ul.sortable li.ui-sortable-helper {border-color: #3498db;}
+
+
+ul.sortable li.placeholder {width: 107px; height: 107px; float: left; background: #eee; border: 2px dashed #bbb; display: block; opacity: 0.6;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+#homePageModal .modal-header{ border-bottom: 0px solid #e5e5e5;}
+   #homePageModal .modal-dialog {
+    width: 100% !important;
+    margin: 0;
+    padding: 5%;
+  }
+  #homePageModal .modal-content {
+    height: auto;
+    min-height: 100%;
+    border-radius: 0;
+  }
+  .jcrop-holder{display: inline-block;}
+  .play-btn-big {
+    background: rgba(0, 0, 0, 0) url("../../images/play-button.png") repeat scroll 0 0;
+    bottom: 0;
+    height: 64px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 150px;
+    top: 0;
+    width: 64px;
+}
+#banner_sortable li{
+    width:291px;
+}
+</style>
+{/literal}
+<link rel="stylesheet" href="/css/jquery.Jcrop.css" type="text/css" >
+<script type="text/javascript" src="/js/jquery.Jcrop.js"></script>
+<script type="text/javascript" src="/js/cropsetup.js"></script>
+<script type="text/javascript" src="/js/s3_multi.js?v=2"></script>
+<input type="hidden" id="img_width" name="img_width" value="{$img_width}">
+<input type="hidden" id="img_height" name="img_height" value="{$img_height}">
+{$studio_id=Yii::app()->user->studio_id}
+{$base_cloud_url=Yii::app()->S3FolderPath->getImageGalleryCloudFrontPath($studio_id)}
+{$user_id=Yii::app()->user->id}
+{$posterImg = "/img/No-Image-Horizontal.png"}
+{$bannUrl = Yii::app()->S3FolderPath->getPosterCloudFrontPath(Yii::app()->user->studio_id)}
+{assign var="bannersection_count" value=$bannersection|@count}
+<div class="container">
+    <h3 class="sectionTitle border-bottom mt-6 mb-2 pb-1">{$this->Language['profile_banner']}</h3>
+    <div id="bootstrap-touch-slider" class="carousel bs-slider slide control-round indicators-line userSlider">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            {if ($bannersection_count > 0)} 
+            {foreach from=$bannersection key=k item=banner}
+            <li data-target="#carousel-example-generic" data-slide-to="{$key}" class="{if $key==0}active{/if}"></li>
+            {/foreach}
+            {/if}
+          </ol>
+          <!-- Wrapper For Slides -->
+          <div class="carousel-inner" role="listbox">
+              {if ($bannersection_count > 0)} 
+              {$count=0}
+               {foreach from=$bannersection item=banner}
+                {$banner_src = $banner['image_name']}
+                {$banner_title = $banner['title']}
+                {$banner_type= $banner['banner_type']}
+                {$banner_video_image=$banner['video_placeholder_img']}
+                {$banner_video=$banner['video_remote_url']}
+                {$banner_full_url="`$bannUrl`/system/studio_banner/`$studio_id`/`$user_id`/original/`$banner_src`"}
+                {$banner_video_image = $banner['video_placeholder_img']}
+            <div class="item {if $count==0}active{/if}">
+              <img onerror="this.onerror=null; this.src='{Yii::app()->getBaseUrl(true)}{$posterImg}'" src="{if ($banner_type == '0' )}{$banner_video_image} {else} {$banner_full_url}{/if}" class="slide-image">
+              <div class="carousel-caption">
+                
+                <div>
+                    {if ($banner_type == '0')}
+                        <a href="javascript:void(0);" class="play_video"  data-name="banner_video" id="{$banner['id']}"><div class='play-btn-big'></div></a>
+                    {/if}
+                    <a class="btn btn-danger removebanner_btn" onclick="deletebannersection(this)" href="javascript:void(0);" role="button" data-target="#deleteBannersectionModal" data-backdrop="static"  data-id="{$banner['id']}">{$this->Language['delete']}</a>
+                </div>
+                
+              </div>
+            </div>
+            {$count=$count+1}
+            {/foreach}
+            {else}
+            <div class="item active">                        
+                <img class="0-slide img-responssive" src="{Yii::app()->getBaseUrl(true)}/images/dummy_banner.jpg" alt=""  />              
+
+            </div>
+            {/if}
+          </div><!-- End of Wrapper For Slides -->
+          <!-- Left Control -->
+          <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
+            <span class="fa fa-angle-left" aria-hidden="true"></span>
+          </a>
+          <!-- Right Control -->
+          <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
+            <span class="fa fa-angle-right" aria-hidden="true"></span>
+          </a>
+          
+        </div>
+    
+    <div id="crop-avatar">
+    <form id="bannerText" method="post" name="bannerText" action="{Yii::app()->getBaseUrl(true)}/template/saveBannerText}">
+            <div class="slider-setting-bottom">
+              <div class="button-group">
+            <div class="btn btn-default-with-bg"  onclick="addbanner()"><i class="fa fa-plus"></i>{$this->Language['add_banner']}</div>
+              </div>
+            </div>
+    </form>
+
+                     </div>
+                 </div>
+<div class="container">
+        <ul class="item-list row slider slick-initialized slick-slider" id="banner_sortable">
+          
+          
+              {if ($bannersection_count > 0)} 
+              {$count=0}
+               {foreach from=$bannersection item=banner}
+                {$banner_src = $banner['image_name']}
+                {$banner_title = $banner['title']}
+                {$banner_type= $banner['banner_type']}
+                {$banner_video_image=$banner['video_placeholder_img']}
+                {$banner_video=$banner['video_remote_url']}
+                {$banner_full_url = $bannUrl/system/studio_banner/$studio_id/$user_id/original/$banner_src }
+                {$banner_full_url="`$bannUrl`/system/studio_banner/`$studio_id`/`$user_id`/original/`$banner_src`"}
+                {$banner_video_image=$banner['video_placeholder_img']}
+                {if ($count == 0 )} 
+                
+               {/if}
+              <li class="col-sm-6 col-xs-12 col-md-3 slick-slide" id="sortable_{$banner['id']}">
+                <div class="item-wrap">
+                  <div class="item-cover" style="height:100px;">
+                    <img class="_cover img-cover" onerror="this.onerror=null; this.src='{Yii::app()->getBaseUrl(true)}{$posterImg}'" class="img-thumbnail" src="{if ($banner_type == '0' )}{$banner_video_image} {else} {$banner_full_url}{/if}">
+                    
+                    </div>
+                  </div>
+              </li>
+               {$count=$count+1}
+               {/foreach}
+               {/if}
+           
+
+        </ul>
+</div>
+            
+<div id="play_video" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">                   
+                <div class="embed-responsive embed-responsive-16by9 video_banner">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal is-Large-Modal fade" id="homePageModal" tabindex="-1" role="dialog" aria-labelledby="homePageModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/template/Savelogo" id="upload_image_form" method="post" enctype="multipart/form-data">
+            <div class="modal-header text-left">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="HomePageModalLabel">{$this->Language['upload_banner']}</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="section_id1" id="section_id1" value="" />
+                <input type="hidden" name="user_banner_id" id="user_banner_id" value="" />
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="show1" role="presentation" class="active" onclick="hide_file()">
+                            <a href="#upload_by_browse" aria-controls="upload_by_browse" role="tab" data-toggle="tab">{$this->Language['upload']} {$this->Language['image']}</a>
+                        </li>
+                        <li id="hide" role="presentation" onclick="hide_file()">
+                            <a href="#upload_video" aria-controls="upload_video" role="tab" data-toggle="tab">{$this->Language['upload_video']}</a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="upload_by_browse">
+                            <div class="row is-Scrollable">
+                                <div class="col-xs-12 m-t-40 m-b-20 text-center">
+                                    <input type="button" class="btn btn-default-with-bg btn-sm" value="{$this->Language['upload']} {$this->Language['image']}" onclick="click_browse('celeb_pic')">
+                                    <input id="celeb_pic" name="Filedata" type="file" onchange="fileSelectHandler()" style="display:none;" />
+                                    <p class="error red hide" id="uploaderror"></p>
+                                    <p class="help-block"></p>
+                                    <p id="svg-block"></p>
+                                </div>
+                                <input type="hidden" id="x1" name="fileimage[x1]" />
+                                <input type="hidden" id="y1" name="fileimage[y1]" />
+                                <input type="hidden" id="x2" name="fileimage[x2]" />
+                                <input type="hidden" id="y2" name="fileimage[y2]" />
+                                <input type="hidden" id="w" name="fileimage[w]"/>
+                                <input type="hidden" id="h" name="fileimage[h]"/>
+                                <div class="col-xs-12">
+                                    <div class="Preview-Block row">
+                                        <div class="col-md-12 text-center" id="celeb_preview">
+                                            <img id="preview" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpane" class="tab-pane" id="upload_video">
+                            <div class="row">
+                                <div class="col-xs-12 m-t-40 m-b-20 text-center">
+                                    <input type="button" class="btn btn-default-with-bg btn-sm" value="{$this->Language['upload_video']}" onclick="click_browse('videofile');">
+                                    <input type="file" name="file" id="videofile" required onchange="checkvideofile()" style="display:none;"  >
+                                    <p id="help-video" class="help-block"></p>
+                                </div>
+                                    <input type="hidden" value="?" name="utf8">
+                                    <!--<input type="hidden" name="stream_id" id="movie_stream_id" value=""/>
+                                    <input type="hidden" name="section_id" id="section_id" value=""/>--->
+                                    <input type="hidden" name="section_id"  id="section_id" />
+                                    <input type="hidden" name="movie_stream_id" id="movie_stream_id" value=""/>
+                                    <input type="hidden" name="movie_id" id="movie_id" value=""/>
+                                    <input type="hidden" name="movie_name" id="movie_name" value=""/>
+                                <div class="col-xs-12">
+                                    <div class="Preview-Block row">
+                                        <div class="col-md-12 text-center" id="">
+                                            <img id="preview" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="upload_from_gallery">
+                            <input type="hidden" name="g_image_file_name" id="g_image_file_name" />
+                            <input type="hidden" name="g_original_image" id="g_original_image" />
+                            <input type="hidden" id="x13" name="jcrop_allimage[x13]" />
+                            <input type="hidden" id="y13" name="jcrop_allimage[y13]" />
+                            <input type="hidden" id="x23" name="jcrop_allimage[x23]" />
+                            <input type="hidden" id="y23" name="jcrop_allimage[y23]" />
+                            <input type="hidden" id="w3" name="jcrop_allimage[w3]" />
+                            <input type="hidden" id="h3" name="jcrop_allimage[h3]" />
+                            <div class="row  Gallery-Row">
+                                <div class="col-md-6 is-Scrollable p-t-40 p-b-40" id="all_img_glry"></div>
+                                <div class="col-md-6  is-Scrollable p-t-40 p-b-40">
+                                    <div class="text-center m-b-20 loaderDiv"  style="display: none;">
+                                        <div class="preloader pls-blue  ">
+                                            <svg class="pl-circular" viewBox="25 25 50 50">
+                                            <circle class="plc-path" cx="50" cy="50" r="20"></circle>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="Preview-Block row">
+                                        <div class="col-md-12 text-center" id="gallery_preview">
+                                            <img id="glry_preview" />
+                                        </div>
+                                    </div>
+                                    <p id="svg-banner-note"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="uplad_buton" onclick="imageUploadProcess(this)" disabled="disabled">{$this->Language['upload']}</button>
+                <button type="button" class="btn btn-default" id="cancl_upload" data-dismiss="modal">{$this->Language['btn_cancel']}</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<div style="position: fixed;background: rgb(255, 255, 255) none repeat scroll 0% 0%;left: initial;top: initial;bottom: 20px;right: 20px;border-radius: 0px;border: 1px solid rgb(230, 230, 230);width: 400px !important;height:auto !important;display: none;z-index:999999;" id="dprogress_bar">
+    <div style="height: 40px;padding: 10px;border-radius: 0px;color: rgb(255, 255, 255);width: 100% !important;background-color: rgb(77, 77, 77);" id="status_header">
+        <div style="float:left;font-weight:bold;">File Upload Status</div>
+        <div onclick="manage_progressbar();" class="pull-right" style="cursor:pointer;"><i class="fa fa-minus"></i> &nbsp;&nbsp;&nbsp;</div>
+    </div>
+    <div style="padding:10px 20px 20px;background-color: rgb(255, 255, 255);border: 1px solid rgb(230, 230, 230);" id="all_progress_bar"></div>
+</div>
+<div class="modal fade" id="deleteBannersectionModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;" >{$this->Language["delete"]} Banner?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="hidden" name="remove_userbannersection_id" id="remove_userbannersection_id" value=""/>
+                        <span>{$this->Language["are_you_sure_want_to"]} <b>{$this->Language["delete"]} Banner ?</b> </span> 
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <a href="javascript:void(0);" id="delete_bannersection" class="btn btn-default"  onclick="removeUserBannerSection();">{$this->Language["yes"]}</a>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button">{$this->Language["btn_cancel"]}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12/themes/resources/demos/style.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/js/bannersection.js"></script> 

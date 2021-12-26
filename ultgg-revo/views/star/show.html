@@ -1,0 +1,39 @@
+<!-- BEGIN: PAGE CONTAINER -->
+{$content = $item|json_decode}
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">
+            {$content->name}
+            {if !empty($followArr)}
+            <span class="text-right pull-right">
+                {$followClass = 'muvi-follow'}
+                {$followLang = 'follow'}
+                {if $followArr['is_follow']}
+                    {$followClass = 'muvi-unfollow'}
+                    {$followLang = 'following'}
+                {/if}
+                <span id="count-followers{$followArr['request_id']}" class="count-followers">{number_format($followArr['count_follow'])} follower(s) </span><a href="javascript:;" class="{$followClass} btn btn-primary" data-is-follow="{$followArr['is_follow']}" data-type="{$followArr['type']}" data-request-id="{$followArr['request_id']}" data-user="{Yii::app()->user->id}" data-name="{$content->name|utf8_decode}" data-pjax="0">{$this->Language[$followLang]}</a>
+            </span>
+            {/if}
+        </h2>
+        <div class="row">
+            
+            <div class="col-md-3">
+                <img class="img-responsive" src="{$celebrity_image}" alt="{$content->name|utf8_decode}" />
+            </div>
+            
+            <div class="col-md-9 cast_summery">
+                <h3 class="">{$content->name}</h3>
+                <p>{$content->summary|utf8_decode}</p>
+                    {if isset($this->store_configs->cast_crew_type) && $this->store_configs->cast_crew_type == 1}<!--41016 -->
+                    <button class="btn btn-primary btn-lg connect_with_us_btn" data-celibrity_id="{$content->id}">{$this->Language['connect']}</button><!--41016 -->
+                    {/if}<!--41016 -->
+            </div>
+            <div class="col-md-12"><br/>
+                <ul class="item-list row">
+                    {include file='../layouts/listitem.html'}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

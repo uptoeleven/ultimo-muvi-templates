@@ -1,0 +1,381 @@
+<link rel="stylesheet" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/register.css" type="text/css" /><!--48366-->
+<!-- Login Modal -->
+<div id="loginModal" class="modal fade login-popu">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{$this->Language['oops_only']}</h4>
+            </div>            
+            <div class="modal-body">
+                <div class="row-fluid popup_bottom">
+                    <input type="hidden" id="movie_stream_id" value="" />
+                    <input type="hidden" id="content-type" value="" />
+                    <input type="hidden" id="movie_id" value="" />
+                    <input type="hidden" id="stream_id" value="" />
+                    <input type="hidden" id="season_id" value="" />
+                    <input type="hidden" id="isppv" value="" />
+                    <input type="hidden" id="videotype" value="" />
+                    <input type="hidden" id="content-permalink" value="" />
+                    <input type="hidden" id="content-type-permalink" value="" />
+                    <input type="hidden" id="is_ppv_bundle" value="" />
+                    <input type="hidden" id="isadv" value="" />
+                    <input type="hidden" id="indexval" value="" />
+                    <div class="col-md-12" id="login_form_div">
+                        <input type="hidden" value="" id="play_url" />
+                        <input type="hidden" value="" id="to_play" />
+
+                        <form name="login_form" id="login_form" method="post" class="form-horizontal" action="javascript:void(0);">
+                            <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                            <div class="form-group">
+                                <!--//52108-->
+                                {if isset($this->store_configs->sso_with_miniorange_shopify_recharge) && $this->store_configs->sso_with_miniorange_shopify_recharge == 1}{else}
+                                <h4>{$this->Language['already_registered']}</h4>
+                                {/if}
+                                <div id="login_errors" class="error"></div>
+                                <div id="success_message" class="message"></div>
+                                <div class="loader" id="login_loading" style="display: none;"></div>
+                            </div>
+                            <!--//52108-->
+                             {if isset($this->store_configs->sso_with_miniorange_shopify_recharge) && $this->store_configs->sso_with_miniorange_shopify_recharge == 1}
+                             <ul class="new_social social_login">
+                                <li><a href="{$this->base_url}/user/login?sso" class="_custom _comcast" data-pjax="#main"><img src=""><span>{$this->Language['sign_in_with_sso']} Zenogym</span></a></li>
+                            </ul> 
+                             {else}<!--//52108-->
+                            {if $this->studio->social_logins}
+                            {if isset($smarty.session.social) } 
+                            {assign var=socialAuth value=$smarty.session.social}
+                            {else}
+                            {assign var=socialAuth value=$this->getSocialUrls()}
+                            {/if}
+                            {/if}
+                            <!--18511:SAML 2.0 Integration in Muvi Platform -->
+                            {if ($socialAuth && $this->studio->social_logins) || $this->thirdy_party_login_with}
+                            <div class="form-group">
+                                <ul class="new_social social_login">
+                                     <!--  20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start-->
+                            {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                            <li class="social_login_new"> <a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login="0" class="facebook_login _customfb _facebook"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/fb_icon.png"><span>{$this->Language['continue_with_facebook']}</span></a></li>
+                            {/if}
+                            {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                            <li class="social_login_new"><a href="{$socialAuth['gplus_url']}" class="_customgplus _googleplus"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/google_icon.png"><span>{$this->Language['continue_with_google']}</span></a></li>
+                            {/if}  
+<!--                             20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Stop-->  
+                                    <!--18511:SAML 2.0 Integration in Muvi Platform -->
+                                    {if ($this->thirdy_party_login_with)}
+                                    <li><a href="{$this->base_url}/user/login?sso" class="_custom _comcast"><img src="{$this->thirdy_party_login_with['img']}"><span>{$this->Language['sign_in_with_sso']} {$this->thirdy_party_login_with['name']}</span></a></li>
+                                    {/if}
+                                    <!--End-->
+                                </ul>
+                            </div>
+                            {/if}
+                            <!--//48366:-->
+                            {if (isset($this->store_configs->register_through) && $this->store_configs->register_through == 2)}
+                            <div class="form-group">
+                                <label for="mobile_number">{$this->Language['mobile_number']}</label>
+                                <div class="controls">
+                                    <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" name="LoginForm[mobile_number]" id="phone" placeholder="{$this->Language['text_mobile_number']}" autocomplete="off"  class="form-control c-square c-theme" onBlur="loginWithPhone(this.value)"/>
+                                         <input type="hidden" value="" id="loginemail" name="LoginForm[email]">
+                                     </div>
+                                </div>                    
+                            {else}<!--//48366:-->
+                            <div class="form-group">
+                                <label for="username">{$this->Language['text_email']}</label>
+                                <input type="email" name="LoginForm[email]" id="username" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" value="" />
+                            </div>
+                            {/if}
+
+                            <div class="form-group ">
+                                <label for="password">{$this->Language['text_password']}</label>
+                                <div class="controls">
+                                    <input type="password" name="LoginForm[password]" id="password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <button type="submit" class="btn btn-primary" name="login_submit" id="login-btn">{$this->Language['btn_login']}</button>
+                                    <div id="login-loading" class="loader" style="display: none;"></div>
+                                </div>
+                            </div>
+
+							<!--ER:36736 Library Login(annada@muvi.com) start-->
+                            {if isset($this->store_configs->user_based_pricing) && $this->store_configs->user_based_pricing == 1}
+                            {assign var=libraries value=$this->getLibraries()}
+                            <div class="form-group">
+                                <label>{$this->Language['login_with']}: </label>
+                                <ul class="new_social social_login">
+                                <!--ER:37864 Multiple 3rd party Library Login  start-->
+                                    <select class="form-control" id="selectlibrary" onchange="callshowLibrary(this.value)">
+                                        <option value="">Select</option>
+                                    {foreach from=$libraries key=k item=val}
+                                        <option value="{$k}">{$val}</option>
+                                    {/foreach}
+                                    </select>
+                                <!--ER:37864 Multiple 3rd party Library Login  end-->
+                                </ul>
+                            </div>
+                            {/if}
+                            <!--ER:36736 Library Login(annada@muvi.com) end-->
+
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <div class="pull-left">
+                                        <div>
+                                        <a class="txt-right" href="javascript:void(0);" onclick="showRegister();">{$this->Language['btn_register']}</a>
+                                        </div>
+                                        {if $this->store_configs->is_guest_user}
+                                        <div>
+                                            <a class="txt-right" href="javascript:void(0);" onclick="loginGuestUser();">{$this->Language['continue_as_a_guest_user']}</a>
+                                        </div>
+                                        {/if}
+                                    </div>
+                                    <div class="pull-right"><a class="txt-right" onclick="modelClose()" href="{$this->base_url}/user/forgot" >{$this->Language['forgot_password']}</a></div> <!--14252: The login popup is not getting removed.-->
+                                </div>
+                            </div>
+                            {/if}
+                        </form>  
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-md-12" id="register_form_div" style="display: none;">
+                        <form id="register_form" name="register_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+                            <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                            <div class="form-group">
+                                <h4>{$this->Language['new_member']}</h4>
+
+                                <div id="register_errors" class="error text-center"></div> 
+                                <div id="register_message" class="success text-message"></div> 
+                                <div id="loader_register" class="loader" style="display: none;"></div>
+                            </div>
+                            {if $this->studio->social_logins}
+                            {if isset($smarty.session.social) } 
+                            {assign var=socialAuth value=$smarty.session.social}
+                            {else}
+                            {assign var=socialAuth value=$this->getSocialUrls()}
+                            {/if}
+                            {/if}
+                            <!--18511:SAML 2.0 Integration in Muvi Platform -->
+                            {if ($socialAuth && $this->studio->social_logins) || $this->thirdy_party_login_with}
+                            <div class="form-group">
+                                <ul class="new_social social_login">
+                                    <!--     20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start-->
+                            {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                            <li class="social_login_new"> <a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login="0" class="facebook_login _customfb _facebook"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/fb_icon.png"><span>{$this->Language['continue_with_facebook']}</span></a></li>
+                            {/if}
+                            {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                            <li class="social_login_new"><a href="{$socialAuth['gplus_url']}" class="_customgplus _googleplus"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/google_icon.png"><span>{$this->Language['continue_with_google']}</span></a></li>
+                            {/if}
+<!--                            20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar End--> 
+                                    <!--18511:SAML 2.0 Integration in Muvi Platform -->
+                                    {if (count($this->thirdy_party_login_with) > 0)}
+                                    <li><a href="{$this->base_url}/user/login?sso" class="_custom _comcast"><img src="{$this->thirdy_party_login_with['img']}"><span>{$this->Language['sign_up_with_sso']} {$this->thirdy_party_login_with['name']}</span></a></li>
+                                    {/if}
+                                </ul>
+                            </div>
+                            {/if}
+                            <input type="hidden" id="chkCustomProfile" value="{$this->chkStudioForCustomProfile}">
+                            {if (count($this->user_group) > 1)}
+                            <div class="form-group">
+                                <label>{$this->Language['choose_user_group']}</label>
+                                
+                                    <select class="form-control" name="data[user_group_type]" title="" id="user_group" onchange="getCustomFields()">
+                                        {foreach from=$this->user_group item=user}
+                                                <option value="{$user['user_group_type']}">{$user['group_name']}</option>
+
+                                        {/foreach}
+                                    </select>
+                                        
+                            </div>
+                            
+                            {/if}
+                                <!--48366-->
+                            {if isset($this->store_configs->register_through) && $this->store_configs->register_through == 2}
+                            {assign var=CountriesCode value=$this->getMobileCountriesCode()}
+                            {assign var=favCountryFlag value=$this->getFavCountryFlag()}
+                            <div class="form-group">
+                                    <label for="mobile_number">{$this->Language['mobile_number']}</label>
+                                    <div class="controls">
+                                        <div class="col-sm-2 col-xs-3 countrycode">
+                                            <select id="mobile_country_code" name="data[mobile_country_code]" class="form-control" onchange="validateshowResend()">
+                                                <!--55664 - start-->
+                                                {if (empty($favCountryFlag))}
+                                                <option value="">Select</option>
+                                                {/if}
+                                                {foreach from=$CountriesCode  item=code}
+                                                <option data-text="{$code['name']}(+{$code['phonecode']})" value="{$code['phonecode']}">{$code['name']}(+{$code['phonecode']})</option> <!--55664-->
+                                                {/foreach}
+                                                <!--55664 - end-->
+                                             </select>
+                                         </div>
+                                         <div class="col-sm-10 col-xs-9 countrycode">
+                                             <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control" autocomplete="off" placeholder="{$this->Language['text_mobile_number']}" onchange="registerAllowEmail()" id="mobile_number" name="data[mobile_number]" required />
+                                         </div>
+                                    </div>                    
+                                </div>                                
+                            {/if}
+                            {if isset($this->store_configs->register_through) && $this->store_configs->register_through == 2 && isset($this->store_configs->is_enablemobileotp) && $this->store_configs->is_enablemobileotp !== 1}
+                            <input type="hidden" class="email" name="data[email]">
+                            {/if}
+                            {if isset($this->store_configs->register_through) && $this->store_configs->register_through == 1 && isset($this->store_configs->is_enablemailotp) && $this->store_configs->is_enablemailotp == 1}
+                                <div class="form-group">
+                                    <label for="username">{$this->Language['text_email']}</label>
+                                    <input type="email" id="email" placeholder="{$this->Language['text_email_placeholder']}" onchange="validateshowResend()" required class="form-control" />
+                                </div>
+                            {/if}
+                            {if (isset($this->store_configs->is_enablemobileotp) && $this->store_configs->is_enablemobileotp == 1) || (isset($this->store_configs->is_enablemailotp) && $this->store_configs->is_enablemailotp == 1)}
+                            <div class="form-group">
+                                <div class="row">
+                                <div class="col-sm-3 col-xs-12 resend_otp_div">
+                                    <button type="button" id="send_otp" disabled="disabled" class="btn btn-primary form-control" onclick="sendOtpToEndUser();">{$this->Language['send_otp']}</button>
+                                </div>
+                                    <div class="col-sm-5" id="otp_sucess"></div>
+                                </div>
+                            </div>
+                            {/if}
+                            {if (isset($this->store_configs->is_enablemobileotp) && $this->store_configs->is_enablemobileotp == 1) || (isset($this->store_configs->is_enablemailotp) && $this->store_configs->is_enablemailotp == 1)}
+                            <div class="form-group">
+                                <label for="otp">{$this->Language['otp']}</label>
+                                <input type="text" id="otp" name="data[otp]" placeholder="{$this->Language['text_otp']}" autocomplete="off" class="form-control" value="" required />
+                                <input type="hidden" class="email" name="data[email]">
+                                <input type="hidden" name="enabled_otp" id="enabled_otp" value="1" />
+                            </div>
+                            {/if}
+                            {if isset($this->store_configs->register_through) && $this->store_configs->register_through == 2 && $this->store_configs->is_allowemail > 0}
+                                <div class="form-group">
+                                    <label for="username">{$this->Language['text_email']}</label>
+                                    <input type="email" class="form-control" autocomplete="off" placeholder="{$this->Language['email']}" id="email" class="form-control" onBlur="registerAllowEmail(this.value)"  {if ($this->store_configs->allow_add_email && $this->store_configs->allow_add_email == 2)}required{/if} />
+                                </div>
+                            {/if}  
+                            {if isset($this->store_configs->register_through) && $this->store_configs->register_through == 1 && isset($this->store_configs->allow_add_phone_no) && $this->store_configs->allow_add_phone_no > 0 && $this->store_configs->contact_number_required==0}
+                                <div class="form-group">
+                                    <label for="username">{$this->Language['mobile_number']}</label>
+                                    <input type="text" name="data[contact_number]" class="form-control" autocomplete="off" placeholder="{$this->Language['text_mobile_number']}" class="form-control" />
+                                </div>
+                            {/if} 
+                            <!--48366-->
+                            <div id="custom_field_for_registration_popup">
+ {if ($this->chkStudioForCustomProfile)}
+                            {$counter = 0} 
+                            {if (count($this->custom_fields) > 0)}
+                            {foreach from=$this->custom_fields item=fields}
+                            <div class="form-group">
+
+                                <label for="" >{$fields['label']}</label>
+
+                                {$fields['field']}
+
+                            </div>
+                            {/foreach}
+                            {/if}
+                            {else}
+                            <div class="form-group">
+                                <label for="name">{$this->Language['text_full_name']}</label>
+                                <input type="text" required name="data[name]" id="fullname" placeholder="{$this->Language['text_name_placeholder']}" autocomplete="off" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="username">{$this->Language['text_email']}</label>
+                                <input type="email" required name="data[email]" id="email" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" />
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="password">{$this->Language['text_password']}</label>
+                                <div class="controls">
+                                    <input type="password" required name="data[password]" id="join_password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control" />
+                                </div>
+                            </div>
+                            {$counter = 0} 
+                            {if (count($this->custom_fields) > 0)}
+                            {foreach from=$this->custom_fields item=fields}
+                            <div class="form-group">
+
+                                <label for="" >{$fields['label']}</label>
+
+                                {$fields['field']}
+
+                            </div>
+                            {/foreach}
+                            {/if}
+                            {/if}
+                            </div>
+                            <!--37432 starts-->
+                            {if ($this->store_configs->contact_number_required == 1)}
+                                <div class="form-group">
+                                    <label for="contact_number">{$this->Language['phone_number']}</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" autocomplete="off" placeholder="{$this->Language['phone_number']}" id="contact_number" name="data[contact_number]" required />
+                                    </div>                    
+                                </div>                                
+                            {/if}                        
+                            <!--37432 ends-->
+                            <div class="form-group ">
+                                
+                                <div class="controls">
+                                    <input name="data[subscribe_newsletter]" value="1" type="checkbox" checked="checked"> &nbsp;{$this->Language['subscribe_to_announcement']}
+                                </div>
+                            </div>
+                            <input type="hidden" id="chk_register" name="chk_register" value="" />
+                            <div class="clear"></div>
+                            <div class="form-group ">
+                                <div class="controls pull-left">
+                                    <button type="submit" class="btn btn-primary" name="register_submit" id="register-btn">{$this->Language['btn_signup']}</button>
+                                </div>
+                                <div class="pull-right"><a class="btn btn-primary" href="javascript:void(0);"  onclick="showLogin();">{$this->Language['btn_login']}</a></div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+					
+					<!--Library Login Form - ER:36736(Annada) Start-->
+                    <div class="col-md-12" id="library_login_form_div" style="display: none;">
+                        <form name="lib_login_form" id="lib_login_form" method="post" class="form-horizontal" action="javascript:void(0);">
+                            <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                            <input type="hidden" name="library_id" value="" id="hidden_library_id" />
+                            <div class="form-group">
+                                <h4>{$this->Language['login_with']} <span id="lib-name"></span></h4>
+                                <div id="lib_login_errors" class="error"></div>
+                                <!--                                <div id="success_message" class="message"></div>-->
+                                <div class="loader" id="lib_login_loading" style="display: none;"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="username">{$this->Language['text_username']}</label>
+                                <input type="text" name="LibraryLoginForm[username]" id="lib_username" placeholder="{$this->Language['text_username_placeholder']}" autocomplete="off" class="form-control" value="" />
+                            </div>
+
+
+                            <div class="form-group ">
+                                <label for="password">{$this->Language['text_password']}</label>
+                                <div class="controls">
+                                    <input type="password" name="LibraryLoginForm[password]" id="lib_password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-group ">
+                                <div class="controls">
+                                    <button type="submit" class="btn btn-primary" name="lib_login_submit" id="lib-login-btn">{$this->Language['btn_login']}</button>
+                                    <div id="lib-login-loading" class="loader" style="display: none;"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!--Library Login Form - ER:36736(Annada) End-->
+                </div>
+            </div>          
+        </div>		
+    </div>
+</div>
+<div id="ppvModal" class="modal fade login-popu" data-backdrop="static" data-keyboard="false"></div>
+<script type="text/javascript" src="{$this->siteurl}/js/themes/loginpopup.js"></script>
+<script type="text/javascript" >
+ $(document).ready(function () {
+        removeEmailAdressforMobile();
+    });
+    function removeEmailAdressforMobile(){
+     if('{$this->store_configs->is_enablemobileotp}' == 1 ||'{$this->store_configs->is_enablemailotp}' == 1 || '{$this->store_configs->register_through}'== 2){
+        $("#email_address").parent(".form-group").remove();
+    }
+}
+</script>

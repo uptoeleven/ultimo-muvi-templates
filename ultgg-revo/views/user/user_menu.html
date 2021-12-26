@@ -1,0 +1,49 @@
+<!-- Content Partner -->
+<div class="container">
+    <div class="cp-profile-wrap">
+        <div class="cp-profile">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="profile-pic">
+                        <img src="{$user->profile_image_file_name}" alt="profile logo" />
+                    </figure>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{$user->display_name}</h4>
+                    <p>{$this->Language['member_since']} {$user->created_date|date_format}</p>
+                </div>
+            </div>
+            {if !empty($followArr) && ($user_id != Yii::app()->user->id)}
+                {$followClass = 'muvi-follow'}
+                {$followLang = 'follow'}
+                {if $followArr['is_follow']}
+                    {$followClass = 'muvi-unfollow'}
+                    {$followLang = 'following'}
+                {/if}
+            <div class="text-right pull-right col-md-9 m-b-5">
+                <span id="count-followers{$followArr['request_id']}" class="count-followers">{number_format($followArr['count_follow'])} follower(s)</span>
+                <a href="javascript:;" class="{$followClass} btn btn-primary dropdown-toggle" data-is-follow="{$followArr['is_follow']}" data-type="5" data-request-id="{$user_id}" data-user="{Yii::app()->user->id}" data-name="{$user->display_name}" data-pjax="#main">{$this->Language[$followLang]}</a>
+            </div>
+            {/if}
+        </div>
+        <div class="cp-nav">
+            <ul class="nav nav-pills">
+                <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'userhomepage'}active{/if}"><a href="{$this->base_url}/{$user->permalink}">{$this->Language['home']}</a></li>
+                <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'uservideo'}active{/if}"><a href="{$this->base_url}/user/video/{$user->permalink}">{$this->Language['videos']}</a></li>
+<!--                <li><a href="#">Products</a></li>-->
+                <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'useraboutus'}active{/if}"><a href="{$this->base_url}/user/about-us/{$user->permalink}">{$this->Language['about']}</a></li>
+            </ul>
+            <!-- #53111 -->
+            {if !empty($usersLink)}
+            
+            <div class="share-social">
+                {foreach from=$usersLink item=link}
+                <a href="{$link->profile_link}" target="_blank" title=""><i
+                        class="{$link->social_media_link->icon}"></i></a>
+                {/foreach}
+            </div>
+            {/if}
+            <!-- End #53111 -->
+        </div>
+    </div>
+</div>

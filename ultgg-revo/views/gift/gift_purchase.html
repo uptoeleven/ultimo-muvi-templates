@@ -1,0 +1,135 @@
+<link rel="stylesheet" type="text/css" href="{$this->siteurl}/common/css/gifting.css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-iKbFRxucmOHIcpWdX9NTZ5WETOPm0Goy0WmfyNcl52qSYtc2Buk0NCe6jU1sWWNB" crossorigin="anonymous">
+<style type="text/css">    
+    .dollar:before {        
+        content: "{$currency->symbol}";        
+    }
+
+    .error{
+        color: #ff0000 !important;
+    }
+</style>
+
+<div class="single-product-area">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">            
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{($this->Language["gift_purchase"]=='')?'Gift Purchase':$this->Language["gift_purchase"]}</h3>                
+            </div>            
+        </div>
+    </div>
+    <div class="container muvi_content-area">
+        <div class="row muvi_top200">
+            <div class="col-md-12">
+
+                <div class="multisteps-form col-md-12">
+                    <!--progress bar-->
+                    <div class="m-auto">
+                        <div class="col-md-6 m-auto">
+                            <div class="multisteps-form__progress">
+                                <button class="multisteps-form__progress-btn js-active" type="button" title="User Info"></button>
+                                <button class="multisteps-form__progress-btn" type="button" title="Order Info"></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--form panels-->
+                    <div class="m-auto">
+                        <div class="col-md-6 m-auto">
+                            <form class="multisteps-form__form" id="gift_purchase" name="membership_form" method="post">
+
+                                <!--Amount Area-->
+                                <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+                                    <div class="multisteps-form__content">
+                                        <div class="input-group input-group-lg form-group mb0">
+                                            <div class="col-md-4 col-sm-4 col-xs-12 plrn dollar">
+                                                <input id="gift_amount" name="data[gift_amount]" class="form-control amount_area" type="text" placeholder='{($this->Language["amount"]=="")?"Amount":$this->Language["amount"]}' maxlength="10">
+                                            </div>
+
+                                            <div class="col-md-8 col-sm-8 col-xs-12 plrn">
+                                                <label class="input-group-addon" for="giftvoucher">{($this->Language["gift_purchase_label"]=='')?'Gift a custom value voucher<br>by adding the amount of your choice':$this->Language["gift_purchase_label"]}</label>
+                                            </div>                                            
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 plrn">
+                                                <label id="amount_panel_error" class="col-form-label" style="color:#ff0000;"></label>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="to" class="col-md-12 col-sm-12 col-xs-12 col-form-label">{($this->Language["gift_to_email"]=='')?'To':$this->Language["gift_to_email"]}</label>
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <input id="to_email" type="email" name="data[to_email]" class="form-control" placeholder="recepient@email.com">
+                                                </div>
+                                                <label id="email_panel_error" class="col-md-12 col-sm-12 col-xs-12 col-form-label" style="color:#ff0000;"></label>
+                                            </div>
+
+                                            <div class="form-group mb0 row">
+                                                <label for="message" class="col-md-12 col-sm-12 col-xs-12 col-form-label">{($this->Language["gift_message"]=='')?'Your Message':$this->Language["gift_message"]}</label>
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <textarea class="form-control" rows="4" name="data[gift_message]" spellcheck="false" maxlength="160"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="button-row d-flex mt-6 col-md-12">
+                                                    <button class="btn proeed_btn ml-auto js-btn-next float-right" type="button">{($this->Language["proceed"]=='')?'Proceed':$this->Language["proceed"]} <i class="far fa-arrow-right"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clear"></div>                                        
+                                    </div>
+                                </div>
+                                <!--pay now-->
+                                <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                                    <div id="card_div" class="multisteps-form__content">
+                                        <div class="form-group row mb0">
+                                            <label for="card" class="col-md-12 col-sm-12 col-xs-12 col-form-label">{($this->Language["card_details"]=='')?'Card Details':$this->Language["card_details"]}</label>
+                                            <label id="card-info-error" class="col-md-12 col-sm-12 col-xs-12 col-form-label error"></label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                {$payment_form}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="button-row d-flex mt-6 col-md-12">                                                
+                                                <button id="register_membership" class="btn proeed_btn ml-auto float-right" onclick="validateGiftPurchase()">{($this->Language["btn_paynow"]=='')?'Pay Now':$this->Language["btn_paynow"]}</button>
+                                                {$btn_paypal}
+                                            </div>
+                                            <div class="clear"></div>      
+                                        </div>
+                                        <div class="clear"></div>  
+                                    </div>                                    
+                                </div>
+                                <input type="hidden" id="currency_id" name="data[currency_id]" value="{$currency->id}">
+                                <input type="hidden" id="payment_method" name="data[payment_method]">                                
+                                <input type="hidden" id="monetization" name="data[monetization]" value="gift">
+                            </form>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="successPopup" class="modal fade" style="width: 660px;margin:auto;margin-top: 10px;">
+    <div class="modal-dialog" style="width: 660px;margin:auto;margin-top: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['account_activate_after_card_submit']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+                <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{$this->siteurl}/common/js/jquery.validate.min.js"></script>
+<script  src="{$this->siteurl}/common/js/gifting_script.js"></script>

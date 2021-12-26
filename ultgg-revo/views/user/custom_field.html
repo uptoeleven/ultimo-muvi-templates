@@ -1,0 +1,72 @@
+{if (!$chkStudioForCustomProfile)}
+<div class="form-group">
+    <label for="name"class="col-sm-2 control-label">{$this->Language['text_name']}</label>
+    <div class="col-sm-4">
+        <input type="text"  class="form-control c-square c-theme" autocomplete="off" placeholder="{$this->Language['text_name_placeholder']}" id="name" name="data[name]" required />
+    </div>
+
+    <label for="email" class="col-sm-2 control-label">{$this->Language['email']}</label>
+    <div class="col-sm-4">
+        <input type="email"  class="form-control c-square c-theme" autocomplete="off" placeholder="{$this->Language['text_email_placeholder']}" id="email_address" name="data[email]" required />
+    </div>                    
+</div>   
+
+<div class="form-group">
+    <label for="join_password" class="col-sm-2 control-label">{$this->Language['text_password_placeholder']}</label>
+    <div class="col-sm-4">
+        <input type="password" class="form-control c-square c-theme" autocomplete="off" placeholder="{$this->Language['text_password_placeholder']}" id="join_password" name="data[password]" required />
+    </div>
+
+    <label for="confirm_password" class="col-sm-2 control-label">{$this->Language['confirm_password']}</label>
+    <div class="col-sm-4">
+        <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['confirm_password']}" id="confirm_password" name="data[confirm_password]" required />
+    </div>                    
+</div>                          
+{if (count($custom_fields) > 0)}
+{$counter = 1}
+{foreach from=$custom_fields item=fields}
+{if ($counter%2 == 0)}
+<!--<div class="form-group">-->
+{/if}
+<div class="col-xs-12 col-sm-6"> <!--ER@ : 20433 start -->
+    <div class="row">
+        <div class="form-group">
+            <label for="{$fields['label']}" class="col-sm-4 control-label">{$fields['label']}</label>
+            <div class="col-sm-8">
+                {$fields['field']}
+            </div>
+        </div>
+    </div>
+</div> <!--ER@ : 20433 end -->
+{if ($counter%2 == 0)}
+<!--</div>-->
+{/if}
+{$counter = $counter+1}   
+{/foreach}
+{/if}
+{else}
+
+{if (count($custom_fields) > 0)}
+{$counter = 1}
+{foreach from=$custom_fields item=fields}
+{if ($counter%2 == 0)}
+<!--<div class="form-group">-->
+{/if}
+<div class="col-xs-12 col-sm-6"> <!--ER@ : 20433 start -->
+    <div class="row">
+        <div class="form-group">
+            <label for="{$fields['label']}" class="col-sm-4 control-label">{$fields['label']}</label>
+            <div class="col-sm-8">
+                {$fields['field']}
+            </div>
+        </div>
+    </div>
+</div> <!--ER@ : 20433 end -->
+{if ($counter%2 == 0)}
+<!--</div>-->
+{/if}
+{$counter = $counter+1}   
+{/foreach}
+{/if}
+
+{/if}

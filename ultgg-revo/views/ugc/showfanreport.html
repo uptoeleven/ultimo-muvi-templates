@@ -1,0 +1,122 @@
+<script type="text/javascript" src="{$this->siteurl}/common/js/fanreport.js"></script>
+{*if $this->is_audio_enable == 1*}
+    {include file='../layouts/innerpagejs.html'}
+{*/if*}
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="Block">
+                <div class="muvi_product-big-title-area">
+                    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+                        <div class="container">
+                                <h2 class="txt-camel">My Fan List</h2>
+                        </div>
+                    </div>
+                </div>  
+                <br/>  
+                <div class="col-sm-4">
+                    <div class="form-group  input-group">
+                        <span class="input-group-addon p-l-0"><i class="glyphicon glyphicon-search"></i></span>
+                        <div class="fg-line">
+                            <input class="filter_input form-control fg-input" id="search_content" placeholder="Search" type="text">
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-sm-4">
+                    <button class="topper btn btn-primary" onclick="fanreportcsv_download(document.getElementById('search_content'));">Download CSV </button>
+                </div> 
+
+                <table class="table" id="fantable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th data-hide="phone">Email</th>
+                            <th data-hide="phone">No. of Contents Watched</th>
+                            {if $show_views == 1}
+                            <th data-hide="phone">Views</th>
+                            {/if}
+                             {if $show_likes == 1}
+                            <th data-hide="phone">Likes</th>
+                            {/if}
+                             {if $rating_status == 1}
+                            <th data-hide="phone">Comments</th>
+                            {/if}
+                        </tr>  
+                    </thead>
+                    {if $countData > 0}
+                    <tbody>
+                        
+                        {foreach from=$contents|json_decode item=content}
+                        <tr>
+                            <td>{$content->display_name|@ucfirst}</td>  
+
+                            <td>{$content->email}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <a href="watch_section" id="menu1" class="dropdown-toggle" data-toggle="dropdown"><span class="con_watched">{$content->total_watched}</span></a>
+                                    <ul id="watch_section" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="menu1">
+                                        {foreach from=$content->content_list item=clist}
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="con_watched_list">{$clist}</span></a></li>
+                                        {/foreach}
+                                    </ul>
+                                </div>                        
+                            </td>
+                            {if $show_views == 1}
+                            <td>
+                                <div class="dropdown">
+                                    <a href="view_section" id="menu1" class="dropdown-toggle" data-toggle="dropdown"><span class="con_watched">{$content->total_viewed}</span></a>
+                                    <ul id="view_section" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="menu1">
+                                        {foreach from=$content->viewcount item=vlist}
+                                            {foreach from=$vlist->views item=countview}
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="con_watched_list">{$vlist->con_name} - &nbsp; {$countview}</span></a></li>
+                                            {/foreach}
+                                        {/foreach}
+                                    </ul>
+                                </div>                     
+                            </td>
+                            {/if}
+                            {if $show_likes == 1}
+                            <td>{if !empty($content->t_likes)}  {$content->t_likes} {else} - {/if}</td>
+                            {/if}
+                            {if $rating_status == 1}
+                            <td>{if !empty($content->t_comments)}  {$content->t_comments} {else} - {/if}</td>
+                            {/if}
+                        </tr>
+
+                        {/foreach}
+
+                    </tbody>
+                    {/if}                      
+                </table>         
+                {if $countData <= 0}
+                <p class="error">No Report found.</p>
+                {/if}
+            </div>  
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-right:0px !important;">
+    <div class="col-md-12">
+        <div class="product-pagination text-right">
+            <nav>
+                {$pagination}
+
+            </nav>                        
+        </div>
+    </div>
+</div> 
+<script>  
+    $(document.body).on('keyup','#search_content',function (event){
+        var searchTextSub = $.trim($("#search_content").val());
+        if(searchTextSub == '') {
+            location.reload(true);
+        }
+        var c= String.fromCharCode(event.keyCode);
+        var isWordCharacter = c.match(/\w/);
+        var isBackspaceOrDelete = (event.keyCode == 8 || event.keyCode == 46);
+        var isEnter = (event.keyCode == 13);
+        if((isWordCharacter || isBackspaceOrDelete || isEnter) && (searchTextSub.length >= 2 || searchTextSub.length <= 2)){
+            getfanDetails(searchTextSub);
+        }
+    });    
+</script>

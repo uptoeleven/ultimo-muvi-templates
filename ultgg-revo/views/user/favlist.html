@@ -1,0 +1,152 @@
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['my_favourite']}</h2>
+        {if $item_count > 0}
+        <ul class="item-list row">
+            {foreach from=$contents|json_decode item=content}
+
+            <li class="col-md-3">
+                <div class="item-wrap clearfix">
+                    <a href="javascript:void(0);" class="delete-fab-section" onclick="ConfirmFavPopup(this);" data-header="{$this->Language['confirm_delete_message']}" data-button="deleteFavContent" data-user_id="{$this->user_id}" data-content_id="{if $content->is_episode == 1}{$content->movie_stream_id}{else}{$content->movie_id}{/if}" data-content_type="{$content->is_episode}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                 
+                {if $VDListItemInfo}
+                {foreach from=$VDListItemInfo|json_decode item=vdListItem}
+                {if $vdListItem->contentType == "poster_url"}
+                <div class="item-cover">
+                    <img class="_cover" src="{$content->poster}" />
+                    <div class="cover-overlay">
+                        {if $content->content_types_id == 5}
+                            {if $content->full_movie != ''}
+                                <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                    {$this->Language['play_now']}
+                                </a>
+                            {else}
+                            <a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>
+                            {/if}
+                        {elseif $content->content_types_id == 8}
+                            <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                {$this->Language['play_now']}
+                            </a>
+                        {elseif $content->content_types_id == 3}
+                        <a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>
+                        {elseif $content->content_types_id == 6}
+                        <a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>
+                        {else}
+                        {if $content->content_types_id!= 3}
+                        {if $content->is_downloadable == 1}
+                        {if $content->download_btn != '' }{$content->download_btn} {else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                        {elseif $content->is_downloadable == 2}
+                        {if $content->play_btn != '' }{$content->play_btn} {else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                        {if $content->download_btn != '' }{$content->download_btn}{else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                        {else}
+                        {if $content->play_btn != '' }{$content->play_btn}{else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                        {/if}
+                        {/if}
+                        {/if}
+                    </div>
+                 </div>
+                {else}
+                <div 
+                     class="item-info
+                     {if $vdListItem->boldStatus == 'b'} _bold{/if}
+                     {if $vdListItem->width == '1/2'} _col-1b2{/if}
+                     {if $vdListItem->width == '1/3'} _col-1b3{/if}
+                     {if $vdListItem->width == '2/3'} _col-2b3{/if}
+                     {if $vdListItem->align == 'r'} _txt-right{/if}
+                     {if $vdListItem->align == 'c'} _txt-center{/if}
+                     {if $vdListItem->lineCount == 's'} _sline{/if}
+                     " 
+                     style="{if $vdListItem->lineHeight != '' && $vdListItem->lineHeight != '0'}line-height:{$vdListItem->lineHeight}px;{/if}
+                     {if $vdListItem->size != '' && $vdListItem->size != '0'}font-size:{$vdListItem->size}px;{/if}
+                     {if $vdListItem->color != '' && $vdListItem->color != '0'}color:{$vdListItem->color};{/if}
+                     ">
+                     {if $vdListItem->contentType == "title"}
+                         <a href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$content->title|utf8_decode}</a>
+                     {elseif $vdListItem->contentType == "genre"}
+                         {if $content->genres|@count > 0}
+                             {$genre_count = $content->genres|count}
+                             {$j=0}
+                             {foreach from=$content->genres item=genre}
+                             {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                         {/if}
+                         &nbsp;
+                     {elseif $vdListItem->contentType == "release_date"}
+                         {$content->full_release_date|utf8_decode}&nbsp;
+                     {else}
+                         {$datakey = $vdListItem->contentType}
+                         {if $datakey}
+                         {$content->$datakey|utf8_decode}
+                         {$content->custom->$datakey->field_value|utf8_decode}&nbsp;
+                         {/if}
+                     {/if}
+
+                 </div>     
+                {/if}
+                {/foreach}
+                {else}
+                    <div class="item-cover">
+                        <img class="_cover" src="{$content->poster}" />
+                        <div class="cover-overlay">
+                            {if $content->content_types_id == 5}
+                                {if $content->full_movie != ''}
+                                    <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                        {$this->Language['play_now']}
+                                    </a>
+                                {else}
+                                <a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>
+                                {/if}
+                            {elseif $content->content_types_id == 8}
+                                <a href="javascript:void(0);" onclick="playAudio(this)" data-content_type="{$content->is_episode}" id="{$content->movie_id}"  class="playaudio playbtn" data-ctype="{$content->content_types_id}">
+                                    {$this->Language['play_now']}
+                                </a>
+                            {elseif $content->content_types_id == 3}
+                            <a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>
+                            {elseif $content->content_types_id == 6}
+                            <a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>
+                            {else}
+                            {if $content->content_types_id!= 3}
+                            {if $content->is_downloadable == 1}
+                            {if $content->download_btn != '' }{$content->download_btn} {else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                            {elseif $content->is_downloadable == 2}
+                            {if $content->play_btn != '' }{$content->play_btn} {else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                            {if $content->download_btn != '' }{$content->download_btn}{else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                            {else}
+                            {if $content->play_btn != '' }{$content->play_btn}{else}<a class="playbtn" href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$this->Language['explore']}</a>{/if}
+                            {/if}
+                            {/if}
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="spacer_10"></div>
+                    <div class="item-info">
+                        <a href="{if $content->is_episode != 4}{$this->base_url}/{/if}{$content->permalink}">{$content->title|utf8_decode}</a>
+                    </div>
+                    <div class="item-info">
+                        {if $content->genres|@count > 0}
+                            {$genre_count = $content->genres|count}
+                            {$j=0}
+                            {foreach from=$content->genres item=genre}
+                            {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                        {/if}
+                        &nbsp;
+                    </div>
+                    <div class="spacer_10"></div>
+                {/if}
+                </div>
+            </li>
+
+            {/foreach}
+        </ul>
+        {/if}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+     </div>
+</div>
+

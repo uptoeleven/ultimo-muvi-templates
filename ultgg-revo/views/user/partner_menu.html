@@ -1,0 +1,52 @@
+<!-- Content Partner -->
+<div class="container">
+    <div class="cp-profile-wrap">
+        <div class="cp-profile">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="profile-pic">
+                        <img src="{$partner->profile_logo}" alt="profile logo" />
+                    </figure>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{$partner->first_name}</h4>
+                    <p>{$this->Language['member_since']} {$partner->created_at|date_format}</p>
+                </div>
+            </div>
+            
+            {if Yii::app()->user-id && $partner_follow_unfollow}
+                {$followClass = 'muvi-follow'}
+                {$followLang = 'follow'}
+                {if $followArr['is_follow']}
+                    {$followClass = 'muvi-unfollow'}
+                    {$followLang = 'following'}
+                {/if}
+            <div class="text-right pull-right col-md-9 m-b-5">
+                <span id="count-followers{$followArr['request_id']}" class="count-followers">{number_format($followArr['count_follow'])} follower(s)</span>
+                <a href="javascript:;" class="{$followClass} btn btn-primary dropdown-toggle" data-is-follow="{$followArr['is_follow']}" data-type="4" data-request-id="{$partner_id}" data-user="{Yii::app()->user->id}" data-name="{$partner->first_name}" data-pjax="#main">{$this->Language[$followLang]}</a>
+            </div>
+            {/if}
+        
+        </div>
+        <div class="cp-nav">
+            <ul class="nav nav-pills">
+                <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'partnerhome'}active{/if}"><a href="{$this->base_url}/{$partner->permalink}">{$this->Language['home']}</a></li>
+                <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'partnervideo'}active{/if}"><a href="{$this->base_url}/partners/video/{$partner->permalink}">{$this->Language['videos']}</a></li>
+                <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'partnerproducts'}active{/if}"><a href="{$this->base_url}/partners/products/{$partner->permalink}">{$this->Language['product']}</a></li>
+                {if $this->store_configs->partner_manage_blog && $this->has_blog}  <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'partnerblog'}active{/if}"><a href="{$this->base_url}/partners/blog/{$partner->permalink}">{$this->Language['blog']}</a></li>{/if} <!-- 56305 -->
+                <li class="{if Yii::app()->webCommon->GetCurrentActionName() == 'partneraboutus'}active{/if}"><a href="{$this->base_url}/partners/about-us/{$partner->permalink}">{$this->Language['about']}</a></li>
+            </ul>
+            <!-- #51403 -->
+            {if !empty($usersLink)}
+            
+            <div class="share-social">
+                {foreach from=$usersLink item=link}
+                <a href="{$link->profile_link}" target="_blank" title=""><i
+                        class="{$link->social_media_link->icon}"></i></a>
+                {/foreach}
+            </div>
+            {/if}
+            <!-- End #51403 -->
+    </div>
+</div>
+</div>

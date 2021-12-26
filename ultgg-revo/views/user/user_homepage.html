@@ -1,0 +1,30 @@
+<div id="main">
+    {include file='../user/user_banner.html'}
+    <section class="content">
+      <div id="cp_sections">
+          {include file='../user/user_menu.html'}
+        
+        <!-- About -->
+        <div class="parent_sec_87383 featured-sec-wrap">
+          <div class="container">
+            <h2 class="clearfix">
+              <span class="caps ng-binding" style="display: inline-block; margin-top: 4px;">{$this->Language['about']}</span>
+            </h2>
+            <p style="margin-bottom:40px;"> {$profile->description|html_entity_decode} </p>
+            <!-- #53323 -->
+            {if !empty($custom_data)}
+                {foreach from=$custom_data key=counter item=cfield}
+                    <p><b>{$cfield['field_label']}</b>: {if !empty($customDataValue[$counter])}{$customDataValue[$counter]}{else}NA{/if}</p>
+                {/foreach}
+            {/if}
+            <!-- End #53323 -->
+          </div>
+        </div>
+        <!-- Free Content -->
+        {include file='../layouts/user_featuredsections.html'}  
+        {if $couser_map}
+        {include file='../user/couser.html'}
+        {/if}
+        </div>
+    </section>
+  </div>

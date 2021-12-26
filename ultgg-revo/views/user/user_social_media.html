@@ -1,0 +1,42 @@
+{foreach from=$usersLink item=link}  
+<input type="hidden" name="social_media_link[]" value="{$link->social_media_link_id}">
+<div class="row mb-2">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-1" for="username">
+                <i class="{$link->social_media_link->icon}" aria-hidden="true"></i>
+            </label>
+            <div class="col-md-11">
+                <div class="controls">
+                    <input type="url" placeholder="{$link->social_media_link->place_holder}"  class="form-control c-square c-theme" value="{$link->profile_link}" name="social[]" id="name">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/foreach}
+
+<div class="row mb-2">
+    <div class="col-md-6">
+        <div class="form-group">
+            <div class="col-md-11">
+                <div class="btn btn-default-with-bg" data-toggle="modal" data-target="#socialModal"><i class="fa fa-plus">{$this->Language['add_more']}</i></div>
+            </div>
+        </div>
+    </div>    
+</div>
+{if $usersLink}
+<div class="row mb-2">
+    <div class="col-md-6">
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="d-flex justify-end">
+                    <div class="btn-group">
+                        <button id="update-btn" class="btn btn-info" type="submit">{$this->Language['btn_save']}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}

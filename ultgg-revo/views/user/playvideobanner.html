@@ -1,0 +1,48 @@
+<link href="{$this->siteurl}/vast/css/video.js.css" rel="stylesheet" type="text/css">
+<link href="{$this->siteurl}/common/css/video_style.css?v=3" rel="stylesheet" type="text/css" />
+{literal}
+<style type="text/css">
+    .video-js {height: 276px !important;width: 531px !important;}
+#play{
+    display: none;
+    margin: auto;
+    left:0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    position: absolute;
+    height: 64px;
+    width: 64px;
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
+    }
+    #pause{
+    display: none;
+    margin: auto;
+    left:0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    position: absolute;
+    height: 64px;
+    width: 64px;
+    -webkit-animation: fadeinout 1s linear forwards;
+    animation: fadeinout 1s linear forwards;
+    }
+
+    @-webkit-keyframes fadeinout {
+    0%,100% { opacity: 0; }
+    50% { opacity: 1; }
+    }
+
+    @keyframes fadeinout {
+    0%,100% { opacity: 0; }
+    50% { opacity: 1; }
+    }
+</style>
+{/literal}
+{foreach from=$video_url item=banner}
+            <video id="video_block" class="video-js vjs-default-skin" autoplay="true" autobuffer controls>
+  <source src="{$banner}" type="video/mp4">
+</video> 
+{/foreach}     

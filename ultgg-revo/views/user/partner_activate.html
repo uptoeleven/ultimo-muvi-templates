@@ -1,0 +1,63 @@
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['activate']}</h2>
+        
+        <form id="membership_form" name="membership_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+            <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+            <div id="loading" class="loader"></div>
+            <div id="errors" class="error center"></div>         
+            
+            {include file='../layouts/partner_listplans.html'}  
+            <!--26361 starts here-->
+             {if $isVoucherExists}
+             {include file='../layouts/payment_section.html'} 
+             {/if}
+            <!--26361 ends here--> 
+            {if $gateways[0]->short_code == "ippayment" || $gateways[0]->short_code == "cybersource"}
+            {$activate_btn_form}
+            {else}
+            {if $is_hosted neq 1}
+            <div>
+                {$payment_form}
+            </div>
+            {/if}
+             <!--26361 starts here-->
+              {if $isVoucherExists}
+              {include file='../layouts/voucher_subscription.html'}
+               {/if}
+             <!--26361 ends here--> 
+            {$activate_btn_form}
+            {/if}
+
+            <span class="error" id="plan_error"></span>    
+            <input type="hidden" name="is_parter" value="1" id="is_partner">
+        </form> 
+        
+    </div>
+</div>
+<div id="successPopup" class="modal fade" style="width: 660px;margin:auto;margin-top: 10px;">
+    <div class="modal-dialog" style="width: 660px;margin:auto;margin-top: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title success-popup-payment">{$this->Language['account_activate_after_card_submit']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none;">
+                <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+               <!-- <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var action = 'activateplan';
+    var btn = 'Activate';
+</script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js?v=1"></script>

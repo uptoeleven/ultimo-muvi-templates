@@ -1,0 +1,208 @@
+<link rel="stylesheet" href="{$this->siteurl}/css/cropper.min.css" type="text/css" />
+<link rel="stylesheet" href="{$this->siteurl}/css/crop-avatar.css" type="text/css" />
+<link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/profile-setting.css?v=revo" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{$this->siteurl}/themes/admin/cssnew/sweetalert.css?v=45">
+<script type="text/javascript" src="{$this->siteurl}/common/js/cropper.min.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/crop-avatar.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/js/editor.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/js/profilesetting.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/themes/admin/jsnew/sweetalert.js"></script>
+<script type="text/javascript" src="{Yii::app()->baseUrl}/js/bootstrap-multiselect.js"></script>
+<link href="{Yii::app()->baseUrl}/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.css">
+<style>
+.Editor-editor { height: 250px;}
+.row-fluid.Editor-container { padding-bottom: 5px; }
+.col-lg-12.nopadding { padding-left: 0px; padding-right: 0px;}
+</style>
+
+{literal}
+<style>
+    .multiselect.dropdown-toggle.btn.btn-default-bg{width: 250px !important;}
+    .multiselect-container.dropdown-menu{ width:100% !important }
+    .multiselect-container.dropdown-menu { margin-top: 0px !important}
+    table{ width: 100%; margin-bottom: 30px;}
+    #coUserModal .modal-body{ max-height: auto; overflow: initial; }
+    .sectionTitle{ height: 37px;}
+</style>
+{/literal}
+<div id="crop-avatar">
+    <div class="content">
+        <div class="container">
+            <hr>
+            <span style="text-align: center;">
+                <h1>{$this->Language['profile_setting_heading']}</h1>
+            </span>
+        </div>
+        <section class="content">
+            <div id="cp_sections" style="background-color: #fff;">
+                <div class="container">
+                    <div class="cp-profile-wrap">
+                        <h3 class="sectionTitle border-bottom mt-6 mb-4 pb-1">{$this->Language['profile_info']}
+                            <a class="btn btn-primary pull-right" href="{$this->base_url}/{$permalink}" role="button">{$this->Language['view_profile']}</a>
+                        </h3>
+                        <form id="user_profile_setting_form" method="POST" action="javascript:void(0);" name="user_profile_setting_form11">
+                        <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                        <div class="cp-profile">
+                            <div class="media" style="flex:auto">
+                                <div class="media-body" style="flex:auto">
+                                    <div class="row mb-2">
+                                        <div class="col-md-6">
+                                            <div class="d-flex">
+                                                <figure class="profile-pic mr-2">
+                                                    <img src="{$user_picture}" alt="">
+                                                </figure>
+                                                <!--                                                <div class="form-group mr-4">
+                                                <label class="control-label" for="username">{$this->Language['profile_picture']}</label>
+                                                <div class="clearfix"></div>
+                                                                                                    <div class="btn btn-block btn-default-with-bg" data-target="#avatar-modal" data-toggle="modal"><i class="fa fa-upload"></i> {$this->Language['upload']}</div>
+                                                                                                </div>-->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label" for="username">{$this->Language['profile_name']}</label>
+                                                <div class="controls">
+                                                        <input type="text" placeholder="" maxlength="35" class="form-control c-square c-theme" value="{$user->display_name}" name="name" id="name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label" for="username">{$this->Language['profile_description']}</label>
+                                                <div class="controls">
+                                                    <textarea rows="4" maxlength="500" placeholder="Profile Description (maximum 500 charachter allowed)" class="form-control c-square c-theme"  name="description" id="profile_description">{$detailsProfile->description}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label" for="username">{$this->Language['profile_about']}</label>
+                                                <div class="controls">
+                                                    <textarea class="form-control c-square c-theme" id="txtEditor"  name="aboutus" id="profile_about">{$detailsProfile->about_us}</textarea>
+                                                </div>
+                                                    <div class="aboutus_error error red"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                        <!-- #53323 -->
+                                        {if (count($custom_fields) > 0)}
+                                            {foreach from=$custom_fields item=fields}
+                                                <div class="row mb-2">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="username">{$fields['label']}</label>
+                                                            <div class="controls">
+                                                                {$fields['field']}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {/foreach}
+                                        {/if}
+                                        <!-- End #53323 -->
+                                        <div class="row mb-2">
+                                        <div class="col-md-12">
+
+                                            <div class="d-flex justify-end">
+                                                <div class="btn-group">
+                                                    <button id="update-btn" class="btn btn-info" type="submit">{$this->Language['btn_update_profile']}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    {include file='../layouts/social_media.html'} <!-- #53111 -->
+    {include file='../user/userbannersection.html'}
+    <div class="cp_sections" style="background-color: #ffffff;">
+        {include file='../user/userfeaturedsections.html'}
+    </div>
+    {if $couser_map}
+    <div id='co_profile'>
+    {include file='../layouts/couser-profilemap.html'}  <!-- #48276-->
+    </div>
+    {/if}
+        {include file='../user/profileimage.html'}
+</div>
+
+<div class="modal fade" id="removeCouserModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headermodal">{$this->Language['remove_couser']}</span></h4>
+            </div>
+            <div class="modal-body">  
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <span class="bodymodal">{$this->Language['sure_to_remove_couser']}</span>
+                        <input type="hidden" id="couser_id">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" id="remove_couser" class="btn btn-default">{$this->Language['yes']}</a>
+                <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="coUserModal" tabindex="-1" role="dialog" aria-labelledby="coUserModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="coUserModalLabel">Add Co-User</h4>
+            </div>
+            <div class="modal-body">
+                <form class="row">
+                    <div class="col-sm-12">
+                        <span id="couser_error" class="error red"></span>
+                        <div class="form-group mt-2">
+                            <input type="hidden" name="user_type_id" value="" id="creator_user_type"/>
+                            <input type="hidden" name="user_id" value="" id="creator_user_id"/>
+                            <label for="">{$this->Language['choose_couser']}</label>
+                            <input type="text" class="form-control" id="couser_name" name="couser_name">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="">{$this->Language['type']}</label><br/>
+                            <span id="multiselect_type">
+                            <select class="form-control multiselect-container" multiple="multiple">
+                                
+                            </select>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{$this->Language['btn_cancel']}</button>
+                <button type="submit" class="btn btn-primary" onclick="addCouser(this);">{$this->Language['btn_add']}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

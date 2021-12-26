@@ -1,0 +1,447 @@
+{$content = $contents|json_decode}
+{$categories = $categories|json_decode}
+<script type="text/javascript">
+var content_id = {$content->movie_id}; 
+var movie_stream_id = {$content->movie_stream_id}; 
+</script>
+<div class="c-layout-page">
+    <div class="single-product-area content">
+        <div class="bg-primary text-white">
+           <div class="container">
+                <div class="col-md-12 padding-0">
+                    <div class="video-grid1">
+                        <div class="loader" id="video_loader" style="display:none"></div>
+                        <iframe src="{$play_path}?remove_back_button=1" allowfullscreen width="100%" id="Playerframe" frameborder="0" scrolling="no"></iframe>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 padding-0 story-margin">
+                        <div class="col-md-8 padding-0 category-margin">
+                            <h1>{$content->title|utf8_decode} </h1>
+                            {$total_count = $categories|@count}
+                            {$i = 1}
+                            {if $total_count > 0}
+                            <p>
+                                {foreach from=$categories item=category}
+                                {$category->category_name}{if $total_count > $i} ,{/if}
+                                {$i = $i + 1}
+                                {/foreach}
+                            </p>
+                            {/if}
+                            {if $content->genres|@count > 0}
+                            {$genre_count = $content->genres|count}
+                            <div class="badge-area">
+                                {foreach from=$content->genres item=genre}
+                                <span class="badge badge-default badge-padding">{$genre}</span>
+                                {/foreach}
+                            </div>
+                            {/if}
+                        </div>
+                        <div class="col-md-4 padding-0">
+                            <div class="social-network pull-right social-network-size">
+                                {if $this->add_to_video_playlist > 0}
+                                <a class="addToPlayList img_playlist" href="javascript:void(0);" data-title="add-to-playlist" data-type="2" data-user_id="{$this->user_id}" data-is_episode="{$content->is_episode}" data-content_id="{$content->movie_stream_id}"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {/if}
+                                <!--<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$this->base_url}{$pageUrl}" data-title="Facebook Share"><i class="fa fa-facebook-square" aria-hidden="true" title="{$this->Language['share_in_facebook']}"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ER-36051-->
+				<!--<a target="_blank" href="https://twitter.com/intent/tweet?text={$this->base_url}{$pageUrl}" data-title="Share on Twitter">  <i class="fa fa-twitter-square" aria-hidden="true" title="{$this->Language['share_in_twitter']}"></i></a>&nbsp;&nbsp;&nbsp;ER-36051-->
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <p>{$content->story|utf8_decode}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        {literal}
+        <div class="container" ng-app="Player" ng-cloak>
+            <div class="wrapper">
+                {/literal}{if $content->is_episode == 1}{literal}
+                <div class="related-video mt50" ng-controller="episodes">
+                    <div ng-if="hasData">
+                        <div class="row">  
+                            <div class="col-sm-8 col-lg-8">
+                                <h2 class="caps">{/literal}{$this->Language['other_episodes']}{literal}</h2>
+                            </div>
+                        </div>
+
+<ul class="item-list row lazy slick epinit">
+
+    <li class="col-md-3 col-sm-6 c-margin-b-20 slick-slide" ng-repeat="episode in episodelist">
+        <div class="c-content-product-2 c-bg-white list-box">
+            <div class="item-wrap">
+                <div class="item-cover" >
+                    <div class="cover-overlay" ng-bind-html="episode.play_btn | html">
+                    </div>
+                    <div class="c-bg-img-top-center c-overlay-object text-center">
+                        <img class="_cover" src="{{episode.poster}}"> 
+                    </div>
+                </div>
+                <div class="c-info item-info">
+                    <p class="c-title c-font-18 c-font-slim">
+                        <a href="{{episode.permalink}}" ng-bind="episode.title | utf8_decode"></a>
+                    </p>
+                    <span class="caption_genre c-font-16" ng-repeat="genres in episode.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
+                        <div class="loader static-loading" id="episode_load" ng-if="isLoading"></div>
+                        <span style="display:none;">{{initSlid("epinit")}}</span>
+                    </div>
+                </div>
+                {/literal}{/if}{literal}
+                <!-- 21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. -->
+                <div class="related-video mt50" ng-controller="related">
+                    <div ng-if="video">
+                        <div class="row">  
+                            <div class="col-sm-8 col-lg-8">
+                                <h2 class="caps">{/literal}{$this->Language['video']}{literal}</h2>
+                            </div>
+                        </div>
+
+                        <ul class="item-list row lazy slick relatediniit">
+                            <li ng-repeat="content in video" class="col-md-3 col-sm-6 c-margin-b-20 slick-slide" >  
+                                <div class="c-content-product-2 c-bg-white list-box">
+                                    <div class="item-wrap clearfix">
+                                        <div class="item-cover" >
+                                            <img class="_cover" src="{{content.poster}}" />
+                                            <ng-container>
+                                                <div ng-if="!content.full_movie && content.content_types_id != 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div> 
+                                                <div ng-if="content.play_btn && content.full_movie && content.content_types_id != 3" class="cover-overlay" ng-bind-html="content.play_btn|html"></div>
+                                                <div ng-if="content.full_movie && content.content_types_id == 3" class="cover-overlay" ng-bind-html="content.play_btn|html"></div> 
+                                                <div ng-if="!content.full_movie && content.content_types_id == 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div> 
+                                            </ng-container>
+                                        </div>
+                                        <div class="spacer_10"></div>
+                                        <div class="item-info">
+                                            <a ng-if="content.title" href="{{content.permalink}}" >{{content.title}}</a>
+                                        </div>
+                                        <div class="item-info">
+                                            <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                        </div>
+                                        <div class="spacer_10"></div>
+
+                                    </div>
+                            </li>
+                        </ul> 
+
+
+                        <div class="loader static-loading" id="related_load" ng-if="isLoading"></div>
+                        <span style="display:none;">{{initSlid("relatediniit")}}</span>
+                    </div>
+                    <div ng-if="audio">
+                        <div class="row">  
+                            <div class="col-sm-8 col-lg-8">
+                                <h2 class="caps">{/literal}{$this->Language['music']}{literal}</h2>
+                            </div>
+                        </div>
+
+                        <ul class="item-list row lazy slick relatediniit">
+                            <li ng-repeat="content in audio" class="col-md-3 col-sm-6 c-margin-b-20 slick-slide">  
+                                <div class="c-content-product-2 c-bg-white list-box">
+                                    <div class="item-wrap clearfix">
+                                        <div class="item-cover" >
+                                            <img class="_cover" src="{{content.poster}}" />
+                                            <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                                <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['play_now']}{literal}</a>
+                                            </div>
+                                            <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                <div ng-if="{/literal} {Yii::app()->user->id} {literal}" class="cover-overlay">
+                                                    <a ng-if="content.full_movie"  class="playbtn" onclick="displayPopup(this);" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-permalink="{{content.c_permalink}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal">{/literal}{$this->Language['play_now']}{literal}</a>
+                                                    <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn" >{/literal}{$this->Language['explore']}{literal}</a>
+                                                </div>
+                                                <div ng-if="{/literal} {!Yii::app()->user->id} {literal}" class="cover-overlay">
+                                                    <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" data-target="#loginModal" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal">{/literal}{$this->Language['play_now']}{literal}</a>
+                                                    <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                </div>
+                                            </div>
+
+                                            <ng-container ng-if="content.content_types_id != 5" >
+                                                <div class="cover-overlay" >
+                                                    <a  ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                    <a ng-if="content.full_movie"  class="playbtn" onclick="displayPopup(this);" data-id="{{content.movie_id}}" data-ctype="{{content.content_types_id}}" data-permalink="{{content.c_permalink}}" data-movie_id="{{content.movie_uniq_id}}" data-toggle="modal">{/literal}{$this->Language['play_now']}{literal}</a>
+                                                </div> 
+                                            </ng-container>
+                                        </div>
+                                        <div class="spacer_10"></div>
+                                        <div class="item-info">
+                                            <a ng-if="content.title" href="{{content.permalink}}" >{{content.title}}</a>
+                                        </div>
+                                        <div class="item-info">
+                                            <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                        </div>
+                                        <div class="spacer_10"></div>
+
+                                    </div>
+                            </li>
+                        </ul> 
+
+
+                        <div class="loader static-loading" id="related_load" ng-if="isLoading"></div>
+                        <span style="display:none;">{{initSlid("relatediniit")}}</span>
+                    </div>
+                    <div ng-if="physical">
+                        <div class="row">  
+                            <div class="col-sm-8 col-lg-8">
+                                <h2 class="caps">{/literal}{$this->Language['product']}{literal}</h2>
+                            </div>
+                        </div>
+
+                        <ul class="item-list row lazy slick relatediniit">
+                            <li ng-repeat="content in physical" class="col-md-3 col-sm-6 c-margin-b-20 slick-slide" >  
+                                <div class="c-content-product-2 c-bg-white list-box">
+                                    <div class="item-wrap clearfix">
+                                        <div class="item-cover" >
+                                            <img class="_cover" src="{{content.poster}}" />
+
+                                            <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                <a href="{{content.permalink}}" class="playbtn" >{/literal}{$this->Language['explore']}{literal}</a>
+                                            </div>
+
+                                            <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                                <div class="cover-overlay" >
+                                                    <a href="{/literal}{$this->base_url}{literal}/{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                    <div ng-if="content.status==1">
+                                                        <ng-container ng-if="content.sale_price!='0.00'" >
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                        </ng-container>
+                                                        <ng-container ng-if="content.sale_price=='0.00'">
+                                                            <div class="_stock-out-txt">{/literal}{$this->Language['currently_unavailable']}{literal}</div>
+                                                        </ng-container>
+                                                    </div>
+                                                    <div ng-if="content.status==3">
+                                                        <div class="_stock-out-txt">{/literal}{$this->Language['stock_out']}{literal}</div>
+                                                    </div>	
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                        <div class="spacer_10"></div>
+                                        <div class="item-info">
+                                            <a href="{{content.permalink}}" >{{content.name}}</a>
+                                        </div>
+                                        <div class="item-info" ng-if="content.content_types_id == 7 && content.sale_price!='0.00'">
+                                            {{content.price}}
+                                        </div>
+                                        <div class="spacer_10"></div>
+
+                                    </div>
+                            </li>
+                        </ul> 
+
+
+                        <div class="loader static-loading" id="related_load" ng-if="isLoading"></div>
+                        <span style="display:none;">{{initSlid("relatediniit")}}</span>
+                    </div>
+                </div>
+                <!-- 21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. -->
+            </div>
+        </div>
+        {/literal}
+        <div class="container">
+            <div class="col-md-12 padding-0">
+                {if $this->studio->rating_activated == 1}
+                <div class="row bottom25" id='reviews_section'>
+                    <div class="col-md-12">
+                        <!--<div class="loader" id="loader_review"></div>-->
+                        <div class="form-group review_form  c-content-title-1">
+                            {$review_form}
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                {if $this->studio->comment_activated == 1}
+                <div class="row bottom25">
+                    {include file='../media/comment_form.html'}
+                    {include file='../media/comment_list.html'}            
+                </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. -->    
+<div class="modal fade" id="audioConfirmPopup" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="muvi_headermodal">Play Audio?</span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <span id="bodymodal">You will redirect to content details screen to play the audio. Are you sure to proceed?</span>
+                        <input type="hidden" id="selected_content_permalink">
+                    </div>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <a href="javascript:void(0);" id="confirmbtn" class="btn btn-default">{$this->Language['yes']}</a>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+                </div>
+            
+        </div>
+    </div>
+</div>
+<!-- 21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. -->
+<script type="text/javascript" src="{$this->siteurl}/js/content.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js"></script>
+{literal}
+<style type="text/css">
+    #Playerframe{
+        border:none;
+        overflow:hidden;
+    }
+    .video-grid1 > iframe {
+        display: block;
+    }
+    .lazy.epinit{
+        opacity:0;
+    }
+    .lazy{
+        opacity: 1;
+        transition:all 0.3s ease-in-out;
+        -moz-transition:all 0.3s ease-in-out;
+        -webkit-transition:all 0.3s ease-in-out;
+        -o-transition:all 0.3s ease-in-out;
+    }
+    .loader.static-loading{
+        position:static;
+        height:100px;
+        display:block;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#video_loader").show();
+        var window_height = $(window).height();
+        var header_height = $("header").height() + 70;
+        var iFrameID = document.getElementById('Playerframe');
+        iFrameID.height = "";
+        if(iFrameID) {
+           iFrameID.height = window_height - header_height;
+        }
+        /* #21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. */
+        $('#confirmbtn').click(function(){
+            var permalink = $('#selected_content_permalink').val();
+            window.location.href = HTTP_ROOT+'/'+permalink+'?autoplay=1';
+        });
+        /* #21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details.*/
+        $('#Playerframe').ready(function(){
+            iframeLoaded();
+        });
+    });
+    function iframeLoaded() {
+        $("#video_loader").hide();
+    }
+    /* #21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. */
+    function displayPopup(obj){
+        $("#selected_content_permalink").val($(obj).attr("data-permalink"));
+        $("#audioConfirmPopup").modal('show');
+    }
+    /* #21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details. */
+    /* ER 34935 start */
+    var app = angular.module('Player', [])
+        .filter('html',function($sce){
+            return function(input){
+                return $sce.trustAsHtml(input);
+            };
+        })
+        .filter('utf8_decode', function($sce){
+            return function(input){
+                return decodeURIComponent(escape(input));
+            };
+        });
+    /* ER 34935 end */
+    app.controller('episodes', function($scope,$http) {
+        $scope.episodelist = ""; 
+        $scope.hasData = false; 
+        $scope.isLoading = true; 
+        $scope.initSlid = function(section){
+            if($scope.hasData){
+                initSliderJs(section);
+                $scope.isLoading = false; 
+            }
+	};
+        $http.get(HTTP_ROOT+"/rest/getEpisodes?authToken="+STORE_AUTH_TOKEN+"&movie_id="+content_id+"&movie_stream_id="+movie_stream_id).then(function (response) {
+        if(response.data.list.length > 0){
+            $scope.episodelist = response.data.list;
+                $scope.hasData = true;
+            }
+        });
+    });
+    //21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details
+    app.controller('related', function($scope,$http) {
+        $scope.audio = ""; 
+        $scope.video = "";
+        $scope.physical = "";
+        $scope.hasData = false; 
+        $scope.isLoading = true; 
+        $scope.initSlid = function(section){
+            if($scope.hasData){
+                initSliderJs(section);
+                $scope.isLoading = false; 
+            }
+	};
+        $http.get(HTTP_ROOT+"/rest/relatedContent?authToken="+STORE_AUTH_TOKEN+"&content_id="+content_id+"&content_stream_id="+movie_stream_id+"&type=audio").then(function (response) {
+            if(response.data.contentData.length > 0){
+                $scope.audio = response.data.contentData;
+                $scope.hasData = true;
+            }
+        });
+        
+        $http.get(HTTP_ROOT+"/rest/relatedContent?authToken="+STORE_AUTH_TOKEN+"&content_id="+content_id+"&content_stream_id="+movie_stream_id+"&type=video").then(function (response) {
+            if(response.data.contentData.length > 0){
+                $scope.video = response.data.contentData;
+                $scope.hasData = true;      
+            }
+        });
+                
+        $http.get(HTTP_ROOT+"/rest/relatedContent?authToken="+STORE_AUTH_TOKEN+"&content_id="+content_id+"&content_stream_id="+movie_stream_id+"&type=physical" ).then(function (response) {
+            if(response.data.contentData.length > 0){
+                $scope.physical = response.data.contentData;
+                $scope.hasData = true;
+            }
+        });
+    });
+    //21178: Advance Player| Support "Related Audios" and "Related Products" in Advance Player page similar to Content Details
+    function initSliderJs(section){
+        setTimeout(function(){
+            $('.lazy').not('.slick-initialized').slick({
+                dots: false,
+                infinite: false,
+                speed: 300,
+                slidesToShow: 4,
+                customPadding: '80px',
+                autoplay: false,
+                autoplaySpeed: 3000,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 4,
+                            infinite: false,
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 3,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+            $(".lazy."+section).removeClass(section);
+        }, 2000);
+    }
+</script>  
+{/literal}

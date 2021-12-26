@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/banner_style.css" type="text/css" />
+<script type="text/javascript" src="{$this->siteurl}/bannerStyle/style_1/js/bannerslide.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/bannerStyle/style_1/js/videobanner.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/js/iphone-inline-video.js"></script>
+{$auto_scroll=1}{$scroll_interval=3000}
+<div id="bootstrap-touch-slider" class="carousel bs-slider slide control-round indicators-line userSlider" {if $auto_scroll == '1'} data-ride="carousel" data-interval="{$scroll_interval}" {/if}>
+    <!-- Indicators -->
+<!--    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>-->
+    <!-- Wrapper For Slides -->
+    <div class="carousel-inner" role="listbox">
+        {foreach from=$banners key=counter item=banner}
+        {$class = ""}
+        {if $counter == 0} 
+        {$class = "active"}
+        {/if}
+        {$banner_type=$banner['banner_type']}
+        <div class="item {$class}">
+            <input type="hidden" id="widthImage" value="{$banner_dimension['banner_width']}">
+            <input type="hidden" id="heightImage" value="{$banner_dimension['banner_height']}">
+            {if $banner_type == '1'} 
+            <img src="{$banner['banner_full_path']}" class="slide-image">
+            {else}
+            <div align="center" class="videocontainer">
+                <video autoplay="false" preload="none" loop muted="true" id="background" width="100%" height="auto" playsinline>
+                    <source src="{$banner['video_url']}">
+                </video>
+                                <span class="butn-banner-mute" onClick="muteBannerVdo(this);">
+                                    <i class="fa fa-volume-off" aria-hidden="true"></i>
+                                    <i class="fa fa-volume-up _on" aria-hidden="true"></i>
+                                </span>
+            </div>
+            {/if}
+        </div>
+        {/foreach}
+        
+    </div><!-- End of Wrapper For Slides -->
+    <!-- Left Control -->
+    <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
+        <span class="fa fa-angle-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <!-- Right Control -->
+    <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
+        <span class="fa fa-angle-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<script>
+    function muteBannerVdo(obj) {
+        if ($(obj).siblings('video').prop('muted')) {
+            $(obj).siblings('video').prop('muted', false);
+            $(obj).addClass('_on');
+        } else {
+            $(obj).siblings('video').prop('muted', true);
+            $(obj).removeClass('_on');
+        }
+    }
+    $(function () {
+        var autoScroll = 1;
+        var interval = 3000;
+        loadSlider(autoScroll, interval);
+    });
+    function loadSlider(autoScroll, interval) {
+        //Stop slide if video is in 1st slide
+        if ($('#bootstrap-touch-slider').length > 0) {
+            if ($('.carousel-inner .item.active video').length) {
+                $('#bootstrap-touch-slider').carousel({
+                    interval: false
+                });
+                $('#bootstrap-touch-slider').data('bs.carousel').options.interval = false;
+                $('#bootstrap-touch-slider').carousel('pause');
+            } else {
+                if (autoScroll == 0) {
+                    $('#bootstrap-touch-slider').carousel({
+                        interval: false
+                    });
+                    $('#bootstrap-touch-slider').data('bs.carousel').options.interval = false;
+                    $('#bootstrap-touch-slider').carousel('pause');
+                } else {
+                    $('#bootstrap-touch-slider').carousel({
+                        interval: interval
+                    });
+                    $('#bootstrap-touch-slider').data('bs.carousel').options.interval = interval;
+                    $('#bootstrap-touch-slider').carousel('cycle');
+                }
+            }
+        }
+
+        //To pause all video plying and play if in 1st slide
+        $('.carousel-inner').find('video').each(function () {
+            var cItem = $(this);
+            enableInlineVideo(this);
+            if ($(this).closest('.item').index() != 0) {
+                cItem.trigger('pause');
+            }
+        });
+        if ($('#bootstrap-touch-slider').length > 0) {
+            $("#bootstrap-touch-slider").on('slide.bs.carousel', function (evt) {
+                if ($('.carousel-inner .item.active video').length) {
+                    $('#bootstrap-touch-slider').carousel({
+                        interval: false
+                    });
+                    $('#bootstrap-touch-slider').data('bs.carousel').options.interval = false;
+                    $('.carousel-inner .item.active .videocontainer video').trigger('pause');
+                }
+                if ($('.carousel-inner .item').eq($(evt.relatedTarget).index()).find('video').length) {
+                    $('.carousel-inner .item').eq($(evt.relatedTarget).index()).find('.videocontainer').find('video').trigger('play');
+                }
+            });
+            $("#bootstrap-touch-slider").on('slid.bs.carousel', function (evt) {
+                if ($('.carousel-inner .item.active video').length) {
+                    $('#bootstrap-touch-slider').carousel({
+                        interval: false
+                    });
+                    $('#bootstrap-touch-slider').data('bs.carousel').options.interval = false;
+                    $('#bootstrap-touch-slider').carousel('pause');
+                } else {
+                    if (autoScroll == 0) {
+                        $('#bootstrap-touch-slider').carousel({
+                            interval: false
+                        });
+                        $('#bootstrap-touch-slider').data('bs.carousel').options.interval = false;
+                        $('#bootstrap-touch-slider').carousel('pause');
+                    } else {
+                        $('#bootstrap-touch-slider').carousel({
+                            interval: interval
+                        });
+                        $('#bootstrap-touch-slider').data('bs.carousel').options.interval = interval;
+                        $('#bootstrap-touch-slider').carousel('cycle');
+                    }
+
+                }
+            });
+        }
+
+    }
+    $(window).scroll(function () {
+        //stop playing vdo after scroll down.
+        if ($('#bootstrap-touch-slider').length > 0) {
+            if ($(window).scrollTop() > $('#bootstrap-touch-slider').offset().top + $('#bootstrap-touch-slider').height()) {
+                $('#bootstrap-touch-slider .carousel-inner .item.active .videocontainer video').trigger('pause');
+            } else {
+                $('#bootstrap-touch-slider .carousel-inner .item.active .videocontainer video').trigger('play');
+            }
+        }
+    });
+</script>

@@ -1,0 +1,123 @@
+<div class="single-product-area">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{$this->Language['manage_sub_user']}</h3>
+            </div>
+        </div>
+    </div>    
+    <div class="container muvi_content-area">
+        <div class="row">
+            {$isAllowSubUser= Yii::app()->billing->isAllowSubUser(Yii::app()->user->id) }
+            {if $isAllowSubUser['plan_id'] > 0}
+            <div class="col-md-12 p-l-0 form-group">
+                <a href="javascript:void(0);" onclick="redirectAddsubuser()" class="btn btn-lg btn-primary c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">{$this->Language['add_sub_user']}</a>
+            </div>
+            {else}
+            <div class="col-md-12 p-l-0 form-group">
+                <a href="javascript:void(0);" disabled class="btn btn-lg btn-primary c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">{$this->Language['add_sub_user']}</a>
+            </div>
+            {/if}
+             <div class="col-md-12 p-l-0">
+              <div class="table-responsive">
+                <table cellspacing="0" class="muvi_shop_table top20 table table-bordered" style='width:100%;'>
+                    <thead>
+                        <tr>
+                            <th class="muvi_product-name">{$this->Language["text_name"]}</th>
+                            <th class="muvi_product-name">{$this->Language["email"]}</th>
+                            <th class="muvi_product-name">{$this->Language["action"]}</th>
+                        </tr>
+                    </thead> 
+<!--                     {$childuser|@print_r }-->
+                    {if $childuser|@count > 0 }
+                    {foreach from=$childuser item=plan}
+                    <tr class="cart_item">
+                        <td class="muvi_product-remove"> {$plan['nick_name']}</td>
+                        <td class="muvi_product-remove"> {$plan['email']}</td>
+                        <td class="muvi_product-remove"> 
+                            <div class="">
+                                {if $plan['is_deleted'] == 0 }
+                                {if $plan['status'] == 1 }
+                                <h5><a href="javascript:void(0);" data-enduser_id="{$plan['id']}" data-status="0" data-toggle="modal" data-target="#disableModal" data-backdrop="static" class="enduser_disablebtn"><i class="fa fa-ban"></i>&nbsp;{$this->Language["disable_sub_user"]}</a></h5>
+                                {else}
+                                <h5><a href="javascript:void(0);" data-enduser_id="{$plan['id']}" data-status="1" data-toggle="modal" data-target="#disableModal" data-backdrop="static" class="enduser_disablebtn"><i class="fa fa-ban"></i>&nbsp;{$this->Language["enable_sub_user"]}</a></h5>
+                                {/if}
+                                <h5><a href="javascript:void(0);" data-email="{$plan['email']}" data-toggle="modal" data-target="#deleteModal" data-backdrop="static" class="enduser_deletebtn"><i class="fa fa-trash-o img-del"></i>&nbsp;{$this->Language["remove"]}</a></h5>
+                                <h5><a href="javascript:void(0);" data-enduser_id="{$plan['id']}" onclick="redirectAddsubuser(this)"><em class="fa fa-pencil-square-o"></em>&nbsp;{$this->Language["edit_btn"]}</a></h5>
+                                 {/if}
+                            </div>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                        <tr>
+                            <td colspan="4">{$this->Language["no_record_found"]}</td>
+                        </tr>
+                         {/if}
+                </table>  
+              </div>
+                   <div class="row">
+                        <div class="col-md-12">
+                            <div class="product-pagination text-center">
+                                <nav>
+                                    {$pagination}
+                                </nav>                        
+                            </div>
+                        </div>
+                   </div>        
+              </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;" >Delete User?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="hidden" name="enduser_email" id="enduser_email" value=""/>
+                        <span>Are you sure you want to <b>Delete User ?</b> </span> 
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <a href="javascript:void(0);" id="delete_user" class="btn btn-default studio_user"  onclick="deleteUser();">Yes</a>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="disableModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;" >Disable User?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="hidden" name="enduser_id" id="enduser_id" value=""/>
+                        <input type="hidden" name="enduser_status" id="enduser_status" value=""/>
+                        <span>Are you sure you want to <b class="modaltext">Disable User ?</b> </span> 
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <a href="javascript:void(0);" id="delete_user" class="btn btn-default studio_user"  onclick="disableUser();">Yes</a>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--@Mantis: 19607 start-->
+{if $this->is_audio_enable == 1}
+    {include file='../layouts/innerpagejs.html'}
+{/if}
+<!--@Mantis: 19607 end-->

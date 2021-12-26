@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.2.3/css/simple-line-icons.css">
+{literal}
+<style>
+    .panel-heading span {margin-top: -20px;font-size: 15px;}
+    .panel-heading {cursor: pointer;}
+    .p-l-0 {padding-left: 0 !important;}
+    .p-r-0 {padding-right: 0 !important;}
+    .m-b-10 {margin-bottom: 10px;}
+    .m-t-20 {margin-top: 10px;}
+</style>  
+{/literal}
+<div class="row m-t-20">
+    <div class="col-md-12">
+        <div class="panel-success m-b-10">
+            <div class="panel-heading  {if !$filter['showfilter']} panel-collapsed {/if}">
+                <h3 class="panel-title">FILTERS</h3>
+                <span class="pull-right clickable"><i class="fa {if !$filter['showfilter']} fa-angle-down {else} fa-angle-up {/if}" style="font-size: 23px;" aria-hidden="true"></i></span>
+            </div>
+            <div class="panel-body" {if !$filter['showfilter']} style="display: none;" {/if}>
+                <div class="filter-div">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="{$this->base_url}/ugc/Showdetails" name="searchForm" id="search_content" method="get">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <h4>Content Type : </h4>
+                                            <div class="fg-line">
+                                                <div class="select">
+                                                    <select name="searchForm[contenttype]" class="form-control" id="contenttype" onchange="submitSearchForm();">
+                                                        <option value="" {if empty($searchData) || ($searchData['contenttype'] == "")} Selected {/if}>All</option>
+                                                        {if $filter['video']}
+                                                        <option value="0" {if (!empty($searchData) && ($searchData['contenttype'] == "0"))} Selected {/if}>Video</option>
+                                                        {/if}
+                                                    </select>	
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <h4>Publish Status : </h4>
+                                            <div class="fg-line">
+                                                <div class="select">
+                                                    <select class="form-control" name="searchForm[status]" id="status" onchange="submitSearchForm();">
+                                                        <option value="" {if (empty($searchData) || ($searchData['status'] == "")) } Selected {/if}>All</option>
+                                                        <option value="1" {if (!empty($searchData) && ($searchData['status']=="1"))} selected {/if}>Pending for Review</option>
+                                                        <option value="0" {if (!empty($searchData) && ($searchData['status']=="0"))} selected {/if}>Published</option>
+                                                        <option value="2" {if ($searchData['status']=="2")} selected {/if} >Rejected</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <h4>Sort By : </h4>
+                                            <div class="fg-line">
+                                                <div class="select">
+                                                    <select class="form-control" name="searchForm[sort]" id="sort" onchange="submitSearchForm();">
+                                                        <option value="desc" {if ($searchData['sort']=='desc')} selected {/if}>New to Old</option>
+                                                        <option value="asc" {if ($searchData['sort']=='asc')} selected {/if}>Old to New</option>
+                                                        <option value="a-z" {if ($searchData['sort']=='a-z')} selected {/if}>A-Z</option>
+                                                        <option value="z-a" {if ($searchData['sort']=='z-a')} selected {/if}>Z-A</option>
+                                                    </select>	
+                                                </div>					
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group  input-group">
+                                            <h4>Search by name : </h4>
+                                            <div class="fg-line">
+                                                <input type="text" class="filter_input form-control fg-input" name="searchForm[search_text]" value="{$searchData['search_text']}"  id="search_content_text" onkeypress="handle(event);" placeholder="What are you searching for?"/>
+                                            </div>
+                                            <span class="input-group-addon" style="padding-top: 40px;border: 0;background: none;"><i class="icon-magnifier"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     $(document).on('click', '.panel-heading', function(e){
+        var $this = $(this);
+            if(!$this.hasClass('panel-collapsed')) {
+                $this.parents('.panel-success').find('.panel-body').slideUp();
+                $this.addClass('panel-collapsed');
+                $this.find('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+            } else {
+                $this.parents('.panel-success').find('.panel-body').slideDown();
+                $this.removeClass('panel-collapsed');
+                $this.find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+            }
+    })
+    function submitSearchForm(){
+        $('#search_content').submit();
+    }
+</script>

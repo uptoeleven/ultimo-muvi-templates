@@ -1,0 +1,11 @@
+{foreach from=$this->mainmenu item=menu}
+    <li><a href="{$menu.permalink}" {if $menu.link_type == '2'}target="_blank" {/if} >{$menu.title}</a>
+        {if $menu.children|@count > 0}
+        <ul>
+            {foreach from=$menu.children item=childMenu}
+            <li><a href="{$childMenu.permalink}" {if $childMenu.link_type == '2'}target="_blank" {/if} >{$childMenu.title}</a></li>
+            {/foreach}
+        </ul>
+        {/if}
+    </li>
+{/foreach}

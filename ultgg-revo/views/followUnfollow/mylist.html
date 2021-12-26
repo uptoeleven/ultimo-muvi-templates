@@ -1,0 +1,85 @@
+{literal}
+<style>
+    .product-remove{padding-top: 17px !important; padding-bottom: 17px !important;padding-left: 10px!important; padding-right: 10px!important;}
+    #itemdetails{width: 25% !important;}
+    table{border: 1px solid #e9e4e4 !important;}
+    th{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    td{border: 1px solid #e9e4e4 !important;padding-left: 10px!important; padding-right: 10px!important;}
+    .product-name{padding-top: 17px !important; padding-bottom: 17px !important;padding-left: 10px!important; padding-right: 10px!important;}
+    .product-thumbnail .lead{ font-size:18px;}
+</style>
+{/literal}
+<div class="content">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['followings']}</h2>
+        
+        
+        <div class="col-md-12 row">
+            <!-- Nav tabs --><div class="card">
+                <ul class="nav nav-tabs" role="tablist">
+                    {if $follow[0] != 0}
+                    {foreach from=$follow key=k item=tab}
+                    <li role="presentation"{if ($tabText[$tab]['permalink']==$currentPage && $currentPage) || (!$currentPage && $k==0)} class="active"{/if}><a href="{$this->base_url}/followUnfollow/myList/type/{$tabText[$tab]['permalink']}" aria-controls="home" role="tab">{{$tabText[$tab]['text']}}</a></li>
+                    {/foreach}
+                    {/if}
+                    {if $partner_enable_follow}
+                    <li role="presentation"{if ($currentPage == 'partner') || (!$currentPage && $partner_enable_follow && $follow[0] == 0)} class="active"{/if}><a href="{$this->base_url}/followUnfollow/myList/type/partner" aria-controls="home" role="tab">Partner</a></li>
+                    {/if}
+                </ul>
+            </div>
+        </div>
+        
+        
+        {assign var="total_follows" value=$data['data_arr']|@count}
+            <table cellspacing="0" class="shop_table top20 table table-bordered" style='width:100%;'>                  
+                {assign var="user_id" value=Yii::app()->user->id}
+                {if $user_id > 0}
+                {if ($total_follows > 0)}
+                {foreach from=$data['data_arr'] item=follow}
+                
+                <tr class="follow_list_item" id="{$follow['unique_id']}{$follow['follow_type']}{Yii::app()->user->id}">
+                    <td class="product-remove">
+                        {if ($currentPage == 'partner') || (!$currentPage && $partner_enable_follow)}
+                        <img class="thumbnail" src="{$follow['poster']}" width="50" />
+                        {else}
+                        <img class="thumbnail" src="{$follow['poster']}" width="50" />
+                        {/if}
+                    </td>
+                    <td class="product-thumbnail" valign="top">
+                        <div class="col-md-12 m-t-10">
+                            {if ($follow['follow_type']==3)}
+                                {$moviePermalink = Yii::app()->contentCommon->getMoviePermalink($follow['unique_id'])}
+                                <div class="lead font-weight-bold col-md-8 row text-left"><a href="{$this->base_url}/{$moviePermalink}">{$follow['title']}</a></div>
+                            {else}
+                                <div class="lead font-weight-bold col-md-8 row text-left">{$follow['title']}</div>
+                            {/if}
+                            <div class="col-md-4 text-right pull-right">
+                                <span id="count-followers{$follow['unique_id']}" class="count-followers">{number_format($follow['no_of_followings'])} follower(s) </span><a href="javascript:;" class="muvi-unfollow btn btn-primary" data-is-follow="1" data-type="{$follow['follow_type']}" data-request-id="{$follow['unique_id']}" data-user="{Yii::app()->user->id}" data-name="{$follow['title']|utf8_decode}" data-pjax="0">{$this->Language['following']}</a>
+                            </div>
+                        </div>
+                        {if isset($follow['description']) && $follow['description']}
+                            <div class="lead col-md-12 m-t-10">{$follow['description']}</div>
+                        {/if}
+                    </td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr>
+                    <td colspan="5">{$this->Language["no_record_found"]}</td>
+                </tr>
+                {/if}
+                {/if}
+            </table>  
+
+            <div class="row" style="margin-right:0px !important;">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                            {$data['pagination']}
+                        </nav>                        
+                    </div>
+                </div>
+            </div>        
+    </div>
+</div>
+</div>

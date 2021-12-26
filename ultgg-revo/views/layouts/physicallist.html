@@ -1,0 +1,42 @@
+<div class="col-md-3 col-sm-6 muvi_c-margin-b-20">
+	<div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+		<div class="muvi_c-content-overlay">
+			<div class="muvi_c-overlay-wrapper">
+				<div class="muvi_c-overlay-content">
+					<a class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" href="{$this->base_url}/{$physical->permalink}">{$this->Language['explore']}</a>
+				</div>
+			</div>
+			<div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+				<img class="muvi_list-poster" src="{$physical->poster}"/>
+			</div>
+		</div>
+		<div class="muvi_c-info">
+			<p class="muvi_caption_genre muvi_c-title muvi_c-font-16 muvi_c-font-slim">
+				<a href="{$this->base_url}/{$physical->permalink}"> {$physical->name}</a></p>
+			<p class="muvi_caption_genre muvi_c-font-16">
+				{$physical->price}
+			</p>
+		</div>
+		{if $physical->status ==1}
+		<div class="btn-group btn-group-justified" role="group">
+			{if $physical->is_preorder == 0}
+			<div class="btn-group muvi_c-border-top" role="group">
+				<a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" onclick="showcart({$physical->id}, 1);">{$this->Language['add-to-cart']}</a>
+			</div>
+			<div class="btn-group c-border-left muvi_c-border-top" role="group">
+				<a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" onclick="showcart({$physical->id}, 2);">{$this->Language['ordernow']}</a>
+			</div>
+			{else}
+			<a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" onclick="window.location = '{$this->base_url}/{$physical->permalink}'">{$this->Language['pre_order']}</a>
+			{/if}
+		</div>
+		{elseif $physical->status ==3}
+		<div class="btn-group btn-group-justified" role="group">
+			<div class="btn-group muvi_c-border-top" role="group">
+				<div class="muvi_stockout">{$this->Language['stock_out']}</div>
+			</div>
+		</div>
+		{/if}
+	</div>
+		
+</div>

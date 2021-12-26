@@ -1,0 +1,76 @@
+<div class="">
+    <div class="container">
+        <h2 class="txt-camel">{$this->Language['register_as_partner']}</h2>
+        <div class="row">
+            <div class="col-md-12">
+            <h3>{$this->Language['create_account_now']}</h3> 
+            <p>{$this->Language['cancel_ac_anytime']}</p>
+            <p class="gray">{$this->Language['no_commit_no_extrafee']}</p>
+            <h3 class="txt-camel">{$this->Language['account_detail']}</h3>
+            <form id="membership_form" name="membership_form" method="POST" class="form-horizontal" action="javascript:void(0);">
+               <input type="hidden" name="csrfToken"  value="{$smarty.session.csrfToken}" />
+                <div id="errors" class="error center"></div>  
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">{$this->Language['text_name']}</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="{$this->Language['text_name']}" id="name" name="data[name]" required />
+                    </div>
+
+                    <label for="email" class="col-sm-2 control-label">{$this->Language['email']}</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control" autocomplete="off" placeholder="{$this->Language['email']}" id="email_address" name="data[email]" required />
+                    </div>                    
+                </div>   
+                <div class="loader" id="membership_loading" style="display:none;" ></div>
+                <div class="form-group">
+                    <label for="join_password" class="col-sm-2 control-label">{$this->Language['text_password_placeholder']}</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['text_password_placeholder']}" id="join_password" name="data[password]" required />
+                    </div>
+
+                    <label for="confirm_password" class="col-sm-2 control-label">{$this->Language['confirm_password']}</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" autocomplete="off" placeholder="{$this->Language['confirm_password']}" id="confirm_password" name="data[confirm_password]" required />
+                    </div>                    
+                </div>                                      
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <div class="c-checkbox c-toggle-hide" data-object-selector="c-account" data-animation-speed="600">
+                            <input type="checkbox" id="checkbox1-77" class="c-check">
+                           {$this->Language['chk_over_18']} <a class="link linkcol" href="{$this->base_url}/page/terms-privacy-policy" target="_blank">{$this->Language['terms']}</a>
+                                                  </div>
+                    </div>
+                    <label id="data[over_18]-error" class="error" for="data[over_18]" style="display: none;"></label>
+                </div>            
+
+                <div class="clear"></div><br>
+                <div class="form-group ">
+                    <div class="controls">
+                        <div class="pull-left col-sm-2">
+                            <button id="register_partner" class="btn btn-lg btn-primary" onclick="validatePartnerSignupStep1Form();">{$this->Language['btn_register']}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>                   
+
+                <span class="error" id="plan_error"></span>     
+            </form> 
+            </div>
+        </div> 
+    </div>
+</div>
+
+<script type="text/javascript">
+    var action = 'savepartner';
+    var btn = 'Register';
+</script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/action.js"></script>
+<script type="text/javascript" >
+ $(document).ready(function(){
+    if('{$this->custom_register_page_urlid}' !== ""){ /*40392*/
+        $('#name_of_cinema').val('{$this->custom_register_page_urlid}');
+        $('#name_of_cinema').attr('readonly', true);
+    } /*40392*/
+});
+</script>

@@ -1,0 +1,15 @@
+<li class="col-md-3">
+    <div class="item-wrap clearfix">
+        <div class="item-cover">
+                <img class="_cover" src="{$users->poster}" />
+                <div class="cover-overlay">
+                    <a class="playbtn" href="{$users->permalink}">{$this->Language['explore']}</a>             
+                </div>
+            </div>
+            <div class="spacer_10"></div>
+            <div class="item-info">
+                <a href="{$users->permalink}">{$users->name|utf8_decode}</a>
+            </div>
+            <div class="spacer_10"></div>
+    </div>
+</li>

@@ -1,0 +1,97 @@
+<link rel="stylesheet" type="text/css" href="{Yii::app()->baseUrl}/common/css/gifting.css">
+<style type="text/css">    
+    .error{
+        color: #ff0000 !important;
+    }
+</style>
+<div class="loader" id="gift_redeem_loader" style="display:none;"></div>
+<div class="single-product-area">
+    <div class="muvi_c-layout-breadcrumbs-1 muvi_c-subtitle muvi_c-fonts-uppercase muvi_c-fonts-bold muvi_c-bordered muvi_c-bordered-both">
+        <div class="container">            
+            <div class="muvi_c-page-title muvi_c-pull-left">
+                <h3 class="c-font-uppercase muvi_c-font-sbold">{($this->Language["gift_redeem"]=='')?'Gift Redeem':$this->Language["gift_redeem"]}</h3>
+                <h4 class=""></h4>
+            </div>            
+        </div>
+    </div>
+    <div class="container muvi_content-area">
+        <div class="row muvi_top200">
+            <div class="col-md-12">
+                <div class="multisteps-form col-md-12">
+                    <!--form panels-->
+                    <div class="m-auto">
+                        <div class="col-md-6 m-auto">
+                            <form name='gift_redeem' class="multisteps-form__form" action="{$this->siteurl}/gift/redeem">
+
+                                <!--Amount Area-->
+                                <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+                                    <div class="multisteps-form__content">
+
+                                        <div class="form-group row mb0">
+                                            <label for="GiftVoucher" class="col-md-12 col-sm-12 col-xs-12 col-form-label">{($this->Language["enter_gift_voucher"]=='')?'Enter Gift Voucher':$this->Language["enter_gift_voucher"]}</label>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <input type="text" class="form-control" name="data[gift_voucher]" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb0">
+                                            <label class="col-md-12 col-sm-12 col-xs-12 col-form-label error" id="gift_errors"></label>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="button-row d-flex mt-6 col-md-12">
+                                                {if $user_id == ''}
+                                                <button type="button" class="btn proeed_btn ml-auto js-btn-next float-right" onclick="$('#loginModal').modal('show')">{($this->Language["redeem"]=='')?'Redeem':$this->Language["redeem"]}</button>
+                                                {else}
+                                                <button id="btn_redeem" class="btn proeed_btn ml-auto js-btn-next float-right">{($this->Language["redeem"]=='')?'Redeem':$this->Language["redeem"]}</button>
+                                                {/if}
+                                            </div>
+
+                                            <div class="clear"></div>      
+                                        </div>
+
+                                        <div class="clear"></div>  
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../../common/js/jquery.validate.min.js"></script>
+<script>
+            $(document).ready(function () {
+                $("form[name='gift_redeem']").validate({
+                    rules: {
+                        "data[gift_voucher]": {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        "data[gift_voucher]": {
+                            required: JSLANGUAGE.gift_voucher_required ? JSLANGUAGE.gift_voucher_required : 'Please enter gift voucher'
+                        }
+                    },
+                    submitHandler: function (form) {
+                        $('#gift_errors').html('');
+                        $('#gift_errors').hide();
+                        $('#btn_redeem').attr('disabled', true);
+                        $('#gift_redeem_loader').show();
+                        $.post(form.action, $(form).serialize(), function (response) {
+                            if (response.status) {
+                                location.href = response.redirect_url;
+                            } else {
+                                $('#gift_errors').html(response.message);
+                                $('#gift_errors').show();
+                                $('#btn_redeem').attr('disabled', false);
+                            }
+                            $('#gift_redeem_loader').hide();
+                        }, 'json');
+                    }
+                });
+            });
+</script>

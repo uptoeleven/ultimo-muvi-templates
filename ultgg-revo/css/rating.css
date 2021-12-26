@@ -1,0 +1,166 @@
+/* 
+    Created on : Jul 25, 2018, 11:35:56 AM
+    Author     : Pritam
+    Purpose    : Rating-Reviews-Likes
+*/
+.like {
+    color: #5e9cd1;
+    font-size: 15px;
+    font-weight: 300;   
+    padding-left: 5px;
+    position: relative;
+    top: -4px;
+}
+
+/*#listingicons {
+    list-style-type: none;
+    padding-left: 1.2em;
+}   
+#listingicons li{
+    float: left;
+}  */
+
+#listingicons{
+/*    margin: 0;
+    padding: 0;
+    line-height: 0;
+    padding-left: 1.2em;*/
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}  
+#listingicons li {
+    list-style-type: none;
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    vertical-align: top;
+}
+#listingicons li a{
+    font-size: 11px;
+    line-height: 1.2;
+}
+.rating-stars{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    padding-left: 1.2em;
+}
+.rating-stars, .rating-stars li{
+    list-style-type: none;
+    padding: 0px;
+}
+
+.rating-hover:hover > div.dropdown-menu {
+     display: block;   
+     /*margin-left: 80px;*/ 
+     margin-bottom: 150px;
+
+}
+.rating-hover .dropdown-menu {
+     top: 96%;   
+     left: auto; 
+     /*right: 90px;*/
+}    
+.dropdown-menu::before, .dropdown-menu-visible-xs::before{
+    left: 36%;
+}
+.glystar, .ratingfont, .showreviewfont {
+    font-size: 10px;
+}
+.dropdown-width {
+    width:200px;
+}
+.hover-icon {
+    width:35px; 
+    line-height:1;
+}
+.hover-rating {
+    height:9px; 
+    margin:5px 0; 
+    font-size:11px;
+}
+.hover-progress {
+    height:9px; 
+    margin:8px 0;
+}
+.listicons{
+    font-size: 12px;
+}    
+.ratingcolorred {
+    color : #DC143C;
+}    
+.rating-progress-bar{
+    width: 92px;
+}  
+.percentage {
+    margin-left:10px;
+    font-size: 12px;
+    margin-top: 4px;
+}
+.showreviewcaret {
+    font-size: 11px;
+    position: absolute;
+    margin-top: 7px;
+}
+.avg-rating {
+    margin-top: -10px;
+    font-size: 12px;
+}
+.featureicons {
+    font-size: 12px;
+}
+.featurecounts {
+    font-size: 12px;
+}
+/*#featureblock li {
+    list-style-type: none;
+    float: left;
+    position: relative;
+    right: 23px;
+}*/
+#featureblock{
+/*    margin: 0;
+    padding: 0;
+    line-height: 0;
+    padding-left: 1.2em;*/
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+#featureblock li {
+    list-style-type: none;
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    vertical-align: top;
+}
+#featureblock li a{
+    font-size: 11px;
+    line-height: 1.2;
+}
+.featurereviewcaret {
+    font-size: 11px;
+    position: absolute;
+    margin-top: 6px;
+}
+.dropup {
+    position: relative;
+    display: inline-block;
+}
+
+.dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #FBFBFB;
+    min-width: 160px;
+    bottom: 20px;
+    z-index: 1;
+}
+
+.dropup:hover .dropup-content {
+    display: block;
+}
+.item-info1 {
+    padding: 0px 15px;
+}

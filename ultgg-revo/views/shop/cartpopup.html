@@ -1,0 +1,56 @@
+{if $smarty.session.totalqnt!=0}
+<div class="cart-popup">
+    <div class="row">
+        <div class="col-xs-6 text-left">
+            {$smarty.session.totalqnt} {$this->Language['item-s']}
+        </div>
+        <div class="col-xs-6 text-right">
+            <strong>{$smarty.session.item_total}</strong>
+        </div>
+    </div>
+    <ul class="_items-list">
+        {assign var="producturl" value=$this->base_url}
+        {assign var="cart_item" value=$smarty.session.cart_item}
+        {foreach from=$cart_item key=k item=item}
+            {assign var="img_path" value=PGProduct::getpgImage($item['id'],'thumb')}
+            <!--{assign var="itemid" value=$item['id']}-->
+            {assign var="itemid" value=$k}
+            {assign var="qnty" value=$item['quantity']}
+            <li id='cart_tr{$itemid}' {if $item['product_status']!=1} class="productstatus_div" {/if}>
+                <img class="_cover" src="{$img_path}" />
+				<span class="productstatus_cartpopup">
+					{if $item['product_status']!=1}
+						{assign var="errproduct" value=1}
+						{assign var="product_status" value=$item['product_status']}
+						{$this->productstatuserror[$product_status]}
+					{else}
+						{assign var="errproduct" value=0}
+					{/if}
+				</span>
+				{if $errproduct==1}{else}
+                <p>
+                    {$item["quantity"]} x
+                    {Yii::app()->common->formatPrice($item['price'],$item['currency_id'], 0, null, 0, 1)}
+                </p>
+				{/if}
+                <p>
+                    <a href="{$producturl}/{$item['permalink']}">
+                        {if $item['name']|count_characters > 30}
+                        {$item['name']|substr:0:30}
+                        {else}
+                        {$item['name']}
+                        {/if}
+                    </a>
+                </p>
+                <a onclick="removefromcart('{$itemid}', 'cart_tr{$itemid}','{$qnty}');" href="javascript:void(0);" class="_close">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+                <div class="loader"></div>
+            </li>
+        {/foreach}
+    </ul>
+    <div class="text-center">
+        <a href="javascript:void(0);" onclick="goKart();" class="btn btn-primary">{$this->Language['view_cart']}</a>
+    </div>
+</div>
+{/if}

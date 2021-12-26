@@ -1,0 +1,1563 @@
+<script>
+    var muviWaterMarkTrailer = "{$waterMarkOnPlayer}";   
+</script>
+<style>
+   .contentLikes{
+    color: #444c53 !important;
+} 
+</style>
+{$content = $item|json_decode}
+<span style="display:none;">{$content->play_btn}</span>
+<input type="hidden" value="{$content->movie_id}" id="p_movieid">
+{$casts = $content->casts}
+{$directors = $casts->directors}
+{$isConverted=$content->is_converted}
+{$release_date = $content->release_date}
+{$censor_rating = $content->censor_rating|replace:'&nbsp;':''}
+{$actors = $casts->actors}
+{$all_series = $allseries|json_decode}
+{$content_banner=$content->content_banner}
+{$trailer_is_converted=$content->trailer_is_converted}
+{$pageUrl = $this->ogUrl}
+{$full_release_date = $content->full_release_date}
+{$user_id=Yii::app()->user->id}
+{$season_links = $seasonlinks|json_decode}
+{$seasons_content = $seasonscontent|json_decode}
+{$cast_crew_feature = $cc_feature}
+{if $cast_crew_feature == 1}
+    {assign var='cast_members' value=array()}
+    {assign var='crew_members' value=array()}
+    {$crew_count=0}
+    {$cast_count=0}
+    {foreach from=$casts key=role item=cast}
+        {foreach from=$cast key=counter item=cast_role}
+            {if $cast_role->type==0}                                    
+                 {append var='cast_members' value=$cast_role}
+                 {$cast_count=$cast_count+1}
+            {else}
+                {append var='crew_members' value=$cast_role}
+                {$crew_count=$crew_count+1}
+            {/if}
+        {/foreach}
+    {/foreach}
+{/if}
+<!--mantis : 10334 start-->
+<script type="text/javascript">
+var more = "{$this->Language['more']}";
+</script>
+
+<!--ER42158 start-->
+     {if $chat_enable_status == 1 && $chat_authkey != "" && $user_id != ""}
+            <script src="//cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
+
+            <script type="text/javascript" src="https://asset.muvi.com/js/groupchat_muvi5{$chat_server_info}.js?v={time()}"></script>
+            <!--font awesome css-->
+            <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.9.0/css/all.css" integrity="sha384-vlOMx0hKjUCl4WzuhIhSNZSm2yQCaf0mOU1hEDK/iztH3gU4v5NMmJln9273A6Jz" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="https://asset.muvi.com/css/groupchat_muvi5.css?v={time()}">
+       {/if}
+<!--ER42158 end-->
+<!--mantis : 10334 End-->
+<input class="playlist_user_id" value="{$user_id}" type="hidden">
+ 
+<div class="content _no-gap-top" ng-app="relatedContent" ng-controller="relatedContentMovie">
+    <div class="item-detail-title">
+        <div class="container">
+            <h2 class="_item-detail">{$content->title|utf8_decode}</h2>
+        </div>
+    </div>
+    {if $content_banner !=''}
+    <div class="container-overview">
+        <img src="{$content_banner}"  alt="{$content->title|utf8_decode}" title="{$content->title|utf8_decode}"  class="img-responsive item-cover-lg" />  
+    </div>
+    {/if}
+    <div class="spacer _50"></div>
+    <div class="container" ng-app="relatedContent" ng-controller="relatedContentMovie">
+        <div class="row product-meta-data">
+            {if $VDContentDetailInfo}
+            <div 
+                class="item-detail-info col-md-3">
+                <img src="{$content->poster}" alt="{$content->title|utf8_decode}" class="img-responsive item-thumb" />
+                <!--#ER 19243 Start-->
+                 {$content->resume_play_btn}
+                  <!--#ER 19243 End-->
+                <br/>
+                {if $show_likes == 1}    
+                    {if $this->user_id > 0}
+                     {if !empty($like_colour)}
+                    <a href="javascript:void(0);" id="likes_chk" class="contentLikes" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="{$content_likes[0]['likes']}" data-user="{$user_id}">       
+                        <span style="color:#32c5d2;" class="fa fa-thumbs-up fa-lg"><span style="color:#32c5d2;" class="like">Like</span></span> 
+                    </a>  
+                    {else}
+                   <a href="javascript:void(0);" id="likes_chk" class="contentLikes" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="{$content_likes[0]['likes']}" data-user="{$user_id}">  
+                        <span style="color:#444c53;" class="fa fa-thumbs-up fa-lg"><span style="color:#444c53;" class="like">Like</span></span> 
+                    </a>  
+                    {/if}
+                    {else}
+                   <a href="javascript:void(0);" id="likes_chk" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="" data-user="{$user_id}">  
+                        <span class="fa fa-thumbs-up fa-lg"  ><span class="like">Like</span></span> 
+                    </a>
+                {/if}                  
+                {/if}                  
+                <!--ER-28400 starts here-->
+                {if $donation_btn}                          
+                <div class="donation-details-page">{$donation_btn}</div>                            
+                {/if} 
+                <!--ER-28400 ends here-->
+            </div>
+            <div class="col-md-9 row">
+            {foreach from=$VDContentDetailInfo|json_decode item=vdListItem}
+            
+                <div 
+                    class="item-detail-info
+                    {if $vdListItem->boldStatus == 'b'} _bold{/if}
+                    {if $vdListItem->align == 'r'} _txt-right{/if}
+                    {if $vdListItem->align == 'c'} _txt-center{/if}
+                    {if $vdListItem->lineCount == 's'} _sline{/if}
+                    {if $vdListItem->width == '1/12'} col-md-1
+                    {elseif $vdListItem->width == '2/12'} col-md-2
+                    {elseif $vdListItem->width == '3/12'} col-md-3
+                    {elseif $vdListItem->width == '4/12'} col-md-4
+                    {elseif $vdListItem->width == '5/12'} col-md-5
+                    {elseif $vdListItem->width == '6/12'} col-md-6
+                    {elseif $vdListItem->width == '7/12'} col-md-7
+                    {elseif $vdListItem->width == '8/12'} col-md-8
+                    {elseif $vdListItem->width == '9/12'} col-md-9
+                    {elseif $vdListItem->width == '10/12'} col-md-10
+                    {elseif $vdListItem->width == '11/12'} col-md-11
+                    {elseif $vdListItem->width == 'full' || $vdListItem->width == ''} col-md-12
+                    {else}
+                     col-md-12
+                    {/if}
+                    "
+
+                    style="{if $vdListItem->lineHeight != '' && $vdListItem->lineHeight != '0'}line-height:{$vdListItem->lineHeight}px;{/if}
+                    {if $vdListItem->size != '' && $vdListItem->size != '0'}font-size:{$vdListItem->size}px;{/if}
+                    {if $vdListItem->color != '' && $vdListItem->color != '0'}color:{$vdListItem->color};{/if}
+                    ">
+
+                    
+                    
+                    {if $vdListItem->contentType == "title"}
+                        <h3>
+                            <div class="pull-right">
+                                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$pageUrl}" data-title="{$this->Language['share_in_facebook']}" class="social-share-popup"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp;
+                                <a target="_blank" href="https://twitter.com/intent/tweet?text={$pageUrl}" data-title="{$this->Language['share_in_twitter']}" class="social-share-popup"><i class="fa fa-twitter"></i></a>&nbsp;&nbsp;
+                            </div> 
+                            {$content->title|utf8_decode}
+                        </h3>  
+                    
+                    {elseif $vdListItem->contentType == "add_to_fav"}
+                        {if $this->add_to_favourite}
+                        <button name="addtofav" data-fav_status="{$user_status['fav_status']}" data-login_status="{$user_status['login_status']}" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" class="btn btn-primary addtofav" type="button">{if $user_status['fav_status'] ==0}<i class="fa fa-heart"></i><span id="favtext">{$this->Language['added_to_fav']}</span>{else} <i class="fa fa-heart-o"></i><span id="favtext">{$this->Language['add_to_fav']}</span> {/if}</button>&nbsp;&nbsp;
+                        {/if}                        
+                        {if $content->show_booking_button}
+                            {if $content->start_time !="0000-00-00 00:00:00" }
+                            <button name="addtocal" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" data-start_time="{$content->start_time}" data-booking_time="{$content->booking_time}" data-book_type="1" data-booking_with_cal="1" class="btn btn-danger addtocal cbook" type="button"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>{if $content->booking_status}{$this->Language['booked']}{else}{$this->Language['book']}{/if}</button>
+                            {else}
+                            <button name="addtocal" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" class="btn btn-danger addtocal" data-booking_time="{$content->booking_time}" data-book_type="2" data-booking_with_cal="1" type="button"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>{if $content->booking_status}{$this->Language['added_to_calender']}{else}{$this->Language['add_to_calender']}{/if}</button>
+                            {/if}
+                        {/if}
+                    {elseif $vdListItem->contentType == "play_butn"}
+                     {if $content->video_duration != '' }
+                <div class="item-detail-info"><strong>{$this->Language['duration']}</strong>&nbsp;{$content->video_duration}</div> 
+                {/if}
+                {if isset($this->store_configs->cast_crew_type) && $this->store_configs->cast_crew_type == 1}<!--41016 -->
+                <div class="item-detail-info">
+                       <button class="btn btn-primary btn-lg connect_with_us_btn" data-movie_id="{$content->movie_id}">{$this->Language['connect']}</button>
+                </div>
+                {/if}<!--41016 -->
+                        {if $content->embedTrailerUrl != ""}
+                        <a href="{$content->embedTrailerUrl}" class="btn btn-lg btn-primary " id="trailer-btn">{$this->Language['view_trailer']}</a>
+                        {/if}
+                        {if $content->embeddedUrl != ""}
+                             <a href="{$content->embeddedUrl}" class="playbtn btn btn-lg btn-danger ">{$this->Language['btn_play']}</a>
+                        {/if}
+                          {if $trailer_is_converted !=''} 
+                            <!-- Mnatis 14357 -->
+                            <a href="javascript:void(0);" onclick="frontEndTrailer({$content->movie_id},'digital')" class="btn btn-lg  btn-danger">{$this->Language['view_trailer']}</a>
+                        {/if}
+                    {elseif $vdListItem->contentType == "genre"}
+                        {if $vdListItem->style != "no_label"}
+                            <strong>{$this->Language['genre']}</strong>
+                            {if $vdListItem->style != "label_inline"}<br/>{/if}                    
+                        {/if}
+                        {if $vdListItem->style == "label_inline"}<br/>{/if}
+                        {if $content->genres|@count > 0}
+                            {$genre_count = $content->genres|count}
+                            {$j=0}
+                            {foreach from=$content->genres item=genre}
+                            {$genre}{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                        {/if}
+                        &nbsp;
+                        
+                    {elseif $vdListItem->contentType == "release_date"}
+                        {if $vdListItem->style != "no_label"}
+                            <strong>{$this->Language['sort_release_date']}</strong>
+                            {if $vdListItem->style != "label_inline"}<br/>{/if}                    
+                        {/if}
+                        {if $vdListItem->style == "label_inline"}<br/>{/if}
+                        {$content->full_release_date|utf8_decode}&nbsp;
+                        
+                    {elseif $vdListItem->contentType == "price"}
+                        {if $pricing_text != ''}
+                        <p>{$pricing_text}</p>
+                        {/if}
+
+                    {else}
+                        {$datakey = $vdListItem->contentType}
+                        {if $vdListItem->style != "no_label"}
+                            <strong>{$system_vals[$datakey]}</strong>
+                            {if $vdListItem->style != "label_inline"}<br/>{/if}                    
+                        {/if}
+                        {$content->$datakey|utf8_decode}
+                        {$content->custom->$datakey->field_value|utf8_decode}&nbsp;
+                        
+                    {/if}
+
+                </div>  
+            {/foreach}
+            
+                <div class="item-detail-info col-md-12">
+                        <!--Star/Cast lists-->
+                        {assign var=val value=0}
+                        {foreach from=$casts key=counter item=cast}
+                        {if $cast|count>0} 
+                        {assign var=val value=$val+1}
+                        {/if}
+                        {/foreach}                                
+                        {assign var=counte value=0}                                
+                        {if $val > 0 && $cast|is_array}
+                        {if $cast_crew_feature == 1}
+                        <!--ER 40989-->
+                        {if $cast_count > 0}
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                        <p><strong>{$this->Language['cast']}</strong></p>
+                        <div class="row">                                
+                                        {foreach from=$cast_members key=counter item=cast_role}
+                                            {if $counte < 3}                                    
+
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="cast clearfix">
+                                                    <a href="{$cast_role->full_permalink}">
+                                                        <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50">
+                                                    </a>
+                                                    <p class="light-grey">
+                                                        <a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />
+                                                        {$cast_role->cast_type_name}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                           {elseif $counte == 3}
+                                                <div class="col-md-12"><a class="more" href="javascript:void();" data-toggle="modal" data-target=".bs-example-modal-lg-0">{$this->Language['more']} &raquo;</a></div>
+                                                {break}
+                                            {/if}
+                                            {if $cast_role->type==0}
+                                                {$counte=$counte+1}
+                                            {/if}
+                                        {/foreach}
+                                     
+                                </div>
+                            </div>
+                            {/if}
+                            {$counte=0}
+                            {if $crew_count > 0}
+                            <div class="col-md-6 col-sm-6">
+                                <p><strong>{$this->Language['crew']}</strong></p>
+                                <div class="row">
+                                    {foreach from=$crew_members key=counter item=cast_role}
+                                    {if $counte < 3 }
+                                    
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="cast clearfix">
+                                            <a href="{$cast_role->full_permalink}">
+                                                <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50">
+                                            </a>
+                                            <p class="light-grey">
+                                                <a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />
+                                                {$cast_role->cast_type_name}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {elseif $counte == 3}
+                                        <div class="col-md-12"><a class="more" href="javascript:void();" data-toggle="modal" data-target=".bs-example-modal-lg-1">{$this->Language['more']} &raquo;</a></div>
+                                        {break}
+                                    {/if}
+                                    {if $cast_role->type==1}
+                                        {$counte=$counte+1}
+                                    {/if}
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+                        <!--End of ER 40989-->
+                        {else}
+                        <p><strong>{$this->Language['cast']}</strong></p>
+                        <div class="row">                                
+                            {foreach from=$casts key=role item=cast}                                    
+                            {foreach from=$cast key=counter item=cast_role}
+                            {if $counte < 6}                                    
+                            <div class="col-md-6 col-sm-6">
+                                <div class="cast clearfix">
+                                    <a href="{$cast_role->full_permalink}">
+                                        <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50">
+                                    </a>
+                                    <p class="light-grey">
+                                        <a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />
+                                        {$cast_role->cast_type_name}
+                                    </p>
+                                </div>
+                            </div>
+                            {elseif $counte == 6}
+                            <div class="col-md-12"><a class="more" href="javascript:void();" data-toggle="modal" data-target=".bs-example-modal-lg">{$this->Language['more']} &raquo;</a></div>
+                            {/if}
+                            {assign var=counte value=$counte+1}
+                            {/foreach}                                
+                            {/foreach}
+                        </div>
+                        {/if}
+                        {/if}
+                    </div>
+            </div>
+            {else}        
+            <div class="col-md-3">    
+                <img src="{$content->poster}" alt="{$content->title|utf8_decode}" class="img-responsive item-thumb" />
+                <!--#ER 19243 Start-->
+                 {$content->resume_play_btn}
+                  <!--#ER 19243 End-->
+                <br/>
+                {if $show_likes == 1}    
+                    {if $this->user_id > 0}
+                    <!--Upasana start ER 27448-->
+                    {if $like_colour != 0}
+                    <a href="javascript:void(0);" id="likes_chk" class="contentLikes" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="{$content_likes[0]['likes']}" data-user="{$user_id}">       
+                        <span style="color:#32c5d2;" class="fa fa-thumbs-up fa-lg"><span style="color:#32c5d2;" class="like">Like</span></span> 
+                    </a>  
+                    {else}
+                   <a href="javascript:void(0);" id="likes_chk" class="contentLikes" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="{$content_likes[0]['likes']}" data-user="{$user_id}">  
+                        <span style="color:#444c53;" class="fa fa-thumbs-up fa-lg"  ><span style="color:#444c53;" class="like" >Like</span></span> 
+                    </a>  
+                    {/if}
+                   <!--Upasana end ER 27448-->
+                    {else}
+                            <a href="javascript:void(0);" id="likes_chk" onclick="countLikes(this)" data-id="{$content->movie_id}" data-value="" data-user="{$user_id}">  
+                                <span class="fa fa-thumbs-up fa-lg"  ><span class="like">Like</span></span> 
+                            </a> 
+                {/if}                  
+                {/if}                  
+                <!--ER-28400 starts here-->
+                {if $donation_btn}                          
+                <div class="donation-details-page">{$donation_btn}</div>                            
+                {/if} 
+                <!--ER-28400 ends here-->
+            </div>
+            <div class="col-md-9 product-meta-data">
+                <h3>
+                    <div class="pull-right">
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$pageUrl}" data-title="{$this->Language['share_in_facebook']}" class="social-share-popup"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://twitter.com/intent/tweet?text={$pageUrl}" data-title="{$this->Language['share_in_twitter']}" class="social-share-popup"><i class="fa fa-twitter"></i></a>&nbsp;&nbsp;
+                    </div> 
+                    {$content->title|utf8_decode} {if $censor_rating !="" }<span class="label label-red">{$censor_rating} </span>{/if}
+                </h3>
+                <br/>
+                <p>
+                {if $this->add_to_favourite}
+                <button  name="addtofav" data-fav_status="{$user_status['fav_status']}" data-login_status="{$user_status['login_status']}" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" class="btn btn-primary addtofav" type="button">{if $user_status['fav_status'] ==0}<i class="fa fa-heart"></i><span id="favtext">{$this->Language['added_to_fav']}</span>{else} <i class="fa fa-heart-o"></i><span id="favtext">{$this->Language['add_to_fav']}</span> {/if}</button>&nbsp;&nbsp;
+                {/if}
+                {if $content->show_booking_button}
+                    {if $content->start_time !="0000-00-00 00:00:00" }
+                    <button name="addtocal" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" data-start_time="{$content->start_time}" data-booking_time="{$content->booking_time}" data-book_type="1" data-booking_with_cal="1" class="btn btn-danger addtocal cbook" type="button"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>{if $content->booking_status}{$this->Language['booked']}{else}{$this->Language['book']}{/if}</button>
+                    {else}
+                    <button name="addtocal" data-content_id="{$content->movie_id}" data-content_type="{$content->is_episode}" class="btn btn-danger addtocal" data-booking_time="{$content->booking_time}" data-book_type="2" data-booking_with_cal="1" type="button"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>{if $content->booking_status}{$this->Language['added_to_calender']}{else}{$this->Language['add_to_calender']}{/if}</button>
+                    {/if}
+                {/if}
+                {if !empty($followArr)}
+                <span class="text-right pull-right">
+                    {$followClass = 'muvi-follow'}
+                    {$followLang = 'follow'}
+                    {if $followArr['is_follow']}
+                        {$followClass = 'muvi-unfollow'}
+                        {$followLang = 'following'}
+                    {/if}
+                    <span id="count-followers{$followArr['request_id']}" class="count-followers">{number_format($followArr['count_follow'])} follower(s) </span><a href="javascript:;" class="{$followClass} btn btn-primary" data-is-follow="{$followArr['is_follow']}" data-type="{$followArr['type']}" data-request-id="{$followArr['request_id']}" data-user="{Yii::app()->user->id}" data-name="{$content->title|utf8_decode}" data-pjax="0">{$this->Language[$followLang]}</a>
+                </span>
+                {/if}
+                </p>
+                {if $content->genres|@count > 0}
+                <p>
+                    <strong>{$this->Language['genre']}</strong>
+                    {$genre_count = $content->genres|count}
+                    {$j=0}
+                    {foreach from=$content->genres item=genre}{$genre}{$j = $j+1}
+                    {if $j != $genre_count},
+                    {/if}
+                    {/foreach}
+                </p> 
+                {/if}
+                
+                {if $pricing_text != ''}
+                <p>{$pricing_text}</p>
+                {/if}
+                
+                <p>
+                    {if $trailer_is_converted !=''}
+                    <!-- Mnatis 14357 -->
+                    <a href="javascript:void(0);" onclick="frontEndTrailer({$content->movie_id},'digital')" class="btn btn-primary">{$this->Language['view_trailer']}</a>
+                    {/if}
+                </p>
+             
+                {if $content->video_duration != '' && $isConverted==1}<!--ER ::23672 -->
+                <p><strong>{$this->Language['duration']}</strong>&nbsp;{$content->video_duration}</p> 
+                {/if}
+                
+                {$genre_count = $directors|count}
+                {$j=0}
+                {if $directors|@count > 0}
+                <p>
+                    <strong>{$this->Language['director']}:&nbsp;</strong>
+                    {foreach from=$directors item=director}
+                    <a class="txt-link" href="{$director->full_permalink}">{$director->celeb_name}{$j = $j+1}{if $j != $genre_count},{/if}</a>
+                    {/foreach}
+                </p>
+                {/if}
+                {if $content->content_types_id == 4}<!--ER: 44117 -->
+                    {if $content->start_time != '' && $content->start_time != '0000-00-00 00:00:00'}
+                    <p>
+                        <strong>{$this->Language['stream_date_time']} : </strong>
+                        {$content->start_time|date_format:"%d-%b-%Y, %H:%M (UTC)"}
+                    </p>
+                    {/if}
+                    {if $content->livestream_duration != '' && $content->livestream_duration|date_format:"%H:%M" !='00:00'}<!-- ER ::44117 -->
+                    <p>
+                        <strong>{$this->Language['livestream_duration']} : </strong>
+                        {$content->livestream_duration|date_format:"%H:%M"}
+                    </p>
+                    {/if}
+                {/if}
+                
+                {if $full_release_date != ''}
+                <p>
+                    <strong>{$this->Language['sort_release_date']}: </strong>
+                    {$full_release_date}
+                </p>
+                {/if}
+                
+                {if $content->story !='' }
+                <p>
+                    <strong>{$this->Language['story']}</strong><br/>
+                    {if $content->story|utf8_decode|count_characters > 75}
+                    {$content->story|utf8_decode|truncate:190}&nbsp;&nbsp;
+                    <a href="javascript:void();" class="txt-link" data-toggle="modal" data-target=".bs-example-modal-lg2">{$this->Language['more']}</a>
+                    {else}
+                    {$content->story|utf8_decode}
+                    {/if} 
+                </p>
+                {/if}
+                
+                {if $this->studio->rating_activated == 1}
+                <p class="c-font-bold c-font-uppercase">
+                    <strong>{$this->Language['rating']}: </strong>
+                    <span class="txt-accent">{$review_summary}</span>
+                </p>
+                {/if}                               
+                {if isset($this->store_configs->cast_crew_type) && $this->store_configs->cast_crew_type == 1}<!--41016 -->
+                <div class="item-detail-info">
+                       <button class="btn btn-primary btn-lg connect_with_us_btn" data-movie_id="{$content->movie_id}">{$this->Language['connect']}</button>
+                </div>
+                {/if}<!--41016 -->
+                <div>
+                    <!--Star/Cast lists-->
+                    {assign var=val value=0}
+                    {foreach from=$casts key=counter item=cast}
+                    {if $cast|count>0} 
+                    {assign var=val value=$val+1}
+                    {/if}
+                    {/foreach}                                
+                    {assign var=counte value=0}                                
+                    {if $val > 0 && $cast|is_array}
+                    {if $cast_crew_feature == 1}
+                        <!--ER 40989-->
+                        {if $cast_count > 0}
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                    <p><strong>{$this->Language['cast']}</strong></p>
+                    <div class="row">                                
+                                        {foreach from=$cast_members key=counter item=cast_role}
+                                            {if $counte < 3}                                    
+
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="cast clearfix">
+                                                    <a href="{$cast_role->full_permalink}">
+                                                        <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50">
+                                                    </a>
+                                                    <p class="light-grey">
+                                                        <a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />
+                                                        {$cast_role->cast_type_name}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                           {elseif $counte == 3}
+                                                <div class="col-md-12"><a class="more" href="javascript:void();" data-toggle="modal" data-target=".bs-example-modal-lg-0">{$this->Language['more']} &raquo;</a></div>
+                                                {break}
+                                            {/if}
+                                            {if $cast_role->type==0}
+                                                {$counte=$counte+1}
+                                            {/if}
+                                        {/foreach}
+                                     
+                                </div>
+                            </div>
+                            {/if}
+                            {$counte=0}
+                            {if $crew_count > 0}
+                            <div class="col-md-6 col-sm-6">
+                                <p><strong>{$this->Language['crew']}</strong></p>
+                                <div class="row">
+                                    {foreach from=$crew_members key=counter item=cast_role}
+                                    {if $counte < 3 }
+                                    
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="cast clearfix">
+                                            <a href="{$cast_role->full_permalink}">
+                                                <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50">
+                                            </a>
+                                            <p class="light-grey">
+                                                <a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />
+                                                {$cast_role->cast_type_name}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {elseif $counte == 3}
+                                        <div class="col-md-12"><a class="more" href="javascript:void();" data-toggle="modal" data-target=".bs-example-modal-lg-1">{$this->Language['more']} &raquo;</a></div>
+                                        {break}
+                                    {/if}
+                                    {if $cast_role->type==1}
+                                        {$counte=$counte+1}
+                                    {/if}
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+                        <!--End of ER 40989-->
+                        {else}
+                        <p><strong>{$this->Language['cast']}</strong></p>
+                        <div class="row">                                
+                        {foreach from=$casts key=role item=cast}                                    
+                        {foreach from=$cast key=counter item=cast_role}
+                        {if $counte < 6}                                    
+                        <div class="col-md-6 col-sm-6">
+                            <div class="cast clearfix">
+                                <a href="{$cast_role->full_permalink}">
+                                    <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50">
+                                </a>
+                                <p class="light-grey">
+                                    <a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />
+                                    {$cast_role->cast_type_name}
+                                </p>
+                            </div>
+                        </div>
+                        {elseif $counte == 6}
+                        <div class="col-md-12"><a class="more" href="javascript:void();" data-toggle="modal" data-target=".bs-example-modal-lg">{$this->Language['more']} &raquo;</a></div>
+                        {/if}
+                        {assign var=counte value=$counte+1}
+                        {/foreach}                                
+                        {/foreach}
+                    </div>
+                    {/if}
+                    {/if}
+                </div>
+                
+            </div>
+        
+        {/if}
+        
+            <div class="spacer _30"></div>
+            <div class="col-md-12">
+                {if $enable_season_page == 1 && $season_links|@count>0}
+                <div class="row">
+                    <div class="col-sm-6"> 
+                        {if $season_links|@count>0}    
+                        <div class="c-content-title-1" style="float:none;">
+                            <h3 class="c-font-uppercase c-font-bold" style="word-wrap: break-word;">                                    
+                                {$this->Language['season']}                                  
+                            </h3>
+                            <div class="c-line-left"></div>
+                        </div>{/if}
+                    </div>
+                </div>
+                {if $season_links|@count>0} 
+
+                <div class="row relative">
+                    <!--To list seasons-->
+                   <div class="col-md-12">
+                        <ul  class="item-list row">
+                       {foreach from=$season_links item=series}
+                       <li class="col-md-3">
+                        <div class="item-wrap" data-selector="{$series->movie_stream_id}_auto" style="">
+                            <div class="item-cover">
+                                <!--ER:50979 & 53709 - Auto Preview Feature - start-->
+                                {if $series->auto_preview_file != ''}<!--ER-57041-->
+                                <video preload="none" class="vid_cover" id="{$series->movie_stream_id}_auto" style="display: none;" muted loop>
+                                    <source src="{$series->auto_preview_file}" type="video/mp4">
+                                    Your browser does not support HTML video.
+                                </video>
+                                {/if}
+                                <!--ER:50979 & 53709 - Auto Preview Feature - end-->
+                                <img class="_cover" src="{$series->poster}">
+                                <div class="cover-overlay">
+                                    <a href="{$series->permalink}" class="btn btn-primary season-redirect" >{$this->Language['explore']}</a>
+                                    <!--53709 -start-->
+                                    {if $series->auto_preview_file != ''}
+                                    <div class="soundBtn">
+                                        <div class="svg sound_btn mute_btn" data-video_id="{$series->movie_stream_id}_auto" onclick="play_autopreview_sound(this)" id="mute" data-toggle="tooltip" data-placement="top" title="Click to unmute">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M23 9L17 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M17 9L23 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="svg hide sound_btn unmute_btn" data-video_id="{$series->movie_stream_id}_auto" onclick="play_autopreview_sound(this)" id="unmute" data-toggle="tooltip" data-placement="top" title="Click to mute">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg";>
+                                                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M19.07 4.92999C20.9447 6.80527 21.9979 9.34835 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07M15.54 8.45999C16.4774 9.39763 17.0039 10.6692 17.0039 11.995C17.0039 13.3208 16.4774 14.5924 15.54 15.53" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    {/if}
+                                    <!--53709 -end-->
+                                </div>
+                           </div>
+                           <div class="item-info item_title" style="">
+                               <h4>{$series->name}</h4>
+                            </div>
+                            <div class="spacer_10"></div>
+                           </div>
+                        </li>
+                        {/foreach}
+                        </ul>
+                    </div>
+                </div>
+                {/if}  
+                {else}
+                <div class="row">
+                    <div class="col-sm-8"> 
+                        {if $episode|@count>0}    
+                        <div class="c-content-title-1" style="float:none;">
+                            <h3 class="c-font-uppercase c-font-bold" style="word-wrap: break-word;">                                    
+                                {$this->Language['episodes']}                                  
+                            </h3>
+                            <div class="c-line-left"></div>
+                        </div>{/if}
+                    </div>
+
+                   <div class="col-sm-4">
+
+                        {if $all_series|@count > 1}
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h3 class="c-font-uppercase c-font-bold text-left text-left-xs season-dropdown_title">                                    
+                                    {$this->Language['season']}                                
+                                </h3>
+                            </div>
+                            <div class="col-sm-8">
+                            <select id="series" name="series" class="form-control form-control-border" onchange="loadepisode();">
+                                {foreach from=$all_series item=series}
+                                <option value="{$series->series_number}" {if $default_series == $series->series_number}selected="selected"{/if}>{$this->Language['season']} {$series->series_number}</option>
+                                {/foreach}
+                            </select>
+
+                        </div>
+                        </div>{/if}
+                    </div>
+
+                </div> 
+                            
+                {if $episode|@count>0} 
+
+                <div class="row relative">
+                    <!--To list episodes-->
+                    <input type="hidden" name="content_id" id="content_id" value="{$content->movie_id}" />
+                    <input type="hidden" name="default_series" id="default_series" value="{$default_series}" />
+
+                    {$pagination}
+                    <div class="col-md-12">
+                        <ul id="episodes" class="item-list row"></ul>
+                    </div>
+                    <div class="loader" id="loader_episode" style="display: none;"></div>
+                </div>
+                {/if}   
+             {/if}    
+            </div>
+            <div class="spacer _30"></div>
+             <!--mantis : 10334 start-->
+            {literal}
+            <div id="relatedContent_section" style="position:relative;" ng-cloak>                
+                    <div ng-if="audio" >
+                        <div class="container">
+                            <h2 class="clearfix">
+                                <span class="caps" style="display: inline-block; margin-top: 4px;">{/literal}{$this->Language['music']}{literal}</span>
+                            </h2>
+                            <ul class="item-list row" >
+                                <li ng-repeat="content in audio" class="col-md-3" >  
+                                    <div class="item-wrap">
+                                        <div ng-if="content.sale_price" class="loader _item-{{content.id}}"></div>
+                                        <ng-container ng-if="content.meta_data_info" >
+                                            <div ng-if="content.meta_data_info[0].contentType != 'poster_url' && content.meta_data_info.length > 1" class="spacer_10"></div>
+                                            <ng-container ng-repeat="metaDtaInfo in content.meta_data_info" >
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != 0" class="spacer_10"></div>
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url'" class="item-cover" >
+                                                    <img class="_cover" src="{{content.poster}}" />
+                                                    <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                                        <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                    </div>
+                                                    <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                    </div>
+                                                    <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                                        <div ng-if="content.play_btn && content.content_types_id != 3" class="cover-overlay" ng-bind-html="content.play_btn | html"></div> 
+                                                        <div ng-if="content.play_btn && content.content_types_id == 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                                        <div  ng-if="!content.play_btn" class="cover-overlay" >
+                                                            <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                            <ng-container ng-if="content.sale_price" >
+                                                                <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                                <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != content.meta_data_info.length - 1" class="spacer_10"></div>
+                                                <div  
+                                                    ng-class="{
+                                                        '_col-1b2':metaDtaInfo.width == '1/2', 
+                                                        '_col-1b3':metaDtaInfo.width == '1/3', 
+                                                        '_col-2b3':metaDtaInfo.width == '2/3', 
+                                                        '_txt-right':metaDtaInfo.align == 'r', 
+                                                        '_txt-center':metaDtaInfo.align == 'c', 
+                                                        '_sline':metaDtaInfo.lineCount == 's', 
+                                                        '_bold':metaDtaInfo.boldStatus == 'b',     
+                                                    }"
+                                                    ng-style="{
+                                                        'color':metaDtaInfo.color, 
+                                                        'font-size':metaDtaInfo.size+'px'
+                                                    }"
+                                                    ng-if="metaDtaInfo.contentType != 'poster_url'" class="item-info" ng-switch on="metaDtaInfo.contentType" >
+                                                    <ng-container ng-switch-when="title"  >
+                                                        <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                                        <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                                        <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                                    </ng-container>                                    
+                                                    <ng-container ng-switch-when="genre"  >
+                                                        <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                                    </ng-container>    
+                                                    <ng-container ng-switch-default >
+                                                        <ng-container ng-bind-html="content[metaDtaInfo.contentType] | html" ></ng-container>
+                                                        <ng-container ng-bind-html="content.custom_meta_data[metaDtaInfo.contentType] | html" ></ng-container>
+                                                        &nbsp;
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                            <div ng-if="content.meta_data_info[content.meta_data_info.length - 1].contentType != 'poster_url' && content.meta_data_info.length > 1" class="spacer_10"></div>
+                                        </ng-container>
+                                        <ng-container ng-if="!content.meta_data_info">
+                                            <div class="item-cover" >
+                                                <img class="_cover" src="{{content.poster}}" />
+                                                <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                                    <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                </div>
+                                                <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                    <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                    <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                </div>
+                                                <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                                    <div ng-if="content.play_btn && content.content_types_id != 3" class="cover-overlay" ng-bind-html="content.play_btn | html"></div> 
+                                                    <div ng-if="content.play_btn && content.content_types_id == 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                                    <div  ng-if="!content.play_btn" class="cover-overlay" >
+                                                        <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                        <ng-container ng-if="content.sale_price" >
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="spacer_10"></div>
+                                            <div class="item-info">
+                                                <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                                <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                                <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                            </div>
+                                            <div class="item-info" ng-if="content.content_type != 1">
+                                                <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                            </div>
+                                            <div> 
+                                                <ul id="featureblock">
+                                                    <li ng-if="content.show_likes == 1">
+                                                        <a href="{{content.permalink}}" ><span class="glyphicon-color glyphicon glyphicon-thumbs-up featureicons"></span> <span class="featurecounts">{{content.all_likes}}</span></a> &nbsp;
+                                                    </li>
+                                                    <li ng-if="content.rating_status == 1">
+                                                        <a href="{{content.permalink}}" ><span class="featurecounts">{{content.all_comments}}</span> <span class="featureicons">Reviews</span></a> &nbsp;
+                                                    </li>
+                                                    <li ng-if="content.show_views == 1">
+                                                        <a href="{{content.permalink}}" class="featureicons"> <span class="featurecounts">{{content.all_views}}</span> Views </a>
+                                                    </li>                                     
+                                                </ul>    
+                                                <ul class="rating-stars">    
+                                                    <li class="dropup" ng-if="content.rating_status == 1">
+                                                        <a href="{{content.permalink}}" class="dropdown-toggle featureicons" data-toggle="dropdown">
+                                                            <input type="hidden" class="rating" data-readonly value="{{content.average_rating}}" />
+                                                        </a><span class="caret"></span>
+                                                        <span class="ratingfont">{{content.avg_total}}</span>
+                                                        <div class="dropup-content dropdown-width" role="menu"> &nbsp;
+                                                            <div class="text-center rating-drop-down avg-rating"> {{content.average_rating}} {/literal}{$this->Language['out_of']}{literal} 5 {/literal}{$this->Language['star']}{literal}</div><!--40781-->
+                                                            <div class="col-xs-12">
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon"> 
+                                                                        <div class="hover-rating">5 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>                     
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_five == 0) ? '2%' : content.count_five +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_five}}%</div>   
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">4 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_four == 0) ? '2%' : content.count_four +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_four}}%</div>   
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">3 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_three == 0) ? '2%' : content.count_three +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_three}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">2 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_two == 0) ? '2%' : content.count_two +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_two}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">1 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_one == 0) ? '2%' : content.count_one +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_one}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left">
+                                                                    <a  href="{{content.permalink}}" style="padding-left: 44px;">
+                                                                        <span class="showreviewfont">See all {{content.avg_total}} reviews </span>&nbsp;<span class="featurereviewcaret fa fa-caret-right"></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>            
+                                                        </div>
+                                                        &nbsp;
+                                                    </li>
+                                                </ul>                                
+                                            </div>    
+                                            <div class="item-info" ng-if="content.content_type == 1">
+                                                {{content.sale_price}}
+                                            </div>
+                                            <div class="spacer_10"></div>
+                                        </ng-container>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-if="video" >
+                        <div class="container">
+                            <h2 class="clearfix">
+                                <span class="caps" style="display: inline-block; margin-top: 4px;">{/literal}{$this->Language['video']}{literal}</span>    
+                            </h2>
+                            <ul class="item-list row" >
+                                <li ng-repeat="content in video" class="col-md-3" >  
+                                    <div class="item-wrap">
+                                        <div ng-if="content.sale_price" class="loader _item-{{content.id}}"></div>
+                                        <ng-container ng-if="content.meta_data_info" >
+                                            <div ng-if="content.meta_data_info[0].contentType != 'poster_url' && content.meta_data_info.length > 1" class="spacer_10"></div>
+                                            <ng-container ng-repeat="metaDtaInfo in content.meta_data_info" >
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != 0" class="spacer_10"></div>
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url'" class="item-cover" >
+                                                    <img class="_cover" src="{{content.poster}}" />
+                                                    <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                                        <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                    </div>
+                                                    <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                    </div>
+                                                    <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                                        <div ng-if="content.play_btn && content.content_types_id != 3" class="cover-overlay" ng-bind-html="content.play_btn | html"></div> 
+                                                        <div ng-if="content.play_btn && content.content_types_id == 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                                        <div  ng-if="!content.play_btn" class="cover-overlay" >
+                                                            <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                            <ng-container ng-if="content.sale_price" >
+                                                                <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                                <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != content.meta_data_info.length - 1" class="spacer_10"></div>
+                                                <div  
+                                                    ng-class="{
+                                                        '_col-1b2':metaDtaInfo.width == '1/2', 
+                                                        '_col-1b3':metaDtaInfo.width == '1/3', 
+                                                        '_col-2b3':metaDtaInfo.width == '2/3', 
+                                                        '_txt-right':metaDtaInfo.align == 'r', 
+                                                        '_txt-center':metaDtaInfo.align == 'c', 
+                                                        '_sline':metaDtaInfo.lineCount == 's', 
+                                                        '_bold':metaDtaInfo.boldStatus == 'b',     
+                                                    }"
+                                                    ng-style="{
+                                                        'color':metaDtaInfo.color, 
+                                                        'font-size':metaDtaInfo.size+'px'
+                                                    }"
+                                                    ng-if="metaDtaInfo.contentType != 'poster_url'" class="item-info" ng-switch on="metaDtaInfo.contentType" >
+                                                    <ng-container ng-switch-when="title"  >
+                                                        <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                                        <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                                        <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                                    </ng-container>                                    
+                                                    <ng-container ng-switch-when="genre"  >
+                                                        <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                                    </ng-container>    
+                                                    <ng-container ng-switch-default >
+                                                        <ng-container ng-bind-html="content[metaDtaInfo.contentType] | html" ></ng-container>
+                                                        <ng-container ng-bind-html="content.custom_meta_data[metaDtaInfo.contentType] | html" ></ng-container>
+                                                        &nbsp;
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                            <div ng-if="content.meta_data_info[content.meta_data_info.length - 1].contentType != 'poster_url' && content.meta_data_info.length > 1" class="spacer_10"></div>
+                                        </ng-container>
+                                        <ng-container ng-if="!content.meta_data_info">
+                                            <div class="item-cover" >
+                                                <img class="_cover" src="{{content.poster}}" />
+                                                <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                                    <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                </div>
+                                                <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                    <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                    <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                </div>
+                                                <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                                    <div ng-if="content.play_btn && content.content_types_id != 3" class="cover-overlay" ng-bind-html="content.play_btn | html"></div> 
+                                                    <div ng-if="content.play_btn && content.content_types_id == 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                                    <div  ng-if="!content.play_btn" class="cover-overlay" >
+                                                        <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                        <ng-container ng-if="content.sale_price" >
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="spacer_10"></div>
+                                            <div class="item-info">
+                                                <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                                <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                                <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                            </div>
+                                            <div class="item-info" ng-if="content.content_type != 1">
+                                                <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                            </div>
+                                            <div> 
+                                                <ul id="featureblock">
+                                                    <li ng-if="content.show_likes == 1">
+                                                        <a href="{{content.permalink}}" ><span class="glyphicon-color glyphicon glyphicon-thumbs-up featureicons"></span> <span class="featurecounts">{{content.all_likes}}</span></a> &nbsp;
+                                                    </li>
+                                                    <li ng-if="content.rating_status == 1">
+                                                        <a href="{{content.permalink}}" ><span class="featurecounts">{{content.all_comments}}</span> <span class="featureicons">Reviews</span></a> &nbsp;
+                                                    </li>
+                                                    <li ng-if="content.show_views == 1">
+                                                        <a href="{{content.permalink}}" class="featureicons"> <span class="featurecounts">{{content.all_views}}</span> Views </a>
+                                                    </li>                                     
+                                                </ul>    
+                                                <ul class="rating-stars">    
+                                                    <li class="dropup" ng-if="content.rating_status == 1">
+                                                        <a href="{{content.permalink}}" class="dropdown-toggle featureicons" data-toggle="dropdown">
+                                                            <input type="hidden" class="rating" data-readonly value="{{content.average_rating}}" />
+                                                        </a><span class="caret"></span>
+                                                        <span class="ratingfont">{{content.avg_total}}</span>
+                                                        <div class="dropup-content dropdown-width" role="menu"> &nbsp;
+                                                            <div class="text-center rating-drop-down avg-rating"> {{content.average_rating}} {/literal}{$this->Language['out_of']}{literal} 5 {/literal}{$this->Language['star']}{literal}</div><!--40781-->
+                                                            <div class="col-xs-12">
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon"> 
+                                                                        <div class="hover-rating">5 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>                     
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_five == 0) ? '2%' : content.count_five +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_five}}%</div>   
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">4 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_four == 0) ? '2%' : content.count_four +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_four}}%</div>   
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">3 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_three == 0) ? '2%' : content.count_three +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_three}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">2 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_two == 0) ? '2%' : content.count_two +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="pull-right percentage">{{content.count_two}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">1 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_one == 0) ? '2%' : content.count_one +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_one}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left">
+                                                                    <a  href="{{content.permalink}}" style="padding-left: 44px;">
+                                                                        <span class="showreviewfont">See all {{content.avg_total}} reviews </span>&nbsp;<span class="featurereviewcaret fa fa-caret-right"></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>            
+                                                        </div>
+                                                        &nbsp;
+                                                    </li>
+                                                </ul>                                
+                                            </div>    
+                                            <div class="item-info" ng-if="content.content_type == 1">
+                                                {{content.sale_price}}
+                                            </div>
+                                            <div class="spacer_10"></div>
+                                        </ng-container>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-if="physical" >
+                        <div class="container">
+                            <h2 class="clearfix">
+                                <span class="caps" style="display: inline-block; margin-top: 4px;">{/literal}{$this->Language['product']}{literal}</span>
+                            </h2>
+                            <ul class="item-list row" >
+                                <li ng-repeat="content in physical" class="col-md-3" >  
+                                    <div class="item-wrap">
+                                        <div ng-if="content.sale_price" class="loader _item-{{content.id}}"></div>
+                                        <ng-container ng-if="content.meta_data_info" >
+                                            <div ng-if="content.meta_data_info[0].contentType != 'poster_url' && content.meta_data_info.length > 1" class="spacer_10"></div>
+                                            <ng-container ng-repeat="metaDtaInfo in content.meta_data_info" >
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != 0" class="spacer_10"></div>
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url'" class="item-cover" >
+                                                    <img class="_cover" src="{{content.poster}}" />
+                                                    <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                                        <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                    </div>
+                                                    <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                        <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                        <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                    </div>
+                                                    <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                                        <div ng-if="content.play_btn && content.content_types_id != 3" class="cover-overlay" ng-bind-html="content.play_btn | html"></div> 
+                                                        <div ng-if="content.play_btn && content.content_types_id == 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                                        <div  ng-if="!content.play_btn" class="cover-overlay" >
+                                                            <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                            <ng-container ng-if="content.sale_price" >
+                                                                <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                                <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                                <div ng-if="metaDtaInfo.contentType == 'poster_url' && $index != content.meta_data_info.length - 1" class="spacer_10"></div>
+                                                <div  
+                                                    ng-class="{
+                                                        '_col-1b2':metaDtaInfo.width == '1/2', 
+                                                        '_col-1b3':metaDtaInfo.width == '1/3', 
+                                                        '_col-2b3':metaDtaInfo.width == '2/3', 
+                                                        '_txt-right':metaDtaInfo.align == 'r', 
+                                                        '_txt-center':metaDtaInfo.align == 'c', 
+                                                        '_sline':metaDtaInfo.lineCount == 's', 
+                                                        '_bold':metaDtaInfo.boldStatus == 'b',     
+                                                    }"
+                                                    ng-style="{
+                                                        'color':metaDtaInfo.color, 
+                                                        'font-size':metaDtaInfo.size+'px'
+                                                    }"
+                                                    ng-if="metaDtaInfo.contentType != 'poster_url'" class="item-info" ng-switch on="metaDtaInfo.contentType" >
+
+                                                    <ng-container ng-switch-when="title"  >
+                                                        <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                                        <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                                        <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                                    </ng-container>                                    
+                                                    <ng-container ng-switch-when="genre"  >
+                                                        <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                                    </ng-container>    
+                                                    <ng-container ng-switch-default >
+                                                        <ng-container ng-bind-html="content[metaDtaInfo.contentType] | html" ></ng-container>
+                                                        <ng-container ng-bind-html="content.custom_meta_data[metaDtaInfo.contentType] | html" ></ng-container>
+                                                        &nbsp;
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                            <div ng-if="content.meta_data_info[content.meta_data_info.length - 1].contentType != 'poster_url' && content.meta_data_info.length > 1" class="spacer_10"></div>
+                                        </ng-container>
+                                        <ng-container ng-if="!content.meta_data_info">
+                                            <div class="item-cover" >
+                                                <img class="_cover" src="{{content.poster}}" />
+                                                <div ng-if="content.content_types_id == 8" class="cover-overlay">
+                                                    <a href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                </div>
+                                                <div ng-if="content.content_types_id == 5" class="cover-overlay">
+                                                    <a ng-if="content.full_movie" href="javascript:void(0);" class="btn btn-lg btn-primary" onclick="playAudio(this)" id="{{content.movie_id}}" data-content_type="{{content.is_episode}}" >{/literal}{$this->Language['btn_play']}{literal}</a>
+                                                    <a ng-if="!content.full_movie" href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                </div>
+                                                <ng-container ng-if="content.content_types_id != 8 && content.content_types_id != 5" >
+                                                    <div ng-if="content.play_btn && content.content_types_id != 3" class="cover-overlay" ng-bind-html="content.play_btn | html"></div> 
+                                                    <div ng-if="content.play_btn && content.content_types_id == 3" class="cover-overlay"><a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a></div>
+                                                    <div  ng-if="!content.play_btn" class="cover-overlay" >
+                                                        <a href="{{content.permalink}}" class="playbtn">{/literal}{$this->Language['explore']}{literal}</a>
+                                                        <ng-container ng-if="content.sale_price" >
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 1);" href="" class="butn-ad2cart"></a>
+                                                            <a id="{{content.id}}" onclick="showcart(this.id, 2);" href="" class="butn-ordernow">{/literal}{$this->Language['ordernow']}{literal}</a>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="spacer_10"></div>
+                                            <div class="item-info">
+                                                <a ng-if="content.episode_title">{{content.episode_title|utfdecode}}</a>
+                                                <a ng-if="!content.episode_title && content.title" href="{{content.permalink}}" >{{content.title|utfdecode}}</a>
+                                                <a ng-if="!content.episode_title && !content.title && content.name" href="{{content.permalink}}" >{{content.name|utfdecode}}</a>
+                                            </div>
+                                            <div class="item-info" ng-if="content.content_type != 1">
+                                                <span ng-repeat="genres in content.genres" ng-bind-template="{{$index == 0 ? '':', '}}{{genres}}"></span>&nbsp;
+                                            </div>
+                                            <div> 
+                                                <ul id="featureblock">
+                                                    <li ng-if="content.show_likes == 1">
+                                                        <a href="{{content.permalink}}" ><span class="glyphicon-color glyphicon glyphicon-thumbs-up featureicons"></span> <span class="featurecounts">{{content.all_likes}}</span></a> &nbsp;
+                                                    </li>
+                                                    <li ng-if="content.rating_status == 1">
+                                                        <a href="{{content.permalink}}" ><span class="featurecounts">{{content.all_comments}}</span> <span class="featureicons">Reviews</span></a> &nbsp;
+                                                    </li>
+                                                    <li ng-if="content.show_views == 1">
+                                                        <a href="{{content.permalink}}" class="featureicons"> <span class="featurecounts">{{content.all_views}}</span> Views </a>
+                                                    </li>                                     
+                                                </ul>    
+                                                <ul class="rating-stars">    
+                                                    <li class="dropup" ng-if="content.rating_status == 1">
+                                                        <a href="{{content.permalink}}" class="dropdown-toggle featureicons" data-toggle="dropdown">
+                                                            <input type="hidden" class="rating" data-readonly value="{{content.average_rating}}" />
+                                                        </a><span class="caret"></span>
+                                                        <span class="ratingfont">{{content.avg_total}}</span>
+                                                        <div class="dropup-content dropdown-width" role="menu"> &nbsp;
+                                                            <div class="text-center rating-drop-down avg-rating"> {{content.average_rating}} {/literal}{$this->Language['out_of']}{literal} 5 {/literal}{$this->Language['star']}{literal}</div><!--40781-->
+                                                            <div class="col-xs-12">
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon"> 
+                                                                        <div class="hover-rating">5 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>                     
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_five == 0) ? '2%' : content.count_five +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_five}}%</div>   
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">4 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_four == 0) ? '2%' : content.count_four +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_four}}%</div>   
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">3 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_three == 0) ? '2%' : content.count_three +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_three}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">2 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_two == 0) ? '2%' : content.count_two +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_two}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left rating-drop-down">
+                                                                    <div class="pull-left hover-icon">
+                                                                        <div class="hover-rating">1 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                                    </div>
+                                                                    <div class="pull-left rating-progress-bar">
+                                                                        <div class="progress hover-progress">
+                                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_one == 0) ? '2%' : content.count_one +'%' }"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pull-right percentage">{{content.count_one}}%</div>  
+                                                                </div>
+                                                                <div class="pull-left">
+                                                                    <a  href="{{content.permalink}}" style="padding-left: 44px;">
+                                                                        <span class="showreviewfont">See all {{content.avg_total}} reviews </span>&nbsp;<span class="featurereviewcaret fa fa-caret-right"></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>            
+                                                        </div>
+                                                        &nbsp;
+                                                    </li>
+                                                </ul>                                
+                                            </div>    
+                                            <div class="item-info" ng-if="content.content_type == 1">
+                                                {{content.sale_price}}
+                                            </div>
+                                            <div class="spacer_10"></div>
+                                        </ng-container>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {/literal}
+<!--mantis : 10334 End-->
+            <div class="col-md-12">
+                <div class="loader" id="loader_review" style="display: none;"></div>
+                <div class="form-group review_form">
+                    {$review_form}
+                </div>
+            </div>
+            {if $this->studio->comment_activated == 1}
+            <div class="row">
+                {include file='../media/comment_form.html'}
+                {include file='../media/comment_list.html'}            
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+<div id="myTrailer"> 
+     <div class="wrapper">
+         <div class="videocontent"></div> 
+    </div>
+</div>
+<script type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
+<link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js"></script>
+<script type="text/javascript">
+    var trailerUrl = '{$item->trailer_url}';
+var trailerIsConverted = '{$item->trailer_is_converted}';
+var v_logo = '{$item->v_logo}';
+var HTTP_ROOT = '{$this->siteurl}';
+var is_mobile = 0;
+var multipleVideoResolution = {$multipleVideo|json_encode};
+var defaultResolution = '{$defaultResolution}';
+var createSignedUrl = "{$this->siteurl}/user/getNewSignedUrlForTrailer";
+$(document).ready(function() {
+    $('.videocontent').hide();
+    
+    $("#episodes").on("click", ".multipart_child", function() {
+        var title = $(this).parent().siblings('.item-info').find('h4').html();
+        var story = $(this).siblings('.full-desc').html();
+        $('#multipart_child_title').html($.trim(title));
+        $('#multipart_child_story').html($.trim(story));
+    });
+     
+});
+</script>
+<script type="text/javascript" src="{$this->siteurl}/js/content.js?v=4"></script>
+	 {literal}
+    <script type="text/javascript">
+        $(document).ready(function () {
+//10334 start
+//	   $('.loader').hide();
+//10334 end
+	   var user_id = $('.playlist_user_id').val();
+           episodeContent();
+           if(!$("#myTrailer").hasClass("section")){
+                $('#myTrailer').addClass('section');
+                 var halfwidth= $(window).width();
+                if(halfwidth > 800){
+                   halfwidth = halfwidth / 2;
+                } else {
+                    halfwidth = halfwidth - (halfwidth/10);
+                }
+                var halfheight= $(window).height() / 2; 
+                $('#myTrailer.section').width(halfwidth);
+                $('#myTrailer.section').height(halfheight);
+                $('#myTrailer').hide();
+            }
+	});
+    </script>
+    {/literal}
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> 
+                <h4 class="modal-title" id="mySmallModalLabel">{$this->Language['cast']}</h4> 
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <!--Star/Cast lists-->
+                    {assign var=val value=0}
+                    {foreach from=$casts key=counter item=cast}
+                    {if $cast|count>0} 
+                    {assign var=val value=$val+1}
+                    {/if}
+                    {/foreach}                                
+                    {assign var=counte value=0}
+                    {if $val > 0}
+                    <div class="container-fluid">
+                    <div class="row">                                
+                    {foreach from=$casts key=role item=cast}                                    
+                        {foreach from=$cast key=counter item=cast_role}
+                        <div class="col-md-6 col-sm-6">
+                            <div class="cast clearfix">
+                                <a href="{$cast_role->full_permalink}">  <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50"></a>
+                                <p class="light-grey"><a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />{$cast_role->cast_type_name}</p>
+                            </div>
+                        </div>                        
+                        {/foreach}                                
+                    {/foreach}
+                    </div>
+                    </div>
+                    {/if}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{if $cast_crew_feature == 1}
+<div class="modal fade bs-example-modal-lg-0" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabelCast">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> 
+                <h4 class="modal-title" id="mySmallModalLabelCast">{$this->Language['cast']}</h4> 
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <!--Star/Cast lists-->
+                    {if $cast_count > 0}
+                    <div class="container-fluid">
+                    <div class="row">                                
+                        {foreach from=$cast_members key=counter item=cast_role}
+                        <div class="col-md-6 col-sm-6">
+                            <div class="cast clearfix">
+                                <a href="{$cast_role->full_permalink}">  <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50"></a>
+                                <p class="light-grey"><a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />{$cast_role->cast_type_name}</p>
+                            </div>
+                        </div>
+                        {/foreach}                                
+                    </div>
+                    </div>
+                    {/if}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg-1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabelCrew">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button> 
+                <h4 class="modal-title" id="mySmallModalLabelCrew">{$this->Language['crew']}</h4> 
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <!--Star/Cast lists-->
+                    {if $crew_count > 0}
+                    <div class="container-fluid">
+                    <div class="row">                                
+                        {foreach from=$crew_members key=counter item=cast_role}
+                        <div class="col-md-6 col-sm-6">
+                            <div class="cast clearfix">
+                                <a href="{$cast_role->full_permalink}">  <img src="{$cast_role->celeb_image}" alt="{$cast_role->celeb_name}" title="{$cast_role->celeb_name}" class="recent-thumb" width="50" height="50"></a>
+                                <p class="light-grey"><a href="{$cast_role->full_permalink}"> {$cast_role->celeb_name}</a><br />{$cast_role->cast_type_name}</p>
+                            </div>
+                        </div>
+                        {/foreach}                                
+                    </div>
+                    </div>
+                    {/if}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+<div class="modal fade bs-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button> 
+                <h4 class="modal-title c-font-uppercase c-font-bold" id="mySmallModalLabel">{$this->Language['story']}</h4> 
+            </div>
+            <div class="modal-body"> 
+                {$content->story|utf8_decode}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document"> <div class="modal-content">
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> 
+                <h4 class="modal-title c-font-uppercase c-font-bold" id="multipart_child_title"></h4> 
+            </div>
+            <div class="modal-body" id="multipart_child_story"> 
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--mantis : 10334 start-->    
+{literal}
+    <script>
+    var app = angular.module('relatedContent', [])
+        .filter('html',function($sce){
+        return function(input){
+            return $sce.trustAsHtml(input);
+        };
+    })
+    .filter('utfdecode',function($sce){
+        return function(input){
+            var rData = input;
+            try{ rData = decodeURIComponent(escape(input))}catch(e){}
+            return rData;
+        };
+    });
+
+    app.controller('relatedContentMovie', function($scope, $http, $window, $timeout,$location) {
+        $scope.isLoader = 0;        
+         $http.get(HTTP_ROOT+"/rest/relatedContent?authToken="+STORE_AUTH_TOKEN+"&lang_code="+currentLanguageCode+"&content_id={/literal}{$content->movie_id}{literal}"+"&content_stream_id={/literal}{$content->movie_stream_id}{literal}"+"&type=audio" ).then(function (response) {
+            $scope.audio = response.data.contentData;              
+            $scope.isLoader = $scope.isLoader+1;                   
+        });
+        $http.get(HTTP_ROOT+"/rest/relatedContent?authToken="+STORE_AUTH_TOKEN+"&lang_code="+currentLanguageCode+"&content_id={/literal}{$content->movie_id}{literal}"+"&content_stream_id={/literal}{$content->movie_stream_id}{literal}"+"&type=video" ).then(function (response) {
+            $scope.video = response.data.contentData;
+            $scope.isLoader = $scope.isLoader+1;
+                           
+        });
+        $http.get(HTTP_ROOT+"/rest/relatedContent?authToken="+STORE_AUTH_TOKEN+"&lang_code="+currentLanguageCode+"&content_id={/literal}{$content->movie_id}{literal}"+"&content_stream_id={/literal}{$content->movie_stream_id}{literal}"+"&type=physical" ).then(function (response) {        
+            $scope.physical = response.data.contentData;               
+            $scope.isLoader = $scope.isLoader+1;              
+        });
+        $scope.addCart = function(id,flag){
+            showcart(id,flag);
+	};
+    });
+
+</script>
+{/literal}	
+{literal}
+<script type="text/javascript">
+   function showcart(id, flag){        
+        var url = '{/literal}{$this->siteurl}{literal}/shop/addtocart';
+        //var qnt = eval($('#product_qnt').val());
+        var qnt = 1;
+        if(qnt>0){
+            $('.loader_cart').show();
+            $.post(url, {'quantity':qnt, 'id':id}, function(res){
+            if (flag == 2){
+                window.location.href = '{/literal}{$this->base_url}{literal}/shop/cart';
+            } else{
+				if(res=='currencyerror'){
+					$('.loader_cart').hide();
+					$("#addtocarterror").modal("show");
+				}else{
+					$('.loader_cart').hide();
+                    $('html,body').animate({scrollTop:0}, 500);
+                    $('#round-cart').html(eval($('#round-cart').html()) + qnt);
+                    $('#cartpopup').html(res);
+				}
+                }
+            })
+        }else{
+            alert(JSLANGUAGE.enter_quantity);
+        }        
+    }
+</script>
+{/literal}	
+<!--mantis : 10334 End-->
+<!--ER42158 start-->
+{if $chat_enable_status == 1 && $chat_authkey != "" && $user_id != ""}
+{literal}
+<script type="text/javascript">
+$(document).ready(function () {
+            $('body').chatApp({
+                'authKey': "{/literal}{$chat_authkey}{literal}",
+                'userId': '{/literal}{$user_id}{literal}',
+                'uniqueKey':'{/literal}{$content->movie_stream_id}{literal}',
+                'userFullName':'{/literal}{Yii::app()->user->display_name}{literal}',
+                'profileImageUrl':'{/literal}{$profile_image}{literal}'
+            });
+        });
+</script>
+{/literal}
+{/if}
+<!--ER42158 end-->
