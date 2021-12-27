@@ -1,0 +1,64 @@
+
+<div class="muvi_cart-main-box">
+    
+    {assign var="cropDimesion" value=Yii::app()->common->getPgDimension()}
+    {assign var="producturl" value=$this->base_url}
+    {foreach from=$contentproduct key=k item=value}
+           <div class="col-sm-12 muvi_margin-bottom-30 muvi_cart-box">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 muvi_primg">
+  {assign var="img_path" value=PGProduct::getpgImage($value['id'],'standard')}
+                <a href="{$producturl}/{$value['permalink']}" style="color:#000">           
+                    {if $img_path}
+                    <img alt="{$value['name']}" src="{$img_path}" title="{$value['name']}"  style="width:100%;" />
+                    {else}
+                    <img data-src="holder.js/{$cropDimesion['width']}x{$cropDimesion['height']}" alt="{$value['name']}" title="{$value['name']}"  src="{$img_path}" />
+                    {/if}
+                        
+                </a>                    </div>
+                    <div class="col-md-9">
+                        <h2 class="muvi_shop-item muvi_light-green-color text-left"><a href="{$producturl}/{$value['permalink']}">{$value['name']}</a></h2>
+                          <p class="font10 text-left">{$value['description']}</p> 
+                        <p class="muvi_font16 text-left ">{if $value['is_preorder'] == 0}
+                        {Yii::app()->common->formatPrice($value['sale_price'],$value['currency_id'])}
+                        {else}
+                        &nbsp;
+                        {/if}
+                  
+            
+                
+                
+                <div class="pull-left">
+                    {if $value['status']==1}
+                    
+                         <input type="button" class="muvi_AddToCart btn muvi_cart-btn" name="" value="{$this->Language['add-to-cart']}" onclick="showcartLIst({$value['id']}, 1);">
+                         <input type="button" class="muvi_AddToCart btn muvi_order-now" name="" value="{$this->Language['ordernow']}" onclick="showcartLIst({$value['id']}, 2);">
+                    {elseif $value['status']==3}
+                   <button class="btn  btn-default btn-grey muvi_btn-product btn-disabled muvi_stockout">{$this->Language['stock_out']}</button>
+                    {/if}  
+                    
+
+                </div>
+            </div>
+            </div>
+        </div>
+ {/foreach}
+</div>
+
+<div id="muvi_addtocarterror" class="modal fade login-popu" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="position: relative;">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div> 
+            <div class="modal-body">                            
+                <div class="row-fluid">
+                    <div class="col-md-12">
+						<p style="line-height: initial;">{$this->Language['addtocarterror']}</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</div>

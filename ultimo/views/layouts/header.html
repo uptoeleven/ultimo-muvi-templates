@@ -1,0 +1,138 @@
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>{$this->pageTitle}</title>
+            <meta name="language" content="{$this->language_code}" />
+    {$this->metatag}
+            <meta name="keywords" content="{$this->pageKeywords}" />
+            <meta name="description" content="{$this->pageDescription}" />
+            <link rel="icon" type="image/*" href="{$this->favIcon}" />
+            <link rel="canonical" href="{$this->canonical_url}" />
+            <meta name="description" content="{$this->pageDescription}" />
+            <meta property="og:site_name" content="{$this->studio->name}"/>
+            <meta property="og:url" content="{if $this->ogUrl} {$this->ogUrl} {else} {$this->siteurl} {/if}" />
+            <meta property="og:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}"/>
+            <meta property="og:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}"/>
+    {if $this->ogImage}
+            <meta property="og:image" content="{$this->ogImage}" />
+            <meta property="og:image:secure_url" content="{$this->ogImage}" />
+            <meta property="og:image:type" content="image/*" />
+            <meta property="og:image:width" content="200" />
+            <meta property="og:image:height" content="400" />
+    {/if}
+    {if $this->is_twitter}
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:site" content="@{$this->studio->name}">
+            <meta name="twitter:creator" content="@{$this->contentDisplayName}">
+            <meta name="twitter:title" content="{if $this->ogTitle} {$this->ogTitle} {else} {$this->pageTitle} {/if}">
+            <meta name="twitter:description" content="{if $this->ogDescription} {$this->ogDescription} {else} {$this->pageDescription} {/if}">
+            <meta name="twitter:image" content="{$this->ogImage}">
+    {/if}
+
+            <!-- Bootstrap -->
+            <link href="css/bootstrap.min.css" rel="stylesheet">
+            <link href="css/owlcarousel.css" rel="stylesheet">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+            <link href="css/style.css" rel="stylesheet">
+
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <![endif]-->
+
+            <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/cart.css?v={time()}" rel="stylesheet" media="screen">
+            <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/rating.css?v={$smarty.const.RELEASE}" rel="stylesheet" media="screen">
+            <link rel="stylesheet" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/404error.css?v={time()}">
+            <script src="{$this->siteurl}/js/angularjs/angular.min.js"></script>
+
+            <script defer type="text/javascript" src="{$this->siteurl}/js/jquery.pjax.js"></script>
+            <script defer type="text/javascript" src="{$this->siteurl}/common/js/byod.js?v=2"></script>
+            <link href="{$this->siteurl}/css/audioplayer.css?v={$smarty.const.RELEASE}" rel="stylesheet" media="screen">
+            <script src="{$this->siteurl}/js/zeroclipboard/clipboard.min.js"></script> <!-- Er : #54395 [Ashutosh]  -->
+
+                    <!-- ER 31312 starts here -->
+                    {$trackingcode=$this->trackingCode()}
+                    {$open_head_below = $trackingcode['open_head_below']}
+                    {$open_body_below = $trackingcode['open_body_below']}
+                    {$close_head_above =  $trackingcode['close_head_above']}
+                    {$close_body_above =$trackingcode['close_body_above']}
+
+                    {if $open_head_below|@count || $close_head_above|@count}
+                        {foreach from=$open_head_below item=trackingcode_headopen}
+                            {$trackingcode_headopen}
+                        {/foreach}
+                        {foreach from=$close_head_above item=trackingcode_headclose}
+                            {$trackingcode_headclose}
+                        {/foreach}
+                    {/if}
+                    <!-- ER 31312 ends here -->
+
+            <!--19325: Playout support in Revo template (Jitendra Kumar Sahoo) start-->
+            {$default_img = $this->tvguideDefaultImage()}
+            <!--19325: Playout support in Revo template (Jitendra Kumar Sahoo) end-->
+            <script type="text/javascript">
+                var default_image = "{$default_img}";
+                var HTTP_ROOT = "{Yii::app()->controller->base_url}";
+                var SITE_URL = "{$this->siteurl}";
+                var THEME_URL = "{$Yii->theme->baseUrl}";
+                var card_name = "{$this->Language['text_card_name']}";
+                var card_number = "{$this->Language['text_card_number']}";
+                var security_code = "{$this->Language['cvv']}";
+                var let_u_go = "{$this->Language['sorry_to_let_go']}";
+                var tracks = "{$this->Language['tracks']}";
+                var user_picture_update = "{$this->Language['profile_picture_updated']}";
+                var no_content_added = "{$this->Language['no_content_added_yet']}";
+                var Password_reset = "{$this->Language['password_reset_link']}";
+                var password_changed = "{$this->Language['password_changed']}";
+                var text_message_placeholder = "{$this->Language['text_message_placeholder']}";
+                var playlist_name_not_blank = "{$this->Language['playlist_name_not_blank']}";
+                var remove = "{$this->Language['remove']}";
+                var added_fav = "{$this->Language['added_to_fav']}";
+                var add_fav = "{$this->Language['add_to_fav']}";
+                var add_to_play = "{$this->Language['add_to_playlist']}";
+                var sdk_user_id = '{Yii::app()->user->id}';
+                var save_playlist = "{$this->Language['save_playlist']}";
+                var queue_empty = "{$this->Language['queue_list_empty']}";
+                var explore = "{$this->Language['explore']}";
+                var add_to_cart = "{$this->Language['add-to-cart']}";
+                var order_now = "{$this->Language['ordernow']}";
+                var track = "{$this->Language['track']}";
+                var is_audio_enable = "{$this->is_audio_enable}";
+                var watch_duration_exceed_message = "{$this->Language['watch_duration_exceed_message']}";//34193
+                var daily_watch_duration_status = "{$this->store_configs->daily_watch_duration_status}";//34193
+
+                var hybrid = 1;
+                $(document).ready(function() {
+                    $.removeCookie('QUEID');
+                      var year = (new Date()).getFullYear();
+                    if ($('.date_picker').length > 0) {
+                        $(".date_picker[id!='birthday']").datepicker({
+                            changeMonth: true,
+                            changeYear: true
+                        });
+                        $('.date_picker[id="birthday"]').datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            yearRange: "1900:"+year
+                        });
+                    }
+                });
+            </script>
+            {$this->alljs}
+            <script  defer type="text/javascript" src="{$this->siteurl}/js/themes/loginpopup.js"></script>
+            <link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick.css"/>
+            <link rel="stylesheet" type="text/css" href="{$this->siteurl}/js/slick/slick-theme.css"/>
+            <script defer type="text/javascript" src="{$this->siteurl}/js/slick/slick.min.js"></script>
+            <script defer type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
+            <link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
+            <script defer src="{$this->siteurl}/js/jquery.matchHeight.js"></script>
+            <script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.mCustomScrollbar.js"></script>
+            <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/jquery.mCustomScrollbar.css" rel="stylesheet" media="screen" />
+            {if (Yii::app()->paymentGateway->isSCA() && (isset(Yii::app()->controller->PAYMENT_GATEWAY['stripe']) && Yii::app()->controller->PAYMENT_GATEWAY['stripe']=='stripe'))}
+                <script src="https://js.stripe.com/v3/"></script>
+            {/if}
+        </head>

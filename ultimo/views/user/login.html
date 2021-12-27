@@ -1,0 +1,118 @@
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row top20">
+        <div class="col-lg-3 col-md-3"></div>
+        <div class="col-lg-6 col-md-6">
+            <div class="login-title heading_2">{$this->Language['member_login']}</div>
+            <div class="form-signin">
+                <div id="login_success" class="error center" style="color: green;"></div>
+<div id="login_errors" class="error center"></div>
+                <div class="heading_4">{$this->Language['already_registered']}</div>
+{if $this->studio->social_logins || $this->thirdy_party_login_with}
+    {if isset($smarty.session.social) } 
+    {assign var=socialAuth value=$smarty.session.social}
+    {else}
+     {assign var=socialAuth value=$this->getSocialUrls()}
+    {/if}
+    {if $socialAuth || $this->thirdy_party_login_with}
+    			<div class="form-group">
+                    <ul class="new_social social_login">
+ <!-- 20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar Start-->
+                        {if ($this->studio->social_logins & 1) && $socialAuth['fb_url'] }
+                        <li class="social_login_new"> <a href="javascript:void(0);" data-url="{$socialAuth['fb_url']}" data-login="0" class="facebook_login _customfb _facebook"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/fb_icon.png"><span>{$this->Language['continue_with_facebook']}</span></a></li>
+                        {/if}
+                        {if ($this->studio->social_logins & 2) && $socialAuth['gplus_url'] }
+                        <li class="social_login_new"><a href="{$socialAuth['gplus_url']}"  class="_customgplus _googleplus"> <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/google_icon1.png"><span>{$this->Language['continue_with_google']}</span></a></li>
+                        {/if} 
+<!--  20451:Generic | Use High Quality image for Facebook and Google login at front end Register/ login screen Nibedita Kar End--> 
+<!--                        #40996: SSO Integration for WCGtv online-->
+                        {if count($this->thirdy_party_login_with) > 0 }
+                        {if $this->thirdy_party_login_with['name'] == 'WTVE'}
+                            <li><a href="{$this->base_url}/user/login?sso" class="_customgplus _googleplus"><span>{$this->Language['sign_in_with_sso']} {$this->Language['WTVE']}</span></a></li>
+                        {else}
+                            <li><a href="{$this->base_url}/user/login?sso" class="_customgplus _googleplus"><img src="{$this->thirdy_party_login_with['img']}"><span>{$this->Language['sign_in_with_sso']} {$this->thirdy_party_login_with['name']}</span></a></li>
+                        {/if}
+                        {/if}
+                        <!-- #40996: SSO Integration for WCGtv online-->
+                    </ul>
+			</div>
+    {/if}
+{/if}
+
+                
+                
+                {if ($this->otp_enable == 1 || $this->otp_enable == 2)} 
+                <form name="login_form"  id="otp_form" method="post" action="javascript:void(0);">
+                     {else}
+                     <form name="login_form"  id="login_form" method="post" action="javascript:void(0);">
+                     {/if}
+                      <div id="login_loading" class="loader" style="display: none;"></div>
+                    <div class="form-group">
+                        {if ($chkLogin == 3)}
+                        <label for="exampleInputMobile">{$this->Language['mobile']}</label>
+                        <input type="text" required name="LoginForm[mobile_number]" id="username" placeholder="{$this->Language['mobile']}" autocomplete="off" class="form-control" value="" />
+                        {else}
+                        <label for="exampleInputEmail1">{$this->Language['text_email']}</label>
+                        <input type="email" required name="LoginForm[email]" id="username" placeholder="{$this->Language['text_email_placeholder']}" autocomplete="off" class="form-control" value="{$useremail}" /><!--31863-->
+                        {/if}
+                    </div>
+                      {if ($this->otp_enable == 2 || $this->otp_enable != 1)}
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">{$this->Language['text_password']}</label>
+                        <input type="password" required name="LoginForm[password]" id="password" placeholder="{$this->Language['text_password_placeholder']}" autocomplete="off" class="form-control" value="{$userpassword}" /><!--14116-->
+                    </div>
+                      {/if}
+                    {if ($this->otp_enable == 1 || $this->otp_enable == 2)}
+                    
+                        <div class="form-group" id="otp_display">
+                        <label for="otp">{$this->Language['otp']}</label>
+                        <input type="password" name="LoginForm[otp]" id="new_otp" placeholder="{$this->Language['opt_placeholder']}" autocomplete="off" class="form-control new_otp" />
+                    </div>
+                    <div class="form-group">
+                        <a href="javascript:void(0)" onclick="generateOtp()" id="otp_btn">{$this->Language['generate_otp']}</a>
+                    </div>
+                    {/if}
+                    
+                    {if (!$this->otp_enable)}
+                     <div class="form-group ">
+                        <div class="controls">
+
+                            <label class="control-label" for="LoginForm_rememberMe"> 
+                                {if isset($userpassword) && isset($useremail) && $useremail !="" && $userpassword !=""}<!--14116-->
+                                <input name="LoginForm[rememberMe]" id="LoginForm_rememberMe" checked value="1" type="checkbox" /> &nbsp;{$this->Language['rememberme']}</label>  
+                                {else}
+                                <input name="LoginForm[rememberMe]" id="LoginForm_rememberMe" value="1" type="checkbox" /> &nbsp;{$this->Language['rememberme']}</label>  
+                                {/if}<!--14116-->
+                        </div>
+
+                    </div>
+                    {/if}
+
+                    <div class="row">
+                        <div class="col-xs-6 top20">
+                            <input type="hidden" name="LoginForm[chklogin]" value="{$chkLogin}" />
+                            <input type="hidden" name="LoginForm[optenable]" value="{$this->otp_enable}" id="otp" />
+                            <input type="hidden" id="is_generateotp" name="LoginForm[is_generateotp]" value="" />
+                            {if ($this->otp_enable == 1 || $this->otp_enable == 2)} 
+                            <button class="btn btn-primary" type="button"  name="login_submit" id="login-btn" onclick="validateOTPLogin();">{$this->Language['btn_login']}</button>
+                            {else}
+                            <button class="btn btn-primary" type="submit"  name="login_submit" id="login-btn">{$this->Language['btn_login']}</button>
+                            {/if}
+                        </div>
+                         {if (!$this->otp_enable)}
+                        <div class="col-xs-6  top20">
+                            <a class="link-ylw txt-right" href="/user/forgot">{$this->Language['forgot_password']}</a>
+                        </div>
+                         {/if}
+                    </div>
+                      <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+</div><!--.container-->

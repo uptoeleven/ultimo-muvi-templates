@@ -1,0 +1,32 @@
+
+<div class="row muvi_blog_comment top20">
+    <div class="col-md-6">
+        <div class="muvi_title1 blogcomment">{$this->Language['post_your_comment']}</div>
+        <div class="comment">
+            <form id="frmPST" name="frmPST" method="post" action="/blog/saveUserComment" >
+                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                <input type="hidden" name="post_id" value="{$post_id}" />
+                <div class="form-group">
+                    <div class="muvi_icon-addon muvi_addon-lg">
+                        <input type="text" class="form-control" id="fname" name="fname" placeholder="{$this->Language['text_name_placeholder']}"  title="{$this->Language['fill_out_this_field']}" required />
+                        <label for="exampleInputEmail2"><i class="fa fa-user"></i></label>
+                    </div>
+
+                </div>             
+                <div class="form-group">
+                    <div class="muvi_icon-addon muvi_addon-lg">
+                        <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="{$this->Language['text_comment_placeholder']}"  title="{$this->Language['fill_out_this_field']}" required></textarea>
+                        <label for="exampleInputEmail2"><i class="fa fa-comments"></i>
+                        </label>
+                    </div>
+                </div>
+                <div class="error" id="muvi_comment_error"></div>
+                <button type="submit" class="btn btn-primary btn-green-small pull-right"><i class="fa fa-rocket muvi_padding-right-10"></i> {$this->Language['btn_submit']}
+
+</button>
+            </form>    
+
+        </div>
+    </div>
+</div>
+    

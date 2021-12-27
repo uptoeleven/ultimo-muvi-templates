@@ -1,0 +1,51 @@
+{if !$this->is_mobileview}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$this->Language['blog']}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{/if}
+<div class="container">
+    <div class="wrapper  muvi_bottom-padding50">
+        <div class="row muvi_bottom100">
+            {foreach from=$data|json_decode item=content}
+            <div class="col-md-4 top20 col-sm-12 muvi_blogcontent">
+                <div class="muvi_title1 blogcomment">
+                    {$content->post_title|utf8_decode}
+                </div>
+                <p>
+                    {$this->Language['by']} <b>{$content->author}</b>, {$this->Language['published_on']} <b>{$content->date}</b>
+                </p>
+                {if $content->thumb !=""}<div class="featured_image">{$content->thumb}</div>{/if}
+                <div class="muvi_blog_desc">{$content->short_desc|utf8_decode} &nbsp; <a href="{$content->permalink}{if $this->is_mobileview}?mobileview=1{/if}" class="muvi_light-green-color">{$this->Language['view_more']}</a></div>
+                <div class="caption">
+                </div>
+
+            </div>
+            {/foreach}
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav class="muvi_blogs_pagination">
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

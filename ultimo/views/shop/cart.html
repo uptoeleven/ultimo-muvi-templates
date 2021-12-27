@@ -1,0 +1,329 @@
+
+{assign var=months value=['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']}
+{$user_id=Yii::app()->user->id}
+<div class="c-layout-page">
+    <!-- BEGIN: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <div class="muvi_feature-banner">
+                    <div class="muvi_overlay-img">
+                        <div class="muvi_left23">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <h1 class="center white">{$this->Language['my_cart']}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
+        <!-- BEGIN: PAGE CONTENT -->
+        <!-- BEGIN: CONTENT/SHOPS/SHOP-CART-1 -->
+        {if isset($smarty.session.cart_item)} 
+        {assign var="item_total" value=0}
+
+
+        <div class="wrapper muvi_bottom-padding50">
+
+            <div class="muvi_c-shop-cart-page-1 muvi_cart_page">
+                
+                <!-- BEGIN: SHOPPING CART ITEM ROW -->
+                {assign var="producturl" value=$this->base_url}
+                {assign var="cart_item" value=$smarty.session.cart_item}
+                {foreach from=$cart_item key=k item=item}
+                {assign var="img_path" value=PGProduct::getpgImage($item['id'],'thumb')}
+                {assign var="itemid" value=$k}
+                <div class="row muvi_c-cart-table-row top20 {if $item['product_status']!=1} productstatus_div {/if}">
+
+                    <div class="col-md-2 col-sm-6 c-cart-image">
+                        <h3 class="c-font-uppercase c-font-bold muvi_c-font-16 muvi_c-font-grey-2">{$this->Language['image']}</h3>
+                        <img src="{$img_path}" class="muvi_cart-img img-responsive" alt="{$item['name']}" title="{$item['name']}"/> 
+                    </div>
+                    <div class="col-md-3 col-sm-6 c-cart-desc">
+                        <h3 class="c-font-uppercase c-font-bold muvi_c-font-16 muvi_c-font-grey-2">{$this->Language['text_name']}</h3>
+                        <a href="{$producturl}/{$item['permalink']}" class="c-font-bold muvi_c-theme-link muvi_c-font-22 muvi_c-font-dark muvi_light-green-color" style="word-wrap: break-word;">
+                            {$item['name']}
+                        </a>
+						<div class="productstatus_cart">
+							{if $item['product_status']!=1}
+								{assign var="errproduct" value=1}
+								{assign var="product_status" value=$item['product_status']}
+								{$this->productstatuserror[$product_status]}
+							{/if}
+                    </div>
+                    </div>					
+                    <div class="col-md-2 col-sm-6 muvi_c-cart-ref">
+                        <h3 class="c-font-uppercase c-font-bold muvi_c-font-16 muvi_c-font-grey-2">{$this->Language['sku']}</h3>
+                        <p class="muvi_c-cart-sub-title muvi_c-theme-font c-font-uppercase c-font-bold">{$item['sku']}</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 muvi_c-cart-ref">
+                         <h3 class="c-font-uppercase c-font-bold muvi_c-font-16 muvi_c-font-grey-2">{$this->Language['item_details']}</h3>
+                        {if $item['product_status']==1}
+                        <p class="muvi_c-cart-sub-title muvi_c-theme-font c-font-uppercase c-font-bold">{$this->Language['sku']} : {$item['sku']}</p>
+                        <p class="muvi_c-cart-sub-title muvi_c-theme-font c-font-uppercase c-font-bold">{$this->Language['unit_price']} : {Yii::app()->common->formatPrice($item['price'], $item['currency_id'])}</p>
+                        <p class="muvi_c-cart-sub-title muvi_c-theme-font c-font-uppercase c-font-bold">{$this->Language['quantity']} :
+                            <input type="text" class="form-control item-style c-item-{$itemid}" value="{$item['quantity']}" id="qnt_{$itemid}" onkeypress="return isNumberKey(event)" maxlength="3" style="display: inline ! important; width:50px ! important;"  />
+                            <a href="javascript:void(0);" onclick="updatecart('{$itemid}');" class="update" title="{$this->Language['update']}">{$this->Language['update']}</a>
+                        </p>
+                        <p class="muvi_c-cart-sub-title muvi_c-theme-font c-font-uppercase c-font-bold">{$this->Language['total']} : 
+                            {assign var="pertotal" value=($item["price"] * $item["quantity"])}
+                            {Yii::app()->common->formatPrice($pertotal, $item['currency_id'])}
+                        </p>
+						{else}
+							{assign var="pertotal" value=0.00}
+						{/if}
+                    </div>
+                    <div class="col-md-2 col-sm-6 muvi_c-cart-remove">
+                        <h3 class="c-font-uppercase c-font-bold muvi_c-font-16 muvi_c-font-grey-2">{$this->Language['review_order']}</h3> 
+                        <a onclick="removecart('{$itemid}', 'cart_tr{$itemid}');" href="javascript:void(0);" class="muvi_btnRemoveAction muvi_remove_item" title="{$this->Language['remove_from_cart']}">{$this->Language['remove_from_cart']}</a>
+                    </div>
+                </div>
+                {assign var="item_total" value="{math equation="x + y" x=$item_total y=$pertotal}"}                
+                {/foreach}
+                <!-- END: SHOPPING CART ITEM ROW -->
+
+                <!-- BEGIN: SUBTOTAL ITEM ROW -->
+                <div class="row">
+       <div class="row col-md-3 pull-right text-right">
+           <div class="col-md-6">
+                    <h3 class="c-font-uppercase c-font-bold muvi_c-right muvi_c-font-16 muvi_c-font-grey-2">{$this->Language['total']}</h3>
+                    </div>
+                     <div class="col-md-6">
+                    <h3 class="c-font-bold muvi_c-font-16">{$smarty.session.item_total}</h3>
+                   </div>
+                   </div>
+                </div>
+             
+                <div class="muvi_c-cart-buttons pull-right text-right muvi_bottom50">
+                    <a href="{$this->base_url}/shop" class="btn c-btn btn-lg muvi_c-btn-red c-btn-square c-font-white c-font-bold c-font-uppercase muvi_c-cart-float-l btn-default btn-grey muvi_btn-cart "><i class="fa fa-shopping-cart muvi_padding-right-10" aria-hidden="true"></i>{$this->Language['continue_shopping']}</a>
+                    {if $user_id != ''}
+                    <a href="javascript:void(0);" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r btn-default btn-grey muvi_btn-cart" onclick="post_comment({$this->productstatus_errorflag});"><i class="fa fa-shopping-cart muvi_padding-right-10" aria-hidden="true"></i>{$this->Language['checkout']}</a>
+                    {else}
+                    <a href="javascript:void(0);" data-toggle="modal" data-target="#loginModal" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r btn-default btn-grey muvi_btn-cart" onclick="post_comment({$this->productstatus_errorflag});"><i class="fa fa-shopping-cart muvi_padding-right-10" aria-hidden="true"></i>{$this->Language['checkout']}</a>
+                    {/if}
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+
+            <div id="address_details" class="muvi_c-content-box muvi_c-size-sm" {if $smarty.session.address_details == 0} style="display: none;" {/if} >
+                 <div class="container muvi_address_page">
+
+                    <div class="col-md-12">
+                        <div class="muvi_title1"><h3 class="c-font-bold c-font-uppercase c-font-24" style="margin-bottom: 40px;">{$this->Language['address']}</h3></div>
+                        <form class="c-shop-form-1" action="javascript:void(0);" id="shipingform" name="shipingform">
+                            <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                            <div class="row" id="parentaddress">
+                                {$addresspage}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="payment_details" class="muvi_c-content-box muvi_c-size-sm" style="display: none;">
+                <div class="container payment_details">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action="javascript:void(0);" id="payform" name="payform">
+                                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                                    <label class="radio radio-inline" style="display: none;">
+                                        <input type="radio" checked="checked" name="pay[payment_type]" value="0">
+                                        <i class="input-helper"></i>{$this->Language['cash_on_delivery']}
+                                    </label>
+                                    <label class="radio radio-inline" style="display: none;">
+                                        <input type="radio" name="pay[payment_type]" value="1">
+                                        <i class="input-helper"></i>{$this->Language['choose_payment']}
+                                    </label>
+                                    <div class="clearfix"></div>
+                                    <div class="row top20" id="payformdiv" style="display: none;">
+                                        <div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                 <div class="col-md-6 muvi_title1" style="margin-top: 20px;"><label style="font-size: 24px;">{$this->Language['credit_card_detail']}</label></div>
+                                                    <div class="col-md-6 text-right" style="margin-top: 20px;">
+                                                        <img src="{Yii::app()->getBaseUrl(true)}/images/visad.png" style="width: 50px;">
+                                                        <img src="{Yii::app()->getBaseUrl(true)}/images/mastercard.png" style="width: 50px;">
+                                                        <img src="{Yii::app()->getBaseUrl(true)}/images/maestro.png" style="width: 50px;">
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="text-center" id="card-error"></div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label">
+                                                            {$this->Language['card_will_charge']} <span style="color: #f55753;">{$smarty.session.item_total}</span>
+                                                            <input type="hidden" name="pay[amount]" value="{$item_total}">
+                                                            <input type="hidden" name="pay[currency_id]" value="{$item['currency_id']}">
+                                                        </label>
+                                                    </div>                                    
+                                                    <div class="form-group col-md-6">
+                                                        {if (isset($cards) && !empty($cards) && ($can_save_card|intval))}
+                                                        <select class="form-control c-square c-theme" name="card_options" id="card_options" onchange="showcarddiv('cardinfo', this);">
+                                                            <option value="">{$this->Language['use_new_card']}</option>
+                                                            {foreach from=$cards item=value}
+                                                            <option value="{$value['id']}" selected="selected">{$value['card_last_fourdigit']} {$value['card_type']}</option>
+                                                            {/foreach}
+                                                        </select>
+                                                        {else}
+                                                        <input type="hidden" id="card_options" value="">
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                                <div id="cardinfo" style="display: none;">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-6 col-sm-6 muvi_bottom20">
+                                                            <div class="muvi_icon-addon muvi_addon-lg">
+                                                                <input type="text" class="form-control" autocomplete="false" placeholder="{$this->Language['text_card_name']}" title="{$this->Language['fill_out_this_field']}" id="card_name" name="pay[card_name]" required />
+                                                                <label for="email" rel="tooltip" title="" data-original-title="name">
+                                                                    <i class="fa fa-user"></i>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 col-sm-6 muvi_bottom20">
+                                                            <div class="muvi_icon-addon muvi_addon-lg">
+                                                                <input type="text" class="form-control" autocomplete="false" placeholder="{$this->Language['text_card_number']}" title="{$this->Language['fill_out_this_field']}" id="card_number" name="pay[card_number]" required />
+                                                                <label for="email" rel="tooltip" title="" data-original-title="name">
+                                                                    <i class="fa fa-credit-card"></i>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-3 col-sm-3 muvi_bottom20 text-left muvi_top5">
+                                                            <div class="muvi_icon-addon muvi_addon-lg">
+                                                                <select title="{$this->Language['select_an_item']}" name="pay[exp_month]" id="exp_month" class="form-control" required="true">
+                                                                    <option value="">{$this->Language['select_month']}</option>	
+                                                                    {foreach from=$months key=counter item=month}
+                                                                    <option value="{$counter}">{$month}</option>	 
+                                                                    {/foreach}
+                                                                </select>                                              
+                                                                <label data-original-title="name" title="" rel="tooltip" for="email"><i class="fa fa-calendar"></i></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 muvi_bottom20 text-left muvi_top5">
+                                                            <div class="muvi_icon-addon muvi_addon-lg">
+                                                                <select title="{$this->Language['select_an_item']}" name="pay[exp_year]" id="exp_year" class="form-control" required="true" onchange="getMonthList();">
+                                                                    <option value="">{$this->Language['select_year']}</option>
+                                                                    {section name="myLoop" start=date('Y') loop=date('Y') + 20}
+                                                                    <option value="{$smarty.section.myLoop.index}">{$smarty.section.myLoop.index}</option>
+                                                                    {/section}
+                                                                </select>                                                <label data-original-title="name" title="" rel="tooltip" for="email"><i class="fa fa-calendar-o"></i></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 muvi_bottom20 muvi_top5">
+                                                            <div class="muvi_icon-addon muvi_addon-lg">
+                                                                <input type="password" id="" name="" style="display: none;" />
+                                                                <input type="password" class="form-control" autocomplete="false" placeholder="{$this->Language['text_security_code']}" id="security_code" title="{$this->Language['fill_out_this_field']}" name="pay[security]" required /><label for="email" rel="tooltip" title="" data-original-title="name">
+                                                                    <i class="fa fa-lock"></i></label>
+                                                            </div>
+                                                        </div>
+                                                      <div class="col-md-3 col-sm-3 muvi_top5">
+                                                           <div class="muvi_icon-addon muvi_addon-lg">
+                                                          <input type="text" name="pay[nameoncard]" class="form-control " placeholder="Card Name (optional)">
+                                                     <label for="email" rel="tooltip" title="" data-original-title="name">
+                                                         <i class="fa fa-user-plus" aria-hidden="true"></i></label>
+                                                           </div>
+                                                      </div> 
+                                                      </div>
+                                                    </div>
+                                                      
+                                                  
+                                                    {if ($can_save_card|intval)}
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12">
+                                                            <div class="c-checkbox">
+                                                                <input type="checkbox" value="1" class="c-check" value="1" name="savecard" id="checkbox2-22" checked="checked">
+                                                                <label for="checkbox2-22">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> {$this->Language['save_card_checkout']}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                        </div>
+    
+
+                                    <div class="pull-right"><a href="javascript:void(0);" onclick="saveorder();" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r btn-default btn-grey"><i class="fa fa-rocket muvi_padding-right-10"></i>{$this->Language['confirm_order']}</a></div>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {else}
+
+
+            <div class="wrapper">
+<div class="row">
+    <div class="col-md-12">
+                <h3 style="margin:0px;padding:5px;">{$this->Language['shopping_cart']}</h3>
+                <p style="margin:0px;padding:5px;">{$this->Language['cart_is_empty']}</p>
+    </div>
+</div>
+ </div>
+
+            {/if}
+            <!-- END: CONTENT/SHOPS/SHOP-CART-1 -->
+
+            <!-- END: PAGE CONTENT -->
+        </div>
+
+        <div id="successPopup" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title success-popup-payment">{$this->Language['order_processed']}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingPopup" class="modal fade" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="border: none;">
+                        <div class="modal-title auth-msg">{$this->Language['auth_your_card']}</div>
+                        <div><img src="{$this->siteurl}/images/payment_loading.gif" alt="{$this->Language['loading']}" title="{$this->Language['loading']}" style="padding:5px;"/></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div id="productstatuserror" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{$this->Language['prstatus_error']}</h4>
+    </div>
+				</div>
+			</div>									
+		</div>
+    </div>
+
+{literal}
+<script type="text/javascript">
+    var browserreloadflag = 0;
+    var months = new Array('JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'N0V', 'DEC');
+    $(document).ready(function () {
+      shopCartvalidator();
+	  {/literal}{if $smarty.session.address_details != 0}{literal}
+      shopCartPayform();
+	  {/literal}{/if}{literal}
+    })
+    shopCartbeforeOnload();
+</script>
+{/literal}
+ <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/cart.css" rel="stylesheet"/>
+   

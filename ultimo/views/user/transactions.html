@@ -1,0 +1,54 @@
+<div class="single-product-area">
+    <div class="container">
+        <div class="row top20">
+            <h2>{$this->Language['transaction_history']}</h2>
+            
+            <table cellspacing="0" class="shop_table top20" style='width:100%;'>
+                <thead>
+                    <tr>
+                        <th class="product-name">{$this->Language["date"]}</th>
+                        <th class="product-name">{$this->Language["order"]} #</th>
+                        <th class="product-price">{$this->Language["amount"]}</th>
+                        <th class="product-quantity">{$this->Language['plan_name']}</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach from=$transactions|json_decode item=transaction}
+                    <tr class="cart_item">
+                        <td class="product-remove">
+                            {$transaction->transaction_date}
+                        </td>
+
+                        <td class="product-thumbnail">
+                            {$transaction->order_number}
+                        </td>
+
+                        <td class="product-name">
+                            {$transaction->amount}
+                        </td>
+
+                        <td class="product-price">
+                            {$transaction->plan->plan_name|utf8_decode}
+                        </td>
+
+                        <td class="product-quantity">
+                            <a href="{$transaction->permalink}">{$this->Language["transaction_detail"]}</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>            
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        {$pagination}
+                    </nav>                        
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>

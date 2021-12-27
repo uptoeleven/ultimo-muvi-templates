@@ -1,0 +1,265 @@
+<style>
+    #explore {
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+<div class="single-product-area">
+    <div class="container">
+        <div class="row" style="margin-right:0px !important;">
+             <div class="col-md-12 p-l-0">
+              <h2 class="c-font-bold c-margin-t-20"> {$this->Language['my_library']} </h2>
+			  <div class="container">
+			    {assign var="total_purchase" value=$library|@count}
+			   {foreach from=$library item=purchase}
+                           {if ($purchase['is_media_published'] && (!$purchase['parent_publish_status'] || !$purchase['publish_status'])) || ($purchase['is_media_available'] == 1 && ($purchase['parent_publish_status'] || $purchase['publish_status']))} 
+<div class="col-sm-3">
+	<div class="thumb-list">
+    <div class="thumbnail listpos thumblist">
+        <div class=""></div>
+	<div class="caption">
+			{if $purchase['is_play'] == 1}<a href="{$purchase['baseurl']}" class="playbtn">
+			 </a>{/if}
+            {if $purchase['is_play'] == 0}
+            <button type="button" onclick="showSeason('{$purchase['movie_id']}','{$purchase['movie_name']|utf8_decode}','{$purchase['permalink']|utf8_decode}')" id="explore" class="btn btn-md c-btn-grey-1 c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square explore" >{$this->Language['explore']}</button>
+            {/if}
+
+        </div>   
+	<a href="{$purchase['baseurl']}">
+            <img src="{$purchase['poster']}" alt="{$purchase['movie_name']}" title="{$purchase['movie_name']}" class="img-tshow lazy">
+        </a>
+        <div class="overtext popup_content">
+            <div class="arrow"></div>
+            <div class="ptitle caps"><a href="#">{$purchase['movie_name']}</a></div>
+            <div class="stripe col-md-12">
+                <div class="col-md-8">
+				{$genre_count = $purchase['genres']|count}
+                                    {$j=0}
+                                    {foreach from=$purchase['genres'] item=genre}<span class="genre_list">{$genre} <span>, </span> </span>{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                    
+                </div> 
+                <div class="span4 text-right">{$purchase['release_date']}</div>
+            </div>
+            <div class="clear"></div>
+            <div class="ptext">
+                <p>{if $purchase['story']|strlen > 200}{$purchase['story']|utf8_decode|truncate:200}<a href="{$purchase['baseurl']}">{$this->Language['more']}</a>{else}{$purchase['story']|utf8_decode} {/if}</p> 
+            </div>
+            <div class="clear"></div>
+			{$actors = $purchase['casts']['casts']}
+			 {if $actors|count > 0}
+            <div class="popup-cast">
+                <div class="span12 row-fluid">
+                    <div class="cast-heading span4">{$this->Language['cast']}</div>
+                </div>
+                <div class="cast-body">
+                    {foreach from=$actors['Actors'] item=actor}
+                    <span class="caps"><a href="{$actor['full_permalink']}" >{$actor['celeb_name']}</a></span>,      
+                    {/foreach}   
+                </div>
+            </div>
+            {/if}
+        </div>                                   
+    </div>                        
+    <div class="title">
+        <a href="{$purchase['baseurl_for_details']}">
+            <h3 class="moviename">{$purchase['movie_name']}</h3>
+        </a>
+    </div>
+</div>
+</div>
+ {if}                          
+{/foreach}
+{foreach from=$pplibrary item=purchase}
+{if ($purchase['is_media_published'] && (!$purchase['parent_publish_status'] || !$purchase['publish_status'])) || ($purchase['is_media_available'] == 1 && ($purchase['parent_publish_status'] || $purchase['publish_status']))} 
+<div class="col-sm-3">
+	<div class="thumb-list">
+    <div class="thumbnail listpos thumblist">
+        <div class=""></div>
+        	{if $purchase['is_play'] == 0}<a href="{$purchase['baseurl']}">{/if}
+        <div class="caption">
+			{if $purchase['is_play'] == 1}<a href="{$purchase['baseurl']}" class="playbtn">
+			 </a>{/if}
+
+        </div>                                    
+			{if $purchase['is_play'] == 0}</a>{/if}                                   
+        <a href="{$purchase['baseurl_for_details']}">
+            <img src="{$purchase['poster']}" alt="{$purchase['movie_name']}" title="{$purchase['movie_name']}" class="img-tshow lazy">
+        </a>
+        <div class="overtext popup_content">
+            <div class="arrow"></div>
+            <div class="ptitle caps"><a href="#">{$purchase['movie_name']}</a></div>
+            <div class="stripe col-md-12">
+                <div class="col-md-8">
+				{$genre_count = $purchase['genres']|count}
+                                    {$j=0}
+                                    {foreach from=$purchase['genres'] item=genre}<span class="genre_list">{$genre} <span>, </span> </span>{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                    
+                </div> 
+                <div class="span4 text-right">{$purchase['release_date']}</div>
+            </div>
+            <div class="clear"></div>
+            <div class="ptext">
+                <p>{if $purchase['story']|strlen > 200}{$purchase['story']|utf8_decode|truncate:200}<a href="{$purchase['baseurl']}">{$this->Language['more']}</a>{else}{$purchase['story']} {/if}</p> 
+            </div>
+            <div class="clear"></div>
+            {if $purchase['casts']->actors|count > 0}
+            <div class="popup-cast">
+                <div class="span12 row-fluid">
+                    <div class="cast-heading span4">{$this->Language['cast']}</div>
+                </div>
+                <div class="cast-body">
+                    {$actors = $purchase['casts']->actors}
+                    {foreach from=$actors item=actor}
+                    <span class="caps"><a href="{$actor->full_permalink}" >{$actor->celeb_name}</a></span>,      
+                    {/foreach}   
+                </div>
+            </div>
+            {/if}
+        </div>                                   
+    </div>                        
+    <div class="title">
+        <a href="{$content->permalink}">
+            <h3 class="moviename">{$purchase['movie_name']}</h3>
+        </a>
+    </div>
+</div>
+</div>
+{/if}
+{/foreach}
+{foreach from=$freecontent item=purchase}
+<div class="col-sm-3">
+	<div class="thumb-list">
+    <div class="thumbnail listpos thumblist">
+        <div class=""></div>
+        	{if $purchase['is_play'] == 0}<a href="{$purchase['baseurl']}">{/if}
+        <div class="caption">
+			{if $purchase['is_play'] == 1}<a href="{$purchase['baseurl']}" class="playbtn">
+			 </a>{/if}
+
+        </div>                                    
+			{if $purchase['is_play'] == 0}</a>{/if}                                  
+        <a href="{$purchase['baseurl_for_details']}">
+            <img src="{$purchase['poster']}" alt="{$purchase['movie_name']}" title="{$purchase['movie_name']}" class="img-tshow lazy">
+        </a>
+        <div class="overtext popup_content">
+            <div class="arrow"></div>
+            <div class="ptitle caps"><a href="#">{$purchase['movie_name']}</a></div>
+            <div class="stripe col-md-12">
+                <div class="col-md-8">
+				{$genre_count = $purchase['genres']|count}
+                                    {$j=0}
+                                    {foreach from=$purchase['genres'] item=genre}<span class="genre_list">{$genre} <span>, </span> </span>{$j = $j+1}{if $j != $genre_count}, {/if}{/foreach}
+                    
+                </div> 
+                <div class="span4 text-right">{$purchase['release_date']}</div>
+            </div>
+            <div class="clear"></div>
+            <div class="ptext">
+                <p>{if $purchase['story']|strlen > 200}{$purchase['story']|utf8_decode|truncate:200}<a href="{$purchase['baseurl']}">{$this->Language['more']}</a>{else}{$purchase['story']} {/if}</p> 
+            </div>
+            <div class="clear"></div>
+			
+            {if $purchase['casts']->actors|count > 0}
+            <div class="popup-cast">
+                <div class="span12 row-fluid">
+                    <div class="cast-heading span4">{$this->Language['cast']}</div>
+                </div>
+                <div class="cast-body">
+                    {$actors = $purchase['casts']->actors}
+                    {foreach from=$actors item=actor}
+                    <span class="caps"><a href="{$actor->full_permalink}" >{$actor->celeb_name}</a></span>,      
+                    {/foreach}   
+                </div>
+            </div>
+            {/if}
+        </div>                                   
+    </div>                        
+    <div class="title">
+        <a href="{$purchase['baseurl_for_details']}">
+            <h3 class="moviename">{$purchase['movie_name']}</h3>
+        </a>
+    </div>
+</div>
+</div>
+{/foreach}
+
+			  </div>
+               
+    </div>
+    </div>
+	</div>
+</div>
+<div class="modal fade" id="seasonModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog" style="width: 90%!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headertitel"></span></h4>
+            </div>
+            <div class="modal-body" style="height: 400px; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-sm-6  c-font-uppercase c-font-bold">
+                         {$this->Language['episodes']} 
+                    </div>
+                    <div class="col-sm-3">
+                        <h3 class="c-font-uppercase c-font-bold text-right text-left-xs season-dropdown_title">                                    
+                            {$this->Language['season']}                                
+                        </h3>
+                    </div>
+                    <div class="col-sm-3" id="seasons"></div>
+                </div>
+                <div class="row relative">
+                    <!--To list episodes-->
+                    <input type="hidden" name="content_id" id="content_id"/>
+                    <input type="hidden" name="permalink" id="permalink"/>
+                    <input type="hidden" name="default_series" id="default_series"/>
+                    <input type="hidden" name="userid" id="userid" value="{Yii::app()->user->id}" />
+                    <div id="episodes" class="cust-row"></div>
+                    <div class="loader" id="loader_episode" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{literal}
+<script>
+    function showSeason(movie_id,title,permalink){
+            $('#headertitel').html(title);
+            $('#permalink').val(permalink);
+            $('#content_id').val(movie_id);
+            var url = HTTP_ROOT + "/rest/fetchSeasons?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}"+"&movie_id="+movie_id;
+            $.post(url, function (res) {
+                var htmlval="";
+                htmlval +='<select id="season" name="season" onchange="showeposide(this.value)" class="form-control form-control-border">';
+                for(var j = 0; j < res.seasons.length; j++){
+                     htmlval +='<option value="'+res.seasons[j].series_number+'">Season '+res.seasons[j].series_number+'</option>';               
+                } 
+                htmlval +='</select>';
+                $('#seasons').html(htmlval);
+                showeposide(res.seasons[0].series_number)
+            });
+            $("#seasonModal").modal('show');
+        }
+    
+    function showeposide(series){
+        var permalink= $('#permalink').val();
+        var url = HTTP_ROOT + "/rest/episodeDetails?authToken=" + STORE_AUTH_TOKEN + "&user_id={/literal}{Yii::app()->user->id}{literal}"+"&lang_code=en&only_purchased=1&permalink="+permalink;
+            $.post(url, function (data) {
+                
+            var limit = 100;
+            var findEpisodesURL = HTTP_ROOT + "/content/FetchLibraryepisodes";
+            xhr=$.ajax({
+            method: "POST",
+            url: findEpisodesURL,
+            dataType: "json",
+            data: {'movie_id': $('#content_id').val(), 'series': series, 'limit': limit,'userid':$('#userid').val(), 'viewlist': data.episode}
+        }).done(function(res) {
+           $("#episodes").html(res.msg);
+        });
+        });
+    }
+</script>
+{/literal}

@@ -1,0 +1,248 @@
+<link rel="stylesheet" href="{$this->siteurl}/css/cropper.min.css" type="text/css" />
+<link rel="stylesheet" href="{$this->siteurl}/css/crop-avatar.css" type="text/css" />
+<script type="text/javascript" src="{$this->siteurl}/common/js/cropper.min.js"></script>
+<script type="text/javascript" src="{$this->siteurl}/common/js/crop-avatar.js"></script>
+<div class="single-product-area">
+    <div class="container">
+        <div class="row top20">
+            <h2>{$this->Language['settings']}</h2>
+            <div id="crop-avatar">
+                <div id="myflashwrapper" style="display: none"></div>
+                <div class="row" style="margin-top:30px;">
+                    <div class="col-md-8">
+                        <div class="form-signin">
+                            <div class="alert-msg in  fade alert-success profile_msg" id="success_message"></div>
+                            <div class="alert-success-msg in  fade alert-success profile_msg" id="password_changes_message"></div> <!--18076: Update UX for Password change in Web- For all Template-->
+                            <form id="user-account-form" method="POST" class="position-relative">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                                <div id="profile-loading" class="loader"></div>  
+                                <h3>{$this->Language['account_info']}</h3> 
+
+                                <div id="profile-errors" class="error center"></div>
+                                {if (!$this->chkStudioForCustomProfile)}
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['text_name']} :</label>
+                                    <div class="controls">
+                                        <input required type="text" class="form-control" value="{$user->display_name}" placeholder="{$this->Language['text_name_placeholder']}" name="name" id="name" />
+                                    </div>
+                                </div>          
+                                {if ($this->register_with_mobile)}
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['mobile']} :</label>
+                                    <div class="controls">
+                                        <input readonly type="text" class="form-control" value="{$user->mobile_number}" placeholder="{$this->Language['mobile']}" name="mobile_number" id="mobile_number" />
+                                    </div>
+                                </div>
+                                {/if}
+                                
+                                {if (!$this->register_with_mobile)}
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['email']} :</label>
+                                    <div class="controls">
+                                        <input readonly type="text" class="form-control" value="{$user->email}" placeholder="{$this->Language['text_email_placeholder']}" name="email" id="email" />
+                                    </div>
+                                </div>
+                                {/if}
+                                {if (count($custom_fields) > 0)}
+
+                                {foreach from=$custom_fields item=fields}
+                                <div class="form-group">
+                                    <label  class="control-label">{$fields['label']}</label>
+                                    <div class="controls">
+                                        {$fields['field']}
+                                    </div>
+                                </div>
+                                {/foreach}
+
+                                 {/if}
+                                {else}
+                                
+                                {if (count($custom_fields) > 0)}
+
+                                {foreach from=$custom_fields item=fields}
+                                <div class="form-group">
+                                    <label  class="control-label">{$fields['label']}</label>
+                                    <div class="controls">
+                                        {$fields['field']}
+                                    </div>
+                                </div>
+                                {/foreach}
+
+                                {/if}
+                                {/if}
+
+                                <div class="form-group ">                                    
+                                    <div class="controls">
+                                        {if (count($chkAnnoucement) > 0)}
+                                            <input name="subscribe_newsletter"  value="1" type="checkbox" checked="checked" /> &nbsp;{$this->Language['subscribe_to_announcement']} 
+                                        {else}
+                                            <input name="subscribe_newsletter"  value="1" type="checkbox"  /> &nbsp;{$this->Language['subscribe_to_announcement']}
+                                        {/if}
+                                    </div>
+                                </div>                                
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <button id="update-btn" class="btn btn-primary btn-green-small" type="submit">{$this->Language['btn_update_profile']}</button>
+                                    </div>
+                                </div>                             
+                                {if ($user->is_subscribe_inapi == 1)}
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <a href="javascript:" onclick="showConfirmPopup();" class="btn btn-primary btn-green-small">{$this->Language['cancel_subscription']}</a>
+                                    </div>
+                                </div>
+                                {/if}
+                            </form>
+                            <!--18076: Update UX for Password change in Web- For all Template-->
+                            {if $user->idp_id != $this->thirdy_party_login_with['idp_id'] || $this->thirdy_party_login_with['name'] != 'WTVE'} <!-- #40996 -->
+                            <form id="change-password-form" method="POST" action="javascript:void(0);" class="position-relative">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                                <h3>{$this->Language['change_password']}</h3> 
+                                <div id="password-errors" class="error center"></div>
+                                <div id="reset-loading" class="loader"></div> 
+                                <input type="hidden" name="email" value="{$user->email}">
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['current_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['current_password']}" name="current_password" id="current_password" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['new_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['new_password']}" name="new_password" id="new_password" />
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label class="control-label">{$this->Language['confirm_password']} :</label>
+                                    <div class="controls">
+                                        <input type="password" class="form-control" title="{$this->Language['fill_out_this_field']}" placeholder="{$this->Language['confirm_password']}" name="confirm_password" id="confirm_password" />
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <div class="controls">
+                                        <button id="password-btn" class="btn btn-primary btn-green-small" type="submit">{$this->Language['change_password']}</button>
+                                    </div>
+                                </div>     
+                            </form>
+                            {/if}<!-- #40996 -->
+                            <!--18076: Update UX for Password change in Web- For all Template-->
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-signin">
+                            <h3>&nbsp;</h3>
+                            <h3>&nbsp;</h3>
+                            <div class="form-group">
+                                <div class="controls text-center">
+                                    <img src="{$user_picture}" alt="" title="" class="thumbnail center profilepic" />
+                                    {if $have_profile_image}
+                                    <a class="link" href="#" data-target="#profilePicRemoveModal" data-toggle="modal"><i class="fa fa-times-circle"></i> {$this->Language['remove']}</a><br/>
+                                    {/if}
+                                    <a class="link txt-right" href="#" data-target="#avatar-modal" data-toggle="modal">{$this->Language['change_your_picture']}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+
+                <div class="clear"></div>
+                <!-- Cropping modal -->
+                <div class="modal fade" id="avatar-modal" tabindex="-1" role="dialog" aria-labelledby="avatar-modal-label" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content"  style="height:500px;">
+                            <form class="avatar-form" method="post" action="{$this->base_url}/user/upload_image" enctype="multipart/form-data">
+                                <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" /> <!--20294-->
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" id="avatar-modal-label">{$this->Language['change_profile_picture']}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="avatar-body">
+
+                                        <!-- Upload image and data -->
+                                        <div class="avatar-upload">
+                                            <input class="avatar-src" name="avatar_src" type="hidden">
+                                            <input class="avatar-data" name="avatar_data" type="hidden">
+                                            <input class="" name="fileinfo" id="fileinfo" type="hidden">
+                                            <div style="float:left;font-weight:bold;font-size:16px;padding-right:20px;">{$this->Language['file_upload_profile']}</div>
+                                            <div style="float:left;">
+                                                <input class="avatar-input" id="avatarInput" name="Filedata" type="file">
+                                            </div>
+                                        </div>
+
+                                        <!-- Crop and preview -->
+                                        <div class="avatar-wrapper"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary avatar-save" type="submit">{$this->Language['btn_save']}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- /.modal -->
+            </div>            
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmpopup" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headermodal">{$this->Language['cancel_subscription_header_msg']}</span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span id="bodymodal">{$this->Language['api_sucscription_confirm_msg']}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:void(0);" id="paymentbtn" class="btn btn-default" onclick="cancelSubscriotion()">{$this->Language['yes']}</a>
+                        <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="profilePicRemoveModal" role="dialog" data-backdrop="static" data-keyboard="false" style="overflow-y:hidden !important;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:22px;text-transform: none;" ><span id="headermodal">{$this->Language['remove_profile_picture']}</span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" autocomplete="false" action="javascript:void(0);">
+                    <input type="hidden" name="csrfToken" value="{$smarty.session.csrfToken}" />
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <span class="bodymodal">{$this->Language['sure_to_remove_proilepic']}</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:void(0)" id="remove_profile_pic" class="btn btn-default">{$this->Language['yes']}</a>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button" style="text-transform: capitalize;">{$this->Language['btn_cancel']}</button>
+                </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    {literal}
+    function showConfirmPopup() {
+        $("#confirmpopup").modal('show');
+    }
+    function cancelSubscriotion() {
+        {/literal}
+        var url = '{$this->siteurl}/user/ApicancelSubscription';
+{literal}
+        window.location.href = url;
+    }
+    {/literal}
+</script>

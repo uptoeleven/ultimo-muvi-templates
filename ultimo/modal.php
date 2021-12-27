@@ -1,4 +1,4 @@
-<?php require_once('includes/header.php'); ?>
+{include file='views/layouts/header.html'}
 
 <div class="w-100 home-banner"></div>
 
@@ -99,4 +99,4 @@
     </div>
   </div>
 
-<?php require_once('includes/footer.php'); ?>
+{include file='views/layouts/footer.html'}

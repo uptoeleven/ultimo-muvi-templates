@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+    <div class="muvi_feature-banner">
+            <div class="muvi_overlay-img">
+                <div class="muvi_left23">
+                    <div class="row">
+                        <div class="col-sm-10">
+                             <h1 class="center white">{$this->Language['search_results']}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="single-product-area">
+    <div class="container">
+        <div class="wrapper">
+        <div id="content_list"></div>
+        <div class="row">
+
+            {if $item_count > 0}
+                {include file='../layouts/listitem.html'}
+        
+            {else}
+            <h2 class="top20 muvi_bottom50 muvi_left-17">{$this->Language['no_content_found_with_searched_keyword']}</h2>
+                {/if}
+        </div>
+
+    </div>
+</div>
+</div>
