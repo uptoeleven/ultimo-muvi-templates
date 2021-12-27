@@ -1,4 +1,4 @@
-<?php require_once('views/layouts/header.html'); ?>
+{include file='views/layouts/header.html'}
 
 <div class="spacer4 mb-2"></div>
 
@@ -112,39 +112,39 @@
                             <div class="font-xxs ml-2">1,205</div>
                         </div>
                         <div class="chat-box pr-3 m-3 overflow-auto">
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
-                            <?php include('views/layouts/chat.html'); ?>
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
+                            {include file='views/layouts/chat.html'}
                         </div>
                     </div>
                     <div class="stream-chat-message font-xxs p-3">
@@ -304,14 +304,14 @@
         <h3 class="text-uppercase">Streamer clips</h3>
         <img src="images/icons/play.svg">
     </div>
-    <?php include('views/layouts/stream-grid-top-section.html'); ?>
+    {include file='views/layouts/stream-grid-top-section.html'}
     <div class="row d-flex d-md-block row-grid mb-4 pb-1 pb-md-0">
-        <?php include('views/layouts/stream-grid-simple.html'); ?>
-        <?php include('views/layouts/stream-grid-simple.html'); ?>
-        <?php include('views/layouts/stream-grid-simple.html'); ?>
-        <?php include('views/layouts/stream-grid-simple.html'); ?>
+        {include file='views/layouts/stream-grid-simple.html'}
+        {include file='views/layouts/stream-grid-simple.html'}
+        {include file='views/layouts/stream-grid-simple.html'}
+        {include file='views/layouts/stream-grid-simple.html'}
     </div>
-    <?php include('views/layouts/show-more.html'); ?>
+    {include file='views/layouts/show-more.html'}
 </div>
 
 <div class="container">
@@ -320,14 +320,14 @@
         <h3 class="text-uppercase">More streams</h3>
         <div class="streaming-icon"></div>
     </div>
-    <?php include('views/layouts/stream-grid-top-section.html'); ?>
+    {include file='views/layouts/stream-grid-top-section.html'}
     <div class="row d-flex d-md-block row-grid mb-4 pb-1 pb-md-0">
-        <?php include('views/layouts/stream-grid.html'); ?>
-        <?php include('views/layouts/stream-grid.html'); ?>
-        <?php include('views/layouts/stream-grid.html'); ?>
-        <?php include('views/layouts/stream-grid.html'); ?>
+        {include file='views/layouts/stream-grid.html'}
+        {include file='views/layouts/stream-grid.html'}
+        {include file='views/layouts/stream-grid.html'}
+        {include file='views/layouts/stream-grid.html'}
     </div>
-    <?php include('views/layouts/show-more.html'); ?>
+    {include file='views/layouts/show-more.html'}
 </div>
 
 <div class="container">
@@ -335,14 +335,14 @@
     <h3 class="text-uppercase">Streamer Products</h3>
     <div class="spacer3"></div>
     <div class="row d-flex d-md-block row-grid mb-4 pb-1 pb-md-0">
-        <?php include('views/layouts/products.html'); ?>
-        <?php include('views/layouts/products.html'); ?>
-        <?php include('views/layouts/products.html'); ?>
-        <?php include('views/layouts/products.html'); ?>
+        {include file='views/layouts/products.html'}
+        {include file='views/layouts/products.html'}
+        {include file='views/layouts/products.html'}
+        {include file='views/layouts/products.html'}
     </div>
-    <?php include('views/layouts/show-more.html'); ?>
+    {include file='views/layouts/show-more.html'}
 </div>
 
 <div class="spacer4"></div>
 
-<?php require_once('views/layouts/footer.html'); ?>
+{include file='views/layouts/footer.html'}
