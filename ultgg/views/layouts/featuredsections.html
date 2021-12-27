@@ -1,0 +1,199 @@
+<script type="text/javascript" src="{$this->siteurl}/common/rating/bootstrap-rating.js?v={$smarty.const.RELEASE}"></script>
+<script>
+    var parentThemeName = "{$this->studio->parent_theme}";
+    var addToCart = "{$this->Language['add-to-cart']}";
+    var orderNow = "{$this->Language['ordernow']}";
+    var more = "{$this->Language['more']}";
+    var preOrder = "{$this->Language['pre_order']}";
+    var stockOut = "{$this->Language['stock_out']}";
+    var inactive = "{$this->Language['inactive']}";
+</script>
+{literal}
+<div class="wrapper">
+    <div ng-app="FeaturedContents" ng-controller="HomeFeaturedSections" id="muvi_homepage_sections" class="relative" ng-cloak>
+        <div ng-repeat="section in sections" ng-if="section.total > 0" class="muvi_parent_sec_{{section.id}} parent-sec-hide" id="section_{{section.id}}">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="clearfix">
+                        <span style="display:inline-block; margin-top:6px;" class="caps ">{{section.title | utfdecode}}</span>
+                        <a ng-if="section.cpermalink" ng-href="{/literal}{$this->base_url}/{literal}{{section.cpermalink}}" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold pull-right">{/literal}{$this->Language['view_more']}{literal}</a>
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="slider responsive">
+                    <div ng-repeat="content in section.contents" class="col-md-3 col-sm-6">
+                        <div class="muvi_c-content-product-2 muvi_c-bg-white muvi_list-box">
+                            <div class="muvi_c-content-overlay">
+                                <div class="muvi_c-overlay-wrapper">
+<!--                                    #22888 Start-->
+                                    <!--@ER: 19491 @info: publish content later @author: Pritam starts--> 
+                                     <div class="muvi_c-overlay-content" ng-if="section.content_type != 1 && content.content_types_id != 6 && content.play_btn && (content.content_types_id != 3 || (content.content_types_id == 3 && content.is_episode != 0 && content.show_playbtn == 1))" ng-bind-html="content.play_btn | html"></div>
+                                    <div class="muvi_c-overlay-content" ng-if="section.content_type != 1 && content.show_playbtn == 1 && (!content.play_btn || content.content_types_id == 3)">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                    </div>
+                                    <div class="muvi_c-overlay-content" ng-if="section.content_type != 1 && content.show_playbtn == 0 && (!content.play_btn || content.content_types_id == 3)">
+                                        <a class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['coming_soon']}{literal}</a>';
+                                    </div>
+                                     
+                                     
+                                    <div class="muvi_c-overlay-content" ng-if="section.content_type != 1 && content.content_types_id == 6 && content.show_playbtn == 1">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['explore']}{literal}</a>';
+                                    </div>
+                                    <div class="muvi_c-overlay-content" ng-if="section.content_type != 1 && content.content_types_id == 6 && content.show_playbtn == 0">
+                                        <a class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main">{/literal}{$this->Language['coming_soon']}{literal}</a>';
+                                    </div>
+                                     
+<!--                                     #22888 End-->
+                                    <div class="muvi_c-overlay-content" ng-if="section.content_type == 1 && content.show_playbtn == 1">
+                                        <a href="{{content.permalink}}" class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['explore']}{literal}</a>
+                                    </div>
+                                    <div class="muvi_c-overlay-content" ng-if="section.content_type == 1 && content.show_playbtn == 0">
+                                        <a  class="btn btn-md muvi_c-btn-grey-1 c-btn-uppercase c-btn-bold muvi_c-btn-border-1x c-btn-square" data-pjax="#main" tabindex="0">{/literal}{$this->Language['coming_soon']}{literal}</a>
+                                </div>
+                                   <!--@ER: 19491 ends-->     
+
+                                </div>
+                                <div class="muvi_c-bg-img-top-center muvi_c-overlay-object text-center">
+                                    <img src="{{content.poster}}" alt="" title="{{content.title | utfdecode}}" class="muvi_list-poster">
+                                </div>
+                            </div>
+                            <div class="muvi_c-info">
+                                <p dir="auto" class="muvi_c-title muvi_c-font-18 muvi_c-font-slim" ng-if="section.content_type != 1">
+                                    <a href="{{content.permalink}}" >{{content.title | utfdecode}}</a>
+                                </p>
+                                <ul id="muvi_featureblock">
+                                    <li ng-if="section.show_likes == 1">
+                                        <!--<a href="{{content.permalink}}" ><span class="glyphicon-color glyphicon glyphicon-thumbs-up featureicons"></span> <span class="featurecounts">{{content.all_likes}}</span></a> &nbsp;-->
+                                     <!--Upasana ER 27448-->
+                                    <a ng-if="content.is_like==0" href="javascript:;" ng-click="thumbsLike(content)" id = "like-content-{{content.movie_id}} " ><span style ="color:#444c53" class="fa fa-thumbs-up"></span> <span style ="color:#444c53" class="featurecounts">{{content.all_likes}}</span></a>  &nbsp;
+                                    <a ng-if="content.is_like==1" href="javascript:;" ng-click="thumbsUnLike(content)" id = "unlike-content-{{content.movie_id}} " ><span style ="color:#32c5d2" class="fa fa-thumbs-up"></span> <span style ="color:#32c5d2" class="featurecounts">{{content.all_likes}}</span></a>
+                                     <!--Upasana ER 27448-->
+                                    </li>
+                                    <li ng-if="section.rating_status == 1">
+                                        <a href="{{content.permalink}}" ><span class="featurecounts">{{content.all_comments}}</span> <span class="featureicons">Reviews</span></a> &nbsp;
+                                    </li>
+                                    <li ng-if="section.show_views == 1">
+                                        <a href="{{content.permalink}}" class="featureicons"><span class="featurecounts">{{content.all_views}}</span> Views </a>
+                                    </li>                                      
+                                </ul>    
+                                <div class="clearfix"></div>
+                                <ul class="muvi_rating-stars">     
+                                    <li class="dropup" ng-if="section.rating_status == 1">
+                                        <a href="{{content.permalink}}" class="dropdown-toggle featureicons" data-toggle="dropdown">
+                                            <input type="hidden" class="rating" data-readonly value="{{content.average_rating}}" />
+                                        </a><span class="caret"></span>
+                                        <span class="ratingfont">{{content.avg_total}}</span>
+                                        <div class="dropup-content dropdown-width" role="menu"> &nbsp;
+                                            <div class="text-center muvi_rating-drop-down muvi_avg-rating"> {{content.average_rating}} out of 5 stars</div>
+                                            <div class="col-xs-12">
+                                                <div class="pull-left muvi_rating-drop-down">
+                                                    <div class="pull-left muvi_hover-icon"> 
+                                                        <div class="muvi_hover-rating">5 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>                     
+                                                    <div class="pull-left muvi_rating-progress-bar">
+                                                        <div class="progress muvi_hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_five == 0) ? '2%' : content.count_five +'%' }"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pull-right percentage">{{content.count_five}}%</div>   
+                                                </div>
+                                                <div class="pull-left muvi_rating-drop-down">
+                                                    <div class="pull-left muvi_hover-icon">
+                                                        <div class="muvi_hover-rating">4 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left muvi_rating-progress-bar">
+                                                        <div class="progress muvi_hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_four == 0) ? '2%' : content.count_four +'%' }"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pull-right percentage">{{content.count_four}}%</div>   
+                                                </div>
+                                                <div class="pull-left muvi_rating-drop-down">
+                                                    <div class="pull-left muvi_hover-icon">
+                                                        <div class="muvi_hover-rating">3 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left muvi_rating-progress-bar">
+                                                        <div class="progress muvi_hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_three == 0) ? '2%' : content.count_three +'%' }"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pull-right percentage">{{content.count_three}}%</div>  
+                                                </div>
+                                                <div class="pull-left muvi_rating-drop-down">
+                                                    <div class="pull-left muvi_hover-icon">
+                                                        <div class="muvi_hover-rating">2 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left muvi_rating-progress-bar">
+                                                        <div class="progress muvi_hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_two == 0) ? '2%' : content.count_two +'%' }"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="pull-right percentage">{{content.count_two}}%</div>  
+
+                                                </div>
+                                                <div class="pull-left muvi_rating-drop-down">
+                                                    <div class="pull-left muvi_hover-icon">
+                                                        <div class="muvi_hover-rating">1 <span class="glyphicon glyphicon-star glystar"></span></div>
+                                                    </div>
+                                                    <div class="pull-left muvi_rating-progress-bar">
+                                                        <div class="progress muvi_hover-progress">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" ng-style="{ 'width' : (content.count_one == 0) ? '2%' : content.count_one +'%' }"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="pull-right percentage">{{content.count_one}}%</div>  
+
+                                                </div>
+                                                <div class="pull-left">
+                                                    <a  href="{{content.permalink}}" style="padding-left: 50px;">
+                                                        <span class="muvi_showreviewfont">See all {{content.avg_total}} reviews </span>&nbsp;<span class="muvi_featurereviewcaret fa fa-caret-right"></span>
+                                                    </a>
+                                                </div>
+                                            </div>            
+                                        </div>
+                                        &nbsp;
+                                    </li>
+                                </ul>
+                                
+                                
+                                <p class="muvi_caption_genre muvi_c-title muvi_c-font-16 muvi_c-font-slim" ng-if="section.content_type == 1">
+                                    <a href="{{content.permalink}}" data-pjax="#main" tabindex="0">{{content.name | html}}</a>
+                                </p>
+                                <p class="muvi_caption_genre muvi_c-font-16" ng-if="section.content_type == 1  && content.sale_price != 0.00" ng-bind="content.price"></p>
+                                <p class="muvi_caption_genre muvi_c-font-16" ng-if="section.content_type != 1"></p>
+                            </div>
+                            <div role="group" class="btn-group btn-group-justified" ng-if="section.content_type == 1">								
+                                <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 1 && content.sale_price != 0.00">
+                                    <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(content.id,1)" tabindex="0">{/literal}{$this->Language['add-to-cart']}{literal}</a> <!-- #20256: Issue in Featured Section for Modern Template -->
+                                </div>
+                                <div role="group" class="btn-group c-border-left muvi_c-border-top" ng-if="content.status == 1 && content.sale_price != 0.00">
+                                    <a class="btn btn-lg c-btn-white c-btn-uppercase c-btn-square muvi_c-font-grey-3 muvi_c-font-white-hover muvi_c-bg-red-2-hover muvi_c-btn-product" href="javascript:void(0);" ng-click="addCart(content.id,2)" tabindex="0">{/literal}{$this->Language['ordernow']}{literal}</a> <!-- #20256: Issue in Featured Section for Modern Template  -->
+                                </div>								
+								<div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 1 && content.sale_price == 0.00">
+                                    <div class="muvi_stockout">{/literal}{$this->Language['currently_unavailable']}{literal}</div>
+                                </div>								
+                                <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 2">
+                                    <div class="muvi_stockout">{/literal}{$this->Language['inactive']}{literal}</div>
+                                </div>
+                                <div role="group" class="btn-group muvi_c-border-top" ng-if="content.status == 3">
+                                    <div class="muvi_stockout">{/literal}{$this->Language['stock_out']}{literal}</div><!-- #20256: Issue in Featured Section for Modern Template -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span>{{updateSlider(section.id)}}</span>
+        </div>
+        <div class="loader _home_featured" ng-if="isLoader" style="display:block;" ></div>
+    </div>
+
+<script> 
+    var hideFeatured = {/literal}{$hide_featured};{literal}
+        var sections = {/literal}{$sections};{literal}
+    getVals(hideFeatured,sections,addToCart,orderNow,more,preOrder,stockOut,inactive);
+            
+</script>
+{/literal}

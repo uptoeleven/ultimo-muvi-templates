@@ -1,0 +1,105 @@
+<!--45922 starts-->
+{literal}
+<style>
+    .active_plan{
+        color:#fff;
+        font-weight:bold;
+        background:#5cb85c;
+        width:100%;
+        display:inline-block;
+        position:absolute;
+        left: 0;
+        bottom:0;
+        text-align: center;
+    }
+</style>
+{/literal}
+<!--45922 ends-->
+<!--#26447 : Pickbox | Frontend > Translation : "Months" translation doesn't show accurate-->
+{if $plans|@count > 0}
+<div class="col-md-12"><h2>{$this->Language['select_plan']}</h2></div>
+{foreach from=$plans key=counter item=plan}
+{$month_original =  $this->Original['select_month']|trim}
+{$year_original =  $this->Original['select_year']|trim}
+{$day_original =  $this->Original['day']|trim}
+{$plan_recurrence = $plan->recurrence|trim}
+{$recurrence_trial = $plan->trial_recurrence|trim}
+{if $month_original == $plan_recurrence}
+{$recurrence = $this->Language['select_month']}
+{$recurrences = $this->Language['months']}
+{elseif $year_original == $plan_recurrence}
+{$recurrence = $this->Language['select_year']}
+{$recurrences = $this->Language['years']}
+{else}
+{$recurrence = $plan_recurrence}
+{$recurrences = $this->Language['days']}
+{/if}
+
+{if $month_original == $recurrence_trial}
+{$trial_recurrence = $this->Language['select_month']}
+{elseif $day_original == $recurrence_trial}
+{$trial_recurrence = $this->Language['day']}
+{else}
+{$trial_recurrence = $recurrence_trial}
+{/if}
+{$class= ""}
+{$style = "display:none;"}
+{if $plan->id == $default_plan_id}
+{$class= "choosen"}
+{$style = "display:block;"}
+<input name="data[plan_id]" type="hidden" id="plan_id" value="{$plan->id}"  />
+<input name="data[currency_id]" type="hidden" id="currency_id" value="{$plan->currency_id}"  />
+<input type="hidden" name="data[is_subscription_bundles]" id="is_subscription_bundles" value="{$plan->is_subscription_bundle}"  />
+{/if}
+{$price = $plan->price}
+{$currency_id = $plan->currency_id}
+<div class="col-md-3 top20"> 
+    <div class="muvi_billed-box muvi_planbox plan-box {$class}" id="membership-plan_{$plan->id}" data-id="{$plan->id}" data-currency_id="{$currency_id}" data-is_subscriptionbundle="{$plan->is_subscription_bundle}">
+        <div class="tick-icon" style="{$style}"></div>
+        <h3>{$plan->name}</h3>
+        <hr/>
+        <p class="muvi_wordOverflow">{$plan->short_desc}</p>
+         <h4>{$this->Language['only']} <span class="muvi_bold-green">{Yii::app()->common->formatPrice($price,$currency_id)}</span> {$this->Language['per']} {$plan->frequency} {if $recurrence == 'Day'}{$this->Language[$recurrence|lower]}{else}{if $plan->frequency > 1}{$recurrences}{else}{$recurrence}{/if}{/if}</h4>
+        <p class="muvi_bold-green">&nbsp;
+            {if $plan->trial_period > 0}
+            {$plan->trial_period}
+            {if $plan->trial_period > 1}
+           {assign var="recur" value=$trial_recurrence|lower}
+           {$recur = $recur|cat:"s"}
+           {$this->Language[$recur]}
+           {else}
+           {$trial_recurrence} {/if} 
+           {$this->Language['free']}
+            {/if}
+        </p>
+        <!--45922 starts-->
+        {if $change_plan_id != 0}                
+            {if $current_plans|@count > 0}
+                {$is_subscribed = 0}
+                {foreach from=$current_plans key=i item=current_plan}
+                    {if $plan->id == $current_plan['id']}
+                        {$is_subscribed = true}                            
+                        {break}                        
+                    {/if}
+                {/foreach}                    
+                {if $is_subscribed == true}
+                <span class="active_plan">{$this->Language['transaction_status_active']}</span>                    
+                {/if}
+            {/if}
+        {/if}
+        <!--45922 ends-->
+    </div>
+</div>                
+{/foreach}
+{if $isCouponExists}
+{include file='../layouts/general_coupon.html'}
+{/if}
+<!--45922 starts-->
+{if $change_plan_id != ''}
+<br><div class="row" id="payment_summary"></div>
+{/if}
+<!--45922 ends-->
+{else}
+{$this->Language["no_record_found"]}
+{/if}
+<div class="clearfix"></div>
