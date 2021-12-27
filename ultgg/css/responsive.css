@@ -1,0 +1,283 @@
+﻿@media (min-width: 768px){
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+    .muvi_banner_btn{ bottom: 22%;font-size: 14px;}
+    .banner_text{bottom: 7px;padding-left: 0; font-size: 24px;}
+}
+
+@media (min-width:480px) and (max-width : 769px){
+    .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next, .carousel-control .icon-prev {
+        margin-top: -10px;
+
+    }
+    .muvi_channel-list {
+        width: 100px !important;
+    }
+    .day-date {
+        font-size: 14px !important;
+        padding: 17px 6px !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+        margin-top:20px;
+    }
+}
+@media (min-width: 1023) and (max-width:1025) {
+    .muvi_bottom_pages a {font-size:13px;}
+
+}
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+    .pad20{padding-top:20px !important;}
+}
+@media (min-width: 1300px) {
+    muvi_div83{width:89%;}
+
+}
+
+@media (max-width: 1366px) {
+    .margin-right-search {margin-right: 111px;}
+    #input input {width: 200px;}
+    .muvi_left-menu-margin {margin-left: 5%;}
+    .control-label {font-size: 20px;top: 7px;}
+    .caption h3 {
+        font-size: 16px;
+    }
+    .caption p {
+        font-size: 11px;
+    }
+
+}
+@media (max-width :1025) and (min-width:1020px){
+   .caption h3 {
+        font-size: 14px !important;
+    } 
+    .caption h3 a{
+        font-size: 12px !important;
+    }
+} 
+
+@media (max-width: 1200px) {
+    .caption h3 {
+        font-size: 16px;
+    }
+    .left15-{margin-left: 0px;}
+    .muvi_banner-bg {background: transparent;}
+    .banner-col-md-12{ width:100%; background:#222c2e !important}
+    .padding5{padding:5px !important;background:#222c2e !important}
+}
+@media (max-width: 1024px) {
+    .muvi_filter_popup{
+        font-size: 12px;min-width: 280px !important;
+    }
+    table.muvi_shop_table th {font-size: 12px;}
+
+}
+
+@media (max-width: 980px) {
+    ul.share-buttons {height: 25px; margin-top: 30px;}
+
+
+}
+
+@media (max-width: 767px) {
+    .muvi_left-menu-margin {  margin-left: -2%;}
+
+
+    #search {float: right;}
+    .profile{ border:3px solid #fff; margin:auto; margin-top:20px; width:220px; z-index:9999 !important;}
+    .bubble img{height:50px;width:50px;}
+    .bubble{padding-left: 40px;}
+    .muvi_filter_popup .pull-right{float:left !important;}
+
+
+}
+
+@media (max-width: 480px) {
+    div p img {
+        width: 248px;
+    }
+    .f11{font-size:11px;}
+    .pad9{
+        padding-top: 9px;
+    }
+    .m-t-5{margin-top:5px;}
+    .font-8{
+        font-size:8px;
+    }
+    .avatar-upload input{margin-left:0px !important;}
+    .muvi_font-17 {font-size: 17px !important;}
+    .banner-strip {
+        font-size: 9px;padding: 2px 10px 4px;
+    }
+    .muvi_f-10{font-size:10px;}
+    .muvi_banner-bottom-line p{ padding-bottom:0px; margin:0 0 0px;}
+    .muvi_banner-bottom-line h2 {font-size: 24px; margin-bottom:2px;}
+    .muvi_font18 {font-size: 12px;}
+    .muvi_font22 {font-size: 13px;}
+    .caption h3 {font-size: 13px;}
+    .caption p{
+        font-size: 10px;
+        margin: 0 0 0px;
+    }
+    .muvi_card_info_table {
+    margin-left: 15px !important;
+    }
+    b{font-size:10px;}
+    .caption h3 a {
+        font-size: 10px;
+    }
+    .muvi_list_page{
+        margin-top:10px;
+    }
+    .banner_text{bottom:60px;font-size: 11px;}
+    .muvi_banner_btn{ padding-left: 78%;font-size: 11px;}
+    .ps-caption a b{font-size: 8px;}
+    .muvi_banner-bottom-line{background:none;padding:0 7px;width:100%; }
+    .h1, h1 {
+        font-size: 30px;
+    }
+    .muvi_billed-box {width: 210px;}
+    .c-checkbox {width: 270px;}
+    .btn-padding{padding: 4px 4px !important;}
+    .banner-btn{ width:220px}
+    .top20{margin-top:20px;}
+    .muvi_episode_content .caption {
+    min-height: 126px !important;
+    }
+.delete-fab {
+    background: #fff;
+    border-radius: 2px;
+    color: #f00;
+    padding: 0 5px;
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    z-index:9999;
+}
+    .user{
+            padding :0px 6px 0px;
+    }
+    #user_menu .dropdown-menu li a {
+            color: #ffffff;
+    }
+
+    .user-menu ul{
+            margin-top : 0;
+    }
+    .language-list,.fa.fa-language{
+            margin-left :0;
+    }
+}
+
+@media (max-width: 320px) {
+    .caption h3 {
+        font-size: 10px;
+    }
+    .muvi_filter_popup {
+        min-width: 264px !important;
+    }
+    .dropdown-menu.muvi_filter_popup > form {
+        width: 259px;
+    }
+
+    .muvi_bottom_pages a{font-size:10px;}
+
+    .ps-caption a b{font-size: 12px;}
+    .muvi_banner_btn {
+        font-size: 9px;
+        bottom:64px;
+    }
+
+}
+@media (min-width:1366px) and (max-width:1387px){
+.caption p{font-size: 11px;}
+
+}
+@media all and (max-width: 1200px) and (min-width: 990px) {
+    .caption {
+        font-size: 10px;
+    }
+    .muvi_episode_content .caption {
+    height: 149px !important;
+}
+}
+@media (min-width: 1400px) {
+    .muvi_star_summary{
+        margin-left:0;
+    }
+
+}
+@media (max-width:1386px) and (min-width:1380px){
+    .top7{
+                padding-top:7px;
+    }
+   
+}
+@media (max-width: 387px) {
+    .playnow margin-top {
+        margin-top:5px;
+    }
+    .muvi_banner_btn a{font-size: 8px !important;}
+    .user-menu ul {
+        margin-top:  -21px;
+    }
+    .fa.fa-language {
+        margin-left: -4%;
+        margin-top: -3px;
+    }
+    .popover{
+        left: 29px !important;
+    }
+    #popover281941 {
+        left: 54px !important;
+    }
+
+}
+@media all and (max-width: 1302px) and (min-width: 992px) {
+    .muvi_star_summary {
+        margin-left: 130px;
+    }
+}
+@media all and (max-width: 687px) and (min-width: 320px) {
+    .muvi_banner_btn{
+        bottom:66px !important;
+    }
+}
+@media (max-width: 991px) {
+    .muvi_star_summary { margin-left: 15px !important;}
+
+
+}
+
+@media (max-width: 768px) {
+    .filter{margin-bottom:15px;}
+    .play-btn-big{ background:url(../images/play-icon.png); position:absolute; left:0;right:0;top:0;bottom:0;margin:auto;height:53px; width:53px;}
+    .play-btn-big:hover{ background:url(../images/play-icon-hover.png); position:absolute; left:0;right:0;top:0;bottom:0;margin:auto;height:53px; width:53px;}
+    .muvi_poster-title{ font-size:26px;}
+    .muvi_title1 {font-size: 26px;}
+    .muvi_banner_btn a{font-size: 13px;}
+
+
+}
+@media (max-width:768px) and (min-width :400px){
+    .muvi_banner_btn{bottom:15%;}
+    .ps-caption a b{font-size: 17px;}
+    .top-20{margin-top:20px;}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) and (max-width: 1900px) {
+    #input input {width:256px;}
+    .muvi_top10{padding-top:0px;}
+    .search  .muvi_top10{padding-top:10px;}
+}​
+

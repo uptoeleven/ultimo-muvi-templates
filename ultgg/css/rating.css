@@ -1,0 +1,157 @@
+/* 
+    Created on : Jul 25, 2018, 12:30:59 PM
+    Author     : Pritam
+    Purpose    : Reviews-Rating-Likes
+*/
+.like {
+    color: #5e9cd1;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 15px;
+    font-weight: 300;   
+    padding-right: 5px;
+    position: relative;
+    top: -4px;
+}
+
+/*#muvi_listingicons li {
+    list-style-type: none;
+    float: left;
+}*/
+.muvi_themecolor {
+    color : #2abc99;
+}
+#muvi_listingicons{
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+}
+#muvi_listingicons li {
+    list-style-type: none;
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    vertical-align: top;
+}
+#muvi_listingicons li a{
+    font-size: 11px;
+    line-height: 1.2;
+}
+.muvi_glyphicon-color{
+    color: #2abc99;
+   }
+.rating-hover:hover > div.dropdown-menu {
+     display: block;   
+     /*margin-left: 80px;*/ 
+     margin-bottom: 150px;
+
+}
+.muvi_rating-stars{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+.muvi_rating-stars, .muvi_rating-stars li{
+    list-style-type: none;
+}
+.rating-hover .dropdown-menu {
+     top: 88%;   
+     left: auto; 
+     /*right: 80px;*/
+   }
+.dropdown-menu::before, .dropdown-menu-visible-xs::before{
+    left: 42%;
+}   
+.muvi_glystar, .muvi_ratingfont , .muvi_showreviewfont {
+    font-size: 10px;
+}
+.muvi_dropdown-width {
+    width:200px;
+}
+.muvi_hover-icon {
+    width:35px; 
+    line-height:1;
+}
+.muvi_hover-rating {
+    height:9px; 
+    margin:5px 0; 
+    font-size:11px;
+}
+.muvi_hover-progress {
+    height:9px; 
+    margin:8px 0;
+}
+.muvi_listicons{
+    font-size: 12px;
+   }
+.ratingcolorred {
+    color: #DC143C;
+   }   
+.muvi_rating-drop-down{
+    color: black;
+    font-size: 12px;
+}
+.muvi_rating-progress-bar{
+    width: 88px;
+}
+.muvi_showreviewcaret {
+    font-size: 11px;
+    position: absolute;
+    margin-top: 7px;
+}
+.percentage {
+    margin-left:10px;
+    font-size: 13px;
+    margin-top: 4px;
+    color: grey;
+}
+.muvi_avg-rating {
+    margin-top: -10px;
+}
+.muvi_featureicons {
+    font-size: 11px;
+}
+.muvi_featurecounts {
+    font-size: 10px;
+}
+/*#muvi_featureblock li {
+    list-style-type: none;
+    float: left;
+}*/
+#muvi_featureblock{
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+}
+#muvi_featureblock li {
+    list-style-type: none;
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    vertical-align: top;
+}
+#muvi_featureblock li a{
+    font-size: 11px;
+    line-height: 1.2;
+}
+.muvi_featurereviewcaret {
+    font-size: 11px;
+    position: absolute;
+    margin-top: 5px;   
+}
+.dropup {
+    position: relative;
+    display: inline-block;
+}
+
+.muvi_dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #FBFBFB;
+    min-width: 160px;
+    bottom: 20px;
+    z-index: 1;
+}
+
+.dropup:hover .muvi_dropup-content {
+    display: block;
+}
