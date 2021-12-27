@@ -37,6 +37,8 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
             <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/style.css" rel="stylesheet">
 
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
             <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!--[if lt IE 9]>
@@ -49,7 +51,6 @@
             <link rel="stylesheet" href="{$this->siteurl}{$Yii->theme->baseUrl}/css/404error.css?v={time()}">
             <script src="{$this->siteurl}/js/angularjs/angular.min.js"></script>
 
-            <script defer type="text/javascript" src="{$this->siteurl}/js/jquery.pjax.js"></script>
             <script defer type="text/javascript" src="{$this->siteurl}/common/js/byod.js?v=2"></script>
             <link href="{$this->siteurl}/css/audioplayer.css?v={$smarty.const.RELEASE}" rel="stylesheet" media="screen">
             <script src="{$this->siteurl}/js/zeroclipboard/clipboard.min.js"></script> <!-- Er : #54395 [Ashutosh]  -->
@@ -106,9 +107,10 @@
                 var daily_watch_duration_status = "{$this->store_configs->daily_watch_duration_status}";//34193
 
                 var hybrid = 1;
-                $(document).ready(function() {
-                    $.removeCookie('QUEID');
-                      var year = (new Date()).getFullYear();
+                {literal}
+                jq2 = jQuery.noConflict();
+                jq2(function( $ ) {
+                    var year = (new Date()).getFullYear();
                     if ($('.date_picker').length > 0) {
                         $(".date_picker[id!='birthday']").datepicker({
                             changeMonth: true,
@@ -121,6 +123,7 @@
                         });
                     }
                 });
+                {/literal}
             </script>
             {$this->alljs}
             <script  defer type="text/javascript" src="{$this->siteurl}/js/themes/loginpopup.js"></script>
@@ -130,7 +133,7 @@
             <script defer type="text/javascript" src="{$this->siteurl}/common/js/fancybox.js"></script>
             <link rel="stylesheet" href="{$this->siteurl}/common/css/fancybox.css" type="text/css" media="screen" />
             <script defer src="{$this->siteurl}/js/jquery.matchHeight.js"></script>
-            <script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/css/jquery.mCustomScrollbar.js"></script>
+            <script defer type="text/javascript" src="{$this->siteurl}{$Yii->theme->baseUrl}/js/jquery.mCustomScrollbar.js"></script>
             <link href="{$this->siteurl}{$Yii->theme->baseUrl}/css/jquery.mCustomScrollbar.css" rel="stylesheet" media="screen" />
             {if (Yii::app()->paymentGateway->isSCA() && (isset(Yii::app()->controller->PAYMENT_GATEWAY['stripe']) && Yii::app()->controller->PAYMENT_GATEWAY['stripe']=='stripe'))}
                 <script src="https://js.stripe.com/v3/"></script>

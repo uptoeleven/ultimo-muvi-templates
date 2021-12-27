@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html xmlns="https://www.w3.org/1999/xhtml" xml:lang="{$this->language_code}" lang="{$this->language_code}">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$this->language_code}" lang="{$this->language_code}">
         {include file='../layouts/header.html'}
         <body class="{$this->style_code} {if $this->ishome}_home{/if}">
         {$this->cookie_msg}
@@ -122,107 +122,6 @@
                 $('header nav  ul li a.active').removeClass('active');
                 $(this).addClass('active');
             })
-            if ($.support.pjax) {
-                $.pjax.defaults.timeout = 999999;
-                $(document).pjax('a[data-pjax]', '#main');
-                $(document).on('submit', 'form[data-pjax]', function(event) {
-                    $.pjax.submit(event, '#main');
-                });
-            }
-            $(document).on('pjax:start', function() {
-                $('.load-container').show();
-                if($('#bootstrap-touch-slider').find('video').prop('muted')){
-                    $('#bootstrap-touch-slider').find('video').pause();
-                }
-                // $('#bootstrap-touch-slider').find('video').pause();
-                $('#flexslider').find('video').pause();
-            });
-
-            $(document).on('pjax:end', function() {
-                var main = document.createElement("script");
-                main.type = "text/javascript";
-                main.src = THEME_URL + '/js/main.js';
-                $("#main").append(main);
-                var owl = document.createElement("script");
-                owl.type = "text/javascript";
-                owl.src = THEME_URL + '/assets/plugins/owl-carousel/owl.carousel.min.js';
-                $("#main").append(owl);
-                var slick = document.createElement("script");
-                slick.type = "text/javascript";
-                slick.src = SITE_URL + '/js/slick/slick.min.js';
-                $("#main").append(slick);
-                var rating = document.createElement("script");
-                rating.type = "text/javascript";
-                rating.src = THEME_URL + '/assets/plugins/bootstrap/js/bootstrap.min.js';
-                $('#listingPage').append(rating);
-                var login = document.createElement("script");
-                login.type = "text/javascript";
-                login.src = SITE_URL + '/js/themes/loginpopup.js';
-                $(".login-form").append(login);
-                var bootRating = document.createElement("script");
-                bootRating.type = "text/javascript";
-                bootRating.src = SITE_URL + '/common/rating/bootstrap-rating.js';
-                $("#main").append(bootRating);
-                //$(".content-details").append(bootRating);
-                $('.load-container').hide();
-                var byod = document.createElement("script");
-                byod.type = "text/javascript";
-                byod.src = SITE_URL + '/common/js/byod.js';
-                $("#main").append(byod);
-                var main = document.createElement("script");
-                main.type = "text/javascript";
-                main.src = SITE_URL + '/js/themes/usernotification.js';
-                $("#main").append(main);
-
-                var bannerStyle = document.createElement("script");
-                bannerStyle.type = "text/javascript";
-                bannerStyle.src = SITE_URL + '/bannerStyle/style_1/js/videobanner.js';
-                $("#main").append(bannerStyle);
-
-                var editor = document.createElement("script");
-                editor.type = "text/javascript";
-                editor.src = SITE_URL + '/js/editor.js';
-                $("#main").append(editor);
-
-                $('.load-container').hide();
-                var year = (new Date()).getFullYear();
-                if ($('.date_picker').length > 0) {
-                    $(".date_picker[id!='birthday']").datepicker({
-                        changeMonth: true,
-                        changeYear: true
-                    });
-                    $('.date_picker[id="birthday"]').datepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        yearRange: "1900:"+year
-                    });
-                }
-            });
-            
-            $(document).on('pjax:complete', function() {
-                $('body').removeClass('_nav-on');
-                $('.menu-toggle-butn').click(function(){
-                     $('body').toggleClass('_nav-on');
-                });
-                $('.load-container').hide();
-                if($("#homepage_sections").length > 0){
-                    angular.bootstrap($("#homepage_sections")[0], ["FeaturedContents"]);
-                }   
-//              mantis : 10334 start
-                if($("#relatedContent_section").length > 0){
-                    // angular.bootstrap($("#relatedContent_section")[0], ["relatedContent"]);
-                    angular.bootstrap(document, ['relatedContent']);
-                }  
-//              mantis : 10334 End
-            });
-            
-            $(document).on('pjax:popstate', function(event) {
-               	$.pjax.reload({container:"#main", async:true});
-                $('.menu-toggle-butn').click(function(){
-                     $('body').toggleClass('_nav-on');
-                });
-            });
-            
         });
         
     </script>

@@ -9,9 +9,9 @@
                         </div>
                         <div class="search-bar flex-grow-1 ml-2 mr-3">
                             <div class="form-group position-relative mb-0">
-                                <input type="email" class="form-control" id="menusearchbar" placeholder="Search">
-                                    <div class="position-absolute search-icon d-flex flex-center">
-                                    <img src="../images/icons/search.svg">
+                                <input type="text" class="form-control" id="menusearchbar" placeholder="Search" />
+                                <div class="position-absolute search-icon d-flex flex-center">
+                                    <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/icons/search.svg">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                             {if $smarty.session.guest_user_id == ''}
                             <!--  52108  -->
                             {if (isset($this->store_configs->sso_with_miniorange_shopify_recharge) && $this->store_configs->sso_with_miniorange_shopify_recharge == 1)}
-                             {if $mitem['class'] == 'register'}<a href="{$this->base_url}/user/login?sso" class="login active" data-pjax="#main"> <i class="fa fa-lock"></i> {$this->Language['login']}</a>{/if}
+                             {if $mitem['class'] == 'register'}<a href="{$this->base_url}/user/login?sso" class="login active"> <i class="fa fa-lock"></i> {$this->Language['login']}</a>{/if}
                             {else}<!--  52108  -->
                             <a href="{$mitem['permalink']}" class="{$mitem['class']}">
                                 {if $mitem['class'] == 'register'}
