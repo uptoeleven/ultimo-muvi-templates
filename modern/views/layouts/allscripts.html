@@ -40,6 +40,7 @@
    <script src="{$this->siteurl}{$Yii->theme->baseUrl}/assets/base/js/components-shop.js" type="text/javascript"></script>
    <script src="{$this->siteurl}{$Yii->theme->baseUrl}/assets/base/js/app.js" type="text/javascript"></script>
    <script>
+      {literal}
        $(document).ready(function() {
            App.init(); // init core  
            $.validator.messages.required = JSLANGUAGE.required_default_msg;
@@ -54,6 +55,7 @@
                });
            }
        });
+      {/literal}
    </script>
 <!--@mantis: 19646 start-->
 <!--{$this->alljs}-->
