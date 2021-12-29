@@ -1154,6 +1154,10 @@ a:hover {
   border: 0 !important;
 }
 
+.border-top-0 {
+  border-top: 0 !important;
+}
+
 .rounded {
   border-radius: 0.25rem !important;
 }
@@ -4001,11 +4005,67 @@ h3, .h3 {
 }
 
 .stream-window {
+  max-width: 1600px;
+}
+
+.stream-window button:not(.btn) {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.stream-window.container::before {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media (min-width: 1200px) {
+  .stream-window.container .stream-window-left {
+    width: 75%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .stream-window.container .stream-window-right {
+    width: 25%;
+  }
+}
+
+.stream-window-left {
+  width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+@media (min-width: 1200px) {
+  .stream-window-left {
+    width: 85%;
+  }
+}
+
+.stream-window-right {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 0;
+}
+
+@media (min-width: 1200px) {
+  .stream-window-right {
+    width: 15%;
+  }
+}
+
 .stream-video {
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.stream-video.active {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .stream-video .stream-mode {
@@ -4046,9 +4106,7 @@ h3, .h3 {
 
 .stream-info {
   padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-top: 0;
-  border-bottom: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .stream-info .stream-cat {
@@ -4063,8 +4121,6 @@ h3, .h3 {
 
 .stream-profile {
   padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: none;
 }
 
 .stream-profile .profile-img {
@@ -4107,14 +4163,18 @@ h3, .h3 {
 }
 
 .stream-chat .chat-box {
-  height: 400px;
+  height: 44vw;
   font-size: 6px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1600px) {
   .stream-chat .chat-box {
-    margin-bottom: 2.2rem !important;
+    height: 705px;
   }
+}
+
+.stream-window.container .stream-chat .chat-box {
+  height: 430px;
 }
 
 .stream-chat .chat-user-img {
@@ -4224,6 +4284,26 @@ h3, .h3 {
   }
 }
 
+.fullscreen-mode-info {
+  display: none;
+  top: 10px;
+  left: 10px;
+}
+
+.stream-video.active .fullscreen-mode-info {
+  display: block;
+}
+
+#fullscreen-mode-open,
+#fullscreen-mode-close {
+  display: none;
+}
+
+#fullscreen-mode-open.active,
+#fullscreen-mode-close.active {
+  display: inline-block;
+}
+
 .modal {
   text-align: center;
   padding: 50px 0 30px !important;
@@ -4231,14 +4311,6 @@ h3, .h3 {
   /* Create a custom checkbox */
   /* Show the checkmark when checked */
   /* Style the checkmark/indicator */
-}
-
-.modal:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -4px;
 }
 
 .modal-dialog {
@@ -4274,6 +4346,7 @@ h3, .h3 {
   right: 1rem;
   color: #fff;
   opacity: 1;
+  z-index: 99;
 }
 
 .modal-open .modal {
@@ -4539,13 +4612,4 @@ h3, .h3 {
   border-radius: 50%;
   cursor: pointer;
   z-index: 100;
-}
-
-div#preloaded-images {
-  position: absolute;
-  overflow: hidden;
-  left: -9999px;
-  top: -9999px;
-  height: 1px;
-  width: 1px;
 }
