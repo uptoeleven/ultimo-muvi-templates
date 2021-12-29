@@ -1,48 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$this->language_code}" lang="{$this->language_code}">
 {include file='../layouts/header.html'}
-<body>
-<div id="top-bar" class="w-100">
-    <div class="container-fluid h-100">
-        <div class="row h-100">
-            <div class="col-xs-12 col-sm-7 h-100">
-                <div class="h-100 d-flex flex-between">
-                    <a href="#" class="streaming-icon d-flex flex-center border-0 mr-2"></a>
-                    <div class="theme-switch position-relative mx-2">
-                        <div class="position-absolute theme-switch-dot rounded-circle"></div>
-                    </div>
-                    <div class="search-bar flex-grow-1 ml-2 mr-3">
-                        <div class="form-group position-relative mb-0">
-                            <input type="email" class="form-control" id="menusearchbar" placeholder="Search">
-                            <div class="position-absolute search-icon d-flex flex-center">
-                                <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/icons/search.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <div id="nav_button" class="rounded-circle d-md-none">
-                        <a id="hidden-nav-button" class="d-flex flex-center border-0">
-                            <span></span>
-                        </a>
-                    </div>
-                    <a href="#" class="alarm d-none d-md-flex flex-center"></a>
-                </div>
-            </div>
-            <div id="main-menu" class="col-sm-5 d-flex justify-content-md-end">
-                <div class="d-flex flex-column flex-md-row flex-between">
-                    <a class="d-flex flex-center active" href="#"></a>
-                    <a class="d-flex flex-center" href="#"></a>
-                    <a class="d-flex flex-center" href="#"></a>
-                    <a class="d-flex flex-center" href="#"></a>
-                    <a class="menu-divider"></a>
-                    <a class="d-flex flex-center" href="#"></a>
-                    <a class="d-flex flex-center" href="#"></a>
-                    <a class="d-flex flex-center" href="#"></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="w-100 home-banner"></div>
+<body class="{$this->style_code} {if $this->ishome}_home{/if}">
+{$this->cookie_msg}
+{$this->website_msg}
+{if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->
+    {include file='../layouts/nav-top.html'}
+{/if}
+{include file='../layouts/top-modal-set.html'}
 
 <div class="search-bar w-100 py-3 d-none d-md-block">
     <div class="container">
