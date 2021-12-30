@@ -4613,3 +4613,17 @@ h3, .h3 {
   cursor: pointer;
   z-index: 100;
 }
+
+header.legacy {
+  visibility: hidden;
+  display: none;
+}
+
+div#preloaded-images {
+  position: absolute;
+  overflow: hidden;
+  left: -9999px;
+  top: -9999px;
+  height: 1px;
+  width: 1px;
+}

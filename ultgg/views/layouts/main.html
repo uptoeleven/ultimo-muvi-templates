@@ -7,7 +7,7 @@
 {if $this->from_playout_cms_embed == 0}<!-- @ER : 22892-->
     {include file='../layouts/nav-top.html'}
 {/if}
-<div class="search-bar w-100 py-3 d-none d-md-block">
+{* <div class="search-bar w-100 py-3 d-none d-md-block">
     <div class="container">
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
@@ -17,8 +17,10 @@
             </div>
         </div>
     </div>
-</div>
-
+</div> *}
+{include file='../layouts/modal.html'}
+{include file='../layouts/header-element.html'}
+<div class="w-100 home-banner"></div>
 <div class="container position-relative px-0 px-xl-3">
     <div class="gamer-nav position-absolute d-flex flex-center">
     <i class="fa fa-angle-right" aria-hidden="true"></i>

@@ -1,0 +1,18 @@
+  .countrycode{padding-left: 0px; padding-right: 0px;} 
+    button#resend_otp[disabled] {
+        background: #2cb7f6;
+    }
+    button#send_otp{
+        background: #2cb7f6;
+    }
+    select.form-control.selectcountrycode {
+        padding: 2px!important;
+    }
+    .blue-color,#otp_sucess {
+        color: #32c5d2;
+    }
+    select {
+    line-height: 1em;
+    font-size: 14px;
+    }
+    .countrydropdown{padding-right: 0px;}
