@@ -1,10 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-TEST - IS THIS EVEN USED?
-</body>
-</html>
+<div class="w-100 home-banner"></div>
+<div class="container position-relative px-0 px-xl-3">
+    <div class="gamer-nav position-absolute d-flex flex-center">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+    </div>
+    <div class="gamer-slider-container my-5 py-4">
+        <div class="gamer-slider owl-carousel text-uppercase">
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+            {include file='../layouts/includes/gamer-slider.html'}
+        </div>
+    </div>
+</div>
+{foreach from=$sections|json_decode item=this_section}
+    {if $this_section@first}
+        <div class="container">
+            <h3 class="text-uppercase">Featured: {$this_section->title}</h3>
+            <div class="spacer1"></div>
+            <div class="featured-slider owl-carousel text-uppercase">
+                {foreach from=$this_section->contents|json_decode item=this_content}
+                    <div class="position-relative">
+                        <div class="position-absolute w-100 h-100 stream-img-overlay"></div>
+                        <img src="{$this_content->poster}" alt="{$this_content->title}">
+                        <div class="position-absolute live-badge">
+                            <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/icons/streaming-red.svg">
+                            {* <span>Live</span> *}
+                        </div>
+                        <a href="{$this_content->full_movie}" class="stretched-link"></a>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+        {if $this_section@total > 1}
+            <div class="spacer6"></div>
+            <div class="container">
+                <hr class="my-0 opacity-10">
+            </div>
+        {/if}
+    {elseif $this_section@last}
+        <div class="container">
+            <div class="spacer3"></div>
+            <div class="d-flex flex-between">
+                <h3 class="text-uppercase">{$this_section->title}</h3>
+                <div class="streaming-icon"></div>
+            </div>
+            <div class="spacer2"></div>
+            <div class="d-flex flex-between">
+                <div>
+                    <a href="#" class="d-inline-flex text-uppercase text-reset mr-2 btn btn-main active">All streams</a>
+                    <a href="#" class="d-inline-flex text-uppercase text-reset btn btn-main">By game</a>
+                </div>
+                <div class="dropdown">
+                    <a class="btn text-uppercase text-reset btn btn-filter" type="button" id="dropdownMenu1"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Filter option
+                        <i class="fa fa-angle-down ml-2" aria-hidden="true"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right font-sm" aria-labelledby="dropdownMenu1">
+                        <li><a class="text-reset" href="#">Option</a></li>
+                        <li role="separator" class="divider opacity-10"></li>
+                        <li><a class="text-reset" href="#">Option</a></li>
+                        <li role="separator" class="divider opacity-10"></li>
+                        <li><a class="text-reset" href="#">Option</a></li>
+                        <li role="separator" class="divider opacity-10"></li>
+                        <li><a class="text-reset" href="#">Option</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="spacer3"></div>
+            <div class="row d-flex d-md-block row-grid row-grid-tall mb-4 pb-1 pb-md-0">
+                {foreach from=$this_section->contents|json_decode item=this_content}
+                    <div class="col-sm-4 col-md-2 mb-4 text-uppercase">
+                        <img src="{$this->siteurl}{$Yii->theme->baseUrl}/{$this_content->poster}"
+                             alt="{$this_content->title}"
+                             class="img-responsive w-100">
+                        <div class="spacer1"></div>
+                        <div class="d-flex flex-between mb-2">
+                            <div class="font-bold">{$this_content->title}</div>
+                            <a class="text-reset" href="{$this_content->full_movie}">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="viewers-text font-xxs mb-2">X,XXX viewers</div>
+                        <div>
+                            <span class="tag label">#TagSupportUnderConstruction</span>
+                            <span class="tag label">#TagSupport</span>
+                            <span class="tag label">#UnderConstruction</span>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+            <div class="show-more position-relative text-uppercase text-center">
+                <a href="#" class="text-reset d-block">
+                    <div class="font-xxs">Show more</div>
+                    <i class="fa fa-angle-down position-absolute font-xxs" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    {else}
+        <div class="container">
+            <div class="spacer3"></div>
+            <div class="d-flex flex-between">
+                <h3 class="text-uppercase">Stream category</h3>
+                <div class="streaming-icon"></div>
+            </div>
+            <div class="spacer2"></div>
+            <div class="d-flex flex-between">
+                <div>
+                    <a href="#" class="d-inline-flex text-uppercase text-reset mr-2 btn btn-main active">All streams</a>
+                    <a href="#" class="d-inline-flex text-uppercase text-reset btn btn-main">By game</a>
+                </div>
+                <div class="dropdown">
+                    <a class="btn text-uppercase text-reset btn btn-filter" type="button" id="dropdownMenu1"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Filter option
+                        <i class="fa fa-angle-down ml-2" aria-hidden="true"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right font-sm" aria-labelledby="dropdownMenu1">
+                        <li><a class="text-reset" href="#">Option</a></li>
+                        <li role="separator" class="divider opacity-10"></li>
+                        <li><a class="text-reset" href="#">Option</a></li>
+                        <li role="separator" class="divider opacity-10"></li>
+                        <li><a class="text-reset" href="#">Option</a></li>
+                        <li role="separator" class="divider opacity-10"></li>
+                        <li><a class="text-reset" href="#">Option</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="spacer3"></div>
+            <div class="row d-flex d-md-block row-grid mb-4 pb-1 pb-md-0">
+                {foreach from=$this_section->contents|json_decode item=this_content}
+                    <div class="col-sm-6 col-md-3 mb-4 text-uppercase">
+                        <div class="position-relative">
+                            <div class="position-absolute w-100 h-100 stream-img-overlay"></div>
+                            <img src="{$this->siteurl}{$Yii->theme->baseUrl}/{$this_content->poster}"
+                                 alt="{$this_content->title}"
+                                 class="img-responsive w-100">
+                            <div class="position-absolute live-badge">
+                                <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/icons/streaming-red.svg">
+                                {* <span>Live</span> *}
+                            </div>
+                        </div>
+                        <div class="spacer1 mb-1"></div>
+                        <div class="d-flex flex-between mb-2">
+                            <div class="font-bold">Stream name here</div>
+                            <a class="text-reset" href="#">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <h6 class="gamer-tag font-bold">Gamertag1</h6>
+                        <div class="viewers-text my-2 font-xxs">X,XXX viewers</div>
+                        <div class="d-flex flex-between">
+                            <div>
+                                <span class="tag label">#TagSupportUnderConstruction</span>
+                                <span class="tag label">#TagSupport</span>
+                                <span class="tag label">#UnderConstruction</span>
+                            </div>
+                            <div class="d-flex align-items-center like font-sm">
+                                <img class="mr-2" src="{$this->siteurl}{$Yii->theme->baseUrl}/images/icons/flame.svg">
+                                <div class="font-bold">538</div>
+                            </div>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+            <div class="show-more position-relative text-uppercase text-center">
+                <a href="#" class="text-reset d-block">
+                    <div class="font-xxs">Show more</div>
+                    <i class="fa fa-angle-down position-absolute font-xxs" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    {/if}
+{/foreach}
+<div class="spacer5"></div>
