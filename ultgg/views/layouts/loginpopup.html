@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <!--//28147:-->
                                 {if $this->sms_otp_enabled}
-                                    <label class="control-label"  for="username">{$this->Language['phone_number']}</label>
+                                    <label class="control-label" for="username">{$this->Language['phone_number']}</label>
                                     <div class="controls">
                                         <input type="text" name="LoginForm[mobile_number]" id="phone" placeholder="{$this->Language['phone_number']}" autocomplete="off"  class="form-control c-square c-theme" onblur="loginOtpToUser(this.value)"/>
                                         <input type="hidden" id="username" name="LoginForm[email]">

@@ -1,13 +1,13 @@
+{$menuimages = ['compass','film','tv','play','profile','folder','settings']}
+<div id="preloaded-images">
+        {foreach from=$menuimages item=menuimage}
+                <img src="{$Yii->theme->baseUrl}/images/icons/menu/{$menuimage}.svg" width="1" height="1" alt="" />
+                <img src="{$Yii->theme->baseUrl}/images/icons/menu/{$menuimage}-active.svg" width="1" height="1" alt="" />
+        {/foreach}
+        <img src="{$Yii->theme->baseUrl}/images/icons/menu/menu-active.svg" width="1" height="1" alt="" />
+</div>
 
-        <script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/ofi.min.js"></script>
+<script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/ofi.min.js"></script>
         <script src="{$this->siteurl}{$Yii->theme->baseUrl}/js/main.js"></script>
         <script defer type="text/javascript" src="{$this->siteurl}/common/js/byod.js?v=2"></script>
 
-        {$menuimages = ['compass','film','tv','play','profile','folder','settings']}
-        <div id="preloaded-images">
-                {foreach from=$menuimages item=menuimage}
-                        <img src="../images/icons/menu/{$menuimage}.svg" width="1" height="1" alt="" />
-                        <img src="../images/icons/menu/{$menuimage}-active.svg" width="1" height="1" alt="" />
-                {/foreach}
-                <img src="../images/icons/menu/menu-active.svg" width="1" height="1" alt="" />
-        </div>

@@ -1,7 +1,9 @@
 $(document).ready(function() {
-    $('#Modalform').modal({
-        backdrop: false
-    })
+    if (!window.sdk_user_id) {
+        $('#loginModal').modal({
+            backdrop: false
+        })
+    }
 });
 
 $('#nav_button a').click(function(){
@@ -15,7 +17,7 @@ $('.theme-switch').click(function(){
 });
 
 $('#modal').click(function(){
-    $('#Modalform').modal('toggle')
+    $('#loginModal').modal('toggle')
 });
 
 $('.modal-nav-login').click(function(){

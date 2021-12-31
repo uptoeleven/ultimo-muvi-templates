@@ -3387,15 +3387,16 @@ h3, .h3 {
 }
 
 #top-bar a:not(.menu-divider).alarm {
-  background-image: url(../images/icons/menu/alarm.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/alarm.svg);
+
 }
 
 #top-bar a:not(.menu-divider).alarm:hover, #top-bar a:not(.menu-divider).alarm.active {
-  background-image: url(../images/icons/menu/alarm-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/alarm-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #top-bar .streaming-icon {
-  background-image: url(../images/icons/menu/streaming.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/streaming.svg);
   background-size: 100% !important;
 }
 
@@ -3433,59 +3434,59 @@ h3, .h3 {
 }
 
 #main-menu a:nth-child(1) {
-  background-image: url(../images/icons/menu/compass.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/compass.svg);
 }
 
 #main-menu a:nth-child(2) {
-  background-image: url(../images/icons/menu/film.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/film.svg);
 }
 
 #main-menu a:nth-child(3) {
-  background-image: url(../images/icons/menu/tv.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/tv.svg);
 }
 
 #main-menu a:nth-child(4) {
-  background-image: url(../images/icons/menu/play.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/play.svg);
 }
 
 #main-menu a:nth-child(6) {
-  background-image: url(../images/icons/menu/profile.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/profile.svg);
 }
 
 #main-menu a:nth-child(7) {
-  background-image: url(../images/icons/menu/folder.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/folder.svg);
 }
 
 #main-menu a:nth-child(8) {
-  background-image: url(../images/icons/menu/settings.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/settings.svg);
 }
 
 #main-menu a:hover:nth-child(1), #main-menu a.active:nth-child(1) {
-  background-image: url(../images/icons/menu/compass-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/compass-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #main-menu a:hover:nth-child(2), #main-menu a.active:nth-child(2) {
-  background-image: url(../images/icons/menu/film-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/film-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #main-menu a:hover:nth-child(3), #main-menu a.active:nth-child(3) {
-  background-image: url(../images/icons/menu/tv-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/tv-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #main-menu a:hover:nth-child(4), #main-menu a.active:nth-child(4) {
-  background-image: url(../images/icons/menu/play-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/play-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #main-menu a:hover:nth-child(6), #main-menu a.active:nth-child(6) {
-  background-image: url(../images/icons/menu/profile-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/profile-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #main-menu a:hover:nth-child(7), #main-menu a.active:nth-child(7) {
-  background-image: url(../images/icons/menu/folder-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/folder-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #main-menu a:hover:nth-child(8), #main-menu a.active:nth-child(8) {
-  background-image: url(../images/icons/menu/settings-active.svg), url(../images/icons/menu/menu-active.svg);
+  background-image: url(/themes/ultgg/images/icons/menu/settings-active.svg), url(/themes/ultgg/images/icons/menu/menu-active.svg);
 }
 
 #main-menu .menu-divider {
@@ -3708,18 +3709,18 @@ h3, .h3 {
 .play-icon {
   width: 26px;
   height: 18px;
-  background-image: url(../images/icons/streaming-light.svg);
+  background-image: url(/themes/ultgg/images/icons/streaming-light.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
 }
 
 .streaming-icon {
-  background-image: url(../images/icons/streaming-light.svg);
+  background-image: url(/themes/ultgg/images/icons/streaming-light.svg);
 }
 
 .play-icon {
-  background-image: url(../images/icons/play.svg);
+  background-image: url(/themes/ultgg/images/icons/play.svg);
 }
 
 .stream-img-overlay {
@@ -3913,7 +3914,7 @@ h3, .h3 {
 
 .stats {
   width: 50px;
-  background-image: url("../images/icons/shape-background-01.svg");
+  background-image: url("/themes/ultgg/images/icons/shape-background-01.svg");
 }
 
 .stats img {
@@ -3957,15 +3958,15 @@ h3, .h3 {
 }
 
 .achievement-1 {
-  background-image: url("../images/icons/shape-background-01.svg");
+  background-image: url("/themes/ultgg/images/icons/shape-background-01.svg");
 }
 
 .achievement-2 {
-  background-image: url("../images/icons/shape-background-02.svg");
+  background-image: url("/themes/ultgg/images/icons/shape-background-02.svg");
 }
 
 .achievement-3 {
-  background-image: url("../images/icons/shape-background-03.svg");
+  background-image: url("/themes/ultgg/images/icons/shape-background-03.svg");
 }
 
 .achievement.disabled {
@@ -3989,15 +3990,15 @@ h3, .h3 {
 }
 
 .achievement-holder .achievement-1 {
-  background-image: url("../images/icons/achievement-01.svg"), url("../images/icons/shape-background-01.svg");
+  background-image: url("/themes/ultgg/images/icons/achievement-01.svg"), url("/themes/ultgg/images/icons/shape-background-01.svg");
 }
 
 .achievement-holder .achievement-2 {
-  background-image: url("../images/icons/achievement-02.svg"), url("../images/icons/shape-background-02.svg");
+  background-image: url("/themes/ultgg/images/icons/achievement-02.svg"), url("/themes/ultgg/images/icons/shape-background-02.svg");
 }
 
 .achievement-holder .achievement-3 {
-  background-image: url("../images/icons/achievement-03.svg"), url("../images/icons/shape-background-03.svg");
+  background-image: url("/themes/ultgg/images/icons/achievement-03.svg"), url("/themes/ultgg/images/icons/shape-background-03.svg");
 }
 
 #stream-video {
