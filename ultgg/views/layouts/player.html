@@ -3,6 +3,7 @@
 	<input type="hidden" value="{$this->autoplay_episode}" id="autoplay_episode">
 <!--@mantis: 18541 start-->           
 <script>
+    {literal}
     //ER 22266 Start
      $(document).ready(function(){
         if(typeof speedControl !='undefined' && speedControl==1)
@@ -10,6 +11,7 @@
         else
            $('.speed-ctrl').hide();
     });
+    {/literal}
     //ER 22266 Start
 	//queuelist object we can get all audio info by using this object
 	var muviAudioMusicPlayerObj = [];

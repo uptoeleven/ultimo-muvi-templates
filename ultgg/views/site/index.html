@@ -30,7 +30,7 @@
             <h3 class="text-uppercase">Featured: {$this_section->title}</h3>
             <div class="spacer1"></div>
             <div class="featured-slider owl-carousel text-uppercase">
-                {foreach from=$this_section->contents|json_decode item=this_content}
+                {foreach from=$this_section->contents item=this_content}
                     <div class="position-relative">
                         <div class="position-absolute w-100 h-100 stream-img-overlay"></div>
                         <img src="{$this_content->poster}" alt="{$this_content->title}">
