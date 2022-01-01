@@ -27,18 +27,19 @@
 {foreach from=$sections|json_decode item=this_section}
     {if $this_section@first}
         <div class="container">
-            <h3 class="text-uppercase">Featured: {$this_section->title}</h3>
+            <h3 class="text-uppercase">{$this_section->title}</h3>
             <div class="spacer1"></div>
             <div class="featured-slider owl-carousel text-uppercase">
                 {foreach from=$this_section->contents item=this_content}
                     <div class="position-relative">
                         <div class="position-absolute w-100 h-100 stream-img-overlay"></div>
                         <img src="{$this_content->poster}" alt="{$this_content->title}">
-                        <div class="position-absolute live-badge">
+                        {*<div class="position-absolute live-badge">
                             <img src="{$this->siteurl}{$Yii->theme->baseUrl}/images/icons/streaming-red.svg">
-                            {* <span>Live</span> *}
-                        </div>
-                        <a href="{$this_content->full_movie}" class="stretched-link"></a>
+                            {* <span>Live</span>
+                        </div> *}
+                        {* <a href="{$this_content->full_movie}" class="stretched-link" target="_blank"></a> *}
+                        <pre>{$this_content|@print_r}</pre>
                     </div>
                 {/foreach}
             </div>
@@ -186,3 +187,11 @@
     {/if}
 {/foreach}
 <div class="spacer5"></div>
+<!--Start #27152: One player for Audio and Video-->
+<script src="{$this->siteurl}/js/themes/audioplayer_new.js?v=6"></script>
+{if $this->store_configs->support_optional_content == 1}
+    <link rel="stylesheet" href="{$this->siteurl}/css/mediaplayer.css?v={time()}">
+    <script defer src="{$this->siteurl}/js/themes/mediaplayer.js"></script>
+{/if}
+<!--End #27152: One player for Audio and Video-->
+<div class="loader load-container _full-page"></div>
