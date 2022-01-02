@@ -1,0 +1,29 @@
+{$content = $content|json_decode}
+<p>BLAH!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="muvi_feature-banner">
+                <div class="muvi_overlay-img">
+                    <div class="muvi_left23">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="center white">{$content->title|utf8_decode}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="single-product-area">
+    <div class="container">
+        <div class="wrapper muvi_bottom-padding50">
+            <div class="row top20">
+                <div class="col-md-12">{$content->content|utf8_decode}</div>
+            </div>
+        </div>
+    </div>
+</div>
