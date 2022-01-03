@@ -4,7 +4,7 @@
 
 <div class="spacer2"></div>
 
-<div class="container">
+<div class="container profile-page">
     <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-6 mb-4 mb-md-0">
             <div class="row">
@@ -16,7 +16,7 @@
                 <div class="col-xs-12 col-sm-8">
                     <div class="ml-md-4 text-uppercase">
                         <div class="spacer2 d-md-none"></div>
-                        <h3 class="font-xbold mb-2">Player User name</h3>
+                        <h3 class="username font-xbold mb-2">Player User name</h3>
                         <div class="live-badge">
                             <img src="images/icons/streaming-red.svg">
                             <span>Live</span>
@@ -69,15 +69,9 @@
             <div class="row">
                 <div class="col-xs-4 text-center">
                     <div class="d-flex justify-content-center">
-                        <div class="achievement achievement-sm achievement-1 d-flex flex-center">
-                            <img src="images/icons/achievement-01.svg"> 
-                        </div>
-                        <div class="achievement achievement-sm achievement-2 d-flex flex-center mx-2">
-                            <img src="images/icons/achievement-02.svg"> 
-                        </div>
-                        <div class="achievement achievement-sm achievement-3 d-flex flex-center">
-                            <img src="images/icons/achievement-03.svg"> 
-                        </div>
+                        <div class="achievement achievement-sm achievement-1 d-flex flex-center"> </div>
+                        <div class="achievement achievement-sm achievement-2 d-flex flex-center mx-2"></div>
+                        <div class="achievement achievement-sm achievement-3 d-flex flex-center"></div>
                     </div>
                 </div>
                 <div class="col-xs-8">
@@ -132,9 +126,7 @@
             <div class="achievement-slider owl-carousel">
                 <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
                     <div class="d-flex flex-between">
-                        <div class="achievement achievement-lg achievement-1 d-flex flex-center mr-3 mr-md-5">
-                            <img src="images/icons/achievement-01.svg">
-                        </div>
+                        <div class="achievement achievement-lg achievement-1 d-flex flex-center mr-3 mr-md-5"></div>
                         <div class="text-uppercase">
                             <div class="font-xbold font-sm text-secondary mb-2">Game achievement</div>
                             <h6 class="font-bold">1000 Xp</h6>
@@ -144,9 +136,7 @@
                 </div>
                 <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
                     <div class="d-flex flex-between">
-                        <div class="achievement achievement-lg achievement-1 d-flex flex-center mr-3 mr-md-5">
-                            <img src="images/icons/achievement-01.svg">
-                        </div>
+                        <div class="achievement achievement-lg achievement-1 d-flex flex-center mr-3 mr-md-5"></div>
                         <div class="text-uppercase">
                             <div class="font-xbold font-sm text-secondary mb-2">Game achievement</div>
                             <h6 class="font-bold">1000 Xp</h6>
@@ -156,9 +146,7 @@
                 </div>
                 <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
                     <div class="d-flex flex-between">
-                        <div class="achievement achievement-lg achievement-1 d-flex flex-center mr-3 mr-md-5">
-                            <img src="images/icons/achievement-01.svg">
-                        </div>
+                        <div class="achievement achievement-lg achievement-1 d-flex flex-center mr-3 mr-md-5"></div>
                         <div class="text-uppercase">
                             <div class="font-xbold font-sm text-secondary mb-2">Game achievement</div>
                             <h6 class="font-bold">1000 Xp</h6>
@@ -185,7 +173,7 @@
     <div class="spacer3"></div>
     <div class="d-flex flex-between">
         <h3 class="text-uppercase">Streamer clips</h3>
-        <img src="images/icons/play.svg">
+        <div class="play-icon"></div>
     </div>
     <?php include('includes/stream-grid-top-section.php'); ?>
     <div class="row d-flex d-md-block row-grid mb-4 pb-1 pb-md-0">

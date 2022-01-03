@@ -1,11 +1,39 @@
-<svg id="Group_7221" data-name="Group 7221" xmlns="http://www.w3.org/2000/svg" width="16.725" height="10.607" viewBox="0 0 16.725 10.607">
-  <g id="Rectangle_4493" data-name="Rectangle 4493" transform="translate(0)">
-    <rect id="Rectangle_4493-2" data-name="Rectangle 4493" width="16.725" height="10.607" rx="1" fill="#fff"/>
+<svg id="Component_25_1" data-name="Component 25 – 1" xmlns="http://www.w3.org/2000/svg" width="16.725" height="12.798" viewBox="0 0 16.725 12.798">
+  <g id="Group_7221" data-name="Group 7221">
+    <g id="Rectangle_4493" data-name="Rectangle 4493" transform="translate(0)">
+      <rect id="Rectangle_4493-2" data-name="Rectangle 4493" width="16.725" height="10.607" rx="1" fill="#fff"/>
+    </g>
+    <g id="Rectangle_4494" data-name="Rectangle 4494" transform="translate(1.039 0.829)">
+      <rect id="Rectangle_4494-2" data-name="Rectangle 4494" width="14.647" height="8.951" fill="#282828"/>
+    </g>
+    <g id="Rectangle_4495" data-name="Rectangle 4495" transform="translate(1.626 1.325)">
+      <rect id="Rectangle_4495-2" data-name="Rectangle 4495" width="13.473" height="7.913" fill="#fff"/>
+    </g>
   </g>
-  <g id="Rectangle_4494" data-name="Rectangle 4494" transform="translate(1.039 0.829)">
-    <rect id="Rectangle_4494-2" data-name="Rectangle 4494" width="14.647" height="8.951" fill="#282828"/>
-  </g>
-  <g id="Rectangle_4495" data-name="Rectangle 4495" transform="translate(1.626 1.325)">
-    <rect id="Rectangle_4495-2" data-name="Rectangle 4495" width="13.473" height="7.913" fill="#fff"/>
+  <g id="Group_7223" data-name="Group 7223" transform="translate(3.902 11.835)">
+    <g id="Rectangle_4499" data-name="Rectangle 4499" transform="translate(0)">
+      <g id="Group_7221-2" data-name="Group 7221" transform="translate(0)">
+        <rect id="Rectangle_4499-2" data-name="Rectangle 4499" width="1.764" height="0.962" fill="#fff"/>
+      </g>
+      <g id="Group_7222" data-name="Group 7222" transform="translate(0 0)">
+        <path id="Path_13637" data-name="Path 13637" d="M136.473,494.876h-1.765v-.962h1.765Zm-1.665-.1h1.565v-.763h-1.565Z" transform="translate(-134.708 -493.914)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Rectangle_4500" data-name="Rectangle 4500" transform="translate(3.549)">
+      <g id="Group_7223-2" data-name="Group 7223">
+        <rect id="Rectangle_4500-2" data-name="Rectangle 4500" width="1.764" height="0.962" fill="#fff"/>
+      </g>
+      <g id="Group_7224" data-name="Group 7224" transform="translate(0 0)">
+        <path id="Path_13638" data-name="Path 13638" d="M143.14,494.876h-1.765v-.962h1.765Zm-1.665-.1h1.565v-.763h-1.565Z" transform="translate(-141.375 -493.914)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Rectangle_4501" data-name="Rectangle 4501" transform="translate(7.158)">
+      <g id="Group_7225" data-name="Group 7225">
+        <rect id="Rectangle_4501-2" data-name="Rectangle 4501" width="1.764" height="0.962" fill="#fff"/>
+      </g>
+      <g id="Group_7226" data-name="Group 7226" transform="translate(0 0)">
+        <path id="Path_13639" data-name="Path 13639" d="M149.919,494.876h-1.764v-.962h1.764Zm-1.664-.1h1.565v-.763h-1.565Z" transform="translate(-148.155 -493.914)" fill="#fff"/>
+      </g>
+    </g>
   </g>
 </svg>

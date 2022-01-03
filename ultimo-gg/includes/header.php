@@ -26,7 +26,7 @@
             <div class="row h-100">
                 <div class="col-xs-12 col-sm-7 h-100">
                     <div class="h-100 d-flex flex-between">
-                        <a href="#" class="streaming-icon d-flex flex-center border-0 mr-2"></a>
+                        <a href="./" class="streaming-icon d-flex flex-center border-0 mr-2"></a>
                         <div class="theme-switch position-relative mx-2">
                             <div class="position-absolute theme-switch-dot rounded-circle"></div>
                         </div>
@@ -48,16 +48,18 @@
                 </div>
                 <div id="main-menu" class="col-sm-5 d-flex justify-content-md-end">
                     <div class="d-flex flex-column flex-md-row flex-between">
-                        <a class="d-flex flex-center active" href="#"></a>
-                        <a class="d-flex flex-center" href="#"></a>
-                        <a class="d-flex flex-center" href="#"></a>
+                        <a class="d-flex flex-center active" href="./"></a>
+                        <a class="d-flex flex-center" href="./"></a>
+                        <a class="d-flex flex-center" href="./"></a>
                         <a class="d-flex flex-center" href="#"></a>
                         <a class="menu-divider"></a>
-                        <a class="d-flex flex-center" href="#"></a>
-                        <a class="d-flex flex-center" href="#"></a>
-                        <a class="d-flex flex-center" href="#"></a>
+                        <a id="modal" class="d-flex flex-center"></a>
+                        <a class="d-flex flex-center" href="profile-page.php"></a>
+                        <a class="d-flex flex-center" href="profile-page.php"></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <?php require_once('includes/modal.php'); ?>

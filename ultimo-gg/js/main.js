@@ -1,3 +1,9 @@
+$(document).ready(function() {
+  $('#Modalform').modal({
+    backdrop: false
+  })
+});	
+
 $('#nav_button a').click(function(){
   $(this).toggleClass('open');
   $('#main-menu').toggleClass('open');
@@ -6,6 +12,10 @@ $('#nav_button a').click(function(){
 $('.theme-switch').click(function(){
   $(this).toggleClass('active');
   $('body').toggleClass('light');
+});
+
+$('#modal').click(function(){
+  $('#Modalform').modal('toggle')
 });
 
 $('.modal-nav-login').click(function(){
@@ -20,6 +30,30 @@ $('.modal-nav-sign-up').click(function(){
   $('.modal-nav-login').removeClass('active');
   $('#modal-sign-up').show();
   $('#modal-login').hide();
+});
+
+$('#theatre-mode').click(function(){
+  $(this).addClass('active');
+  $('#desktop-mode').removeClass('active');
+  $('.stream-window').removeClass('container');
+});
+
+$('#desktop-mode').click(function(){
+  $(this).addClass('active');
+  $('#theatre-mode').removeClass('active');
+  $('.stream-window').addClass('container');
+});
+
+$('#fullscreen-mode-open').click(function(){
+  $(this).removeClass('active');
+  $('#fullscreen-mode-close').addClass('active');
+  $('.stream-video').addClass('active');
+});
+
+$('#fullscreen-mode-close').click(function(){
+  $(this).removeClass('active');
+  $('#fullscreen-mode-open').addClass('active');
+  $('.stream-video').removeClass('active');
 });
 
 $(document).ready(function() {	
@@ -94,3 +128,5 @@ $(document).ready(function() {
 $(document).ready(function() {	
     $(function () { objectFitImages() });
 });	
+
+vhCheck();
